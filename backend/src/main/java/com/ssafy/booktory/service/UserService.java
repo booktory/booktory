@@ -2,6 +2,7 @@ package com.ssafy.booktory.service;
 
 import com.ssafy.booktory.domain.user.User;
 import com.ssafy.booktory.domain.user.UserRepository;
+import com.ssafy.booktory.dto.user.UserChangePwdRequestDto;
 import com.ssafy.booktory.dto.user.UserResponseDto;
 import com.ssafy.booktory.dto.user.UserSaveRequestDto;
 import com.ssafy.booktory.dto.user.UserUpdateRequestDto;
@@ -63,5 +64,11 @@ public class UserService {
         User user = userRepository.findById(userId).orElseThrow(() -> new NoSuchElementException("존재하지 않는 회원입니다."));
         List<Integer> badges = user.getBadgeList(user.getBadge());
         return new UserResponseDto(user, badges);
+    }
+
+    public void changePassword(Long userId, String password) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new NoSuchElementException("존재하지 않는 회원입니다."));
+        user.setPassword(passwordEncoder.encode(password));
+        userRepository.save(user);
     }
 }

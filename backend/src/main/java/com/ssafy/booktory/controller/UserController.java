@@ -1,16 +1,10 @@
 package com.ssafy.booktory.controller;
 
 import com.ssafy.booktory.domain.user.User;
-import com.ssafy.booktory.dto.user.UserLoginRequestDto;
-import com.ssafy.booktory.dto.user.UserResponseDto;
-import com.ssafy.booktory.dto.user.UserSaveRequestDto;
-import com.ssafy.booktory.dto.user.UserUpdateRequestDto;
+import com.ssafy.booktory.dto.user.*;
 import com.ssafy.booktory.service.UserService;
 import com.ssafy.booktory.util.JwtTokenProvider;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -85,9 +79,25 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
         Long userId = ((User)authentication.getPrincipal()).getId();
-        System.out.println(userId);
         User user = userService.updateUser(userId, userUpdateRequestDto);
         return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    @ApiOperation(value = "비밀번호 변경", notes = "현재 비밀번호와 바꿀 비밀번호를 입력 받아 비밀번호를 변경한다.")
+    @ApiImplicitParams({@ApiImplicitParam(name = "jwt", value = "JWT Token", required = true, dataType = "string", paramType = "header")})
+    @PatchMapping("/password")
+    public ResponseEntity<String> changePassword(@ApiIgnore final Authentication authentication,
+                                               @RequestBody @ApiParam(value = "비밀번호 변경에 필요한 정보", required = true) UserChangePwdRequestDto userChangePwdRequestDto) {
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+        User user = ((User)authentication.getPrincipal());
+        if (passwordEncoder.matches(userChangePwdRequestDto.getCurrent_password(), user.getPassword())) {
+            userService.changePassword(user.getId(), userChangePwdRequestDto.getNew_password());
+            return ResponseEntity.status(HttpStatus.OK).body("success");
+        }
+
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("잘못된 비밀번호입니다.");
     }
 
     @ApiOperation(value = "회원 탈퇴", notes = "현재 비밀번호를 입력 받아서 회원 탈퇴를 진행한다.")
