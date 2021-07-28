@@ -25,4 +25,8 @@ public class UserService {
     public User findByEmail(String email) {
         return userRepository.findByEmail(email).orElseThrow(() -> new NoSuchElementException("존재하지 않는 이메일입니다."));
     }
+
+    public Boolean checkUserByEmail(String email) {
+        return userRepository.existsByEmail(email);
+    }
 }
