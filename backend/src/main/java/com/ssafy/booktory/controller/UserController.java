@@ -78,5 +78,21 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
+    @ApiOperation(value = "회원 탈퇴", notes = "현재 비밀번호를 입력 받아서 회원 탈퇴를 진행한다.")
+    @ApiImplicitParams({@ApiImplicitParam(name = "jwt", value = "JWT Token", required = true, dataType = "string", paramType = "header")})
+    @DeleteMapping()
+    public ResponseEntity<Void> deleteUser(@ApiIgnore final Authentication authentication,
+                                           @RequestBody @ApiParam(value = "현재 비밀번호") String password) {
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+        User user = ((User)authentication.getPrincipal());
+        if (passwordEncoder.matches(password, user.getPassword())) {
+            userService.deleteUser(user.getId());
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        }
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+    }
+
 
 }

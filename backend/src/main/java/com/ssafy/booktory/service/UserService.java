@@ -52,4 +52,8 @@ public class UserService {
 
         return user.orElseThrow(() -> new NoSuchElementException("존재하지 않는 회원입니다."));
     }
+
+    public void deleteUser(Long userId) {
+        userRepository.deleteById(userId);
+    }
 }
