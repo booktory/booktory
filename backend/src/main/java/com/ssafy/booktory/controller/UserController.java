@@ -34,7 +34,7 @@ public class UserController {
     public ResponseEntity<String> login(@RequestBody @ApiParam(value = "로그인 정보(아이디, 비밀번호)") UserLoginRequestDto userLoginRequestDto) {
         User user = userService.findByEmail(userLoginRequestDto.getEmail());
         if (passwordEncoder.matches(userLoginRequestDto.getPassword(), user.getPassword())) {
-            return ResponseEntity.status(HttpStatus.CREATED).body(jwtTokenProvider.createToken(user.getEmail(), user.getRoles()));
+            return ResponseEntity.status(HttpStatus.CREATED).body(jwtTokenProvider.createToken(user.getId(), user.getRoles()));
         }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("잘못된 비밀번호입니다.");
     }
