@@ -104,7 +104,7 @@ public class UserController {
     @ApiImplicitParams({@ApiImplicitParam(name = "jwt", value = "JWT Token", required = true, dataType = "string", paramType = "header")})
     @DeleteMapping()
     public ResponseEntity<Void> deleteUser(@ApiIgnore final Authentication authentication,
-                                           @RequestBody @ApiParam(value = "현재 비밀번호") String password) {
+                                           @RequestBody @ApiParam(value = "현재 비밀번호", required = true) String password) {
         if (authentication == null || !authentication.isAuthenticated()) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
@@ -116,5 +116,12 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
 
+    @ApiOperation(value = "대표배지 설정", notes = "대표배지 번호를 통해 대표배지로 등록한다.")
+    @PatchMapping("/{id}/main-badge/{badgeId}")
+    public ResponseEntity<Void> registerMainBadge(@PathVariable @ApiParam(value = "유저 아이디", required = true) Long id,
+                                                  @PathVariable @ApiParam(value = "배지 번호", required = true) int badgeId) {
+        userService.registerMainBadge(id, badgeId);
+        return ResponseEntity.ok().build();
+    }
 
 }

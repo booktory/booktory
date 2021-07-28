@@ -13,6 +13,7 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class UserResponseDto {
 
+    private Long id;
     private String nickname;
     private String name;
     private LocalDate birth;
@@ -22,6 +23,7 @@ public class UserResponseDto {
     private List<Integer> badge_list;
 
     public UserResponseDto(User user, List<Integer> badge_list) {
+        this.id = user.getId();
         this.nickname = user.getNickname();
         this.name = user.getName();
         this.birth = user.getBirth();

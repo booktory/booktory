@@ -143,6 +143,10 @@ public class User implements UserDetails {
         this.password = encodedPassword;
     }
 
+    public void setMain_badge(int badgeId) {
+        this.main_badge = badgeId;
+    }
+
     public List<Integer> getBadgeList(int badge) {
         List<Integer> badges = new ArrayList<>();
         String badge_status = String.format("%015d", Integer.parseInt(Integer.toBinaryString(badge)));

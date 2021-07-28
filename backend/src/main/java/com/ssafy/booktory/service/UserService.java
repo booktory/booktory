@@ -71,4 +71,10 @@ public class UserService {
         user.setPassword(passwordEncoder.encode(password));
         userRepository.save(user);
     }
+
+    public void registerMainBadge(Long id, int badgeId) {
+        User user = userRepository.findById(id).orElseThrow(() -> new NoSuchElementException("존재하지 않는 회원입니다."));
+        user.setMain_badge(badgeId);
+        userRepository.save(user);
+    }
 }
