@@ -3,15 +3,20 @@ package com.ssafy.booktory.controller;
 import com.ssafy.booktory.domain.user.User;
 import com.ssafy.booktory.dto.user.UserLoginRequestDto;
 import com.ssafy.booktory.dto.user.UserSaveRequestDto;
+import com.ssafy.booktory.dto.user.UserUpdateRequestDto;
 import com.ssafy.booktory.service.UserService;
 import com.ssafy.booktory.util.JwtTokenProvider;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 @RestController
 @RequestMapping(value = "/users", produces = "application/json;charset=UTF-8")
@@ -59,7 +64,19 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body("success");
     }
 
-
+    @ApiOperation(value = "회원 정보 수정", notes = "수정할 정보를 입력 받아 회원 정보를 수정한다.")
+    @ApiImplicitParams({@ApiImplicitParam(name = "jwt", value = "JWT Token", required = true, dataType = "string", paramType = "header")})
+    @PatchMapping()
+    public ResponseEntity<Void> updateUserInfo(@ApiIgnore final Authentication authentication,
+                                               @RequestBody @ApiParam(value = "회원 수정에 필요한 정보", required = true) UserUpdateRequestDto userUpdateRequestDto) {
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+        Long userId = ((User)authentication.getPrincipal()).getId();
+        System.out.println(userId);
+        User user = userService.updateUser(userId, userUpdateRequestDto);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
 
 
 }
