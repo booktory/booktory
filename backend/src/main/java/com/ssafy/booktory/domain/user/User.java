@@ -142,4 +142,15 @@ public class User implements UserDetails {
     public void setPassword(String encodedPassword) {
         this.password = encodedPassword;
     }
+
+    public List<Integer> getBadgeList(int badge) {
+        List<Integer> badges = new ArrayList<>();
+        String badge_status = String.format("%015d", Integer.parseInt(Integer.toBinaryString(badge)));
+        for (int i = 0; i < 15; i++) {
+            if (badge_status.charAt(i) == '1') {
+                badges.add(i);
+            }
+        }
+        return badges;
+    }
 }

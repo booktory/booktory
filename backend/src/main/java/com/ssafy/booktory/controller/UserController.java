@@ -2,6 +2,7 @@ package com.ssafy.booktory.controller;
 
 import com.ssafy.booktory.domain.user.User;
 import com.ssafy.booktory.dto.user.UserLoginRequestDto;
+import com.ssafy.booktory.dto.user.UserResponseDto;
 import com.ssafy.booktory.dto.user.UserSaveRequestDto;
 import com.ssafy.booktory.dto.user.UserUpdateRequestDto;
 import com.ssafy.booktory.service.UserService;
@@ -62,6 +63,17 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("fail");
         }
         return ResponseEntity.status(HttpStatus.OK).body("success");
+    }
+
+    @ApiOperation(value = "회원 정보 확인", notes = "마이페이지에서 회원 정보를 받아온다.")
+    @ApiImplicitParams({@ApiImplicitParam(name = "jwt", value = "JWT Token", required = true, dataType = "string", paramType = "header")})
+    @GetMapping("/me")
+    public ResponseEntity<UserResponseDto> getUserInfo(@ApiIgnore final Authentication authentication) {
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+        Long userId = ((User)authentication.getPrincipal()).getId();
+        return ResponseEntity.status(HttpStatus.OK).body(userService.getUserInfo(userId));
     }
 
     @ApiOperation(value = "회원 정보 수정", notes = "수정할 정보를 입력 받아 회원 정보를 수정한다.")

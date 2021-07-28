@@ -2,12 +2,14 @@ package com.ssafy.booktory.service;
 
 import com.ssafy.booktory.domain.user.User;
 import com.ssafy.booktory.domain.user.UserRepository;
+import com.ssafy.booktory.dto.user.UserResponseDto;
 import com.ssafy.booktory.dto.user.UserSaveRequestDto;
 import com.ssafy.booktory.dto.user.UserUpdateRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -55,5 +57,11 @@ public class UserService {
 
     public void deleteUser(Long userId) {
         userRepository.deleteById(userId);
+    }
+
+    public UserResponseDto getUserInfo(Long userId) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new NoSuchElementException("존재하지 않는 회원입니다."));
+        List<Integer> badges = user.getBadgeList(user.getBadge());
+        return new UserResponseDto(user, badges);
     }
 }
