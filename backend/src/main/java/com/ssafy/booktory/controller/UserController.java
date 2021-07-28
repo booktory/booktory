@@ -44,9 +44,22 @@ public class UserController {
     public ResponseEntity<String> checkDuplicateEmail(@PathVariable @ApiParam(value = "입력한 이메일", required = true) String email) {
         Boolean isExistUser = userService.checkUserByEmail(email);
         if (isExistUser) {
-            return ResponseEntity.status(HttpStatus.OK).body("loginUser");
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("loginUser");
         }
         return ResponseEntity.status(HttpStatus.OK).body("registerUser");
     }
+
+    @ApiOperation(value = "닉네임 생성 시 닉네임 중복확인", notes = "이미 등록된 닉네임인지 중복 확인한다.")
+    @GetMapping("/nickname/{nickname}")
+    public ResponseEntity<String> checkDuplicateNickname(@PathVariable @ApiParam(value = "입력한 닉네임", required = true) String nickname) {
+        Boolean isExistNickname = userService.checkUserByNickname(nickname);
+        if (isExistNickname) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("fail");
+        }
+        return ResponseEntity.status(HttpStatus.OK).body("success");
+    }
+
+
+
 
 }
