@@ -2,9 +2,12 @@ package com.ssafy.booktory.domain.club;
 
 
 import com.ssafy.booktory.domain.board.Board;
+import com.ssafy.booktory.domain.book.Book;
+import com.ssafy.booktory.domain.book.BookRepository;
 import com.ssafy.booktory.domain.bookclub.BookClub;
 import com.ssafy.booktory.domain.clubgenre.ClubGenre;
 import com.ssafy.booktory.domain.common.BaseTimeEntity;
+import com.ssafy.booktory.domain.genre.Genre;
 import com.ssafy.booktory.domain.question.Question;
 import com.ssafy.booktory.domain.user.User;
 import com.ssafy.booktory.domain.userclub.UserClub;
@@ -14,13 +17,15 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collector;
 
 @Entity
-@Getter
+@Getter //@Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Club extends BaseTimeEntity {
 
@@ -73,10 +78,19 @@ public class Club extends BaseTimeEntity {
     private List<ClubGenre> genres = new ArrayList<>();
 
 
+    public void updateBookClubs(List<BookClub> bookClubs){
+        this.bookClubs = bookClubs;
+    }
+    public void updateGenres(List<ClubGenre> genres){
+        this.genres = genres;
+    }
+
     @Builder
-    public Club(String name, String img, String info, int max_member
-            , boolean is_open, int volum_rule, int week_rule, String free_rule) {
+    public Club(Long id, String name, User user, String img, String info, int max_member,
+                boolean is_open, int volum_rule, int week_rule, String free_rule) {
+        this.id = id;
         this.name = name;
+        this.user = user;
         this.img = img;
         this.info = info;
         this.max_member = max_member;

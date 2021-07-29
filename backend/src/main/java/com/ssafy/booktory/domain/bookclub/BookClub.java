@@ -41,7 +41,10 @@ public class BookClub {
     private List<BookClubUser> bookClubUsers = new ArrayList<>();
 
     @Builder
-    public BookClub(LocalDateTime start_datetime, LocalDateTime end_datetime) {
+
+    public BookClub(Book book, Club club, LocalDateTime start_datetime, LocalDateTime end_datetime) {
+        this.book = book;
+        this.club = club;
         this.start_datetime = start_datetime;
         this.end_datetime = end_datetime;
     }
