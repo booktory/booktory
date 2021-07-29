@@ -1,9 +1,6 @@
 package com.ssafy.booktory.controller;
 
-import com.ssafy.booktory.domain.club.Club;
-import com.ssafy.booktory.domain.club.ClubFindResponseDto;
-import com.ssafy.booktory.domain.club.ClubListFindResponseDto;
-import com.ssafy.booktory.domain.club.ClubSaveRequestDto;
+import com.ssafy.booktory.domain.club.*;
 import com.ssafy.booktory.service.ClubService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -50,4 +47,14 @@ public class ClubController {
         return ResponseEntity.status(HttpStatus.OK).body(clubListFindResponseDto);
     }
 
+    @PatchMapping("/{id}")
+    @ApiOperation(value = "클럽 정보 수정" , notes = "클럽의 정보를 수정한다.")
+    public ResponseEntity<Void> updateClub(@PathVariable Long id, @RequestBody ClubUpdateRequestDto clubUpdateRequestDto){
+        clubService.updateClub(id, clubUpdateRequestDto);
+        return ResponseEntity.ok().build();
+    }
+
+//    @PostMapping("/{id}/book")
+//    @ApiOperation(value = "(클럽)읽을 책 추가", notes = "bookclub테이블에 읽을책을 추가한다.")
+//    public ResponseEntity<Void>
 }

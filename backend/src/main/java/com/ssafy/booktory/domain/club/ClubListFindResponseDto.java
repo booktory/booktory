@@ -1,5 +1,6 @@
 package com.ssafy.booktory.domain.club;
 
+import com.ssafy.booktory.domain.userclub.UserClub;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

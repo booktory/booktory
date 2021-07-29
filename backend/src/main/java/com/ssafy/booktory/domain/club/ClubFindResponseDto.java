@@ -28,7 +28,7 @@ public class ClubFindResponseDto {
         this.info = club.getInfo();
         this.max_member = club.getMax_member();
         this.is_open = club.getIs_open();
-        this.volum_rule = club.getVolum_rule();
+        this.volum_rule = club.getVolume_rule();
         this.week_rule = club.getWeek_rule();
         this.free_rule = club.getFree_rule();
     }

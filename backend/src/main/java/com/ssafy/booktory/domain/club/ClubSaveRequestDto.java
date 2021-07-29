@@ -1,6 +1,5 @@
 package com.ssafy.booktory.domain.club;
 
-import com.ssafy.booktory.domain.club.Club;
 import com.ssafy.booktory.domain.user.User;
 import io.swagger.annotations.ApiModel;
 import lombok.*;
@@ -14,31 +13,31 @@ import java.util.List;
 @ApiModel("")
 public class ClubSaveRequestDto {
     private String name;
-    private Long leader_id;
+    private Long leaderId;
     private String img;
     private String info;
-    private int max_member;
-    private boolean is_open;
+    private int maxMember;
+    private Boolean isOpen;
 
-    private int volum_rule;
-    private int week_rule;
-    private String free_rule;
+    private int volumeRule;
+    private int weekRule;
+    private String freeRule;
 
     private List<Long> genres = new ArrayList<>();
     private List<Long> books = new ArrayList<>();
 
 
     @Builder
-    public ClubSaveRequestDto(String name, Long leader_id, String img, String info, int max_member, boolean is_open, int volum_rule, int week_rule, String free_rule) {
+    public ClubSaveRequestDto(String name, Long leaderId, String img, String info, int maxMember, boolean isOpen, int volumeRule, int weekRule, String freeRule) {
         this.name = name;
-        this.leader_id = leader_id;
+        this.leaderId = leaderId;
         this.img = img;
         this.info = info;
-        this.max_member = max_member;
-        this.is_open = is_open;
-        this.volum_rule = volum_rule;
-        this.week_rule = week_rule;
-        this.free_rule = free_rule;
+        this.maxMember = maxMember;
+        this.isOpen = isOpen;
+        this.volumeRule = volumeRule;
+        this.weekRule = weekRule;
+        this.freeRule = freeRule;
     }
 
     public Club toEntity(User user){
@@ -47,11 +46,11 @@ public class ClubSaveRequestDto {
                 .user(user)
                 .img(img)
                 .info(info)
-                .max_member(max_member)
-                .is_open(is_open)
-                .volum_rule(volum_rule)
-                .week_rule(week_rule)
-                .free_rule(free_rule)
+                .max_member(maxMember)
+                .is_open(isOpen)
+                .volume_rule(volumeRule)
+                .week_rule(weekRule)
+                .free_rule(freeRule)
                 .build();
     }
 
