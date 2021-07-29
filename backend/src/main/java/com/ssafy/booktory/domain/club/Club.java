@@ -2,12 +2,9 @@ package com.ssafy.booktory.domain.club;
 
 
 import com.ssafy.booktory.domain.board.Board;
-import com.ssafy.booktory.domain.book.Book;
-import com.ssafy.booktory.domain.book.BookRepository;
 import com.ssafy.booktory.domain.bookclub.BookClub;
 import com.ssafy.booktory.domain.clubgenre.ClubGenre;
 import com.ssafy.booktory.domain.common.BaseTimeEntity;
-import com.ssafy.booktory.domain.genre.Genre;
 import com.ssafy.booktory.domain.question.Question;
 import com.ssafy.booktory.domain.user.User;
 import com.ssafy.booktory.domain.userclub.UserClub;
@@ -17,15 +14,13 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collector;
 
 @Entity
-@Getter //@Builder
+@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Club extends BaseTimeEntity {
 
@@ -52,7 +47,7 @@ public class Club extends BaseTimeEntity {
 
     @NotNull
     @ColumnDefault("true")
-    private boolean is_open;
+    private Boolean is_open;
 
     private int volum_rule;
     private int week_rule;

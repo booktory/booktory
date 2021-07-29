@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service("clubService")
 public class ClubService {
@@ -65,6 +66,11 @@ public class ClubService {
         savedClub.updateGenres(clubGenres);
 
         return clubRepository.save(savedClub);
+    }
+
+    public Club findClub(Long id){
+        return clubRepository.findById(id)
+                .orElseThrow(()->new NoSuchElementException("존재하지 않는 클럽입니다."));
     }
 
 
