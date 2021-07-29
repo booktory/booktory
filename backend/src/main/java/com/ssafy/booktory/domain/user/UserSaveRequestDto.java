@@ -1,6 +1,5 @@
-package com.ssafy.booktory.dto.user;
+package com.ssafy.booktory.domain.user;
 
-import com.ssafy.booktory.domain.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

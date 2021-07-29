@@ -1,4 +1,4 @@
-package com.ssafy.booktory.dto.user;
+package com.ssafy.booktory.domain.user;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

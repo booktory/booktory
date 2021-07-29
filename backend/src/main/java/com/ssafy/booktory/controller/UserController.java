@@ -1,7 +1,7 @@
 package com.ssafy.booktory.controller;
 
-import com.ssafy.booktory.domain.user.User;
-import com.ssafy.booktory.dto.user.*;
+import com.ssafy.booktory.domain.user.*;
+import com.ssafy.booktory.domain.book.BookByUserResponseDto;
 import com.ssafy.booktory.service.UserService;
 import com.ssafy.booktory.util.JwtTokenProvider;
 import io.swagger.annotations.*;
@@ -12,6 +12,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
+
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/users", produces = "application/json;charset=UTF-8")
@@ -122,6 +124,17 @@ public class UserController {
                                                   @PathVariable @ApiParam(value = "배지 번호", required = true) int badgeId) {
         userService.registerMainBadge(id, badgeId);
         return ResponseEntity.ok().build();
+    }
+
+    @ApiOperation(value = "내가 읽은 책 확인", notes = "내 서재에서 내가 읽은 책들을 조회한다.")
+    @ApiImplicitParams({@ApiImplicitParam(name = "jwt", value = "JWT Token", required = true, dataType = "string", paramType = "header")})
+    @GetMapping("/books")
+    public ResponseEntity<List<BookByUserResponseDto>> getReadBooks(@ApiIgnore final Authentication authentication) {
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+        User user = ((User)authentication.getPrincipal());
+        return ResponseEntity.status(HttpStatus.OK).body(userService.getReadBooks(user.getId()));
     }
 
 }

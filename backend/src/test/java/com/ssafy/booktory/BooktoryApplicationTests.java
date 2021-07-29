@@ -9,5 +9,4 @@ class BooktoryApplicationTests {
 	@Test
 	void contextLoads() {
 	}
-
 }
