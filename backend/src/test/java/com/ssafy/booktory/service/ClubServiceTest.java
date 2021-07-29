@@ -61,5 +61,31 @@ class ClubServiceTest {
 
         assertEquals(club.getId(), resClub.getId());
     }
+    @Test
+    @Rollback(value = false)
+    public void 클럽정보_확인() throws Exception{
+        //given
+        User user = User.builder()
+                .nickname("hi")
+                .email("abc@a.b")
+                .password("abc")
+                .build();
+        userRepository.save(user);
+
+        ClubSaveRequestDto clubSaveRequestDto = ClubSaveRequestDto.builder()
+                .name("testname")
+                .leader_id(user.getId())
+                .max_member(6)
+                .is_open(true)
+                .build();
+        Club club1 = clubService.createClub(clubSaveRequestDto);
+
+        //when
+        Club club2 = clubService.findClub(club1.getId());
+
+        //then
+        em.flush();
+        assertEquals(club1.getId(), club2.getId());
+    }
 
 }

@@ -4,6 +4,7 @@ import com.ssafy.booktory.domain.book.Book;
 import com.ssafy.booktory.domain.book.BookRepository;
 import com.ssafy.booktory.domain.bookclub.BookClub;
 import com.ssafy.booktory.domain.club.Club;
+import com.ssafy.booktory.domain.club.ClubListFindResponseDto;
 import com.ssafy.booktory.domain.club.ClubRepository;
 import com.ssafy.booktory.domain.clubgenre.ClubGenre;
 import com.ssafy.booktory.domain.common.UserClubState;
@@ -83,6 +84,17 @@ public class ClubService {
     public Club findClub(Long id){
         return clubRepository.findById(id)
                 .orElseThrow(()->new NoSuchElementException("존재하지 않는 클럽입니다."));
+    }
+
+    public ClubListFindResponseDto findJoinedClubList(Long userId){
+        User user = userRepository.findById(userId)
+                .orElseThrow(()-> new NoSuchElementException("존재하지 않는 회원입니다."));
+        List<Club> clubs = userClubRepository.findAllByUserAndState_Accept(user);
+
+        ClubListFindResponseDto clubListFindResponseDto = new ClubListFindResponseDto();
+        clubListFindResponseDto.toDto(clubs);
+
+        return clubListFindResponseDto;
     }
 
 
