@@ -20,7 +20,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -49,7 +49,7 @@ public class User implements UserDetails {
     @Column(length = 20)
     private String name;
 
-    private LocalDateTime birth;
+    private LocalDate birth;
 
     private String profile_img;
 
@@ -96,7 +96,7 @@ public class User implements UserDetails {
     private List<Notification> notifications = new ArrayList<>();
 
     @Builder
-    public User(String email, String nickname, String password, String name, LocalDateTime birth,
+    public User(String email, String nickname, String password, String name, LocalDate birth,
                 String profile_img, String phone, int badge, int main_badge){
         this.email = email;
         this.nickname = nickname;
@@ -109,6 +109,14 @@ public class User implements UserDetails {
         this.main_badge = main_badge;
     }
 
+    public void update(String nickname, String name, LocalDate birth, String profile_img, String phone) {
+        this.nickname = nickname;
+        this.name = name;
+        this.birth = birth;
+        this.profile_img = profile_img;
+        this.phone = phone;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return this.roles.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList());
@@ -116,7 +124,7 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return email;
+        return this.id.toString();
     }
 
     @Override
@@ -137,5 +145,24 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public void setPassword(String encodedPassword) {
+        this.password = encodedPassword;
+    }
+
+    public void setMain_badge(int badgeId) {
+        this.main_badge = badgeId;
+    }
+
+    public List<Integer> getBadgeList(int badge) {
+        List<Integer> badges = new ArrayList<>();
+        String badge_status = String.format("%015d", Integer.parseInt(Integer.toBinaryString(badge)));
+        for (int i = 0; i < 15; i++) {
+            if (badge_status.charAt(i) == '1') {
+                badges.add(i);
+            }
+        }
+        return badges;
     }
 }
