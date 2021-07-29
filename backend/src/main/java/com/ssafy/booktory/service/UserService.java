@@ -44,21 +44,10 @@ public class UserService {
         return userRepository.existsByNickname(nickname);
     }
 
-    public User updateUser(Long userId, UserUpdateRequestDto userUpdateRequestDto) {
-//        User user = userRepository.findById(userId).orElseThrow(() -> new NoSuchElementException("존재하지 않는 회원입니다."));
-        Optional<User> user = userRepository.findById(userId);
-        user.ifPresent(updateUser -> {
-            updateUser.builder()
-                    .nickname(userUpdateRequestDto.getNickname())
-                    .name(userUpdateRequestDto.getName())
-                    .birth(userUpdateRequestDto.getBirth())
-                    .profile_img(userUpdateRequestDto.getProfile_img())
-                    .phone(userUpdateRequestDto.getPhone())
-                    .build();
-            userRepository.save(updateUser);
-        });
-
-        return user.orElseThrow(() -> new NoSuchElementException("존재하지 않는 회원입니다."));
+    public void updateUser(Long userId, UserUpdateRequestDto userUpdateRequestDto) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new NoSuchElementException("존재하지 않는 회원입니다."));
+        user.update(userUpdateRequestDto.getNickname(), userUpdateRequestDto.getName(), userUpdateRequestDto.getBirth(), userUpdateRequestDto.getProfile_img(), userUpdateRequestDto.getPhone());
+        userRepository.save(user);
     }
 
     public void deleteUser(Long userId) {

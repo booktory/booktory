@@ -109,6 +109,14 @@ public class User implements UserDetails {
         this.main_badge = main_badge;
     }
 
+    public void update(String nickname, String name, LocalDate birth, String profile_img, String phone) {
+        this.nickname = nickname;
+        this.name = name;
+        this.birth = birth;
+        this.profile_img = profile_img;
+        this.phone = phone;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return this.roles.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList());

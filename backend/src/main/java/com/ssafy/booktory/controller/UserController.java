@@ -81,7 +81,7 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
         Long userId = ((User)authentication.getPrincipal()).getId();
-        User user = userService.updateUser(userId, userUpdateRequestDto);
+        userService.updateUser(userId, userUpdateRequestDto);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
