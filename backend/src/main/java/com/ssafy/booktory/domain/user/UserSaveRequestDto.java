@@ -16,7 +16,7 @@ public class UserSaveRequestDto {
     private String password;
     private String name;
     private LocalDate birth;
-    private String profile_img;
+    private String profileImg;
     private String phone;
 
     public User toEntity() {
@@ -26,7 +26,7 @@ public class UserSaveRequestDto {
                 .password(password)
                 .name(name)
                 .birth(birth)
-                .profile_img(profile_img)
+                .profileImg(profileImg)
                 .phone(phone)
                 .build();
     }

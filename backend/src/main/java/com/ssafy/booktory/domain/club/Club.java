@@ -43,16 +43,16 @@ public class Club extends BaseTimeEntity {
 
     @NotNull
     @ColumnDefault("8")
-    private int max_member;
+    private int maxMember;
 
     @NotNull
     @ColumnDefault("true")
-    private boolean is_open;
+    private Boolean isOpen;
 
-    private int volum_rule;
-    private int week_rule;
+    private int volumeRule;
+    private int weekRule;
     @Column(length = 100)
-    private String free_rule;
+    private String freeRule;
 
 
     //클럽에 가입한 멤버들
@@ -74,15 +74,15 @@ public class Club extends BaseTimeEntity {
 
 
     @Builder
-    public Club(String name, String img, String info, int max_member
-            , boolean is_open, int volum_rule, int week_rule, String free_rule) {
+    public Club(String name, String img, String info, int maxMember
+            , Boolean isOpen, int volumeRule, int weekRule, String freeRule) {
         this.name = name;
         this.img = img;
         this.info = info;
-        this.max_member = max_member;
-        this.is_open = is_open;
-        this.volum_rule = volum_rule;
-        this.week_rule = week_rule;
-        this.free_rule = free_rule;
+        this.maxMember = maxMember;
+        this.isOpen = isOpen;
+        this.volumeRule = volumeRule;
+        this.weekRule = weekRule;
+        this.freeRule = freeRule;
     }
 }

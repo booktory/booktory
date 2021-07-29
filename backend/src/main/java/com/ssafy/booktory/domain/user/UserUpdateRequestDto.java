@@ -14,7 +14,7 @@ public class UserUpdateRequestDto {
     private String nickname;
     private String name;
     private LocalDate birth;
-    private String profile_img;
+    private String profileImg;
     private String phone;
 
 }

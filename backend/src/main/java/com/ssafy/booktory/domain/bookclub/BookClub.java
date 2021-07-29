@@ -31,18 +31,16 @@ public class BookClub {
     @JoinColumn(name = "club_id")
     private Club club;
 
-
-    private LocalDateTime start_datetime;
-    private LocalDateTime end_datetime;
-
+    private LocalDateTime startDatetime;
+    private LocalDateTime endDatetime;
 
     //모임 참석자
     @OneToMany(mappedBy = "bookClub", cascade = CascadeType.ALL)
     private List<BookClubUser> bookClubUsers = new ArrayList<>();
 
     @Builder
-    public BookClub(LocalDateTime start_datetime, LocalDateTime end_datetime) {
-        this.start_datetime = start_datetime;
-        this.end_datetime = end_datetime;
+    public BookClub(LocalDateTime startDatetime, LocalDateTime endDatetime) {
+        this.startDatetime = startDatetime;
+        this.endDatetime = endDatetime;
     }
 }
