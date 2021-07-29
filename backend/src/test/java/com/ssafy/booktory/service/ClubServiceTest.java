@@ -34,21 +34,14 @@ class ClubServiceTest {
     EntityManager em;
 
     @Test
-    @Rollback(value = false)
+    @Rollback(value = true)
     public void 새클럽등록() throws Exception{
         //given
-        User user = User.builder()
-                .nickname("hi")
-                .email("abc@a.b")
-                .password("abc")
-                .build();
-        userRepository.save(user);
-
         ClubSaveRequestDto clubSaveRequestDto = ClubSaveRequestDto.builder()
                 .name("testname")
-                .leader_id(user.getId())
-                .max_member(6)
-                .is_open(true)
+                .leaderId(3L)
+                .maxMember(6)
+                .isOpen(true)
                 .build();
 
         //when
@@ -61,8 +54,9 @@ class ClubServiceTest {
 
         assertEquals(club.getId(), resClub.getId());
     }
+
     @Test
-    @Rollback(value = false)
+    @Rollback(value = true)
     public void 클럽정보_확인() throws Exception{
         //given
         User user = User.builder()
@@ -74,9 +68,9 @@ class ClubServiceTest {
 
         ClubSaveRequestDto clubSaveRequestDto = ClubSaveRequestDto.builder()
                 .name("testname")
-                .leader_id(user.getId())
-                .max_member(6)
-                .is_open(true)
+                .leaderId(user.getId())
+                .maxMember(6)
+                .isOpen(true)
                 .build();
         Club club1 = clubService.createClub(clubSaveRequestDto);
 

@@ -34,7 +34,6 @@ public class UserClub {
     private UserClubState state;
 
     @Builder
-
     public UserClub(User user, Club club, UserClubState state) {
         this.user = user;
         this.club = club;

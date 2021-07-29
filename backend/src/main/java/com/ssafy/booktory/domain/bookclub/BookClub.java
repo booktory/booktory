@@ -7,7 +7,6 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -31,7 +30,6 @@ public class BookClub {
     @JoinColumn(name = "club_id")
     private Club club;
 
-
     private LocalDateTime start_datetime;
     private LocalDateTime end_datetime;
 
@@ -41,7 +39,6 @@ public class BookClub {
     private List<BookClubUser> bookClubUsers = new ArrayList<>();
 
     @Builder
-
     public BookClub(Book book, Club club, LocalDateTime start_datetime, LocalDateTime end_datetime) {
         this.book = book;
         this.club = club;
