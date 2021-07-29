@@ -6,11 +6,14 @@ import com.ssafy.booktory.domain.bookclub.BookClub;
 import com.ssafy.booktory.domain.club.Club;
 import com.ssafy.booktory.domain.club.ClubRepository;
 import com.ssafy.booktory.domain.clubgenre.ClubGenre;
+import com.ssafy.booktory.domain.common.UserClubState;
 import com.ssafy.booktory.domain.genre.Genre;
 import com.ssafy.booktory.domain.genre.GenreRepository;
 import com.ssafy.booktory.domain.user.User;
 import com.ssafy.booktory.domain.user.UserRepository;
 import com.ssafy.booktory.domain.club.ClubSaveRequestDto;
+import com.ssafy.booktory.domain.userclub.UserClub;
+import com.ssafy.booktory.domain.userclub.UserClubRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +35,8 @@ public class ClubService {
     BookRepository bookRepository;
     @Autowired
     GenreRepository genreRepository;
+    @Autowired
+    UserClubRepository userClubRepository;
 
     public Club createClub(ClubSaveRequestDto clubSaveRequestDto){
 
@@ -64,6 +69,13 @@ public class ClubService {
             clubGenres.add(clubGenre);
         }
         savedClub.updateGenres(clubGenres);
+
+        UserClub userClub = UserClub.builder()
+                .club(savedClub)
+                .user(user)
+                .state(UserClubState.ACCEPT)
+                .build();
+        userClubRepository.save(userClub);
 
         return clubRepository.save(savedClub);
     }
