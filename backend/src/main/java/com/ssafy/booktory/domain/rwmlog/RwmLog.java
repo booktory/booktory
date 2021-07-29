@@ -27,7 +27,7 @@ public class RwmLog extends BaseTimeEntity {
     @JoinColumn(name = "rwm_id")
     private Rwm rwm;
 
-    @NotNull
-    private String book_name;
+    @NotNull @Column(nullable = false)
+    private String bookName;
 
 }

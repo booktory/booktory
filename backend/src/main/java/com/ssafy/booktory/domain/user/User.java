@@ -51,7 +51,7 @@ public class User implements UserDetails {
 
     private LocalDate birth;
 
-    private String profile_img;
+    private String profileImg;
 
     @Column(length = 30)
     private String phone;
@@ -60,7 +60,7 @@ public class User implements UserDetails {
     private int badge;
 
     @ColumnDefault("-1")
-    private int main_badge;
+    private int mainBadge;
 
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> roles = new ArrayList<>();
@@ -97,23 +97,23 @@ public class User implements UserDetails {
 
     @Builder
     public User(String email, String nickname, String password, String name, LocalDate birth,
-                String profile_img, String phone, int badge, int main_badge){
+                String profileImg, String phone, int badge, int mainBadge){
         this.email = email;
         this.nickname = nickname;
         this.password = password;
         this.name = name;
         this.birth = birth;
-        this.profile_img = profile_img;
+        this.profileImg = profileImg;
         this.phone = phone;
         this.badge = badge;
-        this.main_badge = main_badge;
+        this.mainBadge = mainBadge;
     }
 
-    public void update(String nickname, String name, LocalDate birth, String profile_img, String phone) {
+    public void update(String nickname, String name, LocalDate birth, String profileImg, String phone) {
         this.nickname = nickname;
         this.name = name;
         this.birth = birth;
-        this.profile_img = profile_img;
+        this.profileImg = profileImg;
         this.phone = phone;
     }
 
@@ -151,15 +151,15 @@ public class User implements UserDetails {
         this.password = encodedPassword;
     }
 
-    public void setMain_badge(int badgeId) {
-        this.main_badge = badgeId;
+    public void setMainBadge(int badgeId) {
+        this.mainBadge = badgeId;
     }
 
     public List<Integer> getBadgeList(int badge) {
         List<Integer> badges = new ArrayList<>();
-        String badge_status = String.format("%015d", Integer.parseInt(Integer.toBinaryString(badge)));
+        String badgeStatus = String.format("%015d", Integer.parseInt(Integer.toBinaryString(badge)));
         for (int i = 0; i < 15; i++) {
-            if (badge_status.charAt(i) == '1') {
+            if (badgeStatus.charAt(i) == '1') {
                 badges.add(i);
             }
         }

@@ -46,7 +46,7 @@ public class UserService {
 
     public void updateUser(Long userId, UserUpdateRequestDto userUpdateRequestDto) {
         User user = userRepository.findById(userId).orElseThrow(() -> new NoSuchElementException("존재하지 않는 회원입니다."));
-        user.update(userUpdateRequestDto.getNickname(), userUpdateRequestDto.getName(), userUpdateRequestDto.getBirth(), userUpdateRequestDto.getProfile_img(), userUpdateRequestDto.getPhone());
+        user.update(userUpdateRequestDto.getNickname(), userUpdateRequestDto.getName(), userUpdateRequestDto.getBirth(), userUpdateRequestDto.getProfileImg(), userUpdateRequestDto.getPhone());
         userRepository.save(user);
     }
 
@@ -68,7 +68,7 @@ public class UserService {
 
     public void registerMainBadge(Long id, int badgeId) {
         User user = userRepository.findById(id).orElseThrow(() -> new NoSuchElementException("존재하지 않는 회원입니다."));
-        user.setMain_badge(badgeId);
+        user.setMainBadge(badgeId);
         userRepository.save(user);
     }
 
