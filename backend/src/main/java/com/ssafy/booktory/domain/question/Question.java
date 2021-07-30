@@ -42,7 +42,9 @@ public class Question extends BaseTimeEntity {
     private List<Answer> answers = new ArrayList<>();
 
     @Builder
-    public Question(String contents, Boolean isOpen) {
+    public Question(Club club, User user, String contents, Boolean isOpen) {
+        this.club = club;
+        this.user = user;
         this.contents = contents;
         this.isOpen = isOpen;
     }

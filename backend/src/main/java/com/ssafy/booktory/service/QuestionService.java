@@ -2,15 +2,20 @@ package com.ssafy.booktory.service;
 
 import com.ssafy.booktory.domain.answer.AnswerRepository;
 import com.ssafy.booktory.domain.answer.AnswerResponseDto;
+import com.ssafy.booktory.domain.club.Club;
+import com.ssafy.booktory.domain.club.ClubRepository;
 import com.ssafy.booktory.domain.question.Question;
 import com.ssafy.booktory.domain.question.QuestionRepository;
+import com.ssafy.booktory.domain.question.QuestionRequestDto;
 import com.ssafy.booktory.domain.question.QuestionResponseDto;
+import com.ssafy.booktory.domain.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @Service
@@ -19,6 +24,7 @@ public class QuestionService {
 
     private final QuestionRepository questionRepository;
     private final AnswerRepository answerRepository;
+    private final ClubRepository clubRepository;
 
     @Transactional
     public List<QuestionResponseDto> getQuestionAnswers(Long clubId) {
@@ -42,5 +48,16 @@ public class QuestionService {
         });
 
         return questionResponseDtos;
+    }
+
+    public Question registerQuestion(User user, Long clubId, QuestionRequestDto questionRequestDto) {
+        Club club = clubRepository.findById(clubId).orElseThrow(() -> new NoSuchElementException("존재하지 않는 클럽입니다."));
+        Question question = Question.builder()
+                .user(user)
+                .club(club)
+                .contents(questionRequestDto.getContents())
+                .isOpen(questionRequestDto.getIsOpen())
+                .build();
+        return questionRepository.save(question);
     }
 }

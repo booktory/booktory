@@ -1,16 +1,19 @@
 package com.ssafy.booktory.controller;
 
+import com.ssafy.booktory.domain.question.QuestionRequestDto;
 import com.ssafy.booktory.domain.question.QuestionResponseDto;
+import com.ssafy.booktory.domain.user.User;
 import com.ssafy.booktory.service.QuestionService;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.List;
 
@@ -25,6 +28,20 @@ public class QuestionController {
     @GetMapping("/{clubId}")
     public ResponseEntity<List<QuestionResponseDto>> getQuestionAnswer(@PathVariable @ApiParam(value = "클럽 아이디", required = true) Long clubId) {
         return ResponseEntity.status(HttpStatus.OK).body(questionService.getQuestionAnswers(clubId));
+    }
+
+    @ApiOperation(value = "문의 게시판 질문 등록", notes = "모집 중인 클럽의 문의 게시판에 질문을 등록합니다.")
+    @ApiImplicitParams({@ApiImplicitParam(name = "jwt", value = "JWT Token", required = true, dataType = "string", paramType = "header")})
+    @PostMapping("/{clubId}")
+    public ResponseEntity<Void> registerQuestion(@ApiIgnore final Authentication authentication,
+                                                 @PathVariable @ApiParam(value = "클럽 아이디", required = true) Long clubId,
+                                                 @RequestBody @ApiParam(value = "질문 등록에 필요한 정보", required = true)QuestionRequestDto questionRequestDto) {
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+        User user = ((User)authentication.getPrincipal());
+        questionService.registerQuestion(user, clubId, questionRequestDto);
+        return ResponseEntity.ok().build();
     }
 
 
