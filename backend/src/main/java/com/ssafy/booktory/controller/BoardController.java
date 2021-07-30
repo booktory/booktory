@@ -2,6 +2,8 @@ package com.ssafy.booktory.controller;
 
 import com.ssafy.booktory.domain.board.Board;
 import com.ssafy.booktory.domain.board.BoardRequestDto;
+import com.ssafy.booktory.domain.board.BoardResponseDto;
+import com.ssafy.booktory.domain.question.QuestionResponseDto;
 import com.ssafy.booktory.domain.user.User;
 import com.ssafy.booktory.service.BoardService;
 import io.swagger.annotations.ApiImplicitParam;
@@ -14,6 +16,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/boards")
@@ -34,6 +38,12 @@ public class BoardController {
         User user = ((User)authentication.getPrincipal());
         Board board = boardService.registerBoard(user, clubId, boardRequestDto);
         return ResponseEntity.ok().build();
+    }
+
+    @ApiOperation(value = "담벼락 전체 글 조회", notes = "클럽 상세 페이지 내 담벼락 전체 글을 보여줍니다.")
+    @GetMapping("/{clubId}")
+    public ResponseEntity<List<BoardResponseDto>> getBoard(@PathVariable @ApiParam(value = "클럽 아이디", required = true) Long clubId) {
+        return ResponseEntity.status(HttpStatus.OK).body(boardService.getBoard(clubId));
     }
 
 }
