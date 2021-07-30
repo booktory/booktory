@@ -32,14 +32,17 @@ public class QuestionService {
         List<Question> questions = questionRepository.findByClubId(clubId);
         questions.forEach(question -> {
             List<AnswerResponseDto> answerResponseDtos = answerRepository.findByQuestionId(question.getId()).stream()
-                    .map(answer -> new AnswerResponseDto(answer.getUser().getId(),
+                    .map(answer -> new AnswerResponseDto(
+                            answer.getUser().getId(),
                             answer.getUser().getNickname(),
                             answer.getUser().getProfileImg(),
                             answer.getContents(),
                             question.getIsOpen()))
                     .collect(Collectors.toList());
 
-            questionResponseDtos.add(new QuestionResponseDto(question.getUser().getId(),
+            questionResponseDtos.add(new QuestionResponseDto(
+                    question.getId(),
+                    question.getUser().getId(),
                     question.getUser().getNickname(),
                     question.getUser().getProfileImg(),
                     question.getContents(),

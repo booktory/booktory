@@ -14,6 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 public class QuestionResponseDto {
 
+    private Long questionId;
     private Long userId;
     private String nickname;
     private String profileImg;
