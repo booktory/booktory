@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class UserClubRepositoryTest {
 
     @Test
-    public void 가입된_클럽_조회(){
+    public void 클럽_가입신청(){
         //given
 
 

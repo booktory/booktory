@@ -2,9 +2,13 @@ package com.ssafy.booktory.service;
 
 import com.ssafy.booktory.domain.club.Club;
 import com.ssafy.booktory.domain.club.ClubRepository;
+import com.ssafy.booktory.domain.common.UserClubState;
 import com.ssafy.booktory.domain.user.User;
 import com.ssafy.booktory.domain.user.UserRepository;
 import com.ssafy.booktory.domain.club.ClubSaveRequestDto;
+import com.ssafy.booktory.domain.userclub.UserClub;
+import com.ssafy.booktory.domain.userclub.UserClubRepository;
+import org.junit.Before;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +19,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 import javax.persistence.EntityManager;
+
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -29,9 +35,31 @@ class ClubServiceTest {
     ClubRepository clubRepository;
     @Autowired
     UserRepository userRepository;
-
+    @Autowired
+    UserClubRepository userClubRepository;
     @Autowired
     EntityManager em;
+
+    private User user;
+    private Club club;
+
+    @Before
+    public void setUp() throws Exception {
+        user = User.builder()
+                .nickname("hi")
+                .email("abc@a.b")
+                .password("abc")
+                .build();
+        user = userRepository.save(user);
+
+        club = Club.builder()
+                .name("testname")
+                .user(user)
+                .max_member(6)
+                .build();
+        club = clubRepository.save(club);
+
+    }
 
     @Test
     @Rollback(value = true)
@@ -59,12 +87,12 @@ class ClubServiceTest {
     @Rollback(value = true)
     public void 클럽정보_확인() throws Exception{
         //given
-        User user = User.builder()
+        user = User.builder()
                 .nickname("hi")
                 .email("abc@a.b")
                 .password("abc")
                 .build();
-        userRepository.save(user);
+        user = userRepository.save(user);
 
         ClubSaveRequestDto clubSaveRequestDto = ClubSaveRequestDto.builder()
                 .name("testname")
@@ -76,10 +104,38 @@ class ClubServiceTest {
 
         //when
         Club club2 = clubService.findClub(club1.getId());
+        em.flush();
 
         //then
-        em.flush();
         assertEquals(club1.getId(), club2.getId());
+    }
+
+    @Test
+    @Rollback(value = true)
+    public void 클럽_가입신청(){
+        //given
+        user = User.builder()
+                .nickname("hi")
+                .email("abc@a.b")
+                .password("abc")
+                .build();
+        user = userRepository.save(user);
+
+        club = Club.builder()
+                .name("testname")
+                .user(user)
+                .max_member(6)
+                .build();
+        club = clubRepository.save(club);
+
+        clubService.applyToClub(user.getId(), club.getId());
+
+        //when
+        UserClub userClub = userClubRepository.findByUserAndClub(user, club);
+
+        //then
+        assertEquals(UserClubState.APPLY, userClub.getState());
+
     }
 
 }

@@ -1,16 +1,16 @@
 package com.ssafy.booktory.controller;
 
 import com.ssafy.booktory.domain.club.*;
+import com.ssafy.booktory.domain.user.User;
 import com.ssafy.booktory.service.ClubService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.List;
 
@@ -30,9 +30,9 @@ public class ClubController {
             @ApiResponse(code = 404, message = "사용자 없음"),
             @ApiResponse(code = 500, message = "서버 오류")
     })
-    public ResponseEntity<Void> createClub(@RequestBody ClubSaveRequestDto clubSaveRequestDto){
+    public ResponseEntity<String> createClub(@RequestBody ClubSaveRequestDto clubSaveRequestDto){
         Club club = clubService.createClub(clubSaveRequestDto);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.status(HttpStatus.CREATED).body("Success");
     }
 
     @GetMapping("/{id}")
@@ -52,9 +52,9 @@ public class ClubController {
 
     @PatchMapping("/{id}")
     @ApiOperation(value = "클럽 정보 수정" , notes = "클럽의 정보를 수정한다.")
-    public ResponseEntity<Void> updateClub(@PathVariable Long id, @RequestBody ClubUpdateRequestDto clubUpdateRequestDto){
+    public ResponseEntity<String> updateClub(@PathVariable Long id, @RequestBody ClubUpdateRequestDto clubUpdateRequestDto){
         clubService.updateClub(id, clubUpdateRequestDto);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok().body("Success");
     }
 /*
     @PostMapping("/{id}/book")
@@ -66,6 +66,30 @@ public class ClubController {
 
  */
 
-//    @PostMapping("/{id}/user")
-//    @ApiOperation(value = "")
+    @PostMapping("/{id}/join")
+    @ApiOperation(value = "클럽 가입신청", notes = "UserClub 테이블의 상태를 APPLY로 등록한다.")
+    @ApiImplicitParams({@ApiImplicitParam(name = "jwt", value = "JWT Token", required = true, dataType = "string", paramType = "header")})
+    public ResponseEntity<Long>  applyToClub(@ApiIgnore final Authentication authentication, @PathVariable Long id){
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+        Long userId = ((User)authentication.getPrincipal()).getId();
+        Long userClubId = clubService.applyToClub(userId, id).getId();
+        return ResponseEntity.status(HttpStatus.CREATED).body(userClubId);
+    }
+    /*
+    @PutMapping("/{id}/join")
+    @ApiOperation(value = "클럽 가입승인", notes = "UserClub 테이블의 상태를 ACCEPT로 변경한다.")
+    @ApiImplicitParams({@ApiImplicitParam(name = "jwt", value = "JWT Token", required = true, dataType = "string", paramType = "header")})
+    public ResponseEntity<Void>  acceptToClub(@ApiIgnore final Authentication authentication, @PathVariable Long clubId){
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+        Long leaderId = ((User)authentication.getPrincipal()).getId();
+        clubService.
+
+    }
+
+     */
+
 }

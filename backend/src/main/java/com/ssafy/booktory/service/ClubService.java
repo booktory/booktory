@@ -48,7 +48,7 @@ public class ClubService {
 
         List<ClubGenre> clubGenres = genreIdListToClubGenreList(clubSaveRequestDto.getGenres(), savedClub);
         savedClub.updateGenres(clubGenres);
-        
+
         UserClub userClub = UserClub.builder()
                 .club(savedClub)
                 .user(user)
@@ -133,5 +133,16 @@ public class ClubService {
         return clubGenres;
     }
 
-
+    public UserClub applyToClub(Long userId, Long id) {
+        Club club = clubRepository.findById(id)
+                .orElseThrow(()-> new NoSuchElementException("존재하지 않는 클럽입니다."));
+        User user = userRepository.findById(userId)
+                .orElseThrow(()->new NoSuchElementException("존재하지 않는 회원입니다."));
+        UserClub userClub = UserClub.builder()
+                .user(user)
+                .club(club)
+                .state(UserClubState.APPLY)
+                .build();
+        return userClubRepository.save(userClub);
+    }
 }
