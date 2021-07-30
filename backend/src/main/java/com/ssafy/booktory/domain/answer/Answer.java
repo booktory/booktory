@@ -37,7 +37,9 @@ public class Answer extends BaseTimeEntity {
     private Boolean isOpen;
 
     @Builder
-    public Answer(String contents, Boolean isOpen) {
+    public Answer(Question question, User user, String contents, Boolean isOpen) {
+        this.question = question;
+        this.user = user;
         this.contents = contents;
         this.isOpen = isOpen;
     }

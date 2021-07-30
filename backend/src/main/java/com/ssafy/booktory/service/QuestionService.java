@@ -1,6 +1,8 @@
 package com.ssafy.booktory.service;
 
+import com.ssafy.booktory.domain.answer.Answer;
 import com.ssafy.booktory.domain.answer.AnswerRepository;
+import com.ssafy.booktory.domain.answer.AnswerRequestDto;
 import com.ssafy.booktory.domain.answer.AnswerResponseDto;
 import com.ssafy.booktory.domain.club.Club;
 import com.ssafy.booktory.domain.club.ClubRepository;
@@ -62,5 +64,16 @@ public class QuestionService {
                 .isOpen(questionRequestDto.getIsOpen())
                 .build();
         return questionRepository.save(question);
+    }
+
+    public Answer registerAnswer(User user, Long questionId, AnswerRequestDto answerRequestDto) {
+        Question question = questionRepository.findById(questionId).orElseThrow(() -> new NoSuchElementException("존재하지 않는 질문입니다."));
+        Answer answer = Answer.builder()
+                .user(user)
+                .question(question)
+                .contents(answerRequestDto.getContents())
+                .isOpen(answerRequestDto.getIsOpen())
+                .build();
+        return answerRepository.save(answer);
     }
 }

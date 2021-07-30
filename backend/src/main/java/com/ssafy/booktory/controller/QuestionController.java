@@ -1,5 +1,6 @@
 package com.ssafy.booktory.controller;
 
+import com.ssafy.booktory.domain.answer.AnswerRequestDto;
 import com.ssafy.booktory.domain.question.QuestionRequestDto;
 import com.ssafy.booktory.domain.question.QuestionResponseDto;
 import com.ssafy.booktory.domain.user.User;
@@ -35,12 +36,26 @@ public class QuestionController {
     @PostMapping("/{clubId}")
     public ResponseEntity<Void> registerQuestion(@ApiIgnore final Authentication authentication,
                                                  @PathVariable @ApiParam(value = "클럽 아이디", required = true) Long clubId,
-                                                 @RequestBody @ApiParam(value = "질문 등록에 필요한 정보", required = true)QuestionRequestDto questionRequestDto) {
+                                                 @RequestBody @ApiParam(value = "질문 등록에 필요한 정보", required = true) QuestionRequestDto questionRequestDto) {
         if (authentication == null || !authentication.isAuthenticated()) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
         User user = ((User)authentication.getPrincipal());
         questionService.registerQuestion(user, clubId, questionRequestDto);
+        return ResponseEntity.ok().build();
+    }
+
+    @ApiOperation(value = "문의 게시판 답 등록", notes = "모집 중인 클럽의 문의 게시판에 답변을 등록합니다.")
+    @ApiImplicitParams({@ApiImplicitParam(name = "jwt", value = "JWT Token", required = true, dataType = "string", paramType = "header")})
+    @PostMapping("/{questionId}/answer")
+    public ResponseEntity<Void> registerAnswer(@ApiIgnore final Authentication authentication,
+                                                 @PathVariable @ApiParam(value = "질문 아이디", required = true) Long questionId,
+                                                 @RequestBody @ApiParam(value = "답변 등록에 필요한 정보", required = true) AnswerRequestDto answerRequestDto) {
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+        User user = ((User)authentication.getPrincipal());
+        questionService.registerAnswer(user, questionId, answerRequestDto);
         return ResponseEntity.ok().build();
     }
 
