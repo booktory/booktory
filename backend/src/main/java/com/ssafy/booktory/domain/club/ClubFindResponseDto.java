@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
@@ -16,10 +15,10 @@ public class ClubFindResponseDto {
     String img;
     String info;
     int max_member;
-    Boolean is_open;
-    int volum_rule;
-    int week_rule;
-    String free_rule;
+    Boolean isOpen;
+    int volumRule;
+    int weekRule;
+    String freeRule;
 
     public ClubFindResponseDto(Club club){
         this.name = club.getName();
@@ -27,9 +26,9 @@ public class ClubFindResponseDto {
         this.img = club.getImg();
         this.info = club.getInfo();
         this.max_member = club.getMax_member();
-        this.is_open = club.getIs_open();
-        this.volum_rule = club.getVolume_rule();
-        this.week_rule = club.getWeek_rule();
-        this.free_rule = club.getFree_rule();
+        this.isOpen = club.getIs_open();
+        this.volumRule = club.getVolume_rule();
+        this.weekRule = club.getWeek_rule();
+        this.freeRule = club.getFree_rule();
     }
 }

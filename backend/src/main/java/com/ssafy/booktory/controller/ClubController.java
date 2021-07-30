@@ -6,18 +6,21 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Api(value = "Club API")
 @RestController
 @RequestMapping("/clubs")
+@RequiredArgsConstructor
 public class ClubController {
 
-    @Autowired
-    ClubService clubService;
+    private final ClubService clubService;
 
     @PostMapping(produces="application/json;charset=UTF-8")
     @ApiOperation(value = "새 클럽 등록", notes = "새로운 클럽을 등록/생성한다.")
@@ -53,8 +56,16 @@ public class ClubController {
         clubService.updateClub(id, clubUpdateRequestDto);
         return ResponseEntity.ok().build();
     }
+/*
+    @PostMapping("/{id}/book")
+    @ApiOperation(value = "(클럽)읽을 책 추가", notes = "bookclub 테이블에 읽을책을 추가한다.")
+    public ResponseEntity<Void> addBooksOnClub(@PathVariable Long id, @RequestBody List<Long> books){
+        clubService.addBooks(id, books);
+        return ResponseEntity.ok().build();
+    }
 
-//    @PostMapping("/{id}/book")
-//    @ApiOperation(value = "(클럽)읽을 책 추가", notes = "bookclub테이블에 읽을책을 추가한다.")
-//    public ResponseEntity<Void>
+ */
+
+//    @PostMapping("/{id}/user")
+//    @ApiOperation(value = "")
 }

@@ -85,9 +85,13 @@ public class Club extends BaseTimeEntity {
     }
 
     public void updateBookClubs(List<BookClub> bookClubs){
+//        for(BookClub bookClub : bookClubs)
+//            this.bookClubs.add(bookClub);
         this.bookClubs = bookClubs;
     }
     public void updateGenres(List<ClubGenre> genres){
+//        for(ClubGenre clubGenre : genres)
+//            this.genres.add(clubGenre);
         this.genres = genres;
     }
 
@@ -106,24 +110,4 @@ public class Club extends BaseTimeEntity {
         this.free_rule = free_rule;
     }
 
-    @Override
-    public String toString() {
-        return "Club{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", user=" + user +
-                ", img='" + img + '\'' +
-                ", info='" + info + '\'' +
-                ", max_member=" + max_member +
-                ", is_open=" + is_open +
-                ", volume_rule=" + volume_rule +
-                ", week_rule=" + week_rule +
-                ", free_rule='" + free_rule + '\'' +
-                ", members=" + members +
-                ", boards=" + boards +
-                ", questions=" + questions +
-                ", bookClubs=" + bookClubs +
-                ", genres=" + genres +
-                '}';
-    }
 }

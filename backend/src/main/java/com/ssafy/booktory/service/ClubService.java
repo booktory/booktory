@@ -12,55 +12,49 @@ import com.ssafy.booktory.domain.user.User;
 import com.ssafy.booktory.domain.user.UserRepository;
 import com.ssafy.booktory.domain.userclub.UserClub;
 import com.ssafy.booktory.domain.userclub.UserClubRepository;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service("clubService")
+@RequiredArgsConstructor
 public class ClubService {
+
     public static final Logger logger = LoggerFactory.getLogger(ClubService.class);
 
-    @Autowired
-    ClubRepository clubRepository;
-    @Autowired
-    UserRepository userRepository;
-    @Autowired
-    BookRepository bookRepository;
-    @Autowired
-    GenreRepository genreRepository;
-    @Autowired
-    UserClubRepository userClubRepository;
+    private final ClubRepository clubRepository;
+    private final UserRepository userRepository;
+    private final BookRepository bookRepository;
+    private final GenreRepository genreRepository;
+    private final UserClubRepository userClubRepository;
 
     public Club createClub(ClubSaveRequestDto clubSaveRequestDto){
 
         User user = userRepository.findById(clubSaveRequestDto.getLeaderId())
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
 
-        logger.debug("user : " + user.getId() + " - " + user.getName());
         Club club = clubSaveRequestDto.toEntity(user);
         Club savedClub = clubRepository.save(club);
-        logger.debug("-------1------");
 
         List<BookClub> bookClubs = bookIdListToBookClubList(clubSaveRequestDto.getBooks(), savedClub);
         savedClub.updateBookClubs(bookClubs);
 
         List<ClubGenre> clubGenres = genreIdListToClubGenreList(clubSaveRequestDto.getGenres(), savedClub);
         savedClub.updateGenres(clubGenres);
-
-        logger.debug("-------2------");
+        
         UserClub userClub = UserClub.builder()
                 .club(savedClub)
                 .user(user)
                 .state(UserClubState.ACCEPT)
                 .build();
         userClubRepository.save(userClub);
-
-        logger.debug("-------3------");
 
         return clubRepository.save(savedClub);
     }
@@ -70,6 +64,7 @@ public class ClubService {
                 .orElseThrow(()->new NoSuchElementException("존재하지 않는 클럽입니다."));
     }
 
+    @Transactional
     public ClubListFindResponseDto findJoinedClubList(Long userId){
         User user = userRepository.findById(userId)
                 .orElseThrow(()-> new NoSuchElementException("존재하지 않는 회원입니다."));
@@ -77,10 +72,7 @@ public class ClubService {
 
         List<Club> clubs = new ArrayList<>();
         for(UserClub userClub : userClubs){
-            Club club = clubRepository.findById(userClub.getClub().getId())
-                    .orElseThrow(()->new NoSuchElementException("존재하지 않는 클럽입니다."));
-            clubs.add(club);
-
+            clubs.add(userClub.getClub());
         }
         ClubListFindResponseDto clubListFindResponseDto = new ClubListFindResponseDto();
         clubListFindResponseDto.toDto(clubs);
@@ -101,6 +93,16 @@ public class ClubService {
 
         return clubRepository.save(club);
     }
+/*
+    public void addBooks(Long id, List<Long> books) {
+        Club club = clubRepository.findById(id)
+                .orElseThrow(()-> new NoSuchElementException("존재하지 않는 클럽입니다."));
+        List<BookClub> bookClubs = bookIdListToBookClubList(books, club);
+        club.updateBookClubs(bookClubs);
+        clubRepository.save(club);
+    }
+*/
+
 
     private List<BookClub> bookIdListToBookClubList(List<Long> bookIdList, Club savedClub){
         List<BookClub> bookClubs = new ArrayList<>();
