@@ -39,4 +39,8 @@ public class UserClub {
         this.club = club;
         this.state = state;
     }
+
+    public void acceptJoin(){
+        this.state = UserClubState.ACCEPT;
+    }
 }

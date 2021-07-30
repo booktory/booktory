@@ -9,6 +9,7 @@ import com.ssafy.booktory.domain.club.ClubSaveRequestDto;
 import com.ssafy.booktory.domain.userclub.UserClub;
 import com.ssafy.booktory.domain.userclub.UserClubRepository;
 import org.junit.Before;
+//import org.junit.Test;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,9 +43,12 @@ class ClubServiceTest {
 
     private User user;
     private Club club;
+    private User follower;
+    private UserClub userClub;
+
 
     @Before
-    public void setUp() throws Exception {
+    private void setUp() throws Exception{
         user = User.builder()
                 .nickname("hi")
                 .email("abc@a.b")
@@ -59,6 +63,12 @@ class ClubServiceTest {
                 .build();
         club = clubRepository.save(club);
 
+        follower = User.builder()
+                .nickname("follow")
+                .email("abc@a.b")
+                .password("abcd")
+                .build();
+        follower = userRepository.save(follower);
     }
 
     @Test
@@ -87,13 +97,7 @@ class ClubServiceTest {
     @Rollback(value = true)
     public void 클럽정보_확인() throws Exception{
         //given
-        user = User.builder()
-                .nickname("hi")
-                .email("abc@a.b")
-                .password("abc")
-                .build();
-        user = userRepository.save(user);
-
+//        setup();
         ClubSaveRequestDto clubSaveRequestDto = ClubSaveRequestDto.builder()
                 .name("testname")
                 .leaderId(user.getId())
@@ -114,28 +118,62 @@ class ClubServiceTest {
     @Rollback(value = true)
     public void 클럽_가입신청(){
         //given
-        user = User.builder()
-                .nickname("hi")
-                .email("abc@a.b")
-                .password("abc")
-                .build();
-        user = userRepository.save(user);
-
-        club = Club.builder()
-                .name("testname")
-                .user(user)
-                .max_member(6)
-                .build();
-        club = clubRepository.save(club);
-
-        clubService.applyToClub(user.getId(), club.getId());
+//        setup();
+        clubService.applyToClub(follower.getId(),  club.getId());
 
         //when
-        UserClub userClub = userClubRepository.findByUserAndClub(user, club);
+        UserClub userClub = userClubRepository.findByUserAndClub(follower, club);
 
         //then
         assertEquals(UserClubState.APPLY, userClub.getState());
 
     }
+
+    @Test
+    @Rollback(value = true)
+    public void 클럽가입_승인_성공() throws Exception {
+        //given
+        setUp();
+        userClub = UserClub.builder()
+                .club(club)
+                .user(follower)
+                .state(UserClubState.APPLY)
+                .build();
+        userClub = userClubRepository.save(userClub);
+        //when
+        UserClub accepted = clubService.acceptToClub(user.getId(), club.getId(), userClub.getId());
+
+        //then
+        assertEquals(accepted.getState(), UserClubState.ACCEPT);
+
+    }
+
+    @Test
+    @Rollback(value = true)
+    public void 클럽가입승인_실패() throws Exception {
+        //given
+        setUp();
+
+        UserClub userClub = UserClub.builder()
+                .club(club)
+                .user(follower)
+                .state(UserClubState.APPLY)
+                .build();
+        userClub = userClubRepository.save(userClub);
+
+        //when
+        UserClub finalUserClub = userClub;
+        Exception exception = assertThrows(IllegalAccessException.class, ()->{
+            clubService.acceptToClub(follower.getId(), club.getId(), finalUserClub.getId());
+        });
+
+        //then
+        String message = exception.getMessage();
+        assertEquals("클럽장만 가입을 승인할 수 있습니다.", message);
+    }
+
+
+
+
 
 }

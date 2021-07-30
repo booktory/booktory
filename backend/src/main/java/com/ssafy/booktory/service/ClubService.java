@@ -22,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service("clubService")
 @RequiredArgsConstructor
@@ -103,6 +104,36 @@ public class ClubService {
     }
 */
 
+    public UserClub applyToClub(Long userId, Long id) {
+        Club club = clubRepository.findById(id)
+                .orElseThrow(()-> new NoSuchElementException("존재하지 않는 클럽입니다."));
+        User user = userRepository.findById(userId)
+                .orElseThrow(()->new NoSuchElementException("존재하지 않는 회원입니다."));
+        UserClub userClub = UserClub.builder()
+                .user(user)
+                .club(club)
+                .state(UserClubState.APPLY)
+                .build();
+        return userClubRepository.save(userClub);
+    }
+
+    @Transactional
+    public UserClub acceptToClub(Long leaderId, Long clubId, Long userClubId) throws Exception{
+        UserClub userClub = userClubRepository.findById(userClubId)
+                .orElseThrow(()->new NoSuchElementException("존재하지않는 가입신청입니다."));
+
+        if(clubId != userClub.getClub().getId() ){
+            throw new IllegalAccessException("클럽에 접근권한이 없습니다.");
+        }
+        if(leaderId != userClub.getClub().getUser().getId()){
+            throw new IllegalAccessException("클럽장만 가입을 승인할 수 있습니다.");
+        }
+        if(userClub.getState() == UserClubState.ACCEPT){
+            throw new IllegalStateException("이미 처리된 요청입니다.");
+        }
+        userClub.acceptJoin();
+        return userClubRepository.save(userClub);
+    }
 
     private List<BookClub> bookIdListToBookClubList(List<Long> bookIdList, Club savedClub){
         List<BookClub> bookClubs = new ArrayList<>();
@@ -118,7 +149,6 @@ public class ClubService {
         }
         return bookClubs;
     }
-
     private List<ClubGenre> genreIdListToClubGenreList(List<Long> genreIdList, Club savedClub){
         List<ClubGenre> clubGenres = new ArrayList<>();
         for(Long genreId : genreIdList){
@@ -133,16 +163,7 @@ public class ClubService {
         return clubGenres;
     }
 
-    public UserClub applyToClub(Long userId, Long id) {
-        Club club = clubRepository.findById(id)
-                .orElseThrow(()-> new NoSuchElementException("존재하지 않는 클럽입니다."));
-        User user = userRepository.findById(userId)
-                .orElseThrow(()->new NoSuchElementException("존재하지 않는 회원입니다."));
-        UserClub userClub = UserClub.builder()
-                .user(user)
-                .club(club)
-                .state(UserClubState.APPLY)
-                .build();
-        return userClubRepository.save(userClub);
-    }
+
+
+
 }
