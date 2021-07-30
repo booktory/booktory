@@ -1,5 +1,7 @@
 package com.ssafy.booktory.service;
 
+import com.ssafy.booktory.domain.book.BookBySearchResponseDto;
+import com.ssafy.booktory.domain.book.BookRepository;
 import com.ssafy.booktory.domain.club.Club;
 import com.ssafy.booktory.domain.club.ClubBySearchResponseDto;
 import com.ssafy.booktory.domain.club.ClubRepository;
@@ -23,6 +25,7 @@ public class SearchService {
     private final ClubGenreRepository clubGenreRepository;
     private final ClubRepository clubRepository;
     private final UserClubRepository userClubRepository;
+    private final BookRepository bookRepository;
 
     private List<ClubGenre> clubGenreList;
     private List<Club> clubList;
@@ -61,5 +64,18 @@ public class SearchService {
         });
 
         return clubBySearchResponseDtos;
+    }
+
+    public List<BookBySearchResponseDto> searchBook(String keyword) {
+        return bookRepository.findByKeyword(keyword).stream()
+                .map(book -> new BookBySearchResponseDto(book.getId(),
+                            book.getTitle(),
+                            book.getAuthor(),
+                            book.getTranslators(),
+                            book.getPublisher(),
+                            book.getDate(),
+                            book.getThumbnail())
+                )
+                .collect(Collectors.toList());
     }
 }
