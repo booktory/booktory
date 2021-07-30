@@ -46,4 +46,17 @@ public class BoardController {
         return ResponseEntity.status(HttpStatus.OK).body(boardService.getBoard(clubId));
     }
 
+    @ApiOperation(value = "담벼락 글 삭제", notes = "클럽 상세 페이지 내 담벼락에 등록한 글을 삭제합니다.")
+    @ApiImplicitParams({@ApiImplicitParam(name = "jwt", value = "JWT Token", required = true, dataType = "string", paramType = "header")})
+    @DeleteMapping("/{boardId}")
+    public ResponseEntity<Void> deleteBoard(@ApiIgnore final Authentication authentication,
+                                            @PathVariable @ApiParam(value = "담벼락 아이디", required = true) Long boardId) {
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+        User user = ((User)authentication.getPrincipal());
+        boardService.deleteBoard(boardId, user.getId());
+        return ResponseEntity.ok().build();
+    }
+
 }

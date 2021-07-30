@@ -47,4 +47,12 @@ public class BoardService {
                 ))
                 .collect(Collectors.toList());
     }
+
+    @Transactional
+    public void deleteBoard(Long id, Long userId) {
+        Board board = boardRepository.findById(id).orElseThrow(() -> new NoSuchElementException("존재하지 않는 글입니다."));
+        if (board.getUser().getId() == userId) {
+            boardRepository.delete(board);
+        }
+    }
 }
