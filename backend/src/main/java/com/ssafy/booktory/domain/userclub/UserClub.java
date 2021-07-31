@@ -28,7 +28,6 @@ public class UserClub {
     private Club club;
 
     @Enumerated(EnumType.STRING)
-//    @ColumnDefault("0")
     @Column(columnDefinition = "varchar(30) default 'APPLY'")
     @NotNull
     private UserClubState state;

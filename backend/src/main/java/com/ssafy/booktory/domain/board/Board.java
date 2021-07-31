@@ -4,6 +4,7 @@ import com.ssafy.booktory.domain.club.Club;
 import com.ssafy.booktory.domain.common.BaseTimeEntity;
 import com.ssafy.booktory.domain.user.User;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -29,6 +30,14 @@ public class Board extends BaseTimeEntity {
     @Column(length = 5000)
     private String contents;
 
-    private String file_url;
+    private String fileUrl;
+
+    @Builder
+    public Board(Club club, User user, String contents, String fileUrl) {
+        this.club = club;
+        this.user = user;
+        this.contents = contents;
+        this.fileUrl = fileUrl;
+    }
 
 }

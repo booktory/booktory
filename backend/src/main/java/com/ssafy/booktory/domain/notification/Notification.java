@@ -25,5 +25,5 @@ public class Notification extends BaseTimeEntity {
 
     private String link;
 
-    private boolean is_read;
+    private Boolean isRead;
 }
