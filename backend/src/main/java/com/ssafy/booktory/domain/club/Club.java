@@ -47,9 +47,9 @@ public class Club extends BaseTimeEntity {
 
     @NotNull
     @ColumnDefault("true")
-    private boolean is_open;
+    private Boolean is_open;
 
-    private int volum_rule;
+    private int volume_rule;
     private int week_rule;
     @Column(length = 100)
     private String free_rule;
@@ -72,17 +72,42 @@ public class Club extends BaseTimeEntity {
     @OneToMany(mappedBy = "club", cascade = CascadeType.ALL)
     private List<ClubGenre> genres = new ArrayList<>();
 
-
-    @Builder
-    public Club(String name, String img, String info, int max_member
-            , boolean is_open, int volum_rule, int week_rule, String free_rule) {
+    public void updateClub(String name, String img, String info, int max_member,
+                           Boolean is_open, int volum_rule, int week_rule, String free_rule) {
         this.name = name;
         this.img = img;
         this.info = info;
         this.max_member = max_member;
         this.is_open = is_open;
-        this.volum_rule = volum_rule;
+        this.volume_rule = volum_rule;
         this.week_rule = week_rule;
         this.free_rule = free_rule;
     }
+
+    public void updateBookClubs(List<BookClub> bookClubs){
+//        for(BookClub bookClub : bookClubs)
+//            this.bookClubs.add(bookClub);
+        this.bookClubs = bookClubs;
+    }
+    public void updateGenres(List<ClubGenre> genres){
+//        for(ClubGenre clubGenre : genres)
+//            this.genres.add(clubGenre);
+        this.genres = genres;
+    }
+
+    @Builder
+    public Club(Long id, String name, User user, String img, String info, int max_member,
+                boolean is_open, int volume_rule, int week_rule, String free_rule) {
+        this.id = id;
+        this.name = name;
+        this.user = user;
+        this.img = img;
+        this.info = info;
+        this.max_member = max_member;
+        this.is_open = is_open;
+        this.volume_rule = volume_rule;
+        this.week_rule = week_rule;
+        this.free_rule = free_rule;
+    }
+
 }
