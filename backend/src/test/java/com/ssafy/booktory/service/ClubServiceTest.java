@@ -46,7 +46,7 @@ class ClubServiceTest {
     private Club club;
     private User follower;
     private UserClub userClub;
-
+    private ClubSaveRequestDto clubSaveRequestDto;
 
     @Before
     private void setUp() throws Exception{
@@ -56,6 +56,12 @@ class ClubServiceTest {
                 .password("abc")
                 .build();
         user = userRepository.save(user);
+        follower = User.builder()
+                .nickname("follow")
+                .email("abc@a.b")
+                .password("abcd")
+                .build();
+        follower = userRepository.save(follower);
 
         club = Club.builder()
                 .name("testname")
@@ -64,24 +70,19 @@ class ClubServiceTest {
                 .build();
         club = clubRepository.save(club);
 
-        follower = User.builder()
-                .nickname("follow")
-                .email("abc@a.b")
-                .password("abcd")
+        clubSaveRequestDto = ClubSaveRequestDto.builder()
+                .name("testname")
+                .leaderId(user.getId())
+                .maxMember(6)
+                .isOpen(true)
                 .build();
-        follower = userRepository.save(follower);
     }
 
     @Test
     @Rollback(value = true)
     public void 새클럽등록() throws Exception{
         //given
-        ClubSaveRequestDto clubSaveRequestDto = ClubSaveRequestDto.builder()
-                .name("testname")
-                .leaderId(3L)
-                .maxMember(6)
-                .isOpen(true)
-                .build();
+        setUp();
 
         //when
         Club club = clubService.createClub(clubSaveRequestDto);
@@ -208,6 +209,19 @@ class ClubServiceTest {
     }
 
 
+    @Test
+    @Rollback(value = true)
+    public void 클럽_신청_가입자_리스트_조회() throws Exception {
+        //given
+        setUp();
+        Club club = clubService.createClub(clubSaveRequestDto);
+        clubService.applyToClub(follower.getId(), club.getId());
 
+        //when
+        List<UserClub> userClubs = userClubRepository.findAllByClub(club);
+
+        //then
+        assertEquals(2, userClubs.size());
+    }
 
 }

@@ -2,6 +2,7 @@ package com.ssafy.booktory.controller;
 
 import com.ssafy.booktory.domain.club.*;
 import com.ssafy.booktory.domain.user.User;
+import com.ssafy.booktory.domain.userclub.UserClubListResponseDto;
 import com.ssafy.booktory.service.ClubService;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
@@ -84,6 +85,14 @@ public class ClubController {
         Long userClubId = clubService.applyToClub(userId, id).getId();
         return ResponseEntity.status(HttpStatus.CREATED).body(userClubId);
     }
+
+    @GetMapping("{id}/users")
+    @ApiOperation(value = "클럽 가입/신청자 목록", notes = "UserClub 테이블에서 해당 클럽에 연관된 데이터를 모두 조회한다.")
+    public ResponseEntity<UserClubListResponseDto> joinedUserList(@PathVariable Long id){
+        UserClubListResponseDto userClubListResponseDto = clubService.joinedUserList(id);
+        return ResponseEntity.status(HttpStatus.OK).body(userClubListResponseDto);
+    }
+
 
     @PutMapping("/{id}/join")
     @ApiOperation(value = "클럽 가입승인", notes = "UserClub 테이블의 상태를 ACCEPT로 변경한다.")

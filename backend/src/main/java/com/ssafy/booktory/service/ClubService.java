@@ -11,6 +11,7 @@ import com.ssafy.booktory.domain.genre.GenreRepository;
 import com.ssafy.booktory.domain.user.User;
 import com.ssafy.booktory.domain.user.UserRepository;
 import com.ssafy.booktory.domain.userclub.UserClub;
+import com.ssafy.booktory.domain.userclub.UserClubListResponseDto;
 import com.ssafy.booktory.domain.userclub.UserClubRepository;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -104,8 +105,8 @@ public class ClubService {
     }
 */
 
-    public UserClub applyToClub(Long userId, Long id) {
-        Club club = clubRepository.findById(id)
+    public UserClub applyToClub(Long userId, Long clubId) {
+        Club club = clubRepository.findById(clubId)
                 .orElseThrow(()-> new NoSuchElementException("존재하지 않는 클럽입니다."));
         User user = userRepository.findById(userId)
                 .orElseThrow(()->new NoSuchElementException("존재하지 않는 회원입니다."));
@@ -155,6 +156,15 @@ public class ClubService {
             throw new IllegalAccessException("클럽 삭제 권한이 없습니다.");
         }
         clubRepository.delete(club);
+    }
+
+    public UserClubListResponseDto joinedUserList(Long clubId) {
+        Club club = clubRepository.findById(clubId)
+                .orElseThrow(()->new NoSuchElementException("존재하지 않는 클럽입니다."));
+
+        UserClubListResponseDto userClubListResponseDto = new UserClubListResponseDto();
+        userClubListResponseDto.toDto(userClubRepository.findAllByClub(club));
+        return userClubListResponseDto;
     }
 
     private List<BookClub> bookIdListToBookClubList(List<Long> bookIdList, Club savedClub){
