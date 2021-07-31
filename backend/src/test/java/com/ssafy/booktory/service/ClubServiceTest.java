@@ -194,6 +194,18 @@ class ClubServiceTest {
         assertEquals(Optional.empty(), userClubRepository.findById(id));
     }
 
+    @Test
+    @Rollback(value = true)
+    public void 클럽삭제() throws Exception {
+        //given
+        setUp();
+
+        //when
+        clubService.deleteClub(user.getId(), club.getId());
+
+        //then
+        assertEquals(Optional.empty(), clubRepository.findById(club.getId()));
+    }
 
 
 

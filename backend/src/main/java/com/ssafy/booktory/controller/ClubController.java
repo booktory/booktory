@@ -139,4 +139,22 @@ public class ClubController {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Success");
     }
 
+    @DeleteMapping("/{id}")
+    @ApiOperation(value = "클럽 삭제", notes = "클럽장이 클럽을 삭제한다.")
+    @ApiImplicitParams({@ApiImplicitParam(name = "jwt", value = "JWT Token", required = true, dataType = "string", paramType = "header")})
+    public ResponseEntity<String> deleteClub(@ApiIgnore final Authentication authentication, @PathVariable Long id){
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+        Long leaderId = ((User)authentication.getPrincipal()).getId();
+
+        try {
+            clubService.deleteClub(leaderId, id);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Fail : " + e.getMessage());
+        }
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Success");
+    }
+
 }

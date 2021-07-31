@@ -139,12 +139,22 @@ public class ClubService {
         return Optional.of(userClubRepository.save(userClub));
     }
     public void deleteJoin(Long userId, Long clubId) {
-        Club club = clubRepository.findById(id)
+        Club club = clubRepository.findById(clubId)
                 .orElseThrow(()-> new NoSuchElementException("존재하지 않는 클럽입니다."));
         User user = userRepository.findById(userId)
                 .orElseThrow(()->new NoSuchElementException("존재하지 않는 회원입니다."));
         UserClub userClub = userClubRepository.findByUserAndClub(user, club);
         userClubRepository.delete(userClub);
+    }
+
+    public void deleteClub(Long leaderId, Long clubId) throws Exception {
+        Club club = clubRepository.findById(clubId)
+                .orElseThrow(()-> new NoSuchElementException("존재하지 않는 클럽입니다."));
+
+        if(club.getUser().getId() != leaderId){
+            throw new IllegalAccessException("클럽 삭제 권한이 없습니다.");
+        }
+        clubRepository.delete(club);
     }
 
     private List<BookClub> bookIdListToBookClubList(List<Long> bookIdList, Club savedClub){
