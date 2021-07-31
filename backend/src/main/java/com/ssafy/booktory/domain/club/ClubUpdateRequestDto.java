@@ -17,7 +17,7 @@ public class ClubUpdateRequestDto {
     String info;
     int maxMember;
     Boolean isOpen;
-    int volumRule;
+    int volumeRule;
     int weekRule;
     String freeRule;
 
@@ -25,13 +25,13 @@ public class ClubUpdateRequestDto {
 
     @Builder
     public ClubUpdateRequestDto(String name, String img, String info, int maxMember,
-                                Boolean isOpen, int volumRule, int weekRule, String freeRule) {
+                                Boolean isOpen, int volumeRule, int weekRule, String freeRule) {
         this.name = name;
         this.img = img;
         this.info = info;
         this.maxMember = maxMember;
         this.isOpen = isOpen;
-        this.volumRule = volumRule;
+        this.volumeRule = volumeRule;
         this.weekRule = weekRule;
         this.freeRule = freeRule;
     }

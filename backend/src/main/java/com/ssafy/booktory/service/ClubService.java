@@ -16,7 +16,6 @@ import com.ssafy.booktory.domain.userclub.UserClubRepository;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -88,7 +87,7 @@ public class ClubService {
 
         club.updateClub(clubUpdateRequestDto.getName(), clubUpdateRequestDto.getImg(), clubUpdateRequestDto.getInfo(),
                 clubUpdateRequestDto.getMaxMember(), clubUpdateRequestDto.getIsOpen(),
-                clubUpdateRequestDto.getVolumRule(), clubUpdateRequestDto.getWeekRule(), clubUpdateRequestDto.getFreeRule());
+                clubUpdateRequestDto.getVolumeRule(), clubUpdateRequestDto.getWeekRule(), clubUpdateRequestDto.getFreeRule());
 
         List<ClubGenre> clubGenres = genreIdListToClubGenreList(clubUpdateRequestDto.getGenres(), club);
         club.updateGenres(clubGenres);

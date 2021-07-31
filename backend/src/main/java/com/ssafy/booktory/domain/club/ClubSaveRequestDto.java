@@ -46,11 +46,11 @@ public class ClubSaveRequestDto {
                 .user(user)
                 .img(img)
                 .info(info)
-                .max_member(maxMember)
-                .is_open(isOpen)
-                .volume_rule(volumeRule)
-                .week_rule(weekRule)
-                .free_rule(freeRule)
+                .maxMember(maxMember)
+                .isOpen(isOpen)
+                .volumeRule(volumeRule)
+                .weekRule(weekRule)
+                .freeRule(freeRule)
                 .build();
     }
 

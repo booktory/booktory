@@ -66,7 +66,7 @@ class ClubServiceTest {
         club = Club.builder()
                 .name("testname")
                 .user(user)
-                .max_member(6)
+                .maxMember(6)
                 .build();
         club = clubRepository.save(club);
 
