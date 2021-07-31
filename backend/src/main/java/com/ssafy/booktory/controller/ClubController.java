@@ -103,10 +103,10 @@ public class ClubController {
         return ResponseEntity.status(HttpStatus.OK).body("Success");
     }
 
-    @DeleteMapping("/{id}/join")
+    @DeleteMapping("/{id}/join/{userClubId}")
     @ApiOperation(value = "클럽 가입거절", notes = "UserClub 테이블의 데이터를 삭제한다.")
     @ApiImplicitParams({@ApiImplicitParam(name = "jwt", value = "JWT Token", required = true, dataType = "string", paramType = "header")})
-    public ResponseEntity<String> rejectJoin(@ApiIgnore final Authentication authentication, @PathVariable Long id, @RequestBody Long userClubId){
+    public ResponseEntity<String> rejectJoin(@ApiIgnore final Authentication authentication, @PathVariable Long id, @PathVariable Long userClubId){
         if (authentication == null || !authentication.isAuthenticated()) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
@@ -114,6 +114,24 @@ public class ClubController {
 
         try {
             clubService.acceptToClub(leaderId, id, userClubId, false);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Fail : " + e.getMessage());
+        }
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Success");
+    }
+
+    @DeleteMapping("/{id}/user")
+    @ApiOperation(value = "클럽 탈퇴", notes = "본인의 UserClub 테이블의 데이터를 삭제한다.")
+    @ApiImplicitParams({@ApiImplicitParam(name = "jwt", value = "JWT Token", required = true, dataType = "string", paramType = "header")})
+    public ResponseEntity<String> deleteJoin(@ApiIgnore final Authentication authentication, @PathVariable Long id){
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+        Long userId = ((User)authentication.getPrincipal()).getId();
+
+        try {
+            clubService.deleteJoin(userId, id);
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Fail : " + e.getMessage());

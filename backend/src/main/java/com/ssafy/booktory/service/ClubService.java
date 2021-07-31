@@ -138,7 +138,14 @@ public class ClubService {
         userClub.acceptJoin();
         return Optional.of(userClubRepository.save(userClub));
     }
-
+    public void deleteJoin(Long userId, Long clubId) {
+        Club club = clubRepository.findById(id)
+                .orElseThrow(()-> new NoSuchElementException("존재하지 않는 클럽입니다."));
+        User user = userRepository.findById(userId)
+                .orElseThrow(()->new NoSuchElementException("존재하지 않는 회원입니다."));
+        UserClub userClub = userClubRepository.findByUserAndClub(user, club);
+        userClubRepository.delete(userClub);
+    }
 
     private List<BookClub> bookIdListToBookClubList(List<Long> bookIdList, Club savedClub){
         List<BookClub> bookClubs = new ArrayList<>();
