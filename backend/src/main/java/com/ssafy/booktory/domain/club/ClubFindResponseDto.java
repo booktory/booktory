@@ -14,7 +14,7 @@ public class ClubFindResponseDto {
     LocalDateTime date;
     String img;
     String info;
-    int max_member;
+    int maxMember;
     Boolean isOpen;
     int volumRule;
     int weekRule;
@@ -25,7 +25,7 @@ public class ClubFindResponseDto {
         this.date = club.getCreatedDate();
         this.img = club.getImg();
         this.info = club.getInfo();
-        this.max_member = club.getMax_member();
+        this.maxMember = club.getMax_member();
         this.isOpen = club.getIs_open();
         this.volumRule = club.getVolume_rule();
         this.weekRule = club.getWeek_rule();

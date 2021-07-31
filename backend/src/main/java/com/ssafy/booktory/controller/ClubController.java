@@ -43,10 +43,17 @@ public class ClubController {
         return ResponseEntity.status(HttpStatus.OK).body(clubFindResponseDto);
     }
 
-    @GetMapping("/user/{user_id}")
+    @GetMapping("/list")
     @ApiOperation(value = "클럽목록 확인", notes = "해당 유저가 가입한 클럽들을 보여준다.")
-    public ResponseEntity<ClubListFindResponseDto> findJoinedClubList(@PathVariable Long user_id){
-        ClubListFindResponseDto clubListFindResponseDto = clubService.findJoinedClubList(user_id);
+    @ApiImplicitParams({@ApiImplicitParam(name = "jwt", value = "JWT Token", required = true, dataType = "string", paramType = "header")})
+    public ResponseEntity<ClubListFindResponseDto> findJoinedClubList(@ApiIgnore final Authentication authentication){
+
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+        Long userId = ((User)authentication.getPrincipal()).getId();
+
+        ClubListFindResponseDto clubListFindResponseDto = clubService.findJoinedClubList(userId);
         return ResponseEntity.status(HttpStatus.OK).body(clubListFindResponseDto);
     }
 
@@ -86,14 +93,32 @@ public class ClubController {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
         Long leaderId = ((User)authentication.getPrincipal()).getId();
+
         try {
-            clubService.acceptToClub(leaderId, id, userClubId);
+            clubService.acceptToClub(leaderId, id, userClubId, true);
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Fail : ");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Fail : " + e.getMessage());
         }
         return ResponseEntity.status(HttpStatus.OK).body("Success");
     }
 
+    @DeleteMapping("/{id}/join")
+    @ApiOperation(value = "클럽 가입거절", notes = "UserClub 테이블의 데이터를 삭제한다.")
+    @ApiImplicitParams({@ApiImplicitParam(name = "jwt", value = "JWT Token", required = true, dataType = "string", paramType = "header")})
+    public ResponseEntity<String> rejectJoin(@ApiIgnore final Authentication authentication, @PathVariable Long id, @RequestBody Long userClubId){
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+        Long leaderId = ((User)authentication.getPrincipal()).getId();
+
+        try {
+            clubService.acceptToClub(leaderId, id, userClubId, false);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Fail : " + e.getMessage());
+        }
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Success");
+    }
 
 }

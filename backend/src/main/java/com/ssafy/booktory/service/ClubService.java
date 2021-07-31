@@ -118,7 +118,7 @@ public class ClubService {
     }
 
     @Transactional
-    public UserClub acceptToClub(Long leaderId, Long clubId, Long userClubId) throws Exception{
+    public Optional<UserClub> acceptToClub(Long leaderId, Long clubId, Long userClubId, boolean isAccept) throws Exception{
         UserClub userClub = userClubRepository.findById(userClubId)
                 .orElseThrow(()->new NoSuchElementException("존재하지않는 가입신청입니다."));
 
@@ -131,9 +131,14 @@ public class ClubService {
         if(userClub.getState() == UserClubState.ACCEPT){
             throw new IllegalStateException("이미 처리된 요청입니다.");
         }
+        if(!isAccept) {
+            userClubRepository.delete(userClub);
+            return null;
+        }
         userClub.acceptJoin();
-        return userClubRepository.save(userClub);
+        return Optional.of(userClubRepository.save(userClub));
     }
+
 
     private List<BookClub> bookIdListToBookClubList(List<Long> bookIdList, Club savedClub){
         List<BookClub> bookClubs = new ArrayList<>();
@@ -162,7 +167,6 @@ public class ClubService {
         }
         return clubGenres;
     }
-
 
 
 

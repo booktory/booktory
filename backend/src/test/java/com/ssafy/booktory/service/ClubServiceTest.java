@@ -22,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -141,7 +142,8 @@ class ClubServiceTest {
                 .build();
         userClub = userClubRepository.save(userClub);
         //when
-        UserClub accepted = clubService.acceptToClub(user.getId(), club.getId(), userClub.getId());
+        UserClub accepted = clubService.acceptToClub(user.getId(), club.getId(), userClub.getId(), true)
+                .orElseThrow(()->new NullPointerException("존재하지 않는 데이터입니다."));
 
         //then
         assertEquals(accepted.getState(), UserClubState.ACCEPT);
@@ -164,12 +166,32 @@ class ClubServiceTest {
         //when
         UserClub finalUserClub = userClub;
         Exception exception = assertThrows(IllegalAccessException.class, ()->{
-            clubService.acceptToClub(follower.getId(), club.getId(), finalUserClub.getId());
+            clubService.acceptToClub(follower.getId(), club.getId(), finalUserClub.getId(), true);
         });
 
         //then
         String message = exception.getMessage();
         assertEquals("클럽장만 가입을 승인할 수 있습니다.", message);
+    }
+    @Test
+    @Rollback(value = true)
+    public void 클럽가입거절_성공() throws Exception {
+        //given
+        setUp();
+
+        UserClub userClub = UserClub.builder()
+                .club(club)
+                .user(follower)
+                .state(UserClubState.APPLY)
+                .build();
+        userClub = userClubRepository.save(userClub);
+        Long id = userClub.getId();
+
+        //when
+        clubService.acceptToClub(user.getId(), club.getId(), userClub.getId(), false);
+
+        //then
+        assertEquals(Optional.empty(), userClubRepository.findById(id));
     }
 
 
