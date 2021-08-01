@@ -23,6 +23,35 @@
 
 <br>
 
+
+
+## 📑 Tech Blog & Log
+
+[책토리 Blog](https://booktori.tistory.com/)
+
+<details open>
+  <summary>7/11 ~ 8/20 책토리 회의록</summary>
+  <ul>
+      <a href="./Document/Dev_log/20210712_회의록.md"><li>7/12 회의록</li></a>
+      <a href="./Document/Dev_log/20210713_회의록.md"><li>7/13 회의록</li></a>
+      <a href="./Document/Dev_log/20210714_회의록.md"><li>7/14 회의록</li></a>
+      <a href="./Document/Dev_log/20210715_회의록.md"><li>7/15 회의록</li></a>
+      <a href="./Document/Dev_log/20210716_회의록.md"><li>7/16 회의록</li></a>
+      <a href="./Document/Dev_log/20210719_회의록.md"><li>7/19 회의록</li></a>
+      <a href="./Document/Dev_log/20210720_회의록.md"><li>7/20 회의록</li></a>
+      <a href="./Document/Dev_log/20210721_회의록.md"><li>7/21 회의록</li></a>
+      <a href="./Document/Dev_log/20210722_회의록.md"><li>7/22 회의록</li></a>
+      <a href="./Document/Dev_log/20210723_회의록.md"><li>7/23 회의록</li></a>
+      <a href="./Document/Dev_log/20210726_회의록.md"><li>7/26 회의록</li></a>
+      <a href="./Document/Dev_log/20210727_회의록.md"><li>7/27 회의록</li></a>
+      <a href="./Document/Dev_log/20210728_회의록.md"><li>7/28 회의록</li></a>
+      <a href="./Document/Dev_log/20210729_회의록.md"><li>7/29 회의록</li></a>
+      <a href="./Document/Dev_log/20210730_회의록.md"><li>7/30 회의록</li></a>
+  </ul>
+</details>
+
+
+
 ## ✅ Git Convention
 
 ### Commit
