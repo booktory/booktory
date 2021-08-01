@@ -2,17 +2,20 @@ package com.ssafy.booktory.service;
 
 import com.ssafy.booktory.domain.book.Book;
 import com.ssafy.booktory.domain.book.BookRepository;
-import com.ssafy.booktory.domain.bookclub.BookClub;
-import com.ssafy.booktory.domain.bookclub.BookClubAddRequestDto;
-import com.ssafy.booktory.domain.bookclub.BookClubRepository;
-import com.ssafy.booktory.domain.bookclub.BookClubCreateRequestDto;
+import com.ssafy.booktory.domain.bookclub.*;
+import com.ssafy.booktory.domain.bookclubuser.BookClubParticipantDto;
+import com.ssafy.booktory.domain.bookclubuser.BookClubUser;
 import com.ssafy.booktory.domain.club.Club;
 import com.ssafy.booktory.domain.club.ClubRepository;
+import com.ssafy.booktory.domain.user.User;
 import com.ssafy.booktory.domain.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service
@@ -51,5 +54,22 @@ public class BookClubService {
                 .orElseThrow(()->new NoSuchElementException("등록되지 않은 모임입니다."));
         bookClub.setMeetingTime( null, null);
         return bookClubRepository.save(bookClub);
+    }
+
+    @Transactional
+    public List<BookClubListResponseDto> findBookClubList(Long clubId) {
+        Club club = clubRepository.findById(clubId)
+                .orElseThrow(() -> new NoSuchElementException("존재하지않는 클럽입니다."));
+        List<BookClub> bookClubs = bookClubRepository.findByClub(club);
+        List<BookClubListResponseDto> bookClubListResponseDtoList = new ArrayList<>();
+
+        for(BookClub bookClub : bookClubs){
+            List<BookClubParticipantDto> participants = new ArrayList<>();
+            for(BookClubUser participant : bookClub.getBookClubUsers()){
+                participants.add(new BookClubParticipantDto(participant.getUser()));
+            }
+            bookClubListResponseDtoList.add(new BookClubListResponseDto(bookClub, participants));
+        }
+        return bookClubListResponseDtoList;
     }
 }

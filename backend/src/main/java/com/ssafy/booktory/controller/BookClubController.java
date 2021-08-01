@@ -4,6 +4,7 @@ package com.ssafy.booktory.controller;
 import com.ssafy.booktory.domain.bookclub.BookClub;
 import com.ssafy.booktory.domain.bookclub.BookClubAddRequestDto;
 import com.ssafy.booktory.domain.bookclub.BookClubCreateRequestDto;
+import com.ssafy.booktory.domain.bookclub.BookClubListResponseDto;
 import com.ssafy.booktory.domain.club.Club;
 import com.ssafy.booktory.domain.club.ClubSaveRequestDto;
 import com.ssafy.booktory.service.BookClubService;
@@ -12,6 +13,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Api(value = "BookClub API")
 @RestController
@@ -35,6 +38,7 @@ public class BookClubController {
     }
 
     @PutMapping()
+    @ApiOperation(value = "모임 추가", notes = "추가된 읽을책에 모임 시간을 추가한다.")
     public ResponseEntity<String> addMeeting(@RequestBody BookClubAddRequestDto bookClubAddRequestDto){
         try {
             BookClub bookClub = bookClubService.addMeeting(bookClubAddRequestDto);
@@ -46,8 +50,17 @@ public class BookClubController {
     }
 
     @PatchMapping("/{id}")
+    @ApiOperation(value = "모임 취소", notes = "읽을 책은 그대로 두고 모임 예정시간만 삭제한다.")
     public ResponseEntity<String> cancelMeeting(@PathVariable @ApiParam(value = "bookclub id", required = true) Long id){
         BookClub bookClub = bookClubService.cancelMeeting(id);
         return ResponseEntity.status(HttpStatus.OK).body("Success");
     }
+
+    @GetMapping("/{clubId}")
+    @ApiOperation(value = "모임/읽을책 목록 확인", notes = "해당클럽의 모임 목록을 확인한다.")
+    public ResponseEntity<List<BookClubListResponseDto>> bookClubList(@PathVariable Long clubId){
+        return ResponseEntity.status(HttpStatus.OK).body(bookClubService.findBookClubList(clubId));
+    }
+
+
 }
