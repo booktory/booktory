@@ -27,7 +27,7 @@ public class BookClubController {
 
     private final BookClubService bookClubService;
 
-    @PostMapping(produces="application/json;charset=UTF-8")
+    @PostMapping(produces = "application/json;charset=UTF-8")
     @ApiOperation(value = "읽을 책 등록", notes = "새로운 읽을책(bookclub 테이블에)을 등록/생성한다.")
     @ApiResponses({
             @ApiResponse(code = 201, message = "Success"),
@@ -35,14 +35,14 @@ public class BookClubController {
             @ApiResponse(code = 404, message = "사용자 없음"),
             @ApiResponse(code = 500, message = "서버 오류")
     })
-    public ResponseEntity<String> createBookToRead(@RequestBody BookClubCreateRequestDto bookclubCreateRequestDto){
+    public ResponseEntity<String> createBookToRead(@RequestBody BookClubCreateRequestDto bookclubCreateRequestDto) {
         BookClub bookClub = bookClubService.createBookToRead(bookclubCreateRequestDto);
         return ResponseEntity.status(HttpStatus.CREATED).body("success");
     }
 
     @PutMapping()
     @ApiOperation(value = "모임 등록", notes = "추가된 읽을책에 모임 시간을 추가한다.")
-    public ResponseEntity<String> addMeeting(@RequestBody BookClubAddRequestDto bookClubAddRequestDto){
+    public ResponseEntity<String> addMeeting(@RequestBody BookClubAddRequestDto bookClubAddRequestDto) {
         try {
             BookClub bookClub = bookClubService.addMeeting(bookClubAddRequestDto);
         } catch (Exception e) {
@@ -54,24 +54,36 @@ public class BookClubController {
 
     @PatchMapping("/{id}")
     @ApiOperation(value = "모임 취소", notes = "읽을 책은 그대로 두고 모임 예정시간만 삭제한다.")
-    public ResponseEntity<String> cancelMeeting(@PathVariable @ApiParam(value = "bookclub id", required = true) Long id){
+    public ResponseEntity<String> cancelMeeting(@PathVariable @ApiParam(value = "bookclub id", required = true) Long id) {
         BookClub bookClub = bookClubService.cancelMeeting(id);
         return ResponseEntity.status(HttpStatus.OK).body("success");
     }
 
     @GetMapping("/list/{clubId}")
     @ApiOperation(value = "모임/읽을책 목록 확인", notes = "해당클럽의 모임 목록을 확인한다.")
-    public ResponseEntity<List<BookClubListResponseDto>> bookClubList(@PathVariable Long clubId){
+    public ResponseEntity<List<BookClubListResponseDto>> bookClubList(@PathVariable Long clubId) {
         return ResponseEntity.status(HttpStatus.OK).body(bookClubService.findBookClubList(clubId));
     }
 
     @DeleteMapping("/{id}")
     @ApiOperation(value = "모임/읽을책 삭제", notes = "모임/읽을책을 삭제한다.")
-    public ResponseEntity<String> deleteBookClub(@PathVariable Long id){
+    public ResponseEntity<String> deleteBookClub(@PathVariable Long id) {
         bookClubService.deleteBookClub(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body("success");
     }
 
+    @PostMapping("/{id}/user")
+    @ApiOperation(value = "모임 참가", notes = "현재 사용자가 모임에 참가한다.")
+    @ApiImplicitParams({@ApiImplicitParam(name = "jwt", value = "JWT Token", required = true, dataType = "string", paramType = "header")})
+    public ResponseEntity<String> attendToMeeting(@ApiIgnore final Authentication authentication, @PathVariable Long id) {
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+        Long userId = ((User) authentication.getPrincipal()).getId();
+
+        bookClubService.attendToMeeting(id, userId);
+        return ResponseEntity.status(HttpStatus.CREATED).body("success");
+    }
 
 
 }

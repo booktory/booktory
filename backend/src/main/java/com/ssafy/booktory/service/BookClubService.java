@@ -5,6 +5,7 @@ import com.ssafy.booktory.domain.book.BookRepository;
 import com.ssafy.booktory.domain.bookclub.*;
 import com.ssafy.booktory.domain.bookclubuser.BookClubParticipantDto;
 import com.ssafy.booktory.domain.bookclubuser.BookClubUser;
+import com.ssafy.booktory.domain.bookclubuser.BookClubUserRepository;
 import com.ssafy.booktory.domain.club.Club;
 import com.ssafy.booktory.domain.club.ClubRepository;
 import com.ssafy.booktory.domain.user.User;
@@ -27,6 +28,7 @@ public class BookClubService {
     private final BookRepository bookRepository;
     private final ClubRepository clubRepository;
     private final UserRepository userRepository;
+    private final BookClubUserRepository bookClubUserRepository;
 
 
     public BookClub createBookToRead(BookClubCreateRequestDto bookClubCreateRequestDto){
@@ -80,5 +82,17 @@ public class BookClubService {
         BookClub bookClub = bookClubRepository.findById(id)
                 .orElseThrow(()-> new NoSuchElementException("이미 삭제 처리된 요청입니다."));
         bookClubRepository.delete(bookClub);
+    }
+
+    public void attendToMeeting(Long id, Long userId) {
+        BookClub bookClub = bookClubRepository.findById(id)
+                .orElseThrow(()-> new NoSuchElementException("존재하지 않는 모임입니다. "));
+        User user = userRepository.findById(userId)
+                .orElseThrow(()-> new NoSuchElementException("사용자 정보가 없습니다."));
+        BookClubUser bookClubUser = BookClubUser.builder()
+                .bookClub(bookClub)
+                .user(user)
+                .build();
+        bookClubUserRepository.save(bookClubUser);
     }
 }
