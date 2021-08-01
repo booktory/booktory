@@ -106,15 +106,14 @@ feature (각 기능 단위)
 ## 📎 Git 사용법
 
 - 문제가 발생할 경우 팀에 바로 공유하기
-- `git branch `, `git status`, `git pull` 의 습관화
-
+- `git branch`, `git status`, `git pull` 의 습관화
 - conflict를 최소화 합시다😊
 
-1. master branch로 이동 후 최신 버전 업데이트
+1. develop branch로 이동 후 최신 버전 업데이트
 
    ```bash
-   $ git switch master
-   $ git pull origin master
+   $ git switch develop
+   $ git pull origin develop
    ```
 
 2. 각 기능 단위 feature branch 생성
