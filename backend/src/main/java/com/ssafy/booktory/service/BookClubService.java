@@ -10,6 +10,7 @@ import com.ssafy.booktory.domain.club.ClubRepository;
 import com.ssafy.booktory.domain.user.User;
 import com.ssafy.booktory.domain.user.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.config.annotation.AlreadyBuiltException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -38,6 +39,7 @@ public class BookClubService {
         return bookClubRepository.save(bookClub);
     }
 
+    @Transactional
     public BookClub addMeeting(BookClubAddRequestDto bookClubAddRequestDto) throws Exception{
         BookClub bookClub = bookClubRepository.findById(bookClubAddRequestDto.getId())
                 .orElseThrow(()->new NoSuchElementException("읽을 책으로 등록되어있지 않습니다."));
@@ -71,5 +73,12 @@ public class BookClubService {
             bookClubListResponseDtoList.add(new BookClubListResponseDto(bookClub, participants));
         }
         return bookClubListResponseDtoList;
+    }
+
+    @Transactional
+    public void deleteBookClub(Long id) {
+        BookClub bookClub = bookClubRepository.findById(id)
+                .orElseThrow(()-> new NoSuchElementException("이미 삭제 처리된 요청입니다."));
+        bookClubRepository.delete(bookClub);
     }
 }
