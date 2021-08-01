@@ -7,17 +7,11 @@ import com.ssafy.booktory.domain.bookclub.BookClubCreateRequestDto;
 import com.ssafy.booktory.domain.club.Club;
 import com.ssafy.booktory.domain.club.ClubSaveRequestDto;
 import com.ssafy.booktory.service.BookClubService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Api(value = "BookClub API")
 @RestController
@@ -40,6 +34,7 @@ public class BookClubController {
         return ResponseEntity.status(HttpStatus.CREATED).body("Success");
     }
 
+    @PutMapping()
     public ResponseEntity<String> addMeeting(@RequestBody BookClubAddRequestDto bookClubAddRequestDto){
         try {
             BookClub bookClub = bookClubService.addMeeting(bookClubAddRequestDto);
@@ -50,4 +45,9 @@ public class BookClubController {
         return ResponseEntity.status(HttpStatus.OK).body("Success");
     }
 
+    @PatchMapping("/{id}")
+    public ResponseEntity<String> cancelMeeting(@PathVariable @ApiParam(value = "bookclub id", required = true) Long id){
+        BookClub bookClub = bookClubService.cancelMeeting(id);
+        return ResponseEntity.status(HttpStatus.OK).body("Success");
+    }
 }

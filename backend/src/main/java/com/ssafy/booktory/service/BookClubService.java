@@ -12,6 +12,7 @@ import com.ssafy.booktory.domain.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.NoSuchElementException;
 
 @Service
@@ -41,7 +42,14 @@ public class BookClubService {
                 || bookClub.getBook().getId() != bookClubAddRequestDto.getBookId()){
             throw new IllegalAccessException("클럽 또는 책 정보가 일치하지 않습니다.");
         }
-        bookClub.setMeetingTime(bookClubAddRequestDto);
+        bookClub.setMeetingTime(bookClubAddRequestDto.getStartDateTime(), bookClubAddRequestDto.getEndDateTime());
+        return bookClubRepository.save(bookClub);
+    }
+
+    public BookClub cancelMeeting(Long bookClubId) {
+        BookClub bookClub = bookClubRepository.findById(bookClubId)
+                .orElseThrow(()->new NoSuchElementException("등록되지 않은 모임입니다."));
+        bookClub.setMeetingTime( null, null);
         return bookClubRepository.save(bookClub);
     }
 }

@@ -121,4 +121,27 @@ class BookClubServiceTest {
                 .orElseThrow(()->new NoSuchElementException("존재하지 않는 북클럽입니다."));
         assertEquals(testEntity.getStartDatetime(), savedEntity.getStartDatetime());
     }
+
+    @Test
+    @Rollback(value = true)
+    public void 모임_취소() throws Exception{
+        //given
+        LocalDateTime start = LocalDateTime.now();
+        LocalDateTime end = LocalDateTime.of(2021, 12, 31, 12, 00);
+
+        BookClub bookClub = BookClub.builder()
+                .book(book)
+                .club(club)
+                .startDatetime(start)
+                .endDatetime(end)
+                .build();
+        bookClub = bookClubRepository.save(bookClub);
+
+        //when
+        BookClub canceled = bookClubService.cancelMeeting(bookClub.getId());
+
+        //then
+        assertEquals(null, canceled.getStartDatetime());
+        assertEquals(null, canceled.getEndDatetime());
+    }
 }
