@@ -2,6 +2,7 @@ package com.ssafy.booktory.controller;
 
 
 import com.ssafy.booktory.domain.bookclub.BookClub;
+import com.ssafy.booktory.domain.bookclub.BookClubAddRequestDto;
 import com.ssafy.booktory.domain.bookclub.BookClubCreateRequestDto;
 import com.ssafy.booktory.domain.club.Club;
 import com.ssafy.booktory.domain.club.ClubSaveRequestDto;
@@ -38,4 +39,15 @@ public class BookClubController {
         BookClub bookClub = bookClubService.createBookToRead(bookclubCreateRequestDto);
         return ResponseEntity.status(HttpStatus.CREATED).body("Success");
     }
+
+    public ResponseEntity<String> addMeeting(@RequestBody BookClubAddRequestDto bookClubAddRequestDto){
+        try {
+            BookClub bookClub = bookClubService.addMeeting(bookClubAddRequestDto);
+        } catch (Exception e) {
+            e.printStackTrace();
+            ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Fail : " + e.getMessage());
+        }
+        return ResponseEntity.status(HttpStatus.OK).body("Success");
+    }
+
 }

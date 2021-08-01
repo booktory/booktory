@@ -3,6 +3,7 @@ package com.ssafy.booktory.service;
 import com.ssafy.booktory.domain.book.Book;
 import com.ssafy.booktory.domain.book.BookRepository;
 import com.ssafy.booktory.domain.bookclub.BookClub;
+import com.ssafy.booktory.domain.bookclub.BookClubAddRequestDto;
 import com.ssafy.booktory.domain.bookclub.BookClubRepository;
 import com.ssafy.booktory.domain.bookclub.BookClubCreateRequestDto;
 import com.ssafy.booktory.domain.club.Club;
@@ -33,4 +34,14 @@ public class BookClubService {
         return bookClubRepository.save(bookClub);
     }
 
+    public BookClub addMeeting(BookClubAddRequestDto bookClubAddRequestDto) throws Exception{
+        BookClub bookClub = bookClubRepository.findById(bookClubAddRequestDto.getId())
+                .orElseThrow(()->new NoSuchElementException("읽을 책으로 등록되어있지 않습니다."));
+        if( bookClub.getClub().getId() != bookClubAddRequestDto.getClubId()
+                || bookClub.getBook().getId() != bookClubAddRequestDto.getBookId()){
+            throw new IllegalAccessException("클럽 또는 책 정보가 일치하지 않습니다.");
+        }
+        bookClub.setMeetingTime(bookClubAddRequestDto);
+        return bookClubRepository.save(bookClub);
+    }
 }

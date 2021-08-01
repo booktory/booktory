@@ -3,6 +3,7 @@ package com.ssafy.booktory.service;
 import com.ssafy.booktory.domain.book.Book;
 import com.ssafy.booktory.domain.book.BookRepository;
 import com.ssafy.booktory.domain.bookclub.BookClub;
+import com.ssafy.booktory.domain.bookclub.BookClubAddRequestDto;
 import com.ssafy.booktory.domain.bookclub.BookClubCreateRequestDto;
 import com.ssafy.booktory.domain.bookclub.BookClubRepository;
 import com.ssafy.booktory.domain.club.Club;
@@ -22,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 
+import java.time.LocalDateTime;
 import java.util.NoSuchElementException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -88,5 +90,35 @@ class BookClubServiceTest {
         BookClub saved = bookClubRepository.findByBookAndClub(book, club)
                 .orElseThrow(()->new NoSuchElementException("존재하지 않는 (읽을)책입니다."));
         assertEquals(createdBookClub.getId(), saved.getId());
+    }
+
+    @Test
+    @Rollback(value = true)
+    public void 모임_등록() throws Exception {
+        //given
+        LocalDateTime start = LocalDateTime.now();
+        LocalDateTime end = LocalDateTime.of(2021, 12, 31, 12, 00);
+
+        BookClubCreateRequestDto bookClubCreateRequestDto = BookClubCreateRequestDto.builder()
+                .bookId(book.getId())
+                .clubId(club.getId())
+                .build();
+        BookClub createdBookClub = bookClubService.createBookToRead(bookClubCreateRequestDto);
+
+        BookClubAddRequestDto bookClubAddRequestDto = BookClubAddRequestDto.builder()
+                .id(createdBookClub.getId())
+                .bookId(book.getId())
+                .clubId(club.getId())
+                .startDateTime(start)
+                .endDateTime(end)
+                .build();
+
+        //when
+        BookClub testEntity = bookClubService.addMeeting(bookClubAddRequestDto);
+
+        //then
+        BookClub savedEntity = bookClubRepository.findById(createdBookClub.getId())
+                .orElseThrow(()->new NoSuchElementException("존재하지 않는 북클럽입니다."));
+        assertEquals(testEntity.getStartDatetime(), savedEntity.getStartDatetime());
     }
 }
