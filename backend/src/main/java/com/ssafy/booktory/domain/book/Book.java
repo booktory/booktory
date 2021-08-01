@@ -4,6 +4,7 @@ import com.ssafy.booktory.domain.bookclub.BookClub;
 import com.ssafy.booktory.domain.userbook.UserBook;
 import com.sun.istack.NotNull;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -52,4 +53,17 @@ public class Book {
     @OneToMany(mappedBy = "book", cascade = CascadeType.ALL)
     private List<UserBook> userBooks = new ArrayList<>();
 
+    @Builder
+    public Book(String title, String isbn, String info, String author, String translators,
+                String publisher, int price, LocalDateTime date, String thumbnail) {
+        this.title = title;
+        this.isbn = isbn;
+        this.info = info;
+        this.author = author;
+        this.translators = translators;
+        this.publisher = publisher;
+        this.price = price;
+        this.date = date;
+        this.thumbnail = thumbnail;
+    }
 }
