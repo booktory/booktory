@@ -44,4 +44,10 @@ public class BookClub {
         this.startDatetime = startDatetime;
         this.endDatetime = endDatetime;
     }
+
+    public BookClub setMeetingTime(LocalDateTime startDatetime, LocalDateTime endDatetime){
+        this.startDatetime = startDatetime;
+        this.endDatetime = endDatetime;
+        return this;
+    }
 }
