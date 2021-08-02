@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +44,7 @@ public class Book {
 
     private int price;
 
-    private LocalDateTime date;
+    private LocalDate date;
 
     private String thumbnail;
 
@@ -55,7 +56,7 @@ public class Book {
 
     @Builder
     public Book(String title, String isbn, String info, String author, String translators,
-                String publisher, int price, LocalDateTime date, String thumbnail) {
+                String publisher, int price, LocalDate date, String thumbnail) {
         this.title = title;
         this.isbn = isbn;
         this.info = info;

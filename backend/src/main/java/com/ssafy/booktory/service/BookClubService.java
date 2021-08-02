@@ -95,4 +95,12 @@ public class BookClubService {
                 .build();
         bookClubUserRepository.save(bookClubUser);
     }
+
+    @Transactional
+    public BookClubInfoResponseDto bookClubInfo(Long id) {
+        BookClub bookClub = bookClubRepository.findById(id)
+                .orElseThrow(()-> new NoSuchElementException("존재하지 않는 북클럽입니다."));
+
+        return new BookClubInfoResponseDto(bookClub);
+    }
 }
