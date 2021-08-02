@@ -3,17 +3,17 @@
     <div class="container">
       <div class="navbar">
         <router-link to="/">
-          <img class="icon" src="../assets/icons/arrow-left.png" alt="" />
+          <img class="icon" src="@/assets/icons/arrow-left.png" alt="" />
         </router-link>
       </div>
       <div class="title">
-        <p class="main_title">로그인</p>
-        <p class="sub_title">비밀번호를 입력해주세요</p>
+        <p class="main_title">이메일을 입력해주세요!</p>
+        <p class="sub_title">로그인 또는 회원가입에 필요합니다</p>
       </div>
-      <div class="password_outer">
-        <input type="password" id="password" placeholder="비밀번호를 입력해주세요" />
+      <div class="input_outer">
+        <input type="text" id="email" class="input_inner" placeholder="booktori@example.com" />
+        <p class="message">8자 이상 입력해주세요</p>
       </div>
-      <p class="message">8자 이상 입력해주세요</p>
       <button type="button" class="btn">확인</button>
       <router-link to="/find">
         <p class="find_password">비밀번호 찾기</p>
@@ -66,34 +66,33 @@
   color: #212121;
 }
 
-.password_outer {
+.input_outer {
   display: inline-block;
   text-align: left;
-  width: 84%;
+  width: 315px;
   height: 40px;
   border-radius: 24px;
   box-shadow: 0 4px 8px 0 rgba(142, 141, 208, 0.16);
   background-color: #ffffff;
 }
 
-#password {
-  width: 88%;
-  padding: 13px 6% 12px;
+.input_inner {
+  width: 275px;
+  padding: 13px 20px 12px;
   border: 0;
   background: transparent;
 }
 
-#password::placeholder {
+.input_inner::placeholder {
   font-family: NotoSansKR;
   font-size: 15px;
   line-height: 1.2;
   color: #d6d6d9;
 }
 
-.message {
-  width: 25.6%;
+.input_outer .message {
   height: 12px;
-  margin-left: 13.3%;
+  margin-left: 20px;
   font-family: NotoSansKR;
   font-size: 10px;
   line-height: 1.2;

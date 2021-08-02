@@ -1,33 +1,23 @@
 <template>
-  <div class="find">
+  <div class="login">
     <div class="container">
       <div class="navbar">
-        <router-link to="/login">
-          <img class="icon" src="../assets/icons/arrow-left.png" alt="" />
+        <router-link to="/">
+          <img class="icon" src="@/assets/icons/arrow-left.png" alt="" />
         </router-link>
       </div>
       <div class="title">
-        <p class="main_title">비밀번호 찾기</p>
-        <p class="sub_title">새로운 비밀번호를 입력해주세요</p>
+        <p class="main_title">로그인</p>
+        <p class="sub_title">비밀번호를 입력해주세요</p>
       </div>
       <div class="password_outer">
-        <input
-          type="password"
-          class="password"
-          id="password"
-          placeholder="비밀번호를 입력해주세요"
-        />
+        <input type="password" id="password" placeholder="비밀번호를 입력해주세요" />
       </div>
       <p class="message">8자 이상 입력해주세요</p>
-      <div class="password_outer">
-        <input
-          type="password"
-          class="password"
-          id="password_confirm"
-          placeholder="비밀번호를 한 번 더 입력해주세요"
-        />
-      </div>
-      <button type="button" class="btn" @click="$router.push({ path: '/' })">확인</button>
+      <button type="button" class="btn">확인</button>
+      <router-link to="find">
+        <p class="find_password">비밀번호 찾기</p>
+      </router-link>
     </div>
   </div>
 </template>
@@ -86,14 +76,14 @@
   background-color: #ffffff;
 }
 
-.password {
+#password {
   width: 88%;
   padding: 13px 6% 12px;
   border: 0;
   background: transparent;
 }
 
-.password::placeholder {
+#password::placeholder {
   font-family: NotoSansKR;
   font-size: 15px;
   line-height: 1.2;
@@ -117,7 +107,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 200px auto 0;
+  margin: 200px auto 12px;
   padding: 20px 32px;
   border-radius: 50px;
   border: 0;
@@ -129,5 +119,18 @@
   letter-spacing: 7px;
   text-align: center;
   color: #ffffff;
+}
+
+.find_password {
+  height: 18px;
+  font-family: NotoSansKR;
+  font-size: 15px;
+  line-height: 1.2;
+  text-align: center;
+  color: #8a8894;
+}
+
+a {
+  text-decoration: none;
 }
 </style>

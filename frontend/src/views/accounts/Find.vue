@@ -1,23 +1,33 @@
 <template>
-  <div class="login">
+  <div class="find">
     <div class="container">
       <div class="navbar">
-        <router-link to="/">
-          <img class="icon" src="../assets/icons/arrow-left.png" alt="" />
+        <router-link to="login">
+          <img class="icon" src="@/assets/icons/arrow-left.png" alt="" />
         </router-link>
       </div>
       <div class="title">
-        <p class="main_title">이메일을 입력해주세요!</p>
-        <p class="sub_title">로그인 또는 회원가입에 필요합니다</p>
+        <p class="main_title">비밀번호 찾기</p>
+        <p class="sub_title">새로운 비밀번호를 입력해주세요</p>
       </div>
-      <div class="input_outer">
-        <input type="text" id="email" class="input_inner" placeholder="booktori@example.com" />
-        <p class="message">8자 이상 입력해주세요</p>
+      <div class="password_outer">
+        <input
+          type="password"
+          class="password"
+          id="password"
+          placeholder="비밀번호를 입력해주세요"
+        />
       </div>
-      <button type="button" class="btn">확인</button>
-      <router-link to="/find">
-        <p class="find_password">비밀번호 찾기</p>
-      </router-link>
+      <p class="message">8자 이상 입력해주세요</p>
+      <div class="password_outer">
+        <input
+          type="password"
+          class="password"
+          id="password_confirm"
+          placeholder="비밀번호를 한 번 더 입력해주세요"
+        />
+      </div>
+      <button type="button" class="btn" @click="$router.push({ path: '/' })">확인</button>
     </div>
   </div>
 </template>
@@ -66,33 +76,34 @@
   color: #212121;
 }
 
-.input_outer {
+.password_outer {
   display: inline-block;
   text-align: left;
-  width: 315px;
+  width: 84%;
   height: 40px;
   border-radius: 24px;
   box-shadow: 0 4px 8px 0 rgba(142, 141, 208, 0.16);
   background-color: #ffffff;
 }
 
-.input_inner {
-  width: 275px;
-  padding: 13px 20px 12px;
+.password {
+  width: 88%;
+  padding: 13px 6% 12px;
   border: 0;
   background: transparent;
 }
 
-.input_inner::placeholder {
+.password::placeholder {
   font-family: NotoSansKR;
   font-size: 15px;
   line-height: 1.2;
   color: #d6d6d9;
 }
 
-.input_outer .message {
+.message {
+  width: 25.6%;
   height: 12px;
-  margin-left: 20px;
+  margin-left: 13.3%;
   font-family: NotoSansKR;
   font-size: 10px;
   line-height: 1.2;
@@ -106,7 +117,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 200px auto 12px;
+  margin: 200px auto 0;
   padding: 20px 32px;
   border-radius: 50px;
   border: 0;
@@ -118,18 +129,5 @@
   letter-spacing: 7px;
   text-align: center;
   color: #ffffff;
-}
-
-.find_password {
-  height: 18px;
-  font-family: NotoSansKR;
-  font-size: 15px;
-  line-height: 1.2;
-  text-align: center;
-  color: #8a8894;
-}
-
-a {
-  text-decoration: none;
 }
 </style>
