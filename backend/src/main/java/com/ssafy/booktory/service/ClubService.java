@@ -36,10 +36,10 @@ public class ClubService {
     private final GenreRepository genreRepository;
     private final UserClubRepository userClubRepository;
 
-    public Club createClub(ClubSaveRequestDto clubSaveRequestDto){
+    public Club createClub(Long userId, ClubSaveRequestDto clubSaveRequestDto){
 
-        User user = userRepository.findById(clubSaveRequestDto.getLeaderId())
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("사용자 정보가 존재하지 않습니다."));
 
         Club club = clubSaveRequestDto.toEntity(user);
         Club savedClub = clubRepository.save(club);
@@ -81,9 +81,13 @@ public class ClubService {
         return clubListFindResponseDto;
     }
 
-    public Club updateClub(Long id, ClubUpdateRequestDto clubUpdateRequestDto){
+    public Club updateClub(Long id, ClubUpdateRequestDto clubUpdateRequestDto, Long leaderId) throws IllegalAccessException {
         Club club = clubRepository.findById(id)
                 .orElseThrow(()-> new NoSuchElementException("존재하지 않는 클럽입니다."));
+        User leader = userRepository.findById(leaderId)
+                .orElseThrow(()-> new NoSuchElementException("사용자 정보가 존재하지 않습니다."));
+        if(club.getUser().getId() != leader.getId())
+            throw new IllegalAccessException("클럽장만 클럽 정보를 수정할 수 있습니다.");
 
         club.updateClub(clubUpdateRequestDto.getName(), clubUpdateRequestDto.getImg(), clubUpdateRequestDto.getInfo(),
                 clubUpdateRequestDto.getMaxMember(), clubUpdateRequestDto.getIsOpen(),
@@ -94,15 +98,6 @@ public class ClubService {
 
         return clubRepository.save(club);
     }
-/*
-    public void addBooks(Long id, List<Long> books) {
-        Club club = clubRepository.findById(id)
-                .orElseThrow(()-> new NoSuchElementException("존재하지 않는 클럽입니다."));
-        List<BookClub> bookClubs = bookIdListToBookClubList(books, club);
-        club.updateBookClubs(bookClubs);
-        clubRepository.save(club);
-    }
-*/
 
     public UserClub applyToClub(Long userId, Long clubId) {
         Club club = clubRepository.findById(clubId)

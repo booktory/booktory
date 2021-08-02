@@ -31,8 +31,13 @@ public class ClubController {
             @ApiResponse(code = 404, message = "사용자 없음"),
             @ApiResponse(code = 500, message = "서버 오류")
     })
-    public ResponseEntity<String> createClub(@RequestBody ClubSaveRequestDto clubSaveRequestDto){
-        Club club = clubService.createClub(clubSaveRequestDto);
+    @ApiImplicitParams({@ApiImplicitParam(name = "jwt", value = "JWT Token", required = true, dataType = "string", paramType = "header")})
+    public ResponseEntity<String> createClub(@ApiIgnore final Authentication authentication, @RequestBody ClubSaveRequestDto clubSaveRequestDto){
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+        Long userId = ((User)authentication.getPrincipal()).getId();
+        Club club = clubService.createClub(userId, clubSaveRequestDto);
         return ResponseEntity.status(HttpStatus.CREATED).body("Success");
     }
 
@@ -60,19 +65,21 @@ public class ClubController {
 
     @PatchMapping("/{id}")
     @ApiOperation(value = "클럽 정보 수정" , notes = "클럽의 정보를 수정한다.")
-    public ResponseEntity<String> updateClub(@PathVariable Long id, @RequestBody ClubUpdateRequestDto clubUpdateRequestDto){
-        clubService.updateClub(id, clubUpdateRequestDto);
+    @ApiImplicitParams({@ApiImplicitParam(name = "jwt", value = "JWT Token", required = true, dataType = "string", paramType = "header")})
+    public ResponseEntity<String> updateClub(@ApiIgnore final Authentication authentication, @PathVariable Long id, @RequestBody ClubUpdateRequestDto clubUpdateRequestDto){
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+        Long leaderId = ((User)authentication.getPrincipal()).getId();
+
+        try {
+            clubService.updateClub(id, clubUpdateRequestDto, leaderId);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Fail : " + e.getMessage());
+        }
         return ResponseEntity.ok().body("Success");
     }
-/*
-    @PostMapping("/{id}/book")
-    @ApiOperation(value = "(클럽)읽을 책 추가", notes = "bookclub 테이블에 읽을책을 추가한다.")
-    public ResponseEntity<Void> addBooksOnClub(@PathVariable Long id, @RequestBody List<Long> books){
-        clubService.addBooks(id, books);
-        return ResponseEntity.ok().build();
-    }
-
- */
 
     @PostMapping("/{id}/join")
     @ApiOperation(value = "클럽 가입신청", notes = "UserClub 테이블의 상태를 APPLY로 등록한다.")
