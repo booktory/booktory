@@ -13,7 +13,6 @@ import java.util.List;
 @ApiModel("")
 public class ClubSaveRequestDto {
     private String name;
-    private Long leaderId;
     private String img;
     private String info;
     private int maxMember;
@@ -28,9 +27,8 @@ public class ClubSaveRequestDto {
 
 
     @Builder
-    public ClubSaveRequestDto(String name, Long leaderId, String img, String info, int maxMember, boolean isOpen, int volumeRule, int weekRule, String freeRule) {
+    public ClubSaveRequestDto(String name, String img, String info, int maxMember, boolean isOpen, int volumeRule, int weekRule, String freeRule) {
         this.name = name;
-        this.leaderId = leaderId;
         this.img = img;
         this.info = info;
         this.maxMember = maxMember;
