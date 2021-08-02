@@ -10,7 +10,6 @@ import java.time.LocalDateTime;
 
 @Getter
 @NoArgsConstructor
-@AllArgsConstructor
 public class BookClubInfoResponseDto {
     String clubName;
     String bookTitle;
