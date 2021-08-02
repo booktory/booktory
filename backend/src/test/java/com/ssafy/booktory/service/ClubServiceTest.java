@@ -10,6 +10,7 @@ import com.ssafy.booktory.domain.userclub.UserClub;
 import com.ssafy.booktory.domain.userclub.UserClubRepository;
 import org.junit.Before;
 //import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,17 +31,11 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 @Transactional
 class ClubServiceTest {
-    @Autowired
-    ClubService clubService;
 
-    @Autowired
-    ClubRepository clubRepository;
-    @Autowired
-    UserRepository userRepository;
-    @Autowired
-    UserClubRepository userClubRepository;
-    @Autowired
-    EntityManager em;
+    @Autowired ClubService clubService;
+    @Autowired ClubRepository clubRepository;
+    @Autowired UserRepository userRepository;
+    @Autowired UserClubRepository userClubRepository;
 
     private User user;
     private Club club;
@@ -48,7 +43,7 @@ class ClubServiceTest {
     private UserClub userClub;
     private ClubSaveRequestDto clubSaveRequestDto;
 
-    @Before
+    @BeforeEach
     private void setUp() throws Exception{
         user = User.builder()
                 .nickname("hi")
@@ -67,12 +62,14 @@ class ClubServiceTest {
                 .name("testname")
                 .user(user)
                 .maxMember(6)
+                .volumeRule(1)
+                .weekRule(3)
+                .isOpen(true)
                 .build();
         club = clubRepository.save(club);
 
         clubSaveRequestDto = ClubSaveRequestDto.builder()
                 .name("testname")
-                .leaderId(user.getId())
                 .maxMember(6)
                 .isOpen(true)
                 .build();
@@ -82,13 +79,11 @@ class ClubServiceTest {
     @Rollback(value = true)
     public void 새클럽등록() throws Exception{
         //given
-        setUp();
 
         //when
-        Club club = clubService.createClub(clubSaveRequestDto);
+        Club club = clubService.createClub(user.getId(), clubSaveRequestDto);
 
         //then
-        em.flush();
         Club resClub = clubRepository.findById(club.getId())
                 .orElseThrow(()-> new IllegalArgumentException("존재하지않는 클럽"));
 
@@ -99,18 +94,10 @@ class ClubServiceTest {
     @Rollback(value = true)
     public void 클럽정보_확인() throws Exception{
         //given
-//        setup();
-        ClubSaveRequestDto clubSaveRequestDto = ClubSaveRequestDto.builder()
-                .name("testname")
-                .leaderId(user.getId())
-                .maxMember(6)
-                .isOpen(true)
-                .build();
-        Club club1 = clubService.createClub(clubSaveRequestDto);
+        Club club1 = clubService.createClub(user.getId(), clubSaveRequestDto);
 
         //when
         Club club2 = clubService.findClub(club1.getId());
-        em.flush();
 
         //then
         assertEquals(club1.getId(), club2.getId());
@@ -120,7 +107,6 @@ class ClubServiceTest {
     @Rollback(value = true)
     public void 클럽_가입신청(){
         //given
-//        setup();
         clubService.applyToClub(follower.getId(),  club.getId());
 
         //when
@@ -135,7 +121,6 @@ class ClubServiceTest {
     @Rollback(value = true)
     public void 클럽가입_승인_성공() throws Exception {
         //given
-        setUp();
         userClub = UserClub.builder()
                 .club(club)
                 .user(follower)
@@ -155,7 +140,6 @@ class ClubServiceTest {
     @Rollback(value = true)
     public void 클럽가입승인_실패() throws Exception {
         //given
-        setUp();
 
         UserClub userClub = UserClub.builder()
                 .club(club)
@@ -178,7 +162,6 @@ class ClubServiceTest {
     @Rollback(value = true)
     public void 클럽가입거절_성공() throws Exception {
         //given
-        setUp();
 
         UserClub userClub = UserClub.builder()
                 .club(club)
@@ -199,7 +182,6 @@ class ClubServiceTest {
     @Rollback(value = true)
     public void 클럽삭제() throws Exception {
         //given
-        setUp();
 
         //when
         clubService.deleteClub(user.getId(), club.getId());
@@ -213,8 +195,7 @@ class ClubServiceTest {
     @Rollback(value = true)
     public void 클럽_신청_가입자_리스트_조회() throws Exception {
         //given
-        setUp();
-        Club club = clubService.createClub(clubSaveRequestDto);
+        Club club = clubService.createClub(user.getId(), clubSaveRequestDto);
         clubService.applyToClub(follower.getId(), club.getId());
 
         //when
