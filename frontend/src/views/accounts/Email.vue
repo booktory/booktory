@@ -3,7 +3,7 @@
     <div class="container">
       <div class="navbar">
         <router-link to="/">
-          <img class="icon" src="@/assets/icons/arrow-left.png" alt="" />
+          <img class="icon" src="@/assets/icons/arrow-left.svg" alt="" />
         </router-link>
       </div>
       <div class="title">
