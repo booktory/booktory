@@ -23,8 +23,6 @@
 
 <br>
 
-
-
 ## 📑 Tech Blog & Log
 
 [책토리 Blog](https://booktori.tistory.com/)
@@ -50,7 +48,7 @@
   </ul>
 </details>
 
-
+<br>
 
 ## ✅ Git Convention
 
@@ -81,6 +79,8 @@ body
 | style    | 코드 스타일 혹은 포맷 등에 관한 커밋 |
 | refactor | 코드 리팩토링에 대한 커밋            |
 | test     | 테스트 코드 수정에 대한 커밋         |
+| design   | CSS 등 UI 수정에 대한 커밋 |
+| comment  | 주석 추가 및 수정에 대한 커밋 |
 
 ### Branch
 
@@ -94,7 +94,10 @@ develop
 
 feature (각 기능 단위)
 
-- 기능 단위는 Jira Sub-Task 기준
+- develop은 develop-be, develop-fe로 나뉨
+  - back-end 관련 작업과 front-end 관련 작업을 각각 처리
+
+- feature의 기능 단위는 Jira Sub-Task 기준
   - 필요에 따라 통합해서 사용해도 괜찮음
 
 - 예시
