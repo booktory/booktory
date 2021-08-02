@@ -1,10 +1,7 @@
 package com.ssafy.booktory.controller;
 
 
-import com.ssafy.booktory.domain.bookclub.BookClub;
-import com.ssafy.booktory.domain.bookclub.BookClubAddRequestDto;
-import com.ssafy.booktory.domain.bookclub.BookClubCreateRequestDto;
-import com.ssafy.booktory.domain.bookclub.BookClubListResponseDto;
+import com.ssafy.booktory.domain.bookclub.*;
 import com.ssafy.booktory.domain.club.Club;
 import com.ssafy.booktory.domain.club.ClubSaveRequestDto;
 import com.ssafy.booktory.domain.user.User;
@@ -85,5 +82,10 @@ public class BookClubController {
         return ResponseEntity.status(HttpStatus.CREATED).body("success");
     }
 
+    @GetMapping("/{id}")
+    @ApiOperation(value = "모임/읽을책 정보 확인(1개)", notes = "모임/읽을책 정보를 1개 확인한다.")
+    public ResponseEntity<BookClubInfoResponseDto> bookClubInfo(@PathVariable Long id){
+        return ResponseEntity.status(HttpStatus.OK).body(bookClubService.bookClubInfo(id));
+    }
 
 }
