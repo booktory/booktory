@@ -7,78 +7,232 @@
     <link rel="icon" href="<%= BASE_URL %>favicon.ico" />
     <title><%= htmlWebpackPlugin.options.title %></title>
     <style>
-      @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap');
-      @import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap');
-
+      /* Common */
       * {
-        background-color: #fffbf5;
-        font-family: 'Nanum Gothic', sans-serif !important;
-        line-height: 1.2;
+        background-color: var(--beige);
+        color: var(--black);
+        font-family: "Nanum Gothic", sans-serif;
+        font-size: 10px;
+        text-align: center;
       }
 
+      body {
+        display: flex;
+        justify-content: center;
+        padding: 0;
+        margin: 0;
+      }
+
+      a {
+        text-decoration: none;
+      }
+
+      input:focus {
+        outline: none;
+      }
+
+      /* View */
+      /* Mobile */
+      @media (max-width: 320px) {
+        * {
+          font-size: 8px;
+        }
+      }
+      .container {
+        width: 100vw;
+        margin-top: 10vh;
+        margin-bottom: 12vh;
+      }
+      /* Tablet */
+      @media (min-width: 768px) {
+        * {
+          font-size: 14px;
+        }
+        .container {
+          width: 80vw;
+        }
+      }
+      /* Desktop */
+      @media (min-width: 1024px) {
+        * {
+          font-size: 18px;
+        }
+        .container {
+          width: 70vw;
+          /* max-width: 768px; */
+        }
+      }
+
+      /* Fonts */
+      @import url("https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap");
+
+      /* Text Styles */
+      /* Header */
       h1 {
-        font-size: 56px;
+        font-size: 5.6rem;
       }
-
       h2 {
-        font-size: 48px;
+        font-size: 4.8rem;
       }
-
       h3 {
-        font-size: 32px;
+        font-size: 3.2rem;
       }
-
       h4 {
-        font-size: 24px;
+        font-size: 2.4rem;
       }
-
       h5 {
-        font-size: 18px;
+        font-size: 1.6rem;
       }
-
       h6 {
-        font-size: 12px;
+        font-size: 1.2rem;
       }
 
+      /* Body */
       .font-body-1 {
-        font-size: 20px;
+        font-size: 2rem;
       }
-
       .font-body-2 {
-        font-size: 15px;
+        font-size: 1.6rem;
       }
-
       .font-body-3 {
-        font-size: 13px;
+        font-size: 1.4rem;
       }
-
       .font-body-4 {
-        font-size: 10px;
+        font-size: 1.2rem;
       }
-
       .font-body-5 {
-        font-size: 7px;
+        font-size: 1rem;
+      }
+      .font-body-6 {
+        font-size: 0.8rem;
       }
 
+      /* Other */
       .font-button-1 {
-        font-size: 20px;
-        letter-spacing: 7px;
+        font-size: 2rem;
+        letter-spacing: 0.7rem;
       }
-
       .font-button-2 {
-        font-size: 16px;
-        letter-spacing: 6px;
+        font-size: 1.6rem;
+        letter-spacing: 0.6rem;
       }
-
       .font-button-3 {
-        font-size: 10px;
-        letter-spacing: 5px;
+        font-size: 1rem;
+        letter-spacing: 0.5rem;
       }
 
-      .font-fields-placeholder {
-        font-size: 10px;
+      :root {
+        /* Color Styles */
+        /* Main */
+        --light-orange: #fdcc97;
+        --orange: #ff7f00;
+        --light-brown: #bf5f0e;
+        --brown: #904402;
+
+        /* Text */
+        --black: #000000;
+        --grey: #8a8894;
+        --light-grey: #d6d6d9;
+        --very-light-grey: #eeeeee;
+        --white: #ffffff;
+
+        /* Background */
+        --transparent-black: rgba(0, 0, 0, 0.2);
+        --beige: #fffbf5;
+
+        /* Button */
+        --deep-blue: #687ef2;
+        --blue: #6695e5;
+        --light-blue: #a4c0f3;
+        --very-light-blue: #f2f5fa;
+        --lilac: #c5c0db;
       }
-      
+
+      /* Class */
+      .navbar {
+        position: fixed;
+        top: 2em;
+        left: 2em;
+      }
+
+      .title {
+        margin-bottom: 2.5%;
+      }
+
+      .sub-title {
+        font-size: 1.4rem;
+        margin: 0;
+      }
+
+      .icon {
+        width: 2.4em;
+        height: 2.4em;
+      }
+
+      .button-2 {
+        font-size: 1.6rem;
+        letter-spacing: 0.6rem;
+        width: 60%;
+        height: 5.9%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 0 auto;
+        padding: 2.5% 4%;
+        border-radius: 5em;
+        border: 0;
+        background-color: var(--light-blue);
+        color: var(--white);
+      }
+
+      .input-div * {
+        text-align: left;
+      }
+
+      .input-div label {
+        display: block;
+        margin: 5.5% 0 1.5% 14%;
+        font-size: 1.2rem;
+        font-weight: 500;
+        color: var(--grey);
+      }
+
+      .input-div div {
+        display: inline-block;
+        width: 80%;
+        height: 24%;
+        border-radius: 2em;
+        box-shadow: 0 0.4em 0.8em 0 rgba(142, 141, 208, 0.16);
+        background-color: #ffffff;
+      }
+
+      .input-div input {
+        width: 88%;
+        padding: 3.6% 6%;
+        border: 0;
+        background: transparent;
+        font-size: 1.4rem;
+      }
+
+      .input-div input::placeholder {
+        color: var(--light-grey);
+      }
+
+      .input-div .message {
+        height: 12px;
+        margin-left: 13.3%;
+        font-size: 1rem;
+        color: #8a8894;
+      }
+
+      .text-link {
+        font-size: 1.5rem;
+        color: var(--grey);
+      }
+
+      .m-top-10 {
+        margin-top: 10%;
+      }
     </style>
   </head>
   <body>
@@ -89,6 +243,5 @@
       >
     </noscript>
     <div id="app"></div>
-    <!-- built files will be auto injected -->
   </body>
 </html>
