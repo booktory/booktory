@@ -28,13 +28,18 @@ public class UserClub {
     private Club club;
 
     @Enumerated(EnumType.STRING)
-//    @ColumnDefault("0")
     @Column(columnDefinition = "varchar(30) default 'APPLY'")
     @NotNull
     private UserClubState state;
 
-//    @Builder
-//    public UserClub(UserClubState state) {
-//        this.state = state;
-//    }
+    @Builder
+    public UserClub(User user, Club club, UserClubState state) {
+        this.user = user;
+        this.club = club;
+        this.state = state;
+    }
+
+    public void acceptJoin(){
+        this.state = UserClubState.ACCEPT;
+    }
 }

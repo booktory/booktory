@@ -31,16 +31,16 @@ public class Rwm {
     private String img;
 
     @NotNull
-    private String api_link;
+    private String apiLink;
 
     @OneToMany(mappedBy = "rwm", cascade = CascadeType.ALL)
     private List<RwmLog> logs = new ArrayList<>();
 
     @Builder
-    public Rwm(String name, String info, String img, String api_link) {
+    public Rwm(String name, String info, String img, String apiLink) {
         this.name = name;
         this.info = info;
         this.img = img;
-        this.api_link = api_link;
+        this.apiLink = apiLink;
     }
 }

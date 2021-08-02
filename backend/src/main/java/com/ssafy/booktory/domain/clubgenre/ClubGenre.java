@@ -3,6 +3,7 @@ package com.ssafy.booktory.domain.clubgenre;
 import com.ssafy.booktory.domain.club.Club;
 import com.ssafy.booktory.domain.genre.Genre;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -25,4 +26,9 @@ public class ClubGenre {
     @JoinColumn(name = "genre_id")
     private Genre genre;
 
+    @Builder
+    public ClubGenre(Club club, Genre genre) {
+        this.club = club;
+        this.genre = genre;
+    }
 }

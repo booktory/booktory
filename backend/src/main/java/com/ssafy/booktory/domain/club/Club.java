@@ -43,16 +43,17 @@ public class Club extends BaseTimeEntity {
 
     @NotNull
     @ColumnDefault("8")
-    private int max_member;
+    private int maxMember;
 
     @NotNull
     @ColumnDefault("true")
-    private boolean is_open;
+    private Boolean isOpen;
 
-    private int volum_rule;
-    private int week_rule;
+    private int volumeRule;
+    private int weekRule;
+
     @Column(length = 100)
-    private String free_rule;
+    private String freeRule;
 
 
     //클럽에 가입한 멤버들
@@ -72,17 +73,42 @@ public class Club extends BaseTimeEntity {
     @OneToMany(mappedBy = "club", cascade = CascadeType.ALL)
     private List<ClubGenre> genres = new ArrayList<>();
 
-
-    @Builder
-    public Club(String name, String img, String info, int max_member
-            , boolean is_open, int volum_rule, int week_rule, String free_rule) {
+    public void updateClub(String name, String img, String info, int maxMember,
+                           Boolean isOpen, int volumRule, int weekRule, String freeRule) {
         this.name = name;
         this.img = img;
         this.info = info;
-        this.max_member = max_member;
-        this.is_open = is_open;
-        this.volum_rule = volum_rule;
-        this.week_rule = week_rule;
-        this.free_rule = free_rule;
+        this.maxMember = maxMember;
+        this.isOpen = isOpen;
+        this.volumeRule = volumRule;
+        this.weekRule = weekRule;
+        this.freeRule = freeRule;
     }
+
+    public void updateBookClubs(List<BookClub> bookClubs){
+//        for(BookClub bookClub : bookClubs)
+//            this.bookClubs.add(bookClub);
+        this.bookClubs = bookClubs;
+    }
+    public void updateGenres(List<ClubGenre> genres){
+//        for(ClubGenre clubGenre : genres)
+//            this.genres.add(clubGenre);
+        this.genres = genres;
+    }
+
+    @Builder
+    public Club(Long id, String name, User user, String img, String info, int maxMember
+            , Boolean isOpen, int volumeRule, int weekRule, String freeRule) {
+        this.id = id;
+        this.name = name;
+        this.user = user;
+        this.img = img;
+        this.info = info;
+        this.maxMember = maxMember;
+        this.isOpen = isOpen;
+        this.volumeRule = volumeRule;
+        this.weekRule = weekRule;
+        this.freeRule = freeRule;
+    }
+
 }

@@ -24,7 +24,6 @@ public class Question extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "club_id")
     private Club club;
@@ -37,14 +36,16 @@ public class Question extends BaseTimeEntity {
     private String contents;
 
     @ColumnDefault("true") @NotNull
-    private boolean is_open;
+    private Boolean isOpen;
 
     @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
     private List<Answer> answers = new ArrayList<>();
 
     @Builder
-    public Question(String contents, boolean is_open) {
+    public Question(Club club, User user, String contents, Boolean isOpen) {
+        this.club = club;
+        this.user = user;
         this.contents = contents;
-        this.is_open = is_open;
+        this.isOpen = isOpen;
     }
 }

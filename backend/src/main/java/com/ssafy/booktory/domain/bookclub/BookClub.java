@@ -7,7 +7,6 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -31,18 +30,18 @@ public class BookClub {
     @JoinColumn(name = "club_id")
     private Club club;
 
-
-    private LocalDateTime start_datetime;
-    private LocalDateTime end_datetime;
-
+    private LocalDateTime startDatetime;
+    private LocalDateTime endDatetime;
 
     //모임 참석자
     @OneToMany(mappedBy = "bookClub", cascade = CascadeType.ALL)
     private List<BookClubUser> bookClubUsers = new ArrayList<>();
 
     @Builder
-    public BookClub(LocalDateTime start_datetime, LocalDateTime end_datetime) {
-        this.start_datetime = start_datetime;
-        this.end_datetime = end_datetime;
+    public BookClub(Book book, Club club, LocalDateTime startDatetime, LocalDateTime endDatetime) {
+        this.book = book;
+        this.club = club;
+        this.startDatetime = startDatetime;
+        this.endDatetime = endDatetime;
     }
 }

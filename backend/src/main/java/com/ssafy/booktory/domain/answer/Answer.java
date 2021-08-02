@@ -34,11 +34,13 @@ public class Answer extends BaseTimeEntity {
     private String contents;
 
     @NotNull //입력이 없을 때 : 서비스로직에서 질문의 공개여부를 받아오기
-    private boolean is_open;
+    private Boolean isOpen;
 
     @Builder
-    public Answer(String contents, boolean is_open) {
+    public Answer(Question question, User user, String contents, Boolean isOpen) {
+        this.question = question;
+        this.user = user;
         this.contents = contents;
-        this.is_open = is_open;
+        this.isOpen = isOpen;
     }
 }
