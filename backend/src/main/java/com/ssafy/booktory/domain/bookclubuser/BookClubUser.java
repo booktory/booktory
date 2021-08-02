@@ -3,6 +3,7 @@ package com.ssafy.booktory.domain.bookclubuser;
 import com.ssafy.booktory.domain.bookclub.BookClub;
 import com.ssafy.booktory.domain.user.User;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -24,4 +25,11 @@ public class BookClubUser {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "bookclub_id")
     private BookClub bookClub;
+
+    @Builder
+    public BookClubUser(Long id, User user, BookClub bookClub) {
+        this.id = id;
+        this.user = user;
+        this.bookClub = bookClub;
+    }
 }
