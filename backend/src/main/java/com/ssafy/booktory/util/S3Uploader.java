@@ -12,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.UUID;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -32,7 +33,8 @@ public class S3Uploader implements Uploader{
     }
 
     private String upload(File uploadFile, String dirName){
-        String fileName = dirName + "/" + uploadFile.getName();
+        UUID uuid = UUID.randomUUID();
+        String fileName = dirName + "/booktory_" + uuid + "_" + uploadFile.getName();
         String uploadImageUrl = putS3(uploadFile, fileName);
         removeNewFile(uploadFile);
         return uploadImageUrl;
