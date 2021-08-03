@@ -14,13 +14,13 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class BookClubListResponseDto {
-    Long id;
-    Long bookId;
-    String bookTitle;
-    String bookThumbnail;
-    LocalDateTime startDateTime;
-    LocalDateTime endDateTime;
-    List<BookClubParticipantDto> userList = new ArrayList<>();
+    private Long id;
+    private Long bookId;
+    private String bookTitle;
+    private String bookThumbnail;
+    private LocalDateTime startDateTime;
+    private LocalDateTime endDateTime;
+    private List<BookClubParticipantDto> userList = new ArrayList<>();
 
     public BookClubListResponseDto(BookClub bookClub, List<BookClubParticipantDto> userList){
         this.id = bookClub.getId();

@@ -71,3 +71,6 @@ build
 
 # Windows shortcuts
 *.lnk
+
+# key 설정파일
+application.properties

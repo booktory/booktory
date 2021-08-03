@@ -12,14 +12,14 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ClubUpdateRequestDto {
-    String name;
-    String img;
-    String info;
-    int maxMember;
-    Boolean isOpen;
-    int volumeRule;
-    int weekRule;
-    String freeRule;
+    private String name;
+    private String img;
+    private String info;
+    private int maxMember;
+    private Boolean isOpen;
+    private int volumeRule;
+    private int weekRule;
+    private String freeRule;
 
     List<Long> genres = new ArrayList<>();
 
