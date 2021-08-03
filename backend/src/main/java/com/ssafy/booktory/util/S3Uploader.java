@@ -18,7 +18,7 @@ import java.io.IOException;
 @Component
 public class S3Uploader implements Uploader{
 
-    private final static String TEMP_FILE_PATH = "src/main/resources";
+    private final static String TEMP_FILE_PATH = "src/main/resources/";
     private final AmazonS3Client amazonS3Client;
 
     @Value("${cloud.aws.s3.bucket}")

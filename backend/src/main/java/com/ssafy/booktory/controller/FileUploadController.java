@@ -40,4 +40,21 @@ public class FileUploadController {
         return ResponseEntity.status(HttpStatus.CREATED).body(uploader.upload(file, "static/user"));
     }
 
+    @PostMapping("/file/board")
+    @ApiOperation(value = "담벼락 파일 등록", notes = "담벼락에 업로드된 파일을 S3원격 서버에 저장한다.")
+    @ApiResponses({
+            @ApiResponse(code = 201, message = "success"),
+            @ApiResponse(code = 400, message = "파일용량 초과"),
+            @ApiResponse(code = 401, message = "인증실패"),
+            @ApiResponse(code = 404, message = "사용자 없음"),
+            @ApiResponse(code = 500, message = "서버 오류")
+    })
+    public ResponseEntity<String> uploadBoardFile(@RequestParam("profileImg") MultipartFile file) throws IOException{
+        log.info(String.format("업로드 파일 size : %d", file.getSize()));
+        if(file.getSize() > FILE_LIMIT_SIZE){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("파일용량 초과");
+        }
+        return ResponseEntity.status(HttpStatus.CREATED).body(uploader.upload(file, "static/board"));
+    }
+
 }
