@@ -5,7 +5,6 @@ import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.graalvm.compiler.core.common.type.ArithmeticOpTable;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -28,6 +27,7 @@ public class S3Uploader implements Uploader{
     @Override
     public String upload(MultipartFile multipartFile, String dirName) throws IOException {
         File convertedFile = convert(multipartFile);
+
         return upload(convertedFile, dirName);
     }
 

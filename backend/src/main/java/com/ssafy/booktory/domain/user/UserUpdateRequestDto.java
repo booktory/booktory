@@ -17,4 +17,6 @@ public class UserUpdateRequestDto {
     private String profileImg;
     private String phone;
 
+    
+
 }
