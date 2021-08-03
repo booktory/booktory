@@ -46,6 +46,9 @@ dependencies {
 	implementation group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'
 	implementation group: 'io.swagger', name: 'swagger-annotations', version: '1.6.2'
 
+	// mail
+	implementation 'org.springframework.boot:spring-boot-starter-mail'
+
 	//MapStruct
 //	implementation 'org.mapstruct:mapstruct:1.4.1.Final'
 //	implementation 'org.projectlombok:lombok-mapstruct-binding:0.2.0'
