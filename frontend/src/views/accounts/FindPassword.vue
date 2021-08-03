@@ -14,7 +14,11 @@
       <div class="input-div m-top-10">
         <label for="user_email">이메일</label>
         <div>
-          <input type="text" id="user_email" placeholder="booktory@example.com" />
+          <input
+            type="text"
+            id="user_email"
+            placeholder="booktory@example.com"
+          />
         </div>
         <p class="message">이메일 형식으로 입력해주세요</p>
       </div>
