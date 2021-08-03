@@ -101,7 +101,7 @@ public class UserController {
         }
         Long userId = ((User)authentication.getPrincipal()).getId();
         userService.updateUser(userId, userUpdateRequestDto);
-        return ResponseEntity.status(HttpStatus.OK).build();
+        return ResponseEntity.status(HttpStatus.OK).body("success");
     }
 
     @ApiOperation(value = "비밀번호 변경", notes = "현재 비밀번호와 바꿀 비밀번호를 입력 받아 비밀번호를 변경한다.")
