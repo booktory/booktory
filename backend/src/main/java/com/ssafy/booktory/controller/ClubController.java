@@ -26,7 +26,7 @@ public class ClubController {
     @PostMapping(produces="application/json;charset=UTF-8")
     @ApiOperation(value = "새 클럽 등록", notes = "새로운 클럽을 등록/생성한다.")
     @ApiResponses({
-            @ApiResponse(code = 201, message = "Success"),
+            @ApiResponse(code = 201, message = "success"),
             @ApiResponse(code = 401, message = "인증실패"),
             @ApiResponse(code = 404, message = "사용자 없음"),
             @ApiResponse(code = 500, message = "서버 오류")
@@ -38,7 +38,7 @@ public class ClubController {
         }
         Long userId = ((User)authentication.getPrincipal()).getId();
         Club club = clubService.createClub(userId, clubSaveRequestDto);
-        return ResponseEntity.status(HttpStatus.CREATED).body("Success");
+        return ResponseEntity.status(HttpStatus.CREATED).body("success");
     }
 
     @GetMapping("/{id}")
@@ -78,7 +78,7 @@ public class ClubController {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Fail : " + e.getMessage());
         }
-        return ResponseEntity.ok().body("Success");
+        return ResponseEntity.ok().body("success");
     }
 
     @PostMapping("/{id}/join")
@@ -116,7 +116,7 @@ public class ClubController {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Fail : " + e.getMessage());
         }
-        return ResponseEntity.status(HttpStatus.OK).body("Success");
+        return ResponseEntity.status(HttpStatus.OK).body("success");
     }
 
     @DeleteMapping("/{id}/join/{userClubId}")
@@ -134,7 +134,7 @@ public class ClubController {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Fail : " + e.getMessage());
         }
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Success");
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("success");
     }
 
     @DeleteMapping("/{id}/user")
@@ -152,7 +152,7 @@ public class ClubController {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Fail : " + e.getMessage());
         }
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Success");
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("success");
     }
 
     @DeleteMapping("/{id}")
@@ -170,7 +170,7 @@ public class ClubController {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Fail : " + e.getMessage());
         }
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Success");
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("success");
     }
 
 }

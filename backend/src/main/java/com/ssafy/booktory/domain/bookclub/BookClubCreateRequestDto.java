@@ -11,8 +11,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @ApiModel("읽을 책 등록 요청 Dto")
 public class BookClubCreateRequestDto {
-    Long bookId;
-    Long clubId;
+    private Long bookId;
+    private Long clubId;
 
     public BookClub toEntity(Book book, Club club) {
         return BookClub.builder()

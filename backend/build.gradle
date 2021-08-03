@@ -49,14 +49,8 @@ dependencies {
 	// mail
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
 
-	//MapStruct
-//	implementation 'org.mapstruct:mapstruct:1.4.1.Final'
-//	implementation 'org.projectlombok:lombok-mapstruct-binding:0.2.0'
-//	implementation "org.projectlombok:lombok:1.18.16"
-//
-//	annotationProcessor "org.mapstruct:mapstruct-processor:1.4.1.Final"
-//	annotationProcessor "org.projectlombok:lombok-mapstruct-binding:0.2.0"
-//	annotationProcessor "org.projectlombok:lombok:1.18.16"
+	// AWS S3
+	implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-aws', version: '2.2.1.RELEASE'
 }
 
 test {
