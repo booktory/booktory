@@ -9,9 +9,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class BookClubParticipantDto {
-    Long userId;
-    String userNickname;
-    String profileImg;
+    private Long userId;
+    private String userNickname;
+    private String profileImg;
 
     public BookClubParticipantDto(User user){
         this.userId = user.getId();

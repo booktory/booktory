@@ -1,10 +1,20 @@
 <template>
   <div class="home">
     <div class="container">
-      <h4 class="title">책토리와 함께하는 <mark class="title-orange">독서모임</mark></h4>
+      <h4 class="title">
+        책토리와 함께하는 <mark class="title-orange">독서모임</mark>
+      </h4>
       <p class="sub-title">책을 읽고 사람들과 함께 생각을 공유해요</p>
-      <img class="logo" alt="booktory-logo" src="@/assets/images/booktory.svg" />
-      <button type="button" class="button-2" @click="$router.push({ name: 'Login' })">
+      <img
+        class="logo"
+        alt="booktory-logo"
+        src="@/assets/images/booktory.svg"
+      />
+      <button
+        type="button"
+        class="button-2"
+        @click="$router.push({ name: 'Login' })"
+      >
         시작하기
       </button>
     </div>
@@ -14,7 +24,6 @@
 <script>
 export default {
   name: "Home",
-  components: {},
 };
 </script>
 
@@ -22,6 +31,7 @@ export default {
 .title-orange {
   color: var(--orange);
   font-size: 2.4rem;
+  background-color: transparent;
 }
 
 .logo {

@@ -10,15 +10,15 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ClubFindResponseDto {
-    String name;
-    LocalDateTime date;
-    String img;
-    String info;
-    int maxMember;
-    Boolean isOpen;
-    int volumeRule;
-    int weekRule;
-    String freeRule;
+    private String name;
+    private LocalDateTime date;
+    private String img;
+    private String info;
+    private int maxMember;
+    private Boolean isOpen;
+    private int volumeRule;
+    private int weekRule;
+    private String freeRule;
 
     public ClubFindResponseDto(Club club){
         this.name = club.getName();

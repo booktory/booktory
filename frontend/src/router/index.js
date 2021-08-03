@@ -1,6 +1,5 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Home from "@/views/Home.vue";
 
 Vue.use(VueRouter);
 
@@ -8,13 +7,7 @@ const routes = [
   {
     path: "/",
     name: "Home",
-    component: Home,
-  },
-
-  {
-    path: "/email",
-    name: "Email",
-    component: () => import("@/views/accounts/Email.vue"),
+    component: () => import("@/views/Home.vue"),
   },
 
   // 로그인
@@ -24,11 +17,25 @@ const routes = [
     component: () => import("@/views/accounts/Login.vue"),
   },
 
+  // 회원가입
+  {
+    path: "/register",
+    name: "Register",
+    component: () => import("@/views/accounts/Register.vue"),
+  },
+
   // 비밀번호 찾기
   {
     path: "/password",
     name: "FindPassword",
     component: () => import("@/views/accounts/FindPassword.vue"),
+  },
+
+  // 홈 화면(내 클럽 보기)
+  {
+    path: "/club",
+    name: "MyClub",
+    component: () => import("@/views/clubs/MyClub.vue"),
   },
 ];
 
