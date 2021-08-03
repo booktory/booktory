@@ -11,14 +11,14 @@ import java.time.LocalDateTime;
 @Getter
 @NoArgsConstructor
 public class BookClubInfoResponseDto {
-    String clubName;
-    String bookTitle;
-    String bookAuthor;
-    String bookTranslator;
-    String bookPublisher;
-    LocalDate bookDate;
-    LocalDateTime startDateTime;
-    LocalDateTime endDateTime;
+    private String clubName;
+    private String bookTitle;
+    private String bookAuthor;
+    private String bookTranslator;
+    private String bookPublisher;
+    private LocalDate bookDate;
+    private LocalDateTime startDateTime;
+    private LocalDateTime endDateTime;
 
     public BookClubInfoResponseDto(BookClub bookClub){
         this.clubName = bookClub.getClub().getName();

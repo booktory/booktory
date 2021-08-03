@@ -4,30 +4,21 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
-
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserSaveRequestDto {
 
-    private String email;
     private String nickname;
+    private String email;
     private String password;
-    private String name;
-    private LocalDate birth;
-    private String profileImg;
-    private String phone;
 
     public User toEntity() {
         return User.builder()
-                .email(email)
                 .nickname(nickname)
+                .email(email)
                 .password(password)
-                .name(name)
-                .birth(birth)
-                .profileImg(profileImg)
-                .phone(phone)
+                .isAccept(false)
                 .build();
     }
 

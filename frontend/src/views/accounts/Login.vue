@@ -14,14 +14,19 @@
       <div class="input-div m-top-10">
         <label for="email">이메일</label>
         <div>
-          <input v-model="email" type="text" id="email" placeholder="booktory@example.com" />
+          <input
+            v-model="loginData.email"
+            type="text"
+            id="email"
+            placeholder="booktory@example.com"
+          />
         </div>
       </div>
       <div class="input-div">
         <label for="password">비밀번호</label>
         <div>
           <input
-            v-model="password"
+            v-model="loginData.password"
             type="password"
             id="password"
             placeholder="비밀번호를 입력해주세요"
@@ -29,7 +34,9 @@
         </div>
         <p class="message">8자 이상 입력해주세요</p>
       </div>
-      <button type="button" class="button-2 m-top-10" @click="clickLogin">확인</button>
+      <button type="button" class="button-2 m-top-10" @click="clickLogin">
+        확인
+      </button>
       <router-link to="password">
         <p class="text-link">비밀번호 찾기</p>
       </router-link>
@@ -39,37 +46,68 @@
       </div>
       <div class="text-div">
         <p class="font-body-3">아직 회원이 아니신가요?</p>
-        <h5 @click="$router.push({ name: 'Signup' })">회원가입하기</h5>
+        <h5 @click="$router.push({ name: 'Register' })">회원가입하기</h5>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import router from "@/router";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 export default {
   name: "Login",
   data() {
     return {
-      email: "",
-      password: "",
+      loginData: {
+        email: "",
+        password: "",
+      },
     };
   },
   methods: {
     clickLogin() {
       axios
         .post("/users/login", {
-          email: this.email,
-          password: this.password,
+          email: this.loginData.email,
+          password: this.loginData.password,
         })
         .then((res) => {
-          alert("로그인 성공");
           console.log(res.data);
+          const Toast = Swal.mixin({
+            toast: true,
+            showConfirmButton: false,
+            timer: 2000,
+            timerProgressBar: true,
+            onOpen: (toast) => {
+              toast.addEventListener("mouseenter", Swal.stopTimer);
+              toast.addEventListener("mouseleave", Swal.resumeTimer);
+            },
+          });
+          Toast.fire({
+            icon: "success",
+            title: "로그인에 성공했습니다.",
+          });
+          // 홈 화면(내 클럽 보기)으로 이동
+          router.push({ name: "MyClub" });
         })
-        .catch((error) => {
-          alert("로그인 실패");
-          console.log(error);
+        .catch((err) => {
+          const Toast = Swal.mixin({
+            toast: true,
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: false,
+            onOpen: (toast) => {
+              toast.addEventListener("mouseenter", Swal.stopTimer);
+              toast.addEventListener("mouseleave", Swal.resumeTimer);
+            },
+          });
+          Toast.fire({
+            icon: "error",
+            title: err.response.data.message,
+          });
         });
     },
   },

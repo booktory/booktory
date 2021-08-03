@@ -29,7 +29,7 @@ public class BoardController {
     @ApiOperation(value = "담벼락 글 등록", notes = "클럽 상세 페이지 내 담벼락에 글을 등록합니다.")
     @ApiImplicitParams({@ApiImplicitParam(name = "jwt", value = "JWT Token", required = true, dataType = "string", paramType = "header")})
     @PostMapping("/{clubId}")
-    public ResponseEntity<Void> registerBoard(@ApiIgnore final Authentication authentication,
+    public ResponseEntity<String> registerBoard(@ApiIgnore final Authentication authentication,
                                               @PathVariable @ApiParam(value = "클럽 아이디", required = true) Long clubId,
                                               @RequestBody @ApiParam(value = "질문 등록에 필요한 정보") BoardRequestDto boardRequestDto) {
         if (authentication == null || !authentication.isAuthenticated()) {
@@ -37,7 +37,7 @@ public class BoardController {
         }
         User user = ((User)authentication.getPrincipal());
         Board board = boardService.registerBoard(user, clubId, boardRequestDto);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.status(HttpStatus.CREATED).body("success");
     }
 
     @ApiOperation(value = "담벼락 전체 글 조회", notes = "클럽 상세 페이지 내 담벼락 전체 글을 보여줍니다.")
@@ -49,14 +49,14 @@ public class BoardController {
     @ApiOperation(value = "담벼락 글 삭제", notes = "클럽 상세 페이지 내 담벼락에 등록한 글을 삭제합니다.")
     @ApiImplicitParams({@ApiImplicitParam(name = "jwt", value = "JWT Token", required = true, dataType = "string", paramType = "header")})
     @DeleteMapping("/{boardId}")
-    public ResponseEntity<Void> deleteBoard(@ApiIgnore final Authentication authentication,
+    public ResponseEntity<String> deleteBoard(@ApiIgnore final Authentication authentication,
                                             @PathVariable @ApiParam(value = "담벼락 아이디", required = true) Long boardId) {
         if (authentication == null || !authentication.isAuthenticated()) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
         User user = ((User)authentication.getPrincipal());
         boardService.deleteBoard(boardId, user.getId());
-        return ResponseEntity.ok().build();
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("success");
     }
 
 }
