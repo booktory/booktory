@@ -28,8 +28,8 @@ public class S3Uploader implements Uploader{
     private final List<String> imageExt = Arrays.asList(".PNG", ".png", ".JPEG", ".jpeg", ".JPG", ".jpg", ".TIFF", ".tiff", ".BMP", ".bmp" , ".GIF", ".gif");
 
     @Value("${cloud.aws.s3.bucket}")
-    public String bucket;
-
+    private String bucket;
+    private String s3Url = "https://booktory.s3.ap-northeast-2.amazonaws.com/";
     @Override
     public String uploadS3Instance(MultipartFile multipartFile, String dirName) throws IOException {
         File convertedFile = convert(multipartFile);
@@ -41,7 +41,9 @@ public class S3Uploader implements Uploader{
     }
 
     @Override
-    public void deleteS3Instance(String fileName) {
+    public void deleteS3Instance(String url) {
+        System.out.println(s3Url);
+        String fileName = url.replaceFirst(s3Url, "");
         amazonS3Client.deleteObject(bucket, fileName);
         log.info(fileName + " 삭제완료");
     }
