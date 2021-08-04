@@ -12,6 +12,8 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.UUID;
 
 @Slf4j
@@ -33,8 +35,7 @@ public class S3Uploader implements Uploader{
     }
 
     private String upload(File uploadFile, String dirName){
-        UUID uuid = UUID.randomUUID();
-        String fileName = dirName + "/booktory_" + uuid + "_" + uploadFile.getName();
+        String fileName = dirName + makeFileName(uploadFile.getName());
         String uploadImageUrl = putS3(uploadFile, fileName);
         removeNewFile(uploadFile);
         return uploadImageUrl;
@@ -58,5 +59,12 @@ public class S3Uploader implements Uploader{
             return convertFile;
         }
         throw new IllegalArgumentException("파일 변환에 실패 했습니다. 파일이름 : " + file.getName());
+    }
+
+    private String makeFileName(String originFileName){
+        UUID uuid = UUID.randomUUID();
+        String date = (Date.valueOf(LocalDate.now())).toString();
+        final String ext = originFileName.substring(originFileName.lastIndexOf('.'));
+        return ("/booktory_" +date + "_" + uuid + ext) ;//+ "_" + uploadFile.getName();
     }
 }

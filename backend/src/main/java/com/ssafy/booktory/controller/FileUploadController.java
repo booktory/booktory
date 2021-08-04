@@ -9,9 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -19,11 +17,12 @@ import java.io.IOException;
 @RequiredArgsConstructor
 @RestController
 @Slf4j
+@RequestMapping("/files")
 public class FileUploadController {
     private final Uploader uploader;
     private final Long FILE_LIMIT_SIZE = (long)1e7;
 
-    @PostMapping("/file/user")
+    @PostMapping("/user")
     @ApiOperation(value = "프로필 이미지 등록", notes = "프로필 이미지를 S3원격 서버에 저장한다.")
     @ApiResponses({
             @ApiResponse(code = 201, message = "success"),
@@ -40,7 +39,7 @@ public class FileUploadController {
         return ResponseEntity.status(HttpStatus.CREATED).body(uploader.upload(file, "static/user"));
     }
 
-    @PostMapping("/file/board")
+    @PostMapping("/board")
     @ApiOperation(value = "담벼락 파일 등록", notes = "담벼락에 업로드된 파일을 S3원격 서버에 저장한다.")
     @ApiResponses({
             @ApiResponse(code = 201, message = "success"),
@@ -56,5 +55,6 @@ public class FileUploadController {
         }
         return ResponseEntity.status(HttpStatus.CREATED).body(uploader.upload(file, "static/board"));
     }
+
 
 }
