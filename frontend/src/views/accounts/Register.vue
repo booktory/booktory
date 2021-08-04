@@ -58,19 +58,16 @@
         </div>
         <p class="message">8자 이상 입력해주세요</p>
       </div>
-      <button type="button" class="button-2 m-top-10" @click="clickRegister">
-        다음
-      </button>
-      <router-link to="password">
-        <p class="text-link">이용약관 보기</p>
-      </router-link>
+      <button type="button" class="button-2 m-top-10" @click="clickRegister">다음</button>
+      <p class="text-link">이용약관 보기</p>
     </div>
   </div>
 </template>
 
 <script>
-import axios from "axios";
-import Swal from "sweetalert2";
+import router from "@/router";
+// import axios from "axios";
+// import Swal from "sweetalert2";
 
 export default {
   name: "Register",
@@ -86,6 +83,8 @@ export default {
   },
   methods: {
     clickRegister() {
+      router.push({ name: "ExtraInfo" });
+      /*
       let timerInterval;
       Swal.fire({
         title: "인증 메일 발송 중",
@@ -130,20 +129,10 @@ export default {
           });
           console.log(error);
         });
+        */
     },
   },
 };
 </script>
 
-<style scoped>
-.social-login img {
-  width: 4.8em;
-  height: 4.8em;
-  margin: 5% 1.5%;
-}
-
-.text-div * {
-  color: var(--grey);
-  margin: 0.6em auto;
-}
-</style>
+<style scoped></style>
