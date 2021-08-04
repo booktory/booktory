@@ -20,7 +20,7 @@ public class SwaggerConfig extends WebMvcConfigurationSupport {
                 .useDefaultResponseMessages(false)
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.ssafy.booktory"))
-                .paths(PathSelectors.any())
+                .paths(PathSelectors.ant("/api/**"))
                 .build();
     }
 
