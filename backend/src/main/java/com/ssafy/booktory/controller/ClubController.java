@@ -44,23 +44,20 @@ public class ClubController {
     @GetMapping("/{id}")
     @ApiOperation(value = "클럽정보 확인", notes = "해당 클럽의 정보를 모두 반환한다.")
     public ResponseEntity<ClubFindResponseDto> findClub(@PathVariable Long id){
-        Club club = clubService.findClub(id);
-        ClubFindResponseDto clubFindResponseDto = new ClubFindResponseDto(club);
-        return ResponseEntity.status(HttpStatus.OK).body(clubFindResponseDto);
+        return ResponseEntity.status(HttpStatus.OK).body(clubService.findClub(id));
     }
 
     @GetMapping("/list")
     @ApiOperation(value = "클럽목록 확인", notes = "해당 유저가 가입한 클럽들을 보여준다.")
     @ApiImplicitParams({@ApiImplicitParam(name = "jwt", value = "JWT Token", required = true, dataType = "string", paramType = "header")})
-    public ResponseEntity<ClubListFindResponseDto> findJoinedClubList(@ApiIgnore final Authentication authentication){
+    public ResponseEntity<List<ClubListFindResponseDto>> findJoinedClubList(@ApiIgnore final Authentication authentication){
 
         if (authentication == null || !authentication.isAuthenticated()) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
         Long userId = ((User)authentication.getPrincipal()).getId();
 
-        ClubListFindResponseDto clubListFindResponseDto = clubService.findJoinedClubList(userId);
-        return ResponseEntity.status(HttpStatus.OK).body(clubListFindResponseDto);
+        return ResponseEntity.status(HttpStatus.OK).body(clubService.findJoinedClubList(userId));
     }
 
     @PatchMapping("/{id}")

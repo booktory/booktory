@@ -60,25 +60,25 @@ public class ClubService {
         return clubRepository.save(savedClub);
     }
 
-    public Club findClub(Long id){
-        return clubRepository.findById(id)
+    @Transactional
+    public ClubFindResponseDto findClub(Long id){
+        Club club = clubRepository.findById(id)
                 .orElseThrow(()->new NoSuchElementException("존재하지 않는 클럽입니다."));
+        int nowMember = userClubRepository.findAllByClubAndState(club, UserClubState.ACCEPT).size();
+        return new ClubFindResponseDto(club, nowMember);
     }
 
     @Transactional
-    public ClubListFindResponseDto findJoinedClubList(Long userId){
+    public List<ClubListFindResponseDto> findJoinedClubList(Long userId){
         User user = userRepository.findById(userId)
                 .orElseThrow(()-> new NoSuchElementException("존재하지 않는 회원입니다."));
         List<UserClub> userClubs = userClubRepository.findAllByUserAndState(user, UserClubState.ACCEPT);
 
-        List<Club> clubs = new ArrayList<>();
+        List<ClubListFindResponseDto> clubListFindResponseDtoList = new ArrayList<>();
         for(UserClub userClub : userClubs){
-            clubs.add(userClub.getClub());
+            clubListFindResponseDtoList.add(new ClubListFindResponseDto(userClub.getClub()));
         }
-        ClubListFindResponseDto clubListFindResponseDto = new ClubListFindResponseDto();
-        clubListFindResponseDto.toDto(clubs);
-
-        return clubListFindResponseDto;
+        return clubListFindResponseDtoList;
     }
 
     public Club updateClub(Long id, ClubUpdateRequestDto clubUpdateRequestDto, Long leaderId) throws IllegalAccessException {

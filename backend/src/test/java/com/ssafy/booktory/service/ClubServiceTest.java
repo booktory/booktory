@@ -1,6 +1,7 @@
 package com.ssafy.booktory.service;
 
 import com.ssafy.booktory.domain.club.Club;
+import com.ssafy.booktory.domain.club.ClubFindResponseDto;
 import com.ssafy.booktory.domain.club.ClubRepository;
 import com.ssafy.booktory.domain.common.UserClubState;
 import com.ssafy.booktory.domain.user.User;
@@ -97,10 +98,10 @@ class ClubServiceTest {
         Club club1 = clubService.createClub(user.getId(), clubSaveRequestDto);
 
         //when
-        Club club2 = clubService.findClub(club1.getId());
+        ClubFindResponseDto club2 = clubService.findClub(club1.getId());
 
         //then
-        assertEquals(club1.getId(), club2.getId());
+        assertEquals(club1.getName(), club2.getName());
     }
 
     @Test
