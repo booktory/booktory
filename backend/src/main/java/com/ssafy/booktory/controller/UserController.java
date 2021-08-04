@@ -16,8 +16,9 @@ import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.List;
 
+@Api(value = "User API")
 @RestController
-@RequestMapping(value = "/users", produces = "application/json;charset=UTF-8")
+@RequestMapping(value = "/api/users", produces = "application/json;charset=UTF-8")
 @RequiredArgsConstructor
 public class UserController {
 

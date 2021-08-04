@@ -6,10 +6,7 @@ import com.ssafy.booktory.domain.board.BoardResponseDto;
 import com.ssafy.booktory.domain.question.QuestionResponseDto;
 import com.ssafy.booktory.domain.user.User;
 import com.ssafy.booktory.service.BoardService;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,8 +16,9 @@ import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.List;
 
+@Api(value = "Board API")
 @RestController
-@RequestMapping("/boards")
+@RequestMapping("/api/boards")
 @RequiredArgsConstructor
 public class BoardController {
 

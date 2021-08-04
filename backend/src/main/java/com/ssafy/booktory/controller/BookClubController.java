@@ -18,7 +18,7 @@ import java.util.List;
 
 @Api(value = "BookClub API")
 @RestController
-@RequestMapping("/bookclubs")
+@RequestMapping("/api/bookclubs")
 @RequiredArgsConstructor
 public class BookClubController {
 
