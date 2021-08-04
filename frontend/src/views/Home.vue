@@ -17,6 +17,13 @@
       >
         시작하기
       </button>
+      <button
+        type="button"
+        class="button-2"
+        @click="$router.push({ name: 'MyClub' })"
+      >
+        클럽홈
+      </button>
     </div>
   </div>
 </template>
