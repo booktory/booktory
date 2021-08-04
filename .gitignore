@@ -74,3 +74,6 @@ build
 
 # key 설정파일
 application.properties
+
+#파일업로드 임시파일
+resources/static/
