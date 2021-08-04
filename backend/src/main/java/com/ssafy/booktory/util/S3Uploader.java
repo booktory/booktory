@@ -14,6 +14,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 
 @Slf4j
@@ -23,18 +26,24 @@ public class S3Uploader implements Uploader{
 
     private final static String TEMP_FILE_PATH = "src/main/resources/";
     private final AmazonS3Client amazonS3Client;
+    private final List<String> imageExt= Arrays.asList(".PNG", ".png", ".JPEG", ".jpeg", ".JPG", ".jpg", ".TIFF", ".tiff", ".BMP", ".bmp" , ".GIF", ".gif");
 
     @Value("${cloud.aws.s3.bucket}")
     public String bucket;
 
     @Override
-    public String upload(MultipartFile multipartFile, String dirName) throws IOException {
+    public String upload(MultipartFile multipartFile, String dirName) throws Exception {
         File convertedFile = convert(multipartFile);
-
+        if(dirName == "static/user"){
+            String ext = getExt(convertedFile.getName());
+            if(!imageExt.contains(ext))
+                throw new UnsupportedOperationException("지원하지 않는 확장자입니다.");
+        }
         return upload(convertedFile, dirName);
     }
 
     private String upload(File uploadFile, String dirName){
+
         String fileName = dirName + makeFileName(uploadFile.getName());
         String uploadImageUrl = putS3(uploadFile, fileName);
         removeNewFile(uploadFile);
@@ -64,7 +73,11 @@ public class S3Uploader implements Uploader{
     private String makeFileName(String originFileName){
         UUID uuid = UUID.randomUUID();
         String date = (Date.valueOf(LocalDate.now())).toString();
-        final String ext = originFileName.substring(originFileName.lastIndexOf('.'));
+        final String ext = getExt(originFileName);
         return ("/booktory_" +date + "_" + uuid + ext) ;//+ "_" + uploadFile.getName();
+    }
+
+    private String getExt(String originFileName){
+        return originFileName.substring(originFileName.lastIndexOf('.'));
     }
 }
