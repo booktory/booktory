@@ -24,6 +24,13 @@ const routes = [
     component: () => import("@/views/accounts/Register.vue"),
   },
 
+  // 회원가입 추가 정보
+  {
+    path: "/register/extrainfo",
+    name: "ExtraInfo",
+    component: () => import("@/views/accounts/ExtraInfo.vue"),
+  },
+
   // 비밀번호 찾기
   {
     path: "/password",
