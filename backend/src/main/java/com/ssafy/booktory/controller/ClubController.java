@@ -86,15 +86,13 @@ public class ClubController {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
         Long userId = ((User)authentication.getPrincipal()).getId();
-        Long userClubId = clubService.applyToClub(userId, id).getId();
-        return ResponseEntity.status(HttpStatus.CREATED).body(userClubId);
+        return ResponseEntity.status(HttpStatus.CREATED).body(clubService.applyToClub(userId, id).getId());
     }
 
     @GetMapping("{id}/users")
     @ApiOperation(value = "클럽 가입/신청자 목록", notes = "UserClub 테이블에서 해당 클럽에 연관된 데이터를 모두 조회한다.")
     public ResponseEntity<UserClubListResponseDto> joinedUserList(@PathVariable Long id){
-        UserClubListResponseDto userClubListResponseDto = clubService.joinedUserList(id);
-        return ResponseEntity.status(HttpStatus.OK).body(userClubListResponseDto);
+        return ResponseEntity.status(HttpStatus.OK).body(clubService.joinedUserList(id));
     }
 
 
