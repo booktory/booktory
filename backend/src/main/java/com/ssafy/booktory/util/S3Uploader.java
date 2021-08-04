@@ -14,7 +14,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.Date;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
@@ -24,22 +23,27 @@ import java.util.UUID;
 @Component
 public class S3Uploader implements Uploader{
 
-    private final static String TEMP_FILE_PATH = "src/main/resources/";
+    private final static String TEMP_FILE_PATH = "src/main/resources/static/";
     private final AmazonS3Client amazonS3Client;
-    private final List<String> imageExt= Arrays.asList(".PNG", ".png", ".JPEG", ".jpeg", ".JPG", ".jpg", ".TIFF", ".tiff", ".BMP", ".bmp" , ".GIF", ".gif");
+    private final List<String> imageExt = Arrays.asList(".PNG", ".png", ".JPEG", ".jpeg", ".JPG", ".jpg", ".TIFF", ".tiff", ".BMP", ".bmp" , ".GIF", ".gif");
 
     @Value("${cloud.aws.s3.bucket}")
     public String bucket;
 
     @Override
-    public String upload(MultipartFile multipartFile, String dirName) throws Exception {
+    public String uploadS3Instance(MultipartFile multipartFile, String dirName) throws IOException {
         File convertedFile = convert(multipartFile);
-        if(dirName == "static/user"){
-            String ext = getExt(convertedFile.getName());
-            if(!imageExt.contains(ext))
-                throw new UnsupportedOperationException("지원하지 않는 확장자입니다.");
+        if(dirName == "static/user" && !imageExt.contains(getExt(convertedFile.getName()))) {
+            removeNewFile(convertedFile);
+            throw new UnsupportedOperationException("지원하지않는 확장자 입니다.");
         }
         return upload(convertedFile, dirName);
+    }
+
+    @Override
+    public void deleteS3Instance(String fileName) {
+        amazonS3Client.deleteObject(bucket, fileName);
+        log.info(fileName + " 삭제완료");
     }
 
     private String upload(File uploadFile, String dirName){
