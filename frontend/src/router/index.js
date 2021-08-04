@@ -37,6 +37,12 @@ const routes = [
     name: "ClubHome",
     component: () => import("@/views/clubs/ClubHome.vue"),
   },
+  // 클럽 만들기
+  {
+    path: "/club/create",
+    name: "CreateClub",
+    component: () => import("@/views/clubs/CreateClub.vue"),
+  },
 ];
 
 const router = new VueRouter({
