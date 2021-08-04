@@ -5,6 +5,7 @@ import com.ssafy.booktory.domain.userbook.UserBook;
 import com.ssafy.booktory.domain.userbook.UserBookRepository;
 import com.ssafy.booktory.domain.book.BookByUserResponseDto;
 import com.ssafy.booktory.util.JwtTokenProvider;
+import com.ssafy.booktory.util.Uploader;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
@@ -28,6 +29,7 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final JavaMailSender mailSender;
     private final JwtTokenProvider jwtTokenProvider;
+    private final Uploader uploader;
 
     @Value("${spring.mail.username}")
     private static String FROM_ADDRESS;
@@ -119,11 +121,17 @@ public class UserService {
 
     public void updateUser(Long userId, UserUpdateRequestDto userUpdateRequestDto) {
         User user = userRepository.findById(userId).orElseThrow(() -> new NoSuchElementException("존재하지 않는 회원입니다."));
+
+        String originFileURL = user.getProfileImg();
         user.update(userUpdateRequestDto.getNickname(), userUpdateRequestDto.getName(), userUpdateRequestDto.getBirth(), userUpdateRequestDto.getProfileImg(), userUpdateRequestDto.getPhone());
+        uploader.deleteS3Instance(originFileURL);
         userRepository.save(user);
     }
 
     public void deleteUser(Long userId) {
+        User user = userRepository.findById(userId).orElseThrow(()-> new NoSuchElementException("존재하지 않는 회원입니다."));
+        String fileURL = user.getProfileImg();
+        uploader.deleteS3Instance(fileURL);
         userRepository.deleteById(userId);
     }
 
