@@ -34,8 +34,14 @@ const routes = [
   // 홈 화면(내 클럽 보기)
   {
     path: "/club",
-    name: "MyClub",
-    component: () => import("@/views/clubs/MyClub.vue"),
+    name: "ClubHome",
+    component: () => import("@/views/clubs/ClubHome.vue"),
+  },
+  // 클럽 만들기
+  {
+    path: "/club/create",
+    name: "CreateClub",
+    component: () => import("@/views/clubs/CreateClub.vue"),
   },
 ];
 
