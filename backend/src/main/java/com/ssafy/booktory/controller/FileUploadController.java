@@ -1,6 +1,7 @@
 package com.ssafy.booktory.controller;
 
 import com.ssafy.booktory.util.Uploader;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -14,10 +15,11 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
+@Api("File Upload API")
 @RequiredArgsConstructor
 @RestController
 @Slf4j
-@RequestMapping("/files")
+@RequestMapping("api/files")
 public class FileUploadController {
 
     private final Uploader uploader;
