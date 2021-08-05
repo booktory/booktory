@@ -71,7 +71,7 @@ public class ClubController {
 
         try {
             clubService.updateClub(id, clubUpdateRequestDto, leaderId);
-        } catch (IllegalAccessException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Fail : " + e.getMessage());
         }

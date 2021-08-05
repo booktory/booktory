@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -23,7 +24,7 @@ public class ClubFindResponseDto {
     private int volumeRule;
     private int weekRule;
     private String freeRule;
-    private List<String> genres; //
+    private List<String> genres = new ArrayList<>(); //
 
     public ClubFindResponseDto(Club club, int nowMember){
         this.name = club.getName();

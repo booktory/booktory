@@ -63,6 +63,7 @@ public class User implements UserDetails {
     private int mainBadge;
 
     @NotNull
+    @ColumnDefault("false")
     private Boolean isAccept;
 
     @ElementCollection(fetch = FetchType.EAGER)
