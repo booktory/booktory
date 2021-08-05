@@ -9,14 +9,14 @@
     <style>
       /* Common */
       * {
-        background-color: var(--beige);
-        color: var(--black);
         font-family: "Nanum Gothic", sans-serif;
-        font-size: 10px;
+        font-size: 2.7vw;
         text-align: center;
       }
 
       body {
+        color: var(--black);
+        background-color: var(--beige);
         display: flex;
         justify-content: center;
         padding: 0;
@@ -33,23 +33,18 @@
 
       /* View */
       /* Mobile */
-      @media (max-width: 320px) {
-        * {
-          font-size: 8px;
-        }
-      }
       .container {
         width: 100vw;
-        margin-top: 10vh;
-        margin-bottom: 12vh;
+        margin-top: 8vh;
+        margin-bottom: 10vh;
       }
       /* Tablet */
       @media (min-width: 768px) {
         * {
-          font-size: 14px;
+          font-size: 2.2vw;
         }
         .container {
-          width: 80vw;
+          width: 70vw;
         }
       }
       /* Desktop */
@@ -58,8 +53,8 @@
           font-size: 18px;
         }
         .container {
-          width: 70vw;
-          /* max-width: 768px; */
+          width: 60vw;
+          max-width: 768px;
         }
       }
 
@@ -169,6 +164,31 @@
         height: 2.4em;
       }
 
+      .profile-btn {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        background-color: var(--light-orange);
+        border-radius: 10em;
+        padding: 0.7em;
+      }
+
+      .profile-img {
+        display: inline-block;
+        width: 12em;
+        height: 12em;
+        border-radius: 10em;
+      }
+
+      .profile-img-div {
+        position: relative;
+        display: inline-block;
+      }
+
+      .hidden-input {
+        display: none;
+      }
+
       .button-2 {
         font-size: 1.6rem;
         letter-spacing: 0.6rem;
@@ -177,7 +197,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        margin: 0 auto;
+        margin: 3% auto 0;
         padding: 2.5% 4%;
         border-radius: 5em;
         border: 0;
@@ -197,24 +217,26 @@
         color: var(--grey);
       }
 
-      .input-div div {
+      .input-div > div {
         display: inline-block;
         width: 80%;
         height: 24%;
         border-radius: 2em;
         box-shadow: 0 0.4em 0.8em 0 rgba(142, 141, 208, 0.16);
-        background-color: #ffffff;
+        background-color: var(--white);
       }
 
       .input-div input {
         width: 88%;
+        height: 100%;
         padding: 3.6% 6%;
         border: 0;
         background: transparent;
         font-size: 1.4rem;
       }
 
-      .input-div input::placeholder {
+      .input-div input::placeholder,
+      .input-div input::before {
         color: var(--light-grey);
       }
 
@@ -222,7 +244,7 @@
         height: 12px;
         margin-left: 13.3%;
         font-size: 1rem;
-        color: #8a8894;
+        color: var(--grey);
       }
 
       .text-link {
