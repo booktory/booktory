@@ -1,13 +1,13 @@
 <template>
   <div>
     <ClubList />
-    <Navbar class="footer" />
+    <Navbar :selected="'home'" class="footer" />
   </div>
 </template>
 
 <script>
 import ClubList from "@/views/clubs/ClubList.vue";
-import Navbar from "@/views/clubs/Navbar.vue";
+import Navbar from "@/views/Navbar.vue";
 
 export default {
   name: "ClubHome",

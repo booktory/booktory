@@ -3,20 +3,27 @@
     <!-- 헤드 => 좌우 넘기기 있음 -->
     <div class="header">
       <span v-if="index !== 0">
-        <img src="@/assets/icons/chevron-left.svg" alt="pre" @click="clickLeft" />
+        <div class="icon" @click="clickLeft">
+          <icon-base><chevron-left /></icon-base>
+        </div>
       </span>
       <span v-else>
-        <img src="@/assets/icons/chevron-left(empty).svg" alt="pre" />
+        <div class="icon">
+          <icon-base :iconColor="'none'"><chevron-left /></icon-base>
+        </div>
       </span>
-
       <h5>
         {{ club.name }}
       </h5>
       <span v-if="index !== maxLength - 1">
-        <img src="@/assets/icons/chevron-right.svg" alt="next" @click="clickRight" />
+        <div class="icon" @click="clickRight">
+          <icon-base><chevron-right /></icon-base>
+        </div>
       </span>
       <span v-else>
-        <img src="@/assets/icons/chevron-right(empty).svg" alt="next" />
+        <div class="icon">
+          <icon-base :iconColor="'none'"><chevron-right /></icon-base>
+        </div>
       </span>
     </div>
 
@@ -56,7 +63,12 @@
 </template>
 
 <script>
+import IconBase from "../../components/icons/IconBase.vue";
+import ChevronLeft from "../../components/icons/ChevronLeft.vue";
+import ChevronRight from "../../components/icons/ChevronRight.vue";
+
 export default {
+  components: { IconBase, ChevronLeft, ChevronRight },
   name: "ClubListItem",
   props: {
     bookclub: {
@@ -93,6 +105,10 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.header .icon {
+  margin: 0 2em;
 }
 
 .card-background {

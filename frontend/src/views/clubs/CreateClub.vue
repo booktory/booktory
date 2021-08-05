@@ -2,12 +2,9 @@
   <div class="register">
     <div class="container">
       <div class="navbar">
-        <img
-          class="icon"
-          alt="arrow-left"
-          src="@/assets/icons/arrow-left.svg"
-          @click="$router.go(-1)"
-        />
+        <div class="icon" @click="$router.go(-1)">
+          <icon-base><arrow-left /></icon-base>
+        </div>
       </div>
       <h4 class="title">클럽 만들기</h4>
 
@@ -136,7 +133,11 @@
 // import axios from "axios";
 // import Swal from "sweetalert2";
 
+import IconBase from "../../components/icons/IconBase.vue";
+import ArrowLeft from "../../components/icons/ArrowLeft.vue";
+
 export default {
+  components: { IconBase, ArrowLeft },
   name: "CreateClub",
   data() {
     return {
