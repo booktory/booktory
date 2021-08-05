@@ -138,7 +138,7 @@ import ArrowLeft from "../../components/icons/ArrowLeft.vue";
 
 export default {
   components: { IconBase, ArrowLeft },
-  name: "CreateClub",
+  name: "ClubCreate",
   data() {
     return {
       clubData: {
