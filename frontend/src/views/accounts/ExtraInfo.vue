@@ -42,17 +42,22 @@
       </div>
       <div class="input-div">
         <label for="birth">생년월일</label>
-        <div>
-          <input
+        <!-- <div> -->
+        <!-- <input
             v-model="extrainfoData.birth"
             type="date"
             id="birth"
             data-placeholder="생년월일을
           선택해주세요"
             required
-          />
-        </div>
-        <p class="message">생년월일 형식으로 입력해주세요</p>
+          /> -->
+        <date-picker
+          v-model="defaultDate"
+          :default-value="defaultDate"
+          :disabled-date="disabledAfterTodayAndBefore100Year"
+        ></date-picker>
+        <!-- </div> -->
+        <p class="message">생년월일을 선택해주세요</p>
       </div>
       <div class="input-div">
         <label for="phone">전화번호</label>
@@ -76,9 +81,12 @@
 <script>
 import axios from "axios";
 import Swal from "sweetalert2";
+import DatePicker from "vue2-datepicker";
+import "vue2-datepicker/index.css";
 
 export default {
   name: "Register",
+  components: { DatePicker },
   data() {
     return {
       extrainfoData: {
@@ -87,6 +95,7 @@ export default {
         birth: "",
         phone: "",
       },
+      defaultDate: new Date(new Date().getTime() - 20 * 365 * 24 * 3600 * 1000),
     };
   },
   computed: {},
@@ -110,6 +119,12 @@ export default {
       //     this.images = data;
       //   })
       //   .catch((err) => console.log(err));
+    },
+    disabledAfterTodayAndBefore100Year(date) {
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+
+      return date > today || date < new Date(today.getTime() - 100 * 365 * 24 * 3600 * 1000);
     },
     clickSkip() {
       Swal.fire({
@@ -156,4 +171,19 @@ export default {
 #birth:valid::before {
   display: none;
 }
+/* div.mx-input-wrapper {
+  display: inline-block;
+  width: 80%;
+  height: 24%;
+  border-radius: 2em;
+  box-shadow: 0 0.4em 0.8em 0 rgba(142, 141, 208, 0.16);
+  background-color: #ffffff;
+}*/
+/* .input-div > div > div > .mx-input {
+  width: 88%;
+  padding: 3.6% 6%;
+  border: 0;
+  background-color: transparent;
+  font-size: 1.4rem;
+} */
 </style>
