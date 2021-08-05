@@ -40,7 +40,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().authorizeRequests()
-                .antMatchers("/**", "/css/**", "/images/**", "/js/**")
+                .antMatchers("/", "/api/**", "/css/**", "/images/**", "/js/**")
                 .permitAll()
                 .antMatchers("/v2/api-docs", "/swagger-resources/**",
                         "/swagger-ui.html", "/webjars/**", "/swagger*/**")

@@ -16,11 +16,11 @@ import java.time.LocalDateTime;
 @Getter
 @NoArgsConstructor
 public class BookClubAddRequestDto{
-    Long id;
-    Long bookId;
-    Long clubId;
-    LocalDateTime startDateTime;
-    LocalDateTime endDateTime;
+    private Long id;
+    private Long bookId;
+    private Long clubId;
+    private LocalDateTime startDateTime;
+    private LocalDateTime endDateTime;
 
     @Builder
     public BookClubAddRequestDto(Long bookId, Long clubId, Long id, LocalDateTime startDateTime, LocalDateTime endDateTime) {

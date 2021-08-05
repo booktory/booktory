@@ -71,3 +71,6 @@ build
 
 # Windows shortcuts
 *.lnk
+
+# 비공개 설정파일
+application-private-info.properties
