@@ -1,18 +1,18 @@
 <template>
-  <div class="container">
+  <div class="container m-top">
     <h4 class="title">추가정보 입력</h4>
     <p class="sub-title">프로필을 입력해주세요</p>
     <div class="m-top-10">
       <div class="profile-img-div">
         <input
-          class="hidden-input"
+          class="hidden-item"
           ref="image"
           type="file"
           accept="image/*"
           @change="uploadImage()"
         />
         <div class="icon profile-btn" @click="clickProfile">
-          <icon-base><camera /></icon-base>
+          <icon-base><icon-camera /></icon-base>
         </div>
         <img class="profile-img" src="@/assets/images/profile_default.svg" alt="Profile Image" />
       </div>
@@ -30,19 +30,15 @@
     </div>
     <div class="input-div">
       <label for="birth">생년월일</label>
-      <!-- <div> -->
-      <!-- <input
-            v-model="extrainfoData.birth"
-            type="date"
-            id="birth"
-            data-placeholder="생년월일을
-          선택해주세요"
-            required
-          /> -->
       <date-picker
-        v-model="defaultDate"
+        id="birth"
+        v-model="extrainfoData.birth"
+        format="YYYY-MM-DD"
+        type="date"
+        placeholder="YYYY-MM-DD"
         :default-value="defaultDate"
         :disabled-date="disabledAfterTodayAndBefore100Year"
+        :clearable="false"
       ></date-picker>
       <!-- </div> -->
       <p class="message">생년월일을 선택해주세요</p>
@@ -50,14 +46,9 @@
     <div class="input-div">
       <label for="phone">전화번호</label>
       <div>
-        <input
-          v-model="extrainfoData.phone"
-          type="tel"
-          id="phone"
-          placeholder="전화번호를 입력해주세요"
-        />
+        <input v-model="extrainfoData.phone" type="tel" id="phone" placeholder="010-0000-0000" />
       </div>
-      <p class="message">전화번호 형식으로 입력해주세요</p>
+      <p class="message">전화번호를 입력해주세요</p>
     </div>
     <button type="button" class="button-2 m-top-10" @click="clickSkip">넘어가기</button>
     <button type="button" class="button-2" @click="clickExtraInfo">확인</button>
@@ -68,15 +59,11 @@
 <script>
 import axios from "axios";
 import Swal from "sweetalert2";
-import DatePicker from "vue2-datepicker";
-import "vue2-datepicker/index.css";
-
-import IconBase from "../../components/icons/IconBase.vue";
-import Camera from "../../components/icons/Camera.vue";
+import IconCamera from "@/components/icons/IconCamera.vue";
 
 export default {
   name: "Register",
-  components: { DatePicker, Camera, IconBase },
+  components: { IconCamera },
   data() {
     return {
       extrainfoData: {
@@ -153,12 +140,4 @@ export default {
 };
 </script>
 
-<style scoped>
-#birth::before {
-  content: attr(data-placeholder);
-}
-#birth:focus::before,
-#birth:valid::before {
-  display: none;
-}
-</style>
+<style scoped></style>

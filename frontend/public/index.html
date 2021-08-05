@@ -15,7 +15,7 @@
       }
 
       body {
-        color: var(--black);
+        color: var(--dark-grey);
         background-color: var(--beige);
         display: flex;
         justify-content: center;
@@ -27,6 +27,10 @@
         text-decoration: none;
       }
 
+      input {
+        color: var(--dark-grey);
+      }
+
       input:focus {
         outline: none;
       }
@@ -35,8 +39,7 @@
       /* Mobile */
       .container {
         width: 100vw;
-        margin-top: 8vh;
-        margin-bottom: 10vh;
+        margin-bottom: 20vw;
       }
       /* Tablet */
       @media (min-width: 768px) {
@@ -126,13 +129,13 @@
 
         /* Text */
         --black: #000000;
+        --dark-grey: #555;
         --grey: #8a8894;
         --light-grey: #d6d6d9;
         --very-light-grey: #eeeeee;
         --white: #ffffff;
 
         /* Background */
-        --transparent-black: rgba(0, 0, 0, 0.2);
         --beige: #fffbf5;
 
         /* Button */
@@ -145,12 +148,16 @@
 
       /* Class */
       .navbar {
-        position: fixed;
-        top: 2em;
-        left: 2em;
+        /* width: 100vw; */
+        display: grid;
+        grid-template-columns: 12% 76% 12%;
+        height: 6em;
+        align-items: center;
+        justify-items: right;
       }
 
       .title {
+        margin-top: 0;
         margin-bottom: 2.5%;
       }
 
@@ -185,7 +192,7 @@
         display: inline-block;
       }
 
-      .hidden-input {
+      .hidden-item {
         display: none;
       }
 
@@ -232,6 +239,7 @@
         padding: 3.6% 6%;
         border: 0;
         background: transparent;
+        box-shadow: none;
         font-size: 1.4rem;
       }
 
@@ -247,6 +255,15 @@
         color: var(--grey);
       }
 
+      #birth svg {
+        width: 1.6em;
+        height: 1.6em;
+      }
+
+      #birth i {
+        right: 6%;
+      }
+
       .text-link {
         font-size: 1.5rem;
         color: var(--grey);
@@ -254,6 +271,9 @@
 
       .m-top-10 {
         margin-top: 10%;
+      }
+      .m-top {
+        margin-top: 6em;
       }
     </style>
   </head>
