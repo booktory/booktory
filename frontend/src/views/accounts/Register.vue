@@ -1,66 +1,61 @@
 <template>
-  <div class="register">
-    <div class="container">
-      <div class="navbar">
-        <img
-          class="icon"
-          alt="arrow-left"
-          src="@/assets/icons/arrow-left.svg"
-          @click="$router.go(-1)"
+  <div class="container">
+    <div class="navbar">
+      <div class="icon" @click="$router.go(-1)">
+        <icon-base><arrow-left /></icon-base>
+      </div>
+    </div>
+    <h4 class="title">회원가입</h4>
+    <p class="sub-title">회원정보를 입력해주세요</p>
+    <div class="input-div m-top-10">
+      <label for="nickname">닉네임</label>
+      <div>
+        <input
+          v-model="registerData.nickname"
+          type="text"
+          id="nickname"
+          placeholder="닉네임을 입력해주세요"
         />
       </div>
-      <h4 class="title">회원가입</h4>
-      <p class="sub-title">회원정보를 입력해주세요</p>
-      <div class="input-div m-top-10">
-        <label for="nickname">닉네임</label>
-        <div>
-          <input
-            v-model="registerData.nickname"
-            type="text"
-            id="nickname"
-            placeholder="닉네임을 입력해주세요"
-          />
-        </div>
-      </div>
-      <div class="input-div">
-        <label for="email">이메일</label>
-        <div>
-          <input
-            v-model="registerData.email"
-            type="text"
-            id="email"
-            placeholder="booktory@example.com"
-          />
-        </div>
-        <p class="message">이메일 형식으로 입력해주세요</p>
-      </div>
-      <div class="input-div">
-        <label for="password">비밀번호</label>
-        <div>
-          <input
-            v-model="registerData.password"
-            type="password"
-            id="password"
-            placeholder="비밀번호를 입력해주세요"
-          />
-        </div>
-        <p class="message">8자 이상 입력해주세요</p>
-      </div>
-      <div class="input-div">
-        <label for="passwordConfirm">비밀번호 확인</label>
-        <div>
-          <input
-            v-model="registerData.passwordConfirm"
-            type="password"
-            id="passwordConfirm"
-            placeholder="비밀번호를 한 번 더 입력해주세요"
-          />
-        </div>
-        <p class="message">8자 이상 입력해주세요</p>
-      </div>
-      <button type="button" class="button-2 m-top-10" @click="clickRegister">다음</button>
-      <p class="text-link">이용약관 보기</p>
     </div>
+    <div class="input-div">
+      <label for="email">이메일</label>
+      <div>
+        <input
+          v-model="registerData.email"
+          type="text"
+          id="email"
+          placeholder="booktory@example.com"
+        />
+      </div>
+      <p class="message">이메일 형식으로 입력해주세요</p>
+    </div>
+    <div class="input-div">
+      <label for="password">비밀번호</label>
+      <div>
+        <input
+          v-model="registerData.password"
+          type="password"
+          id="password"
+          placeholder="비밀번호를 입력해주세요"
+        />
+      </div>
+      <p class="message">8자 이상 입력해주세요</p>
+    </div>
+    <div class="input-div">
+      <label for="passwordConfirm">비밀번호 확인</label>
+      <div>
+        <input
+          v-model="registerData.passwordConfirm"
+          type="password"
+          id="passwordConfirm"
+          placeholder="비밀번호를 한 번 더 입력해주세요"
+        />
+      </div>
+      <p class="message">8자 이상 입력해주세요</p>
+    </div>
+    <button type="button" class="button-2 m-top-10" @click="clickRegister">다음</button>
+    <p class="text-link">이용약관 보기</p>
   </div>
 </template>
 
@@ -69,7 +64,11 @@ import router from "@/router";
 // import axios from "axios";
 // import Swal from "sweetalert2";
 
+import IconBase from "../../components/icons/IconBase.vue";
+import ArrowLeft from "../../components/icons/ArrowLeft.vue";
+
 export default {
+  components: { IconBase, ArrowLeft },
   name: "Register",
   data() {
     return {

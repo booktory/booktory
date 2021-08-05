@@ -1,49 +1,37 @@
 <template>
-  <div class="register">
-    <div class="container">
-      <div class="navbar">
-        <img
-          class="icon"
-          alt="arrow-left"
-          src="@/assets/icons/arrow-left.svg"
-          @click="$router.go(-1)"
+  <div class="container">
+    <h4 class="title">추가정보 입력</h4>
+    <p class="sub-title">프로필을 입력해주세요</p>
+    <div class="m-top-10">
+      <div class="profile-img-div">
+        <input
+          class="hidden-input"
+          ref="image"
+          type="file"
+          accept="image/*"
+          @change="uploadImage()"
+        />
+        <div class="icon profile-btn" @click="clickProfile">
+          <icon-base><camera /></icon-base>
+        </div>
+        <img class="profile-img" src="@/assets/images/profile_default.svg" alt="Profile Image" />
+      </div>
+    </div>
+    <div class="input-div">
+      <label for="name">이름</label>
+      <div>
+        <input
+          v-model="extrainfoData.name"
+          type="text"
+          id="name"
+          placeholder="이름을 입력해주세요"
         />
       </div>
-      <h4 class="title">추가정보 입력</h4>
-      <p class="sub-title">프로필을 입력해주세요</p>
-      <div class="m-top-10">
-        <div class="profile-img-div">
-          <input
-            class="hidden-input"
-            ref="image"
-            type="file"
-            accept="image/*"
-            @change="uploadImage()"
-          />
-          <img
-            class="icon profile-btn"
-            src="@/assets/icons/camera.svg"
-            alt="camera"
-            @click="clickProfile"
-          />
-          <img class="profile-img" src="@/assets/images/profile_default.svg" alt="Profile Image" />
-        </div>
-      </div>
-      <div class="input-div">
-        <label for="name">이름</label>
-        <div>
-          <input
-            v-model="extrainfoData.name"
-            type="text"
-            id="name"
-            placeholder="이름을 입력해주세요"
-          />
-        </div>
-      </div>
-      <div class="input-div">
-        <label for="birth">생년월일</label>
-        <!-- <div> -->
-        <!-- <input
+    </div>
+    <div class="input-div">
+      <label for="birth">생년월일</label>
+      <!-- <div> -->
+      <!-- <input
             v-model="extrainfoData.birth"
             type="date"
             id="birth"
@@ -51,30 +39,29 @@
           선택해주세요"
             required
           /> -->
-        <date-picker
-          v-model="defaultDate"
-          :default-value="defaultDate"
-          :disabled-date="disabledAfterTodayAndBefore100Year"
-        ></date-picker>
-        <!-- </div> -->
-        <p class="message">생년월일을 선택해주세요</p>
-      </div>
-      <div class="input-div">
-        <label for="phone">전화번호</label>
-        <div>
-          <input
-            v-model="extrainfoData.phone"
-            type="tel"
-            id="phone"
-            placeholder="전화번호를 입력해주세요"
-          />
-        </div>
-        <p class="message">전화번호 형식으로 입력해주세요</p>
-      </div>
-      <button type="button" class="button-2 m-top-10" @click="clickSkip">넘어가기</button>
-      <button type="button" class="button-2" @click="clickExtraInfo">확인</button>
-      <p class="text-link">이용약관 보기</p>
+      <date-picker
+        v-model="defaultDate"
+        :default-value="defaultDate"
+        :disabled-date="disabledAfterTodayAndBefore100Year"
+      ></date-picker>
+      <!-- </div> -->
+      <p class="message">생년월일을 선택해주세요</p>
     </div>
+    <div class="input-div">
+      <label for="phone">전화번호</label>
+      <div>
+        <input
+          v-model="extrainfoData.phone"
+          type="tel"
+          id="phone"
+          placeholder="전화번호를 입력해주세요"
+        />
+      </div>
+      <p class="message">전화번호 형식으로 입력해주세요</p>
+    </div>
+    <button type="button" class="button-2 m-top-10" @click="clickSkip">넘어가기</button>
+    <button type="button" class="button-2" @click="clickExtraInfo">확인</button>
+    <p class="text-link">이용약관 보기</p>
   </div>
 </template>
 
@@ -84,9 +71,12 @@ import Swal from "sweetalert2";
 import DatePicker from "vue2-datepicker";
 import "vue2-datepicker/index.css";
 
+import IconBase from "../../components/icons/IconBase.vue";
+import Camera from "../../components/icons/Camera.vue";
+
 export default {
   name: "Register",
-  components: { DatePicker },
+  components: { DatePicker, Camera, IconBase },
   data() {
     return {
       extrainfoData: {
@@ -171,19 +161,4 @@ export default {
 #birth:valid::before {
   display: none;
 }
-/* div.mx-input-wrapper {
-  display: inline-block;
-  width: 80%;
-  height: 24%;
-  border-radius: 2em;
-  box-shadow: 0 0.4em 0.8em 0 rgba(142, 141, 208, 0.16);
-  background-color: #ffffff;
-}*/
-/* .input-div > div > div > .mx-input {
-  width: 88%;
-  padding: 3.6% 6%;
-  border: 0;
-  background-color: transparent;
-  font-size: 1.4rem;
-} */
 </style>

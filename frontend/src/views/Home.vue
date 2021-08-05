@@ -6,7 +6,9 @@
     <button type="button" class="button-2" @click="$router.push({ name: 'Login' })">
       시작하기
     </button>
-    <button type="button" class="button-2" @click="$router.push({ name: 'MyClub' })">클럽홈</button>
+    <button type="button" class="button-2" @click="$router.push({ name: 'ClubHome' })">
+      클럽홈
+    </button>
   </div>
 </template>
 
