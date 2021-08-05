@@ -12,20 +12,12 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ClubListFindResponseDto {
-    List<ClubListArg> clubs = new ArrayList<>();
 
-    public void toDto(List<Club> clubs){
-        for(Club club : clubs){
-            ClubListArg clubListArg = new ClubListArg(club.getId(), club.getName());
-            this.clubs.add(clubListArg);
-        }
+    private Long id;
+    private String name;
+
+    public ClubListFindResponseDto(Club club){
+        this.id = club.getId();
+        this.name = club.getName();
     }
-}
-
-@Getter
-@NoArgsConstructor
-@AllArgsConstructor
-class ClubListArg{
-    Long id;
-    String name;
 }

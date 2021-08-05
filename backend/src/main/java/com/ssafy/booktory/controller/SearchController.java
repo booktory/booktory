@@ -3,6 +3,7 @@ package com.ssafy.booktory.controller;
 import com.ssafy.booktory.domain.book.BookBySearchResponseDto;
 import com.ssafy.booktory.domain.club.ClubBySearchResponseDto;
 import com.ssafy.booktory.service.SearchService;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
@@ -15,8 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+@Api(value = "Search API")
 @RestController
-@RequestMapping("/search")
+@RequestMapping("/api/search")
 @RequiredArgsConstructor
 public class SearchController {
 

@@ -1,6 +1,7 @@
 package com.ssafy.booktory.service;
 
 import com.ssafy.booktory.domain.club.Club;
+import com.ssafy.booktory.domain.club.ClubFindResponseDto;
 import com.ssafy.booktory.domain.club.ClubRepository;
 import com.ssafy.booktory.domain.common.UserClubState;
 import com.ssafy.booktory.domain.user.User;
@@ -49,19 +50,21 @@ class ClubServiceTest {
                 .nickname("hi")
                 .email("abc@a.b")
                 .password("abc")
+                .isAccept(true)
                 .build();
         user = userRepository.save(user);
         follower = User.builder()
                 .nickname("follow")
                 .email("abc@a.b")
                 .password("abcd")
+                .isAccept(true)
                 .build();
         follower = userRepository.save(follower);
 
         club = Club.builder()
                 .name("testname")
                 .user(user)
-                .maxMember(6)
+                .maxMember(1)
                 .volumeRule(1)
                 .weekRule(3)
                 .isOpen(true)
@@ -70,7 +73,7 @@ class ClubServiceTest {
 
         clubSaveRequestDto = ClubSaveRequestDto.builder()
                 .name("testname")
-                .maxMember(6)
+                .maxMember(1)
                 .isOpen(true)
                 .build();
     }
@@ -97,10 +100,10 @@ class ClubServiceTest {
         Club club1 = clubService.createClub(user.getId(), clubSaveRequestDto);
 
         //when
-        Club club2 = clubService.findClub(club1.getId());
+        ClubFindResponseDto club2 = clubService.findClub(club1.getId());
 
         //then
-        assertEquals(club1.getId(), club2.getId());
+        assertEquals(club1.getName(), club2.getName());
     }
 
     @Test
@@ -135,12 +138,34 @@ class ClubServiceTest {
         assertEquals(accepted.getState(), UserClubState.ACCEPT);
 
     }
+    @Test
+    @Rollback(value = true)
+    public void 클럽가입_승인_실패_인원초과() throws Exception {
+        //given
+        Club club = clubService.createClub(user.getId(), clubSaveRequestDto);
+
+        userClub = UserClub.builder()
+                .club(club)
+                .user(follower)
+                .state(UserClubState.APPLY)
+                .build();
+        userClub = userClubRepository.save(userClub);
+
+        //when
+        UserClub finalUserClub = userClub;
+        Exception exception = assertThrows(Exception.class, ()->{
+            clubService.acceptToClub(user.getId(), club.getId(), finalUserClub.getId(), true);
+        });
+
+        //then
+        String message = exception.getMessage();
+        assertEquals("멤버를 더이상 수용할 수 없습니다.", message);
+    }
 
     @Test
     @Rollback(value = true)
-    public void 클럽가입승인_실패() throws Exception {
+    public void 클럽가입승인_실패_권한없음() throws Exception {
         //given
-
         UserClub userClub = UserClub.builder()
                 .club(club)
                 .user(follower)

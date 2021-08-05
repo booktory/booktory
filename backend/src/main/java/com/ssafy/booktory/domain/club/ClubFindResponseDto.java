@@ -1,34 +1,43 @@
 package com.ssafy.booktory.domain.club;
 
+import com.ssafy.booktory.domain.clubgenre.ClubGenre;
+import com.ssafy.booktory.domain.genre.Genre;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 public class ClubFindResponseDto {
-    String name;
-    LocalDateTime date;
-    String img;
-    String info;
-    int maxMember;
-    Boolean isOpen;
-    int volumeRule;
-    int weekRule;
-    String freeRule;
+    private String name;
+    private LocalDateTime date;
+    private String img;
+    private String info;
+    private int nowMember; //
+    private int maxMember;
+    private Boolean isOpen;
+    private int volumeRule;
+    private int weekRule;
+    private String freeRule;
+    private List<String> genres = new ArrayList<>(); //
 
-    public ClubFindResponseDto(Club club){
+    public ClubFindResponseDto(Club club, int nowMember){
         this.name = club.getName();
         this.date = club.getCreatedDate();
         this.img = club.getImg();
         this.info = club.getInfo();
+        this.nowMember = nowMember;
         this.maxMember = club.getMaxMember();
         this.isOpen = club.getIsOpen();
         this.volumeRule = club.getVolumeRule();
         this.weekRule = club.getWeekRule();
         this.freeRule = club.getFreeRule();
+        for(ClubGenre clubGenre : club.getGenres())
+            this.genres.add(clubGenre.getGenre().getName());
     }
 }

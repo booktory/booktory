@@ -9,14 +9,12 @@ import java.time.LocalDate;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserUpdateRequestDto {
+public class UserPatchExtraRequestDto {
 
-    private String nickname;
+    private String email;
     private String name;
     private LocalDate birth;
     private String profileImg;
     private String phone;
-
-    
 
 }

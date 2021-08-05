@@ -62,6 +62,10 @@ public class User implements UserDetails {
     @ColumnDefault("-1")
     private int mainBadge;
 
+    @NotNull
+    @ColumnDefault("false")
+    private Boolean isAccept;
+
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> roles = new ArrayList<>();
 
@@ -97,7 +101,7 @@ public class User implements UserDetails {
 
     @Builder
     public User(String email, String nickname, String password, String name, LocalDate birth,
-                String profileImg, String phone, int badge, int mainBadge){
+                String profileImg, String phone, int badge, int mainBadge, Boolean isAccept){
         this.email = email;
         this.nickname = nickname;
         this.password = password;
@@ -107,6 +111,14 @@ public class User implements UserDetails {
         this.phone = phone;
         this.badge = badge;
         this.mainBadge = mainBadge;
+        this.isAccept = isAccept;
+    }
+
+    public void addExtraInfo(String name, LocalDate birth, String profileImg, String phone) {
+        this.name = name;
+        this.birth = birth;
+        this.profileImg = profileImg;
+        this.phone = phone;
     }
 
     public void update(String nickname, String name, LocalDate birth, String profileImg, String phone) {
@@ -153,6 +165,10 @@ public class User implements UserDetails {
 
     public void setMainBadge(int badgeId) {
         this.mainBadge = badgeId;
+    }
+
+    public void updateAcceptState(Boolean state) {
+        this.isAccept = state;
     }
 
     public List<Integer> getBadgeList(int badge) {

@@ -17,7 +17,7 @@ import java.util.List;
 
 @Api(value = "Club API")
 @RestController
-@RequestMapping("/clubs")
+@RequestMapping("/api/clubs")
 @RequiredArgsConstructor
 public class ClubController {
 
@@ -26,7 +26,7 @@ public class ClubController {
     @PostMapping(produces="application/json;charset=UTF-8")
     @ApiOperation(value = "새 클럽 등록", notes = "새로운 클럽을 등록/생성한다.")
     @ApiResponses({
-            @ApiResponse(code = 201, message = "Success"),
+            @ApiResponse(code = 201, message = "success"),
             @ApiResponse(code = 401, message = "인증실패"),
             @ApiResponse(code = 404, message = "사용자 없음"),
             @ApiResponse(code = 500, message = "서버 오류")
@@ -38,29 +38,26 @@ public class ClubController {
         }
         Long userId = ((User)authentication.getPrincipal()).getId();
         Club club = clubService.createClub(userId, clubSaveRequestDto);
-        return ResponseEntity.status(HttpStatus.CREATED).body("Success");
+        return ResponseEntity.status(HttpStatus.CREATED).body("success");
     }
 
     @GetMapping("/{id}")
     @ApiOperation(value = "클럽정보 확인", notes = "해당 클럽의 정보를 모두 반환한다.")
     public ResponseEntity<ClubFindResponseDto> findClub(@PathVariable Long id){
-        Club club = clubService.findClub(id);
-        ClubFindResponseDto clubFindResponseDto = new ClubFindResponseDto(club);
-        return ResponseEntity.status(HttpStatus.OK).body(clubFindResponseDto);
+        return ResponseEntity.status(HttpStatus.OK).body(clubService.findClub(id));
     }
 
     @GetMapping("/list")
     @ApiOperation(value = "클럽목록 확인", notes = "해당 유저가 가입한 클럽들을 보여준다.")
     @ApiImplicitParams({@ApiImplicitParam(name = "jwt", value = "JWT Token", required = true, dataType = "string", paramType = "header")})
-    public ResponseEntity<ClubListFindResponseDto> findJoinedClubList(@ApiIgnore final Authentication authentication){
+    public ResponseEntity<List<ClubListFindResponseDto>> findJoinedClubList(@ApiIgnore final Authentication authentication){
 
         if (authentication == null || !authentication.isAuthenticated()) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
         Long userId = ((User)authentication.getPrincipal()).getId();
 
-        ClubListFindResponseDto clubListFindResponseDto = clubService.findJoinedClubList(userId);
-        return ResponseEntity.status(HttpStatus.OK).body(clubListFindResponseDto);
+        return ResponseEntity.status(HttpStatus.OK).body(clubService.findJoinedClubList(userId));
     }
 
     @PatchMapping("/{id}")
@@ -74,11 +71,11 @@ public class ClubController {
 
         try {
             clubService.updateClub(id, clubUpdateRequestDto, leaderId);
-        } catch (IllegalAccessException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Fail : " + e.getMessage());
         }
-        return ResponseEntity.ok().body("Success");
+        return ResponseEntity.ok().body("success");
     }
 
     @PostMapping("/{id}/join")
@@ -89,15 +86,13 @@ public class ClubController {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
         Long userId = ((User)authentication.getPrincipal()).getId();
-        Long userClubId = clubService.applyToClub(userId, id).getId();
-        return ResponseEntity.status(HttpStatus.CREATED).body(userClubId);
+        return ResponseEntity.status(HttpStatus.CREATED).body(clubService.applyToClub(userId, id).getId());
     }
 
     @GetMapping("{id}/users")
     @ApiOperation(value = "클럽 가입/신청자 목록", notes = "UserClub 테이블에서 해당 클럽에 연관된 데이터를 모두 조회한다.")
     public ResponseEntity<UserClubListResponseDto> joinedUserList(@PathVariable Long id){
-        UserClubListResponseDto userClubListResponseDto = clubService.joinedUserList(id);
-        return ResponseEntity.status(HttpStatus.OK).body(userClubListResponseDto);
+        return ResponseEntity.status(HttpStatus.OK).body(clubService.joinedUserList(id));
     }
 
 
@@ -116,7 +111,7 @@ public class ClubController {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Fail : " + e.getMessage());
         }
-        return ResponseEntity.status(HttpStatus.OK).body("Success");
+        return ResponseEntity.status(HttpStatus.OK).body("success");
     }
 
     @DeleteMapping("/{id}/join/{userClubId}")
@@ -134,7 +129,7 @@ public class ClubController {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Fail : " + e.getMessage());
         }
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Success");
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("success");
     }
 
     @DeleteMapping("/{id}/user")
@@ -152,7 +147,7 @@ public class ClubController {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Fail : " + e.getMessage());
         }
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Success");
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("success");
     }
 
     @DeleteMapping("/{id}")
@@ -170,7 +165,7 @@ public class ClubController {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Fail : " + e.getMessage());
         }
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Success");
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("success");
     }
 
 }
