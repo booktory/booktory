@@ -2,7 +2,7 @@
   <div class="container">
     <div class="navbar">
       <div class="icon" @click="$router.go(-1)">
-        <icon-base><arrow-left /></icon-base>
+        <icon-base><icon-arrow-left /></icon-base>
       </div>
     </div>
     <h4 class="title">회원가입</h4>
@@ -64,11 +64,8 @@ import router from "@/router";
 // import axios from "axios";
 // import Swal from "sweetalert2";
 
-import IconBase from "../../components/icons/IconBase.vue";
-import ArrowLeft from "../../components/icons/ArrowLeft.vue";
-
 export default {
-  components: { IconBase, ArrowLeft },
+  components: {},
   name: "Register",
   data() {
     return {
