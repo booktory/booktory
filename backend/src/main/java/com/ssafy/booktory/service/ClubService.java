@@ -127,14 +127,9 @@ public class ClubService {
         if(userClub.getState() == UserClubState.ACCEPT)
             throw new IllegalStateException("이미 처리된 요청입니다.");
         if(!isAccept) {
-            log.info("---------------???---------"+getClubMembersCount(userClub.getClub()) + "\n\n");
-            log.info("--------------????----------"+userClub.getClub().getMaxMember() + "\n\n");
-
             userClubRepository.delete(userClub);
             return null;
         }
-        log.info("------------------------"+getClubMembersCount(userClub.getClub()) + "\n\n");
-        log.info("------------------------"+userClub.getClub().getMaxMember() + "\n\n");
         if(getClubMembersCount(userClub.getClub()) >= userClub.getClub().getMaxMember())
             throw new IllegalArgumentException("멤버를 더이상 수용할 수 없습니다.");
         userClub.acceptJoin();
