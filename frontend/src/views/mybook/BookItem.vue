@@ -1,0 +1,59 @@
+<template>
+  <div class="book-item-wrapper">
+    <div class="book-thumbnail-wrapper">
+      <img :src="thumbnail" :alt="title" :title="title" class="book-thumbnail" />
+    </div>
+    <div v-if="index % 4 == 0" class="book-bottom"></div>
+  </div>
+</template>
+
+<script>
+export default {
+  name: "BookItem",
+  components: {},
+  props: {
+    index: {
+      type: Number,
+    },
+    id: {
+      type: Number,
+    },
+    thumbnail: {
+      type: String,
+    },
+    title: {
+      type: String,
+    },
+  },
+  methods: {},
+};
+</script>
+
+<style scoped>
+.book-item-wrapper {
+  position: relative;
+  align-items: center;
+}
+.book-thumbnail-wrapper {
+  position: relative;
+  align-items: end;
+}
+.book-thumbnail {
+  width: 5.5em;
+  height: 8em;
+  margin-top: 1.4em;
+  border-radius: 1em;
+  box-shadow: 0 3px 3px 0 var(--bg-black), inset 0 0 3px 0 var(--bg-black);
+}
+.book-bottom {
+  position: absolute;
+  left: -12%;
+  bottom: -2%;
+  width: 450%;
+  height: 0.7em;
+  margin: 0 auto;
+  border-radius: 1em;
+  background-color: var(--very-light-brown);
+  box-shadow: 0 3px 3px 0 var(--bg-black), inset 0 0 3px 0 var(--bg-black);
+}
+</style>

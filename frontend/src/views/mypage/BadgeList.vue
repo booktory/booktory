@@ -44,7 +44,6 @@ export default {
   display: grid;
   grid-template-columns: repeat(3, auto);
   gap: 2%;
-  grid-template-rows: repeat(5, auto);
   margin: 0 10.7% 0;
 }
 </style>
