@@ -8,7 +8,7 @@
         </div>
         <span class="font-body-1">문의 및 의견</span>
       </div>
-      <div class="menu-item">
+      <div class="menu-item" @click="$router.push({ name: 'BooktoryTos' })">
         <div class="icon">
           <icon-base><icon-edit /></icon-base>
         </div>
