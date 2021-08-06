@@ -61,14 +61,10 @@
       </div>
       <p class="message">전화번호를 입력해주세요</p>
     </div>
-    <button
-      type="button"
-      class="button-2 m-top-10"
-      @click="$router.push({ name: 'MyProfileUpdatePassword' })"
-    >
+    <button type="button" class="button-2 m-top-10" @click="clickUpdate">수정하기</button>
+    <p class="text-link" @click="$router.push({ name: 'MyProfileUpdatePassword' })">
       비밀번호 변경
-    </button>
-    <button type="button" class="button-2" @click="clickUpdate">수정하기</button>
+    </p>
     <Navbar :selected="'mypage'" class="footer" />
   </div>
 </template>

@@ -108,6 +108,18 @@ const routes = [
     name: "MyPageManage",
     component: () => import("@/views/mypage/MyPageManage.vue"),
   },
+  // 회원 탈퇴
+  {
+    path: "/mypage/delete",
+    name: "DeleteUser",
+    component: () => import("@/views/mypage/DeleteUser.vue"),
+  },
+  // 회원 탈퇴 시 비밀번호 확인
+  {
+    path: "/mypage/delete/confirm",
+    name: "DeleteUserConfirm",
+    component: () => import("@/views/mypage/DeleteUserConfirm.vue"),
+  },
 ];
 
 const router = new VueRouter({
