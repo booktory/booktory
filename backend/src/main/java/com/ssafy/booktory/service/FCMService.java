@@ -50,5 +50,5 @@ public class FCMService {
         DatabaseReference newRef = ref.push();
         newRef.setValueAsync(new FirebaseNotification(notificationRequestDto.getMessage(), formattedDate));
     }
-    
+
 }
