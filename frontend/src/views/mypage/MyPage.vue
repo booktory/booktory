@@ -8,10 +8,10 @@
 </template>
 
 <script>
+import TopHeader from "@/views/TopHeader.vue";
 import MyProfile from "@/views/mypage/MyProfile.vue";
 import BadgeList from "@/views/mypage/BadgeList.vue";
 import Navbar from "@/views/Navbar.vue";
-import TopHeader from "@/views/TopHeader.vue";
 
 export default {
   name: "MyPage",
@@ -48,12 +48,4 @@ export default {
 };
 </script>
 
-<style scoped>
-.footer {
-  width: 100%;
-  left: 0;
-  bottom: 0;
-  position: fixed;
-  text-align: center;
-}
-</style>
+<style scoped></style>
