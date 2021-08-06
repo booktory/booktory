@@ -60,6 +60,12 @@ const routes = [
     name: "MyProfileUpdate",
     component: () => import("@/views/mypage/MyProfileUpdate.vue"),
   },
+  // 비밀번호 변경
+  {
+    path: "/mypage/update/password",
+    name: "MyProfileUpdatePassword",
+    component: () => import("@/views/mypage/MyProfileUpdatePassword.vue"),
+  },
 ];
 
 const router = new VueRouter({
