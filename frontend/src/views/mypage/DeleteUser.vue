@@ -39,7 +39,7 @@ export default {
     TopHeader,
     Navbar,
   },
-  name: "BooktoryTos",
+  name: "DeleteUser",
   data() {
     return {
       nickname: "책토리",
