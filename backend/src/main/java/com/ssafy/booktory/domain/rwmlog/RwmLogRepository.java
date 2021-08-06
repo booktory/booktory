@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface RwmLogRepository extends JpaRepository<RwmLog, Long> {
     int countByRwmAndModifiedDateIsNull(Rwm rwm);
+    List<RwmLog> findAllByRwmAndModifiedDateIsNull(Rwm rwm);
 }
