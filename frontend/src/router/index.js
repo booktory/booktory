@@ -78,6 +78,12 @@ const routes = [
     component: () => import("@/views/clubs/ClubSearchBarPageListItem.vue"),
   },
 
+  {
+    path: "/clubdetail",
+    name: "ClubdetailHome",
+    component: () => import("@/views/clubdetail/ClubdetailHome.vue"),
+  },
+
   // 마이페이지
   {
     path: "/mypage",
