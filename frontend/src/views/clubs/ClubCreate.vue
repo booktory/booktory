@@ -41,7 +41,7 @@
       <!-- 장르 키워드 선택 -->
       <div class="gerne-keyword">
         <span v-for="(gerne, idx) in genresList" :key="idx" :value="gerne">
-          <span @click="addGerne">{{ gerne }}</span>
+          <span @click="addGerne" class="tag">{{ gerne }}</span>
         </span>
       </div>
 
@@ -50,46 +50,49 @@
         <div class="label">운영 규칙</div>
         <!--  -->
         <div>
-          <img src="@/assets/icons/check.svg" alt="check" />
-          한 달에
-          <span id="v-model-select">
-            <select v-model="clubData.volumRule">
-              <option>1</option>
-              <option>2</option>
-              <option>3</option>
-              <option>4</option>
-              <option>5</option>
-              <option>6</option>
-              <option>7</option>
-              <option>8</option>
-              <option>9</option>
-              <option>10</option>
-            </select>
+          <span class="font-body-2">
+            - 한 달에
+            <span id="v-model-select">
+              <select v-model="clubData.volumRule">
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+                <option>6</option>
+                <option>7</option>
+                <option>8</option>
+                <option>9</option>
+                <option>10</option>
+              </select>
+            </span>
+            권 읽어요
           </span>
-          권 읽어요
         </div>
         <!--  -->
         <div>
-          <img src="@/assets/icons/check.svg" alt="check" />
-          <span id="v-model-select">
-            <select v-model="clubData.weekRule">
-              <option>1</option>
-              <option>2</option>
-              <option>3</option>
-              <option>4</option>
-              <option>5</option>
-              <option>6</option>
-              <option>7</option>
-              <option>8</option>
-              <option>9</option>
-              <option>10</option>
-            </select>
+          <span class="font-body-2">
+            -
+            <span id="v-model-select">
+              <select v-model="clubData.weekRule">
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+                <option>6</option>
+                <option>7</option>
+                <option>8</option>
+                <option>9</option>
+                <option>10</option>
+              </select>
+            </span>
+            주에 한 번 만나요
           </span>
-          주에 한 번 만나요
         </div>
         <!--  -->
         <div class="input-div">
-          <img src="@/assets/icons/check.svg" alt="check" />
+          <span class="font-body-2">- </span>
           <div>
             <input
               v-model="clubData.freeRule"
@@ -104,27 +107,38 @@
       <!-- 클럽 인원 -->
       <div class="max-member">
         <div class="label">클럽 최대 인원수</div>
-        <span id="v-model-select">
-          <select v-model="clubData.maxMember">
-            <option>1</option>
-            <option>2</option>
-            <option>3</option>
-            <option>4</option>
-            <option>5</option>
-            <option>6</option>
-            <option>7</option>
-            <option>8</option>
-          </select>
+        <span class="font-body-3">
+          <span id="v-model-select">
+            <select v-model="clubData.maxMember">
+              <option>1</option>
+              <option>2</option>
+              <option>3</option>
+              <option>4</option>
+              <option>5</option>
+              <option>6</option>
+              <option>7</option>
+              <option>8</option>
+            </select>
+          </span>
+          명
         </span>
       </div>
       <!-- 공개 여부 -->
       <div class="is-open">
         <div class="label">공개 여부</div>
-        <input type="checkbox" id="checkbox" v-model="clubData.isOpen" />
-        <label for="checkbox">{{ clubData.isOpen }}</label>
+        <div>
+          <input type="checkbox" id="checkbox" v-model="clubData.isOpen" />
+          <span class="font-body-3 is-open-text" v-if="clubData.isOpen">공개</span>
+          <span class="font-body-3 is-open-text" v-else>비공개</span>
+        </div>
       </div>
-
-      <button type="button" class="button-2 m-top-10">다음</button>
+      <button
+        type="button"
+        class="button-2 m-top-10"
+        @click="$router.push({ name: 'ClubCreateBook' })"
+      >
+        다음
+      </button>
     </div>
   </div>
 </template>
@@ -138,7 +152,7 @@ import ArrowLeft from "../../components/icons/ArrowLeft.vue";
 
 export default {
   components: { IconBase, ArrowLeft },
-  name: "CreateClub",
+  name: "ClubCreate",
   data() {
     return {
       clubData: {
@@ -147,8 +161,8 @@ export default {
         info: "",
         maxMember: 8,
         isOpen: true,
-        volumRule: "",
-        weekRule: "",
+        volumRule: 1,
+        weekRule: 2,
         freeRule: "",
         genres: [],
         books: [],
@@ -181,14 +195,13 @@ export default {
   margin: 5% auto 0;
 }
 
-.rules * {
-  text-align: left;
-}
-
-.rules {
-  display: inline-block;
-  width: 80%;
-  margin: 0 auto;
+.tag {
+  margin: 0% 0.2%;
+  padding: 0.5% 1.6%;
+  border: 0;
+  border-radius: 10px;
+  color: white;
+  background-color: #a4c0f3;
 }
 
 .label {
@@ -200,23 +213,58 @@ export default {
   color: var(--grey);
 }
 
-.max-member * {
+.rules * {
   text-align: left;
+}
+
+.rules {
+  display: inline-block;
+  width: 80%;
+  margin: 0 auto;
+}
+
+select {
+  width: 15%;
+  margin: 1% 2% 2%;
+  padding: 2%;
+  font-size: 1.4rem;
+  color: #8a8894;
+  border: 0;
+  border-radius: 24px;
+  background-color: #fff;
+  box-shadow: 0 0.4em 0.8em 0 rgba(142, 141, 208, 0.16);
 }
 
 .max-member {
   display: inline-block;
+  text-align: left;
   width: 80%;
   margin: 0 auto;
 }
 
-.is-open * {
-  text-align: left;
+.max-member #v-model-select > select {
+  width: 30%;
+  padding: 2% 10% 2%;
 }
 
 .is-open {
-  display: inline-block;
+  text-align: left;
   width: 80%;
   margin: 0 auto;
+}
+
+.is-open > div {
+  text-align: left;
+  display: flex;
+  align-items: center;
+}
+
+#checkbox {
+  width: 2rem;
+  height: 2rem;
+  border: 1px solid #cccccc;
+  transition: all linear 0.3s;
+  display: inline-block;
+  margin: 5%;
 }
 </style>
