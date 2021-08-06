@@ -2,7 +2,7 @@
   <div class="container">
     <div class="navbar">
       <div class="icon" @click="$router.go(-1)">
-        <icon-base><arrow-left /></icon-base>
+        <icon-base><icon-arrow-left /></icon-base>
       </div>
     </div>
     <h4 class="title">회원가입</h4>
@@ -55,7 +55,7 @@
       <p class="message">8자 이상 입력해주세요</p>
     </div>
     <button type="button" class="button-2 m-top-10" @click="clickRegister">다음</button>
-    <p class="text-link">이용약관 보기</p>
+    <p class="text-link" @click="$router.push({ name: 'BooktoryTos' })">이용약관 보기</p>
   </div>
 </template>
 
@@ -64,11 +64,8 @@ import router from "@/router";
 // import axios from "axios";
 // import Swal from "sweetalert2";
 
-import IconBase from "../../components/icons/IconBase.vue";
-import ArrowLeft from "../../components/icons/ArrowLeft.vue";
-
 export default {
-  components: { IconBase, ArrowLeft },
+  components: {},
   name: "Register",
   data() {
     return {
