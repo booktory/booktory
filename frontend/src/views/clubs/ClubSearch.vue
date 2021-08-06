@@ -2,7 +2,7 @@
   <div class="container">
     <div class="navbar">
       <div class="icon" @click="$router.go(-1)">
-        <icon-base><arrow-left /></icon-base>
+        <icon-base><icon-arrow-left /></icon-base>
       </div>
     </div>
     <h4>클럽찾기</h4>
@@ -18,8 +18,6 @@
 import ClubSearchBar from "@/views/clubs/ClubSearchBar.vue";
 import ClubSearchKeyword from "@/views/clubs/ClubSearchKeyword.vue";
 import ClubSearchResult from "@/views/clubs/ClubSearchResult.vue";
-import IconBase from "../../components/icons/IconBase.vue";
-import ArrowLeft from "../../components/icons/ArrowLeft.vue";
 
 export default {
   name: "ClubSearch",
@@ -27,8 +25,6 @@ export default {
     ClubSearchBar,
     ClubSearchKeyword,
     ClubSearchResult,
-    IconBase,
-    ArrowLeft,
   },
 };
 </script>
