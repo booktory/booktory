@@ -149,7 +149,6 @@ public class ClubController {
         }
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body("success");
     }
-
     @DeleteMapping("/{id}")
     @ApiOperation(value = "클럽 삭제", notes = "클럽장이 클럽을 삭제한다.")
     @ApiImplicitParams({@ApiImplicitParam(name = "jwt", value = "JWT Token", required = true, dataType = "string", paramType = "header")})
