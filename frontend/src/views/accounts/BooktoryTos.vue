@@ -222,11 +222,11 @@ export default {
 <style scoped>
 .content-div {
   width: auto;
-  margin: 7% 10.7% 0;
+  margin: 7% 7% 0;
 }
 .content-div > h6,
 .content-div > p {
-  text-align: left;
+  text-align: justify;
   margin: 2%;
 }
 .content-div > p {
