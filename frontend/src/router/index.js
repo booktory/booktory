@@ -47,6 +47,12 @@ const routes = [
     name: "ClubCreate",
     component: () => import("@/views/clubs/ClubCreate.vue"),
   },
+  // 클럽 만들기 - 책 선택
+  {
+    path: "/club/create/book",
+    name: "ClubCreateBook",
+    component: () => import("@/views/clubs/ClubCreateBook.vue"),
+  },
   // 클럽 찾기
   {
     path: "/club/search",

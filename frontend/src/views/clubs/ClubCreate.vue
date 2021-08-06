@@ -123,8 +123,13 @@
         <input type="checkbox" id="checkbox" v-model="clubData.isOpen" />
         <label for="checkbox">{{ clubData.isOpen }}</label>
       </div>
-
-      <button type="button" class="button-2 m-top-10">다음</button>
+      <button
+        type="button"
+        class="button-2 m-top-10"
+        @click="$router.push({ name: 'ClubCreateBook' })"
+      >
+        다음
+      </button>
     </div>
   </div>
 </template>
