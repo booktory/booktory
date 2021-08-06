@@ -3,7 +3,7 @@
     <div class="item" @click="$router.push({ name: 'ClubHome' })">
       <p class="sub-item icon">
         <icon-base :iconColor="selected == 'home' ? 'var(--blue)' : 'var(--grey)'"
-          ><home-icon
+          ><icon-home
         /></icon-base>
       </p>
       <p class="sub-item font-body-4">홈</p>
@@ -11,7 +11,7 @@
     <div class="item">
       <p class="sub-item icon">
         <icon-base :iconColor="selected == 'rwm' ? 'var(--blue)' : 'var(--grey)'"
-          ><rwm-icon
+          ><icon-rwm
         /></icon-base>
       </p>
       <p class="sub-item font-body-4">같이읽기</p>
@@ -19,7 +19,7 @@
     <div class="item">
       <p class="sub-item icon">
         <icon-base :iconColor="selected == 'mybook' ? 'var(--blue)' : 'var(--grey)'"
-          ><mybook-icon
+          ><icon-mybook
         /></icon-base>
       </p>
       <p class="sub-item font-body-4">내 서재</p>
@@ -27,7 +27,7 @@
     <div class="item" @click="$router.push({ name: 'MyPage' })">
       <p class="sub-item icon">
         <icon-base :iconColor="selected == 'mypage' ? 'var(--blue)' : 'var(--grey)'"
-          ><mypage-icon
+          ><icon-mypage
         /></icon-base>
       </p>
       <p class="sub-item font-body-4">마이페이지</p>
@@ -36,14 +36,13 @@
 </template>
 
 <script>
-import IconBase from "@/components/icons/IconBase.vue";
-import HomeIcon from "@/components/icons/HomeIcon.vue";
-import RwmIcon from "@/components/icons/RwmIcon.vue";
-import MybookIcon from "@/components/icons/MybookIcon.vue";
-import MypageIcon from "@/components/icons/MypageIcon.vue";
+import IconHome from "@/components/icons/IconHome.vue";
+import IconRwm from "@/components/icons/IconRwm.vue";
+import IconMybook from "@/components/icons/IconMybook.vue";
+import IconMypage from "@/components/icons/IconMypage.vue";
 
 export default {
-  components: { IconBase, HomeIcon, RwmIcon, MybookIcon, MypageIcon },
+  components: { IconHome, IconRwm, IconMybook, IconMypage },
   name: "Navbar",
   props: {
     selected: {

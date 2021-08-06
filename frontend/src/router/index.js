@@ -28,6 +28,12 @@ const routes = [
     name: "ExtraInfo",
     component: () => import("@/views/accounts/ExtraInfo.vue"),
   },
+  // 책토리 이용약관
+  {
+    path: "/register/booktory",
+    name: "BooktoryTos",
+    component: () => import("@/views/accounts/BooktoryTos.vue"),
+  },
   // 비밀번호 찾기
   {
     path: "/password",
@@ -77,6 +83,24 @@ const routes = [
     path: "/mypage",
     name: "MyPage",
     component: () => import("@/views/mypage/MyPage.vue"),
+  },
+  // 프로필 수정
+  {
+    path: "/mypage/update",
+    name: "MyProfileUpdate",
+    component: () => import("@/views/mypage/MyProfileUpdate.vue"),
+  },
+  // 비밀번호 변경
+  {
+    path: "/mypage/update/password",
+    name: "MyProfileUpdatePassword",
+    component: () => import("@/views/mypage/MyProfileUpdatePassword.vue"),
+  },
+  // 계정 관리
+  {
+    path: "/mypage/manage",
+    name: "MyPageManage",
+    component: () => import("@/views/mypage/MyPageManage.vue"),
   },
 ];
 
