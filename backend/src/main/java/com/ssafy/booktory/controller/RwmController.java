@@ -51,5 +51,18 @@ public class RwmController {
         return ResponseEntity.status(HttpStatus.CREATED).body("success");
     }
 
+    @DeleteMapping("/{id}")
+    @ApiOperation(value = "RWM방 퇴장", notes = "토큰에 저장된 사용자가 rwm방에 퇴장한다. (rwmLog 수정)")
+    @ApiImplicitParams({@ApiImplicitParam(name = "jwt", value = "JWT Token", required = true, dataType = "string", paramType = "header")})
+    public ResponseEntity<String> exitTheRwmRoom(@ApiIgnore final Authentication authentication, @PathVariable Long id){
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+        Long userId = ((User)authentication.getPrincipal()).getId();
+
+        rwmService.exitTheRoom(userId, id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("success");
+    }
+
 
 }

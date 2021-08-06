@@ -31,7 +31,7 @@ public class RwmService {
         List<RwmListResponseDto> rwmList = new ArrayList<>();
         List<Rwm> rwms = rwmRepository.findAll();
         for(Rwm rwm : rwms){
-            rwmList.add(new RwmListResponseDto(rwm, rwmLogRepository.countByRwmAndDateTime(rwm)));
+            rwmList.add(new RwmListResponseDto(rwm, rwmLogRepository.countByRwm(rwm)));
         }
         return rwmList;
     }
@@ -40,7 +40,7 @@ public class RwmService {
     public RwmParticipantResponseDto getParticipant(Long id) {
         Rwm rwm = rwmRepository.findById(id)
                 .orElseThrow(()-> new NoSuchElementException("존재하지 않는 Read With Me방 입니다."));
-        List<RwmLog> rwmLogs = rwmLogRepository.findAllByRwmAndDateTime(rwm);
+        List<RwmLog> rwmLogs = rwmLogRepository.findAllByRwm(rwm);
 
         return new RwmParticipantResponseDto(rwm.getName(), rwmLogs);
     }
@@ -57,8 +57,15 @@ public class RwmService {
                 .build();
         return rwmLogRepository.save(rwmLog);
     }
-//
-//    public RwmLog exitTheRoom(Long userId, Long rwmId){
-//
-//    }
+
+    public void exitTheRoom(Long userId, Long rwmId){
+        User user = userRepository.findById(userId)
+                .orElseThrow(()-> new NoSuchElementException("사용자 정보가 존재하지 않습니다."));
+        Rwm rwm = rwmRepository.findById(rwmId)
+                .orElseThrow(()-> new NoSuchElementException("존재하지 않는 rwm방 입니다."));
+        RwmLog rwmLog = rwmLogRepository.findByUserAndRwm(user, rwm)
+                .orElseThrow(()-> new NoSuchElementException("입장 중인 로그가 존재하지 않습니다."));
+        rwmLogRepository.delete(rwmLog);
+    }
+
 }
