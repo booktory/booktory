@@ -1,6 +1,8 @@
 <template>
   <div>
     <ClubList />
+    <span @click="$router.push({ name: 'ClubSearch' })">클럽 찾기</span> |
+    <span @click="$router.push({ name: 'ClubCreate' })">클럽 만들기</span>
     <Navbar :selected="'home'" class="footer" />
   </div>
 </template>
