@@ -16,7 +16,7 @@
       </p>
       <p class="sub-item font-body-4">같이읽기</p>
     </div>
-    <div class="item">
+    <div class="item" @click="$router.push({ name: 'MyBook' })">
       <p class="sub-item icon">
         <icon-base :iconColor="selected == 'mybook' ? 'var(--orange)' : 'var(--grey)'"
           ><icon-mybook

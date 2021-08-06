@@ -84,6 +84,13 @@ const routes = [
     component: () => import("@/views/clubdetail/ClubdetailHome.vue"),
   },
 
+  // 내 서재
+  {
+    path: "/mybook",
+    name: "MyBook",
+    component: () => import("@/views/mybook/MyBook.vue"),
+  },
+
   // 마이페이지
   {
     path: "/mypage",
