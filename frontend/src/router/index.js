@@ -44,8 +44,32 @@ const routes = [
   // 클럽 만들기
   {
     path: "/club/create",
-    name: "CreateClub",
-    component: () => import("@/views/clubs/CreateClub.vue"),
+    name: "ClubCreate",
+    component: () => import("@/views/clubs/ClubCreate.vue"),
+  },
+  // 클럽 만들기 - 책 선택
+  {
+    path: "/club/create/book",
+    name: "ClubCreateBook",
+    component: () => import("@/views/clubs/ClubCreateBook.vue"),
+  },
+  // 클럽 찾기
+  {
+    path: "/club/search",
+    name: "ClubSearch",
+    component: () => import("@/views/clubs/ClubSearch.vue"),
+  },
+  // 클럽 찾기 검색바페이지
+  {
+    path: "/club/search/barpage",
+    name: "ClubSearchBarPage",
+    component: () => import("@/views/clubs/ClubSearchBarPage.vue"),
+  },
+  // 클럽 찾기 검색결과 상세페이지
+  {
+    path: "/club/search/barpage/item",
+    name: "ClubSearchBarPageListItem",
+    component: () => import("@/views/clubs/ClubSearchBarPageListItem.vue"),
   },
 
   // 마이페이지
