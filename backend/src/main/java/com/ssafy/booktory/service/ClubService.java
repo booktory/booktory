@@ -35,6 +35,7 @@ public class ClubService {
     private final BookRepository bookRepository;
     private final GenreRepository genreRepository;
     private final UserClubRepository userClubRepository;
+    private final NotificationService notificationService;
 
     public Club createClub(Long userId, ClubSaveRequestDto clubSaveRequestDto){
 
@@ -102,6 +103,7 @@ public class ClubService {
         return clubRepository.save(club);
     }
 
+    @Transactional
     public UserClub applyToClub(Long userId, Long clubId) {
         Club club = clubRepository.findById(clubId)
                 .orElseThrow(()-> new NoSuchElementException("존재하지 않는 클럽입니다."));
@@ -112,6 +114,9 @@ public class ClubService {
                 .club(club)
                 .state(UserClubState.APPLY)
                 .build();
+
+        notificationService.makeNotification("apply", club, user);
+
         return userClubRepository.save(userClub);
     }
 
@@ -128,11 +133,14 @@ public class ClubService {
             throw new IllegalStateException("이미 처리된 요청입니다.");
         if(!isAccept) {
             userClubRepository.delete(userClub);
+            notificationService.makeNotification("reject", userClub.getClub(), userClub.getUser());
             return null;
         }
         if(getClubMembersCount(userClub.getClub()) >= userClub.getClub().getMaxMember())
             throw new IllegalArgumentException("멤버를 더이상 수용할 수 없습니다.");
         userClub.acceptJoin();
+        notificationService.makeNotification("accept", userClub.getClub(), userClub.getUser());
+
         return Optional.of(userClubRepository.save(userClub));
     }
     public void deleteJoin(Long userId, Long clubId) {
