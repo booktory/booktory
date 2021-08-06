@@ -7,13 +7,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class RwmParticipantListArgDto {
     Long userId;
-    String userName;
+    String userNickName;
     String profileImg;
     String bookName;
 
     public RwmParticipantListArgDto(RwmLog rwmLog){
         this.userId = rwmLog.getUser().getId();
-        this.userName = rwmLog.getUser().getName();
+        this.userNickName = rwmLog.getUser().getNickname();
         this.profileImg = rwmLog.getUser().getProfileImg();
         this.bookName = rwmLog.getBookName();
     }
