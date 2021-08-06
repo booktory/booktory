@@ -14,7 +14,7 @@
         </div>
         <span class="font-body-1">책토리 이용약관</span>
       </div>
-      <div class="menu-item">
+      <div class="menu-item" @click="clickLogout">
         <div class="icon">
           <icon-base><icon-logout /></icon-base>
         </div>
@@ -35,6 +35,8 @@ import IconMail from "@/components/icons/IconMail.vue";
 import IconEdit from "@/components/icons/IconEdit.vue";
 import IconLogout from "@/components/icons/IconLogout.vue";
 import IconTrash from "@/components/icons/IconTrash.vue";
+import router from "@/router";
+import Swal from "sweetalert2";
 
 export default {
   name: "MyPageManageMenu",
@@ -49,6 +51,21 @@ export default {
     clickQuestion() {
       location.href =
         "mailto:booktory607@gmail.com?subject=책토리 Feedback&body=궁금하신 점이나 버그, 의견 등을 남겨주시면 확인 후 메일로 답변을 보내드릴게요!%0D%0A내용을 자세하게 적어 보내주시면 더 좋은 답변을 드릴 수 있습니다:)";
+    },
+    clickLogout() {
+      Swal.fire({
+        showCancelButton: true,
+        title: "로그아웃",
+        text: "로그아웃 하시겠습니까?",
+        confirmButtonText: "로그아웃",
+        cancelButtonText: "취소",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          // 로그아웃 처리
+          // 로그인 페이지 이동
+          router.push({ name: "Login" });
+        }
+      });
     },
   },
 };
