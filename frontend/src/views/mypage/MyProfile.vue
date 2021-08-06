@@ -2,7 +2,7 @@
   <div>
     <div class="wrapper">
       <h4 class="title">나의 프로필</h4>
-      <div class="icon settings-btn" @click="$router.push({ name: 'AccountManage' })">
+      <div class="icon settings-btn" @click="$router.push({ name: 'MyPageManage' })">
         <icon-base><icon-settings /></icon-base>
       </div>
     </div>
@@ -14,7 +14,11 @@
         <span class="font-body-4">{{ email }}</span>
       </div>
     </div>
-    <button type="button" class="button-1 m-top-5" @click="$router.push({ name: 'UpdateProfile' })">
+    <button
+      type="button"
+      class="button-1 m-top-5"
+      @click="$router.push({ name: 'MyProfileUpdate' })"
+    >
       프로필 수정
     </button>
   </div>

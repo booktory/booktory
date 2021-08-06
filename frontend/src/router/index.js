@@ -54,6 +54,12 @@ const routes = [
     name: "MyPage",
     component: () => import("@/views/mypage/MyPage.vue"),
   },
+  // 프로필 수정
+  {
+    path: "/mypage/update",
+    name: "MyProfileUpdate",
+    component: () => import("@/views/mypage/MyProfileUpdate.vue"),
+  },
 ];
 
 const router = new VueRouter({
