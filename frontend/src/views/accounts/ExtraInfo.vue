@@ -52,11 +52,11 @@
     </div>
     <button type="button" class="button-2 m-top-10" @click="clickSkip">넘어가기</button>
     <button type="button" class="button-2" @click="clickExtraInfo">확인</button>
-    <p class="text-link">이용약관 보기</p>
   </div>
 </template>
 
 <script>
+import router from "@/router";
 import axios from "axios";
 import Swal from "sweetalert2";
 import IconCamera from "@/components/icons/IconCamera.vue";
@@ -109,6 +109,7 @@ export default {
         title: "회원가입 완료",
         html: "회원가입이 완료 되었습니다.<br>지금부터 책토리를 이용하실 수 있어요!",
       });
+      router.push({ name: "Login" });
     },
     clickExtraInfo() {
       axios
@@ -125,6 +126,7 @@ export default {
             html: "회원가입이 완료 되었습니다.<br>지금부터 책토리를 이용하실 수 있어요!",
           });
           console.log(res.data);
+          router.push({ name: "Login" });
         })
         .catch((error) => {
           Swal.fire({

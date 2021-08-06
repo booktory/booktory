@@ -5,15 +5,14 @@
         <icon-base><icon-arrow-left /></icon-base>
       </div>
     </div>
-    <h4 class="title">이용약관</h4>
-    <p class="sub-title">책토리 홈페이지 회원 이용약관</p>
+    <h4 class="title">책토리 회원 이용약관</h4>
     <div class="content-div m-top-10">
       <h6>제1조 (목적)</h6>
 
       <p>
-        본 회원약관은 책토리(이하 '갑'라 한다)가 운영하는 인터넷관련 서비스(이하 '서비스'라 한다)를
-        이용함에 있어 관리자와 이용자(이하 '회원'라 한다)의 권리, 의무 및 책임사항을 규정함을
-        목적으로 한다.
+        본 회원약관은 책토리(이하 '갑'이라 한다)가 운영하는 인터넷관련 서비스(이하 '서비스'라
+        한다)를 이용함에 있어 관리자와 이용자(이하 '회원'라 한다)의 권리, 의무 및 책임사항을
+        규정함을 목적으로 한다.
       </p>
 
       <h6>제2조 (약관의 효력)</h6>
@@ -222,12 +221,12 @@ export default {
 <style scoped>
 .content-div {
   width: auto;
-  margin: 7% 7% 0;
+  margin: 7% 8% 0;
 }
 .content-div > h6,
 .content-div > p {
   text-align: justify;
-  margin: 2%;
+  margin: 2% 0;
 }
 .content-div > p {
   margin-bottom: 5%;
