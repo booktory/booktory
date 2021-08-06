@@ -2,7 +2,7 @@
   <div class="navbar-container">
     <div class="item" @click="$router.push({ name: 'ClubHome' })">
       <p class="sub-item icon">
-        <icon-base :iconColor="selected == 'home' ? 'var(--blue)' : 'var(--grey)'"
+        <icon-base :iconColor="selected == 'home' ? 'var(--orange)' : 'var(--grey)'"
           ><icon-home
         /></icon-base>
       </p>
@@ -10,7 +10,7 @@
     </div>
     <div class="item">
       <p class="sub-item icon">
-        <icon-base :iconColor="selected == 'rwm' ? 'var(--blue)' : 'var(--grey)'"
+        <icon-base :iconColor="selected == 'rwm' ? 'var(--orange)' : 'var(--grey)'"
           ><icon-rwm
         /></icon-base>
       </p>
@@ -18,7 +18,7 @@
     </div>
     <div class="item">
       <p class="sub-item icon">
-        <icon-base :iconColor="selected == 'mybook' ? 'var(--blue)' : 'var(--grey)'"
+        <icon-base :iconColor="selected == 'mybook' ? 'var(--orange)' : 'var(--grey)'"
           ><icon-mybook
         /></icon-base>
       </p>
@@ -26,7 +26,7 @@
     </div>
     <div class="item" @click="$router.push({ name: 'MyPage' })">
       <p class="sub-item icon">
-        <icon-base :iconColor="selected == 'mypage' ? 'var(--blue)' : 'var(--grey)'"
+        <icon-base :iconColor="selected == 'mypage' ? 'var(--orange)' : 'var(--grey)'"
           ><icon-mypage
         /></icon-base>
       </p>
@@ -54,7 +54,7 @@ export default {
 
 <style scoped>
 * {
-  background-color: lightgrey;
+  background-color: var(--white);
 }
 
 .navbar-container {
