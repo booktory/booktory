@@ -50,7 +50,7 @@
       </div>
       <p class="message">전화번호를 입력해주세요</p>
     </div>
-    <button type="button" class="button-2 m-top-10" @click="clickSkip">넘어가기</button>
+    <button type="button" class="button-2 white-bg m-top-10" @click="clickSkip">넘어가기</button>
     <button type="button" class="button-2" @click="clickExtraInfo">확인</button>
   </div>
 </template>

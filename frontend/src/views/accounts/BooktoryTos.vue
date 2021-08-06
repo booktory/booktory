@@ -1,6 +1,7 @@
 <template>
   <div class="container">
-    <div class="navbar">
+    <TopHeader v-if="nickname != ''" :nickname="nickname" />
+    <div v-else class="navbar">
       <div class="icon" @click="$router.go(-1)">
         <icon-base><icon-arrow-left /></icon-base>
       </div>
@@ -205,15 +206,24 @@
 
       <p>제 1 조 (시행일) 이 약관은 2021년 7월 12일부터 시행한다.</p>
     </div>
+    <Navbar v-if="nickname != ''" :selected="'mypage'" class="footer" />
   </div>
 </template>
 
 <script>
+import TopHeader from "@/views/TopHeader.vue";
+import Navbar from "@/views/Navbar.vue";
+
 export default {
-  components: {},
+  components: {
+    TopHeader,
+    Navbar,
+  },
   name: "BooktoryTos",
   data() {
-    return {};
+    return {
+      nickname: "",
+    };
   },
 };
 </script>
