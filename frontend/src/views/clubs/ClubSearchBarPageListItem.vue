@@ -2,7 +2,7 @@
   <div class="container">
     <div class="navbar">
       <div class="icon" @click="$router.go(-1)">
-        <icon-base><arrow-left /></icon-base>
+        <icon-base><icon-arrow-left /></icon-base>
       </div>
     </div>
     <h5>
@@ -39,11 +39,7 @@
   </div>
 </template>
 <script>
-import IconBase from "../../components/icons/IconBase.vue";
-import ArrowLeft from "../../components/icons/ArrowLeft.vue";
-
 export default {
-  components: { IconBase, ArrowLeft },
   name: "ClubSearchBarPageListItem",
   computed: {
     club: function () {

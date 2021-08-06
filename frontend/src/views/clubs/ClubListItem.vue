@@ -4,7 +4,7 @@
     <div class="header">
       <span v-if="index !== 0">
         <div class="icon" @click="clickLeft">
-          <icon-base><chevron-left /></icon-base>
+          <icon-base><icon-arrow-left /></icon-base>
         </div>
       </span>
       <span v-else>
@@ -17,7 +17,7 @@
       </h5>
       <span v-if="index !== maxLength - 1">
         <div class="icon" @click="clickRight">
-          <icon-base><chevron-right /></icon-base>
+          <icon-base><icon-arrow-right /></icon-base>
         </div>
       </span>
       <span v-else>
@@ -63,12 +63,7 @@
 </template>
 
 <script>
-import IconBase from "../../components/icons/IconBase.vue";
-import ChevronLeft from "../../components/icons/ChevronLeft.vue";
-import ChevronRight from "../../components/icons/ChevronRight.vue";
-
 export default {
-  components: { IconBase, ChevronLeft, ChevronRight },
   name: "ClubListItem",
   props: {
     bookclub: {

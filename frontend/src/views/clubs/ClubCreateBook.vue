@@ -2,7 +2,7 @@
   <div class="container">
     <div class="navbar">
       <div class="icon" @click="$router.go(-1)">
-        <icon-base><arrow-left /></icon-base>
+        <icon-base><icon-arrow-left /></icon-base>
       </div>
     </div>
     <h4>읽을 책 추가</h4>
@@ -14,16 +14,12 @@
 <script>
 import ClubCreateBookBar from "@/views/clubs/ClubCreateBookBar.vue";
 import ClubCreateBookList from "@/views/clubs/ClubCreateBookList.vue";
-import IconBase from "../../components/icons/IconBase.vue";
-import ArrowLeft from "../../components/icons/ArrowLeft.vue";
 
 export default {
   name: "ClubCreateBook",
   components: {
     ClubCreateBookBar,
     ClubCreateBookList,
-    IconBase,
-    ArrowLeft,
   },
   data: function () {
     return {
