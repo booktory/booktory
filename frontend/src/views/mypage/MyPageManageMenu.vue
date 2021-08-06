@@ -6,25 +6,25 @@
         <div class="icon">
           <icon-base><icon-mail /></icon-base>
         </div>
-        <span class="font-body-1">문의 및 의견</span>
+        <span class="font-body-3">문의 및 의견</span>
       </div>
       <div class="menu-item" @click="$router.push({ name: 'BooktoryTos' })">
         <div class="icon">
           <icon-base><icon-edit /></icon-base>
         </div>
-        <span class="font-body-1">책토리 이용약관</span>
+        <span class="font-body-3">책토리 이용약관</span>
       </div>
       <div class="menu-item" @click="clickLogout">
         <div class="icon">
           <icon-base><icon-logout /></icon-base>
         </div>
-        <span class="font-body-1">로그아웃</span>
+        <span class="font-body-3">로그아웃</span>
       </div>
       <div class="menu-item">
         <div class="icon">
           <icon-base><icon-trash /></icon-base>
         </div>
-        <span class="font-body-1">회원 탈퇴</span>
+        <span class="font-body-3">회원 탈퇴</span>
       </div>
     </div>
   </div>
@@ -79,7 +79,7 @@ export default {
   justify-content: flex-start;
   align-items: flex-start;
   gap: 2em;
-  margin: 10% 10.7% 0;
+  margin: 8% 10.7% 0;
   padding: 0;
 }
 .menu-item {
@@ -87,6 +87,10 @@ export default {
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
-  gap: 1.6em;
+  gap: 1em;
+}
+.icon {
+  width: 1.6em;
+  height: 1.6em;
 }
 </style>
