@@ -66,6 +66,12 @@ const routes = [
     name: "MyProfileUpdatePassword",
     component: () => import("@/views/mypage/MyProfileUpdatePassword.vue"),
   },
+  // 계정 관리
+  {
+    path: "/mypage/manage",
+    name: "MyPageManage",
+    component: () => import("@/views/mypage/MyPageManage.vue"),
+  },
 ];
 
 const router = new VueRouter({
