@@ -28,6 +28,12 @@ const routes = [
     name: "ExtraInfo",
     component: () => import("@/views/accounts/ExtraInfo.vue"),
   },
+  // 책토리 이용약관
+  {
+    path: "/register/booktory",
+    name: "BooktoryTos",
+    component: () => import("@/views/accounts/BooktoryTos.vue"),
+  },
   // 비밀번호 찾기
   {
     path: "/password",

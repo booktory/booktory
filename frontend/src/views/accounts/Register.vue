@@ -55,7 +55,7 @@
       <p class="message">8자 이상 입력해주세요</p>
     </div>
     <button type="button" class="button-2 m-top-10" @click="clickRegister">다음</button>
-    <p class="text-link">이용약관 보기</p>
+    <p class="text-link" @click="$router.push({ name: 'BooktoryTos' })">이용약관 보기</p>
   </div>
 </template>
 
