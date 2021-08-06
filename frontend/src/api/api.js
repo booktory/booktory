@@ -7,12 +7,12 @@ export default {
     registerExtraInfo: "/users/extra",
     findPassword: "/users/password/",
     goResetPassword: "/users/password/reset/",
-    deleteUser: "/users",
 
     // mypage
     getUserInfo: "/users/me",
     getReadBooks: "/users/books",
     updateUserInfo: "/users",
     changePassword: "/users/password",
+    deleteUser: "/users",
   },
 };

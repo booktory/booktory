@@ -108,6 +108,12 @@ const routes = [
     name: "MyPageManage",
     component: () => import("@/views/mypage/MyPageManage.vue"),
   },
+  // 계정 관리
+  {
+    path: "/mypage/delete",
+    name: "DeleteUser",
+    component: () => import("@/views/mypage/DeleteUser.vue"),
+  },
 ];
 
 const router = new VueRouter({
