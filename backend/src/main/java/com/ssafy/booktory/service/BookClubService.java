@@ -108,6 +108,15 @@ public class BookClubService {
             case 200: notificationService.makeBadgeNotification(8, user); break;
             default: break;
         }
+
+        int meetingRecentWeekCnt = bookClubRepository.countBookClubFromWeekByUserId(user.getId());
+        switch(meetingRecentWeekCnt) {
+            case 3: notificationService.makeBadgeNotification(9, user); break;
+            case 7: notificationService.makeBadgeNotification(10, user); break;
+        }
+
+        int meetingRecentDayCnt = bookClubRepository.countBookClubFromDayByUserId(user.getId());
+        if (meetingRecentDayCnt == 2) notificationService.makeBadgeNotification(11, user);
     }
 
     @Transactional
