@@ -40,7 +40,6 @@ public class ClubService {
     private final ClubGenreRepository clubGenreRepository;
     private final UserClubRepository userClubRepository;
     private final NotificationService notificationService;
-    private final BadgeNotificationService badgeNotificationService;
 
     public void createClub(Long userId, ClubSaveRequestDto clubSaveRequestDto){
 
@@ -67,10 +66,10 @@ public class ClubService {
 
         int clubCnt = clubRepository.countClubByUserId(user.getId());
         if (clubCnt == 1) {
-            badgeNotificationService.makeBadgeNotification(1, user);
+            notificationService.makeBadgeNotification(1, user);
         }
         if (clubCnt == 3) {
-            badgeNotificationService.makeBadgeNotification(2, user);
+            notificationService.makeBadgeNotification(2, user);
         }
     }
 
@@ -153,7 +152,7 @@ public class ClubService {
             throw new IllegalArgumentException("멤버를 더이상 수용할 수 없습니다.");
         userClub.acceptJoin();
         notificationService.makeNotification("accept", userClub.getClub(), userClub.getUser());
-        badgeNotificationService.makeBadgeNotification(0, userClub.getUser());
+        notificationService.makeBadgeNotification(0, userClub.getUser());
 
         return Optional.of(userClubRepository.save(userClub));
     }

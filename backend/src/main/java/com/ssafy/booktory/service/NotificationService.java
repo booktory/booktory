@@ -3,6 +3,7 @@ package com.ssafy.booktory.service;
 import com.ssafy.booktory.domain.club.Club;
 import com.ssafy.booktory.domain.common.UserClubState;
 import com.ssafy.booktory.domain.notification.NotificationRequestDto;
+import com.ssafy.booktory.domain.user.UserRepository;
 import com.ssafy.booktory.domain.userclub.UserClub;
 import com.ssafy.booktory.domain.userclub.UserClubRepository;
 import com.ssafy.booktory.util.RedisUtil;
@@ -19,9 +20,11 @@ import java.util.concurrent.ExecutionException;
 public class NotificationService {
 
     static final String prefix = "FCM_TOKEN_";
+    private final String[] badgeName = {"책이 궁금해", "카리스마 리더", "책토리 회장님", "모임의 시작", "책을 좋아해", "나는야 책 인싸", "책토리 홀릭", "책토리 토박이", "독서에 미친 자", "독서는 습관", "자타공인 책덕후", "책토리 중독", "첫 글의 설렘", "소통의 달인", "독서 나눔"};
 
     private final RedisUtil redisUtil;
     private final FCMService fcmService;
+    private final UserRepository userRepository;
     private final UserClubRepository userClubRepository;
 
     public void registerToken(Long userId, String token) {
@@ -135,6 +138,26 @@ public class NotificationService {
                 break;
             default:
                 break;
+        }
+    }
+
+    public void makeBadgeNotification(int badgeId, User user) {
+        if (user.isExistBadge(badgeId)) return;
+
+        NotificationRequestDto notificationRequestDto = null;
+        String token = redisUtil.getValue(prefix + user.getId());
+        user.updateBadgeStatus(badgeId);
+        userRepository.save(user);
+
+        notificationRequestDto = NotificationRequestDto.builder()
+                .toUserFCMToken(token)
+                .title("새로운 배지를 획득했어요 :)")
+                .message("'" + badgeName[badgeId] + "' 배지를 새로 획득했어요. 마이페이지에서 확인해 보세요 :)")
+                .build();
+
+        saveNotification(notificationRequestDto, user.getNickname());
+        if (token != null) {
+            sendNotification(notificationRequestDto);
         }
     }
 

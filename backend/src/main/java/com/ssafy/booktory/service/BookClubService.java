@@ -30,7 +30,6 @@ public class BookClubService {
     private final UserRepository userRepository;
     private final BookClubUserRepository bookClubUserRepository;
     private final NotificationService notificationService;
-    private final BadgeNotificationService badgeNotificationService;
 
     public BookClub createBookToRead(BookClubCreateRequestDto bookClubCreateRequestDto){
         Book book = bookRepository.findById(bookClubCreateRequestDto.getBookId())
@@ -101,12 +100,12 @@ public class BookClubService {
 
         int meetingCnt = bookClubUserRepository.countBookClubUserByUserId(user.getId());
         switch(meetingCnt) {
-            case 1: badgeNotificationService.makeBadgeNotification(3, user); break;
-            case 10: badgeNotificationService.makeBadgeNotification(4, user); break;
-            case 30: badgeNotificationService.makeBadgeNotification(5, user); break;
-            case 50: badgeNotificationService.makeBadgeNotification(6, user); break;
-            case 100: badgeNotificationService.makeBadgeNotification(7, user); break;
-            case 200: badgeNotificationService.makeBadgeNotification(8, user); break;
+            case 1: notificationService.makeBadgeNotification(3, user); break;
+            case 10: notificationService.makeBadgeNotification(4, user); break;
+            case 30: notificationService.makeBadgeNotification(5, user); break;
+            case 50: notificationService.makeBadgeNotification(6, user); break;
+            case 100: notificationService.makeBadgeNotification(7, user); break;
+            case 200: notificationService.makeBadgeNotification(8, user); break;
             default: break;
         }
     }

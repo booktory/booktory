@@ -36,21 +36,6 @@ public class BadgeNotificationService {
                 .message("'" + badgeName[badgeId] + "' 배지를 새로 획득했어요. 마이페이지에서 확인해 보세요 :)")
                 .build();
 
-//        switch(badgeId) {
-//            case 0:
-//            case 1:
-//            case 2:
-//                notificationRequestDto = NotificationRequestDto.builder()
-//                        .toUserFCMToken(token)
-//                        .title("새로운 배지를 획득했어요 :)")
-//                        .message("'" + badgeName[badgeId] + "' 배지를 새로 획득했어요. 마이페이지에서 확인해 보세요 :)")
-//                        .build();
-//                break;
-//
-//            default:
-//                break;
-//        }
-
         fcmService.setFirebaseRealTimeDB(notificationRequestDto, user.getNickname());
         if (token != null) {
             try {
