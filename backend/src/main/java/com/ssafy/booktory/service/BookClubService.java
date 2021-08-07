@@ -29,7 +29,7 @@ public class BookClubService {
     private final ClubRepository clubRepository;
     private final UserRepository userRepository;
     private final BookClubUserRepository bookClubUserRepository;
-
+    private final NotificationService notificationService;
 
     public BookClub createBookToRead(BookClubCreateRequestDto bookClubCreateRequestDto){
         Book book = bookRepository.findById(bookClubCreateRequestDto.getBookId())
@@ -50,13 +50,16 @@ public class BookClubService {
             throw new IllegalAccessException("클럽 또는 책 정보가 일치하지 않습니다.");
         }
         bookClub.setMeetingTime(bookClubAddRequestDto.getStartDateTime(), bookClubAddRequestDto.getEndDateTime());
+        notificationService.makeGroupNotification("meeting_add", bookClub.getClub());
         return bookClubRepository.save(bookClub);
     }
 
+    @Transactional
     public BookClub cancelMeeting(Long bookClubId) {
         BookClub bookClub = bookClubRepository.findById(bookClubId)
                 .orElseThrow(()->new NoSuchElementException("등록되지 않은 모임입니다."));
         bookClub.setMeetingTime( null, null);
+        notificationService.makeGroupNotification("meeting_cancel", bookClub.getClub());
         return bookClubRepository.save(bookClub);
     }
 

@@ -1,13 +1,17 @@
 package com.ssafy.booktory.service;
 
 import com.ssafy.booktory.domain.club.Club;
+import com.ssafy.booktory.domain.common.UserClubState;
 import com.ssafy.booktory.domain.notification.NotificationRequestDto;
+import com.ssafy.booktory.domain.userclub.UserClub;
+import com.ssafy.booktory.domain.userclub.UserClubRepository;
 import com.ssafy.booktory.util.RedisUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import com.ssafy.booktory.domain.user.User;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 @Service
@@ -18,6 +22,7 @@ public class NotificationService {
 
     private final RedisUtil redisUtil;
     private final FCMService fcmService;
+    private final UserClubRepository userClubRepository;
 
     public void registerToken(Long userId, String token) {
         redisUtil.setValue(prefix + userId, token);
@@ -87,6 +92,49 @@ public class NotificationService {
 
         if (token != null) {
             sendNotification(notificationRequestDto);
+        }
+    }
+
+    @Transactional
+    public void makeGroupNotification(String type, Club club) {
+//        NotificationRequestDto notificationRequestDto = null;
+//        String token = null;
+        List<UserClub> userClubList = userClubRepository.findByClubIdAndState(club.getId(), UserClubState.ACCEPT);
+        switch(type) {
+            case "meeting_add":
+                userClubList.forEach(member -> {
+                    if (!member.getUser().getId().equals(club.getUser().getId())) {
+                        String token = redisUtil.getValue(prefix + member.getUser().getId());
+                        NotificationRequestDto notificationRequestDto = NotificationRequestDto.builder()
+                                .toUserFCMToken(token)
+                                .title("새로운 모임이 생성됐어요 :)")
+                                .message(club.getName() + " 클럽에 새로운 모임이 생성됐어요. 스케줄을 확인해 주세요 :)")
+                                .build();
+                        saveNotification(notificationRequestDto, member.getUser().getNickname());
+                        if (token != null) {
+                            sendNotification(notificationRequestDto);
+                        }
+                    }
+                });
+                break;
+            case "meeting_cancel":
+                userClubList.forEach(member -> {
+                    if (!member.getUser().getId().equals(club.getUser().getId())) {
+                        String token = redisUtil.getValue(prefix + member.getUser().getId());
+                        NotificationRequestDto notificationRequestDto = NotificationRequestDto.builder()
+                                .toUserFCMToken(token)
+                                .title("모임이 취소됐어요 :(")
+                                .message(club.getName() + " 클럽에 예정됐던 모임이 취소됐어요. 스케줄을 확인해 주세요 :)")
+                                .build();
+                        saveNotification(notificationRequestDto, member.getUser().getNickname());
+                        if (token != null) {
+                            sendNotification(notificationRequestDto);
+                        }
+                    }
+                });
+                break;
+            default:
+                break;
         }
     }
 
