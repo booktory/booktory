@@ -45,8 +45,8 @@ public class BookClubService {
     public BookClub addMeeting(BookClubAddRequestDto bookClubAddRequestDto) throws Exception{
         BookClub bookClub = bookClubRepository.findById(bookClubAddRequestDto.getId())
                 .orElseThrow(()->new NoSuchElementException("읽을 책으로 등록되어있지 않습니다."));
-        if( bookClub.getClub().getId() != bookClubAddRequestDto.getClubId()
-                || bookClub.getBook().getId() != bookClubAddRequestDto.getBookId()){
+        if(!bookClub.getClub().getId().equals(bookClubAddRequestDto.getClubId())
+                || !bookClub.getBook().getId().equals(bookClubAddRequestDto.getBookId())){
             throw new IllegalAccessException("클럽 또는 책 정보가 일치하지 않습니다.");
         }
         bookClub.setMeetingTime(bookClubAddRequestDto.getStartDateTime(), bookClubAddRequestDto.getEndDateTime());
