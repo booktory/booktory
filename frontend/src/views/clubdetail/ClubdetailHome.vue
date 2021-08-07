@@ -40,17 +40,23 @@
 
       <div class="books">
         <h5>클럽 서재</h5>
-        <span v-for="(book, idx) in books" :key="idx" class="books-img">
+        <span v-for="(book, idx) in books" :key="idx" class="book-img">
           <img :src="book.thumbnail" alt="" />
         </span>
       </div>
     </div>
+    <Navbar class="footer" />
   </div>
 </template>
 
 <script>
+import Navbar from "@/views/clubdetail/Navbar.vue";
+
 export default {
   name: "ClubdetailHome",
+  components: {
+    Navbar,
+  },
   computed: {
     bookclub: function () {
       return this.$store.state.examples.bookclubs[0].clubList[0];
@@ -63,13 +69,46 @@ export default {
 </script>
 
 <style scoped>
+.container {
+  width: 100vw;
+  margin-bottom: 20vh;
+}
+/* Tablet */
+@media (min-width: 768px) {
+  * {
+    font-size: 2.2vw;
+  }
+  .container {
+    width: 100vw;
+  }
+}
+/* Desktop */
+@media (min-width: 1024px) {
+  * {
+    font-size: 18px;
+  }
+  .container {
+    width: 100vw;
+    max-width: 768px;
+  }
+}
+
+.footer {
+  width: 100%;
+  left: 0;
+  bottom: 0;
+  position: fixed;
+  text-align: center;
+}
+
 .card * {
   text-align: left;
 }
 .card {
-  border-radius: 20%;
-  margin-top: 27%;
+  border-radius: 5em;
   padding: 5%;
+  margin-top: 30%;
+  bottom: 0;
   background-color: white;
 }
 
@@ -100,12 +139,9 @@ export default {
   background-color: #bdbcdb;
 }
 
-.books-img {
-  display: flex;
-  justify-content: center;
-}
-
 .books img {
   width: 20%;
+  margin: 0 3%;
+  border-radius: 1em;
 }
 </style>
