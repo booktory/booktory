@@ -31,11 +31,11 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 import IconMail from "@/components/icons/IconMail.vue";
 import IconEdit from "@/components/icons/IconEdit.vue";
 import IconLogout from "@/components/icons/IconLogout.vue";
 import IconTrash from "@/components/icons/IconTrash.vue";
-import router from "@/router";
 import Swal from "sweetalert2";
 
 export default {
@@ -48,6 +48,7 @@ export default {
   },
   props: {},
   methods: {
+    ...mapActions("accountStore", ["logout"]),
     clickQuestion() {
       location.href =
         "mailto:booktory607@gmail.com?subject=책토리 Feedback&body=책토리 홈페이지를 이용하면서 궁금한 점, 버그, 의견 등을 이메일로 보내주시면 확인 후 답변을 보내드리겠습니다!%0D%0A내용을 자세하게 적어주시면 더 좋은 답변을 드릴 수 있어요:)";
@@ -61,9 +62,7 @@ export default {
         cancelButtonText: "취소",
       }).then((result) => {
         if (result.isConfirmed) {
-          // 로그아웃 처리
-          // 로그인 페이지 이동
-          router.push({ name: "Login" });
+          this.logout();
         }
       });
     },
