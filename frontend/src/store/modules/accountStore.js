@@ -9,7 +9,8 @@ const accountStore = {
   getters: {},
   mutations: {},
   actions: {
-    postAuthData({ commit }, info) {
+    // 회원가입 처리
+    postAuthDataRegister({ commit }, info) {
       let timerInterval;
       Swal.fire({
         title: "인증 메일 발송 중",
@@ -42,11 +43,11 @@ const accountStore = {
           });
           console.log(commit);
         })
-        .catch((error) => {
+        .catch((err) => {
           Swal.fire({
             icon: "error",
             title: "회원가입 실패",
-            text: error.response.data.message,
+            text: err.response.data.message,
           });
         });
     },
@@ -56,7 +57,7 @@ const accountStore = {
         data: registerData,
         location: SERVER.ROUTES.register,
       };
-      dispatch("postAuthData", info);
+      dispatch("postAuthDataRegister", info);
     },
     // 회원가입 - 추가정보 입력
     registerExtraInfo({ dispatch }, extraData) {
@@ -72,22 +73,54 @@ const accountStore = {
           console.log(res.data);
           router.push({ name: "Login" });
         })
-        .catch((error) => {
+        .catch((err) => {
           Swal.fire({
             icon: "error",
             title: "추가정보 입력 실패",
-            text: error.response.data.message,
+            text: err.response.data.message,
           });
-          console.log(error);
+        });
+    },
+    // 로그인 처리
+    postAuthDataLogin({ commit }, info) {
+      axios
+        .post(SERVER.URL + info.location, info.data)
+        .then((res) => {
+          commit("SET_TOKEN", res.data, { root: true });
+          Swal.fire({
+            icon: "success",
+            title: "로그인 성공",
+            showConfirmButton: false,
+            timer: 1000,
+            timerProgressBar: true,
+          });
+          router.push({ name: "ClubHome" });
+        })
+        .catch((err) => {
+          Swal.fire({
+            icon: "error",
+            title: "로그인 실패",
+            text: err.response.data.message,
+            showConfirmButton: false,
+            timer: 2000,
+            timerProgressBar: false,
+          });
         });
     },
     // 로그인
+    login({ dispatch }, loginData) {
+      const info = {
+        data: loginData,
+        location: SERVER.ROUTES.login,
+      };
+      dispatch("postAuthDataLogin", info);
+    },
     // 비밀번호 찾기
     findPassword({ dispatch }, emailData) {
       console.log(dispatch);
       let timerInterval;
       Swal.fire({
-        title: "비밀번호 찾기 메일 발송 중",
+        title: "이메일 발송 중",
         html: "잠시만 기다려주세요.",
         timer: 3000,
         timerProgressBar: true,
@@ -110,20 +143,19 @@ const accountStore = {
       axios
         .post(SERVER.URL + SERVER.ROUTES.findPassword + "/" + emailData)
         .then((res) => {
-          console.log(res);
+          console.log(res.data);
           Swal.fire({
             icon: "success",
             title: "이메일 발송 완료",
             html: "비밀번호 찾기 메일을 보내드렸어요.<br>이메일을 확인해주세요!",
           });
         })
-        .catch((error) => {
+        .catch((err) => {
           Swal.fire({
             icon: "error",
             title: "이메일 발송 실패",
-            text: error.response.data.message,
+            text: err.response.data.message,
           });
-          console.log(error);
         });
     },
   },
