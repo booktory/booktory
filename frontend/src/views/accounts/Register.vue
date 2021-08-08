@@ -18,6 +18,7 @@
           }"
           type="text"
           id="nickname"
+          maxlength="10"
           placeholder="닉네임을 입력해주세요"
           autocapitalize="none"
           autocorrect="none"
@@ -35,7 +36,7 @@
             error: error.email,
             complete: !error.email && registerData.email.length !== 0,
           }"
-          type="text"
+          type="email"
           id="email"
           placeholder="이메일을 입력해주세요"
           autocapitalize="none"
@@ -56,6 +57,7 @@
           }"
           type="password"
           id="password"
+          maxlength="16"
           placeholder="비밀번호를 입력해주세요"
           required
         />
@@ -73,6 +75,7 @@
           }"
           type="password"
           id="passwordConfirm"
+          maxlength="16"
           placeholder="비밀번호를 한 번 더 입력해주세요"
           required
           @keyup.enter="clickRegister"
@@ -84,6 +87,7 @@
       회원가입
     </button>
     <p class="text-link" @click="$router.push({ name: 'BooktoryTos' })">이용약관 보기</p>
+    <p class="text-link" @click="$router.push({ name: 'ExtraInfo' })">추가정보 입력</p>
   </div>
 </template>
 
@@ -132,13 +136,15 @@ export default {
     // 닉네임 유효성 검사
     checkNicknameForm() {
       if (this.registerData.nickname.length > 0 && this.registerData.nickname.length < 2) {
-        this.error.nickname = "닉네임이 너무 짧아요. 2자 이상 입력해주세요";
+        this.error.nickname = "닉네임이 너무 짧아요! 2자 이상 입력해주세요";
+      } else if (this.registerData.nickname.length > 10) {
+        this.error.nickname = "닉네임이 너무 길어요! 10자 이하로 입력해주세요";
       } else this.error.nickname = false;
     },
     // 이메일 유효성 검사
     checkEmailForm() {
       if (this.registerData.email.length > 0 && !this.validEmail(this.registerData.email)) {
-        this.error.email = "이메일 형식을 올바르게 입력해주세요";
+        this.error.email = "이메일을 올바른 형식으로 입력해주세요";
       } else this.error.email = false;
     },
     validEmail(email) {
@@ -149,9 +155,9 @@ export default {
     // 비밀번호 유효성 검사
     checkPasswordForm() {
       if (this.registerData.password.length > 0 && this.registerData.password.length < 8) {
-        this.error.password = "비밀번호가 너무 짧아요. 8자 이상 입력해주세요";
+        this.error.password = "비밀번호가 너무 짧아요! 8자 이상 입력해주세요";
       } else if (this.registerData.password.length > 16) {
-        this.error.password = "비밀번호가 너무 길어요. 16자 이하로 입력해주세요";
+        this.error.password = "비밀번호가 너무 길어요! 16자 이하로 입력해주세요";
       } else if (
         this.registerData.password.length >= 8 &&
         !this.validPassword(this.registerData.password)
@@ -170,7 +176,7 @@ export default {
         this.registerData.passwordConfirm.length > 0 &&
         this.registerData.password != this.registerData.passwordConfirm
       ) {
-        this.error.passwordConfirm = "비밀번호와 일치하지 않아요. 다시 확인해주세요";
+        this.error.passwordConfirm = "비밀번호와 일치하지 않아요! 다시 확인해주세요";
       } else this.error.passwordConfirm = false;
 
       // 유효성 검사 통과 시 로그인 버튼 활성화
