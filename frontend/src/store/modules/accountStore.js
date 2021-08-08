@@ -14,7 +14,7 @@ const accountStore = {
       Swal.fire({
         title: "인증 메일 발송 중",
         html: "잠시만 기다려주세요.",
-        timer: 2000,
+        timer: 3000,
         timerProgressBar: true,
         onBeforeOpen: () => {
           Swal.showLoading();
@@ -76,7 +76,52 @@ const accountStore = {
           Swal.fire({
             icon: "error",
             title: "추가정보 입력 실패",
-            text: "추가정보 입력에 실패했습니다.",
+            text: error.response.data.message,
+          });
+          console.log(error);
+        });
+    },
+    // 로그인
+    // 비밀번호 찾기
+    findPassword({ dispatch }, emailData) {
+      console.log(dispatch);
+      let timerInterval;
+      Swal.fire({
+        title: "비밀번호 찾기 메일 발송 중",
+        html: "잠시만 기다려주세요.",
+        timer: 3000,
+        timerProgressBar: true,
+        onBeforeOpen: () => {
+          Swal.showLoading();
+          timerInterval = setInterval(() => {
+            const content = Swal.getContent();
+            if (content) {
+              const b = content.querySelector("b");
+              if (b) {
+                b.textContent = Swal.getTimerLeft();
+              }
+            }
+          }, 100);
+        },
+        onClose: () => {
+          clearInterval(timerInterval);
+        },
+      });
+      axios
+        .post(SERVER.URL + SERVER.ROUTES.findPassword + "/" + emailData)
+        .then((res) => {
+          console.log(res);
+          Swal.fire({
+            icon: "success",
+            title: "이메일 발송 완료",
+            html: "비밀번호 찾기 메일을 보내드렸어요.<br>이메일을 확인해주세요!",
+          });
+        })
+        .catch((error) => {
+          Swal.fire({
+            icon: "error",
+            title: "이메일 발송 실패",
+            text: error.response.data.message,
           });
           console.log(error);
         });
