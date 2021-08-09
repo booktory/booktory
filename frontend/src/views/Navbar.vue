@@ -73,5 +73,6 @@ export default {
 
 .orange {
   color: var(--orange);
+  font-weight: bold;
 }
 </style>

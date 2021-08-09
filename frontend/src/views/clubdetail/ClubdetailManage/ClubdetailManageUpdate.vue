@@ -5,7 +5,7 @@
       <div class="card">
         <div class="main">
           <h4 class="title">클럽 정보 수정</h4>
-          <div class="input-div m-top-10">
+          <div class="input-div m-top-5">
             <label for="name">클럽 이름</label>
             <div>
               <input
@@ -130,7 +130,7 @@
             <!-- 공개 여부 -->
             <div class="is-open">
               <div class="label">공개 여부</div>
-              <div>
+              <div class="wrap">
                 <input type="checkbox" id="checkbox" v-model="clubData.isOpen" />
                 <span class="font-body-3 is-open-text" v-if="clubData.isOpen">공개</span>
                 <span class="font-body-3 is-open-text" v-else>비공개</span>
@@ -258,7 +258,6 @@ export default {
 .rules * {
   text-align: left;
 }
-
 .rules {
   display: inline-block;
   width: 100%;
@@ -267,10 +266,12 @@ export default {
 .rules .label {
   margin-bottom: 0.2em;
 }
-
 .rules .input-div > div {
-  width: 92%;
-  margin-left: 2%;
+  width: 93%;
+  margin-left: 0.4em;
+}
+.rules .input-div {
+  margin: 0;
 }
 
 select {
@@ -293,12 +294,16 @@ select {
 
 .max-member #v-model-select > select {
   width: 4em;
+  margin: 0 0 0 1.2rem;
 }
 
 .is-open > div {
   text-align: left;
   display: flex;
   align-items: center;
+}
+.is-open .wrap {
+  margin-left: 1rem;
 }
 
 #checkbox {

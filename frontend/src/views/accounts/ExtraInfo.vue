@@ -2,7 +2,7 @@
   <div class="container m-top">
     <h4 class="title">추가정보 입력</h4>
     <p class="sub-title">추가정보를 입력해주세요</p>
-    <div class="m-top-10">
+    <div class="m-top-5">
       <div class="profile-img-div">
         <input
           class="hidden-item"
