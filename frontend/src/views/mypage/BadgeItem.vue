@@ -2,13 +2,14 @@
   <div class="badge-item-wrapper" @click="clickBadge">
     <div v-if="state" class="isTrue">
       <img src="@/assets/images/profile_default.svg" class="badgeImage" />
-      <div v-if="this.mainBadge == this.name" class="main-badge">
+      <div v-if="isMain" class="main-badge">
         <icon-base :iconColor="'var(--white)'"><icon-star /></icon-base>
       </div>
-      <p class="badgeName font-body-5">{{ index }}{{ name }}</p>
+      <p class="badgeName font-body-5">{{ name }}</p>
     </div>
     <div v-else class="isFalse">
       <img src="@/assets/images/profile_default.svg" class="badgeImage" />
+      <p class="badgeName font-body-5 isFalse">{{ name }}</p>
     </div>
   </div>
 </template>
@@ -32,8 +33,11 @@ export default {
     name: {
       type: String,
     },
-    mainBadge: {
+    content: {
       type: String,
+    },
+    isMain: {
+      type: Boolean,
     },
   },
   methods: {
@@ -44,11 +48,10 @@ export default {
         showDenyButton: this.state,
         denyButtonColor: "var(--brown)",
         denyButtonText: "대표배지 설정",
-        html:
-          "힘차게 보는 내는 같은 오아이스도 아름다우냐? 목숨이 청춘의 얼음에 천지는 밝은 가슴에 군영과 미인을 것이다. 위하여서 새 이성은 투명하되 힘차게 인간은 얼음 눈에 끓는다.",
+        html: "획득 방법: " + this.content,
       }).then((result) => {
         if (result.isDenied) {
-          if (this.mainBadge == this.name) {
+          if (this.isMain) {
             Swal.fire({
               icon: "error",
               text: "현재 설정된 대표 배지입니다",
@@ -66,7 +69,7 @@ export default {
       });
     },
     changeMainBadge: function() {
-      if (this.mainBadge == this.name) {
+      if (this.isMain) {
         Swal.fire({
           icon: "error",
           text: "현재 설정된 대표 배지입니다",
@@ -90,6 +93,9 @@ export default {
   position: relative;
   align-items: center;
   gap: 1%;
+}
+.isFalse {
+  color: var(--light-grey);
 }
 .isFalse img {
   opacity: 30%;
