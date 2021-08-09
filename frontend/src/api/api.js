@@ -1,5 +1,5 @@
 export default {
-  URL: "https://localhost:8080/api",
+  URL: "/api",
   ROUTES: {
     // accounts
     login: "/users/login",

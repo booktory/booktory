@@ -12,25 +12,42 @@
       <div>
         <input
           v-model="loginData.email"
-          type="text"
+          v-bind:class="{
+            error: error.email,
+            complete: !error.email && loginData.email.length !== 0,
+          }"
+          type="email"
           id="email"
-          placeholder="booktory@example.com"
+          placeholder="이메일을 입력해주세요"
+          autocapitalize="none"
+          autocorrect="none"
+          required
         />
       </div>
+      <p v-if="error.email" class="message">{{ error.email }}</p>
     </div>
     <div class="input-div">
       <label for="password">비밀번호</label>
       <div>
         <input
           v-model="loginData.password"
+          v-bind:class="{
+            error: error.password,
+            complete: !error.password && loginData.password.length !== 0,
+          }"
           type="password"
           id="password"
+          maxlength="16"
           placeholder="비밀번호를 입력해주세요"
+          required
+          @keyup.enter="clickLogin"
         />
       </div>
-      <p class="message">8자 이상 입력해주세요</p>
+      <p v-if="error.password" class="message">{{ error.password }}</p>
     </div>
-    <button type="button" class="button-2 m-top-10" @click="clickLogin">확인</button>
+    <button type="button" class="button-2 m-top-10" :disabled="!isSubmit" @click="clickLogin">
+      로그인
+    </button>
     <router-link to="password">
       <p class="text-link">비밀번호 찾기</p>
     </router-link>
@@ -46,12 +63,9 @@
 </template>
 
 <script>
-import router from "@/router";
-import axios from "axios";
-import Swal from "sweetalert2";
+import { mapActions } from "vuex";
 
 export default {
-  components: {},
   name: "Login",
   data() {
     return {
@@ -59,50 +73,67 @@ export default {
         email: "",
         password: "",
       },
+      error: {
+        email: false,
+        password: false,
+      },
+      isSubmit: false,
     };
   },
+  watch: {
+    loginData: {
+      deep: true,
+      handler() {
+        this.checkEmailForm();
+        this.checkPasswordForm();
+      },
+    },
+  },
   methods: {
+    ...mapActions("accountStore", ["login"]),
+    // 로그인 버튼 클릭
     clickLogin() {
-      axios
-        .post("/users/login", {
-          email: this.loginData.email,
-          password: this.loginData.password,
-        })
-        .then((res) => {
-          console.log(res.data);
-          const Toast = Swal.mixin({
-            toast: true,
-            showConfirmButton: false,
-            timer: 2000,
-            timerProgressBar: true,
-            onOpen: (toast) => {
-              toast.addEventListener("mouseenter", Swal.stopTimer);
-              toast.addEventListener("mouseleave", Swal.resumeTimer);
-            },
-          });
-          Toast.fire({
-            icon: "success",
-            title: "로그인에 성공했습니다.",
-          });
-          // 홈 화면(내 클럽 보기)으로 이동
-          router.push({ name: "MyClub" });
-        })
-        .catch((err) => {
-          const Toast = Swal.mixin({
-            toast: true,
-            showConfirmButton: false,
-            timer: 3000,
-            timerProgressBar: false,
-            onOpen: (toast) => {
-              toast.addEventListener("mouseenter", Swal.stopTimer);
-              toast.addEventListener("mouseleave", Swal.resumeTimer);
-            },
-          });
-          Toast.fire({
-            icon: "error",
-            title: err.response.data.message,
-          });
+      if (this.isSubmit) {
+        this.login(this.loginData);
+      }
+    },
+    // 이메일 유효성 검사
+    checkEmailForm() {
+      if (this.loginData.email.length > 0 && !this.validEmail(this.loginData.email)) {
+        this.error.email = "이메일을 올바른 형식으로 입력해주세요";
+      } else this.error.email = false;
+    },
+    validEmail(email) {
+      // eslint-disable-next-line
+      var reg = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
+      return reg.test(email);
+    },
+    // 비밀번호 유효성 검사
+    checkPasswordForm() {
+      if (this.loginData.password.length > 0 && this.loginData.password.length < 8) {
+        this.error.password = "비밀번호가 너무 짧아요! 8자 이상 입력해주세요";
+      } else if (this.loginData.password.length > 16) {
+        this.error.password = "비밀번호가 너무 길어요! 16자 이하로 입력해주세요";
+      } else if (
+        this.loginData.password.length >= 8 &&
+        !this.validPassword(this.loginData.password)
+      ) {
+        this.error.password = "영문, 숫자, 특수문자를 모두 포함해야 해요";
+      } else this.error.password = false;
+
+      // 유효성 검사 통과 시 로그인 버튼 활성화
+      if (this.loginData.email.length > 0 && this.loginData.password.length > 0) {
+        let isSubmit = true;
+        Object.values(this.error).map((v) => {
+          if (v) isSubmit = false;
         });
+        this.isSubmit = isSubmit;
+      }
+    },
+    validPassword(password) {
+      // eslint-disable-next-line
+      var reg = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{0,}$/;
+      return reg.test(password);
     },
   },
 };
