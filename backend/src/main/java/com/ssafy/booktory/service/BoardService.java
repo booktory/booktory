@@ -26,8 +26,9 @@ public class BoardService {
     private final BoardRepository boardRepository;
     private final ClubRepository clubRepository;
     private final Uploader uploader;
+    private final NotificationService notificationService;
 
-    public Board registerBoard(User user, Long clubId, BoardRequestDto boardRequestDto) {
+    public void registerBoard(User user, Long clubId, BoardRequestDto boardRequestDto) {
         Club club = clubRepository.findById(clubId).orElseThrow(() -> new NoSuchElementException("존재하지 않는 클럽입니다."));
         Board board = Board.builder()
                 .user(user)
@@ -35,7 +36,15 @@ public class BoardService {
                 .contents(boardRequestDto.getContents())
                 .fileUrl(boardRequestDto.getFileUrl())
                 .build();
-        return boardRepository.save(board);
+        boardRepository.save(board);
+
+        int boardCnt = boardRepository.countBoardByUserId(user.getId());
+        if (boardCnt == 1) {
+            notificationService.makeBadgeNotification(12, user);
+        }
+        if (boardCnt == 10) {
+            notificationService.makeBadgeNotification(13, user);
+        }
     }
     @Transactional
     public List<BoardResponseDto> getBoard(Long clubId) {

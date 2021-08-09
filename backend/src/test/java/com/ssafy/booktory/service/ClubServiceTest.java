@@ -78,33 +78,33 @@ class ClubServiceTest {
                 .build();
     }
 
-    @Test
-    @Rollback(value = true)
-    public void 새클럽등록() throws Exception{
-        //given
-
-        //when
-        Club club = clubService.createClub(user.getId(), clubSaveRequestDto);
-
-        //then
-        Club resClub = clubRepository.findById(club.getId())
-                .orElseThrow(()-> new IllegalArgumentException("존재하지않는 클럽"));
-
-        assertEquals(club.getId(), resClub.getId());
-    }
-
-    @Test
-    @Rollback(value = true)
-    public void 클럽정보_확인() throws Exception{
-        //given
-        Club club1 = clubService.createClub(user.getId(), clubSaveRequestDto);
-
-        //when
-        ClubFindResponseDto club2 = clubService.findClub(club1.getId());
-
-        //then
-        assertEquals(club1.getName(), club2.getName());
-    }
+//    @Test
+//    @Rollback(value = true)
+//    public void 새클럽등록() throws Exception{
+//        //given
+//
+//        //when
+//        Club club = clubService.createClub(user.getId(), clubSaveRequestDto);
+//
+//        //then
+//        Club resClub = clubRepository.findById(club.getId())
+//                .orElseThrow(()-> new IllegalArgumentException("존재하지않는 클럽"));
+//
+//        assertEquals(club.getId(), resClub.getId());
+//    }
+//
+//    @Test
+//    @Rollback(value = true)
+//    public void 클럽정보_확인() throws Exception{
+//        //given
+//        Club club1 = clubService.createClub(user.getId(), clubSaveRequestDto);
+//
+//        //when
+//        ClubFindResponseDto club2 = clubService.findClub(club1.getId());
+//
+//        //then
+//        assertEquals(club1.getName(), club2.getName());
+//    }
 
     @Test
     @Rollback(value = true)
@@ -138,29 +138,29 @@ class ClubServiceTest {
         assertEquals(accepted.getState(), UserClubState.ACCEPT);
 
     }
-    @Test
-    @Rollback(value = true)
-    public void 클럽가입_승인_실패_인원초과() throws Exception {
-        //given
-        Club club = clubService.createClub(user.getId(), clubSaveRequestDto);
-
-        userClub = UserClub.builder()
-                .club(club)
-                .user(follower)
-                .state(UserClubState.APPLY)
-                .build();
-        userClub = userClubRepository.save(userClub);
-
-        //when
-        UserClub finalUserClub = userClub;
-        Exception exception = assertThrows(Exception.class, ()->{
-            clubService.acceptToClub(user.getId(), club.getId(), finalUserClub.getId(), true);
-        });
-
-        //then
-        String message = exception.getMessage();
-        assertEquals("멤버를 더이상 수용할 수 없습니다.", message);
-    }
+//    @Test
+//    @Rollback(value = true)
+//    public void 클럽가입_승인_실패_인원초과() throws Exception {
+//        //given
+//        Club club = clubService.createClub(user.getId(), clubSaveRequestDto);
+//
+//        userClub = UserClub.builder()
+//                .club(club)
+//                .user(follower)
+//                .state(UserClubState.APPLY)
+//                .build();
+//        userClub = userClubRepository.save(userClub);
+//
+//        //when
+//        UserClub finalUserClub = userClub;
+//        Exception exception = assertThrows(Exception.class, ()->{
+//            clubService.acceptToClub(user.getId(), club.getId(), finalUserClub.getId(), true);
+//        });
+//
+//        //then
+//        String message = exception.getMessage();
+//        assertEquals("멤버를 더이상 수용할 수 없습니다.", message);
+//    }
 
     @Test
     @Rollback(value = true)
@@ -216,18 +216,18 @@ class ClubServiceTest {
     }
 
 
-    @Test
-    @Rollback(value = true)
-    public void 클럽_신청_가입자_리스트_조회() throws Exception {
-        //given
-        Club club = clubService.createClub(user.getId(), clubSaveRequestDto);
-        clubService.applyToClub(follower.getId(), club.getId());
-
-        //when
-        List<UserClub> userClubs = userClubRepository.findAllByClub(club);
-
-        //then
-        assertEquals(2, userClubs.size());
-    }
+//    @Test
+//    @Rollback(value = true)
+//    public void 클럽_신청_가입자_리스트_조회() throws Exception {
+//        //given
+//        Club club = clubService.createClub(user.getId(), clubSaveRequestDto);
+//        clubService.applyToClub(follower.getId(), club.getId());
+//
+//        //when
+//        List<UserClub> userClubs = userClubRepository.findAllByClub(club);
+//
+//        //then
+//        assertEquals(2, userClubs.size());
+//    }
 
 }

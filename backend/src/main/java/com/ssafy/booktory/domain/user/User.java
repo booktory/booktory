@@ -173,12 +173,25 @@ public class User implements UserDetails {
 
     public List<Integer> getBadgeList(int badge) {
         List<Integer> badges = new ArrayList<>();
-        String badgeStatus = String.format("%015d", Integer.parseInt(Integer.toBinaryString(badge)));
+        String badgeStatus = String.format("%015d", Long.parseLong(Long.toBinaryString(badge)));
         for (int i = 0; i < 15; i++) {
             if (badgeStatus.charAt(i) == '1') {
                 badges.add(i);
             }
         }
         return badges;
+    }
+
+    public boolean isExistBadge(int badgeId) {
+        String badgeStatus = String.format("%015d", Long.parseLong(Long.toBinaryString(badge)));
+        return badgeStatus.charAt(badgeId) == '1';
+    }
+
+    public void updateBadgeStatus(int badgeId) {
+        String badgeStatus = String.format("%015d", Long.parseLong(Long.toBinaryString(badge)));
+        char[] tmpBadge = badgeStatus.toCharArray();
+        tmpBadge[badgeId] = '1';
+        String newBadgeStatus = String.valueOf(tmpBadge);
+        this.badge = Integer.parseInt(newBadgeStatus, 2);
     }
 }

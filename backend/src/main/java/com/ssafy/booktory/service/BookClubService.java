@@ -29,7 +29,7 @@ public class BookClubService {
     private final ClubRepository clubRepository;
     private final UserRepository userRepository;
     private final BookClubUserRepository bookClubUserRepository;
-
+    private final NotificationService notificationService;
 
     public BookClub createBookToRead(BookClubCreateRequestDto bookClubCreateRequestDto){
         Book book = bookRepository.findById(bookClubCreateRequestDto.getBookId())
@@ -45,18 +45,21 @@ public class BookClubService {
     public BookClub addMeeting(BookClubAddRequestDto bookClubAddRequestDto) throws Exception{
         BookClub bookClub = bookClubRepository.findById(bookClubAddRequestDto.getId())
                 .orElseThrow(()->new NoSuchElementException("읽을 책으로 등록되어있지 않습니다."));
-        if( bookClub.getClub().getId() != bookClubAddRequestDto.getClubId()
-                || bookClub.getBook().getId() != bookClubAddRequestDto.getBookId()){
+        if(!bookClub.getClub().getId().equals(bookClubAddRequestDto.getClubId())
+                || !bookClub.getBook().getId().equals(bookClubAddRequestDto.getBookId())){
             throw new IllegalAccessException("클럽 또는 책 정보가 일치하지 않습니다.");
         }
         bookClub.setMeetingTime(bookClubAddRequestDto.getStartDateTime(), bookClubAddRequestDto.getEndDateTime());
+        notificationService.makeGroupNotification("meeting_add", bookClub.getClub());
         return bookClubRepository.save(bookClub);
     }
 
+    @Transactional
     public BookClub cancelMeeting(Long bookClubId) {
         BookClub bookClub = bookClubRepository.findById(bookClubId)
                 .orElseThrow(()->new NoSuchElementException("등록되지 않은 모임입니다."));
         bookClub.setMeetingTime( null, null);
+        notificationService.makeGroupNotification("meeting_cancel", bookClub.getClub());
         return bookClubRepository.save(bookClub);
     }
 
@@ -94,6 +97,26 @@ public class BookClubService {
                 .user(user)
                 .build();
         bookClubUserRepository.save(bookClubUser);
+
+        int meetingCnt = bookClubUserRepository.countBookClubUserByUserId(user.getId());
+        switch(meetingCnt) {
+            case 1: notificationService.makeBadgeNotification(3, user); break;
+            case 10: notificationService.makeBadgeNotification(4, user); break;
+            case 30: notificationService.makeBadgeNotification(5, user); break;
+            case 50: notificationService.makeBadgeNotification(6, user); break;
+            case 100: notificationService.makeBadgeNotification(7, user); break;
+            case 200: notificationService.makeBadgeNotification(8, user); break;
+            default: break;
+        }
+
+        int meetingRecentWeekCnt = bookClubRepository.countBookClubFromWeekByUserId(user.getId());
+        switch(meetingRecentWeekCnt) {
+            case 3: notificationService.makeBadgeNotification(9, user); break;
+            case 7: notificationService.makeBadgeNotification(10, user); break;
+        }
+
+        int meetingRecentDayCnt = bookClubRepository.countBookClubFromDayByUserId(user.getId());
+        if (meetingRecentDayCnt == 2) notificationService.makeBadgeNotification(11, user);
     }
 
     @Transactional
