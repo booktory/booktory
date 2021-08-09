@@ -6,9 +6,9 @@ pipeline {
 			agent any
 			steps {
 				mattermostSend (
-                            			color: "#2A42EE", 
-                            			message: "Build STARTED: ${env.JOB_NAME} #${env.BUILD_NUMBER} (<${env.BUILD_URL}|Link to build>)"
-                        		)  
+                        color: "#2A42EE", 
+                        message: "Build STARTED: ${env.JOB_NAME} #${env.BUILD_NUMBER} (<${env.BUILD_URL}|Link to build>)"
+                )  
 				checkout scm
 			}
 		}
@@ -16,15 +16,15 @@ pipeline {
 			agent any
 			steps {
 				script {
-                    				try {
-						sh 'docker build -t frontend:latest /var/jenkins_home/workspace/thxstore-jenkins-cicd/frontend'
-						sh 'docker build -t backend:latest /var/jenkins_home/workspace/thxstore-jenkins-cicd/backend'
+                    try {
+						sh 'docker build -t frontend:latest /frontend'
+						sh 'docker build -t backend:latest /backend'
 					}catch(e) {
-                        				mattermostSend (
-                                					color: "danger", 
-                                					message: "Build FAILED: ${env.JOB_NAME} #${env.BUILD_NUMBER} (<${env.BUILD_URL}|Link to build>)"
-                            				)
-                    				} 
+                        mattermostSend (
+                                color: "danger", 
+                                message: "Build FAILED: ${env.JOB_NAME} #${env.BUILD_NUMBER} (<${env.BUILD_URL}|Link to build>)"
+                        )
+                    } 
 				}
 			}
 		}
@@ -32,7 +32,7 @@ pipeline {
 			agent any
 			steps {
 				script {
-                    				try {
+                    try {
 						sh 'docker ps -f name=frontend -q | xargs --no-run-if-empty docker container stop'
 						sh 'docker ps -f name=backend -q | xargs --no-run-if-empty docker container stop'
 				
@@ -44,27 +44,27 @@ pipeline {
 						sh 'docker run -d --name frontend \
 						-p 80:80 \
 						-p 443:443 \
-						-v /home/ubuntu/sslkey/:/var/jenkins_home/workspace/thxstore-jenkins-cicd/sslkey/ \
+						-v /home/ubuntu/sslkey/:/etc/letsencrypt/live/i5a607.p.ssafy.io/ \
 						-v /etc/localtime:/etc/localtime:ro \
-						--network thxstorecicdnetwork \
+						--network booktorycicdnetwork \
 						frontend:latest'
 
 						sh 'docker run -d --name backend \
-						--network thxstorecicdnetwork backend:latest'
+						--network booktorynetwork backend:latest'
 					}catch(e) {
 						currentBuild.result = "FAILURE"
-                    				} finally {
+                    } finally {
 						if(currentBuild.result == "FAILURE"){
 							mattermostSend (
-                                						color: "danger", 
-                                						message: "Build FAILED: ${env.JOB_NAME} #${env.BUILD_NUMBER} (<${env.BUILD_URL}|Link to build>)"
-                            					)
+                                    color: "danger", 
+                                    message: "Build FAILED: ${env.JOB_NAME} #${env.BUILD_NUMBER} (<${env.BUILD_URL}|Link to build>)"
+                            )
 						}
 						else{
 							mattermostSend (
-                                						color: "good", 
-                                						message: "Build SUCCESS: ${env.JOB_NAME} #${env.BUILD_NUMBER} (<${env.BUILD_URL}|Link to build>)"
-                            					)
+                                    color: "good", 
+                                    message: "Build SUCCESS: ${env.JOB_NAME} #${env.BUILD_NUMBER} (<${env.BUILD_URL}|Link to build>)"
+                            )
 						}
 					}
 				}
