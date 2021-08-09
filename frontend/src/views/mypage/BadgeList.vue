@@ -8,7 +8,8 @@
         :index="index"
         :state="item.state"
         :name="item.name"
-        :mainBadge="mainBadge"
+        :content="item.content"
+        :isMain="item.isMain"
       />
     </div>
   </div>
@@ -22,10 +23,8 @@ export default {
   components: {
     BadgeItem,
   },
+  computed: {},
   props: {
-    mainBadge: {
-      type: String,
-    },
     badgeList: {
       type: Array,
     },
