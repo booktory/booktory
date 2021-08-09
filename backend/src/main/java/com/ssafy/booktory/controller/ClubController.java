@@ -37,7 +37,7 @@ public class ClubController {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
         Long userId = ((User)authentication.getPrincipal()).getId();
-        Club club = clubService.createClub(userId, clubSaveRequestDto);
+        clubService.createClub(userId, clubSaveRequestDto);
         return ResponseEntity.status(HttpStatus.CREATED).body("success");
     }
 
@@ -96,10 +96,10 @@ public class ClubController {
     }
 
 
-    @PutMapping("/{id}/join")
+    @PutMapping("/{id}/join/{userClubId}")
     @ApiOperation(value = "클럽 가입승인", notes = "UserClub 테이블의 상태를 ACCEPT로 변경한다.")
     @ApiImplicitParams({@ApiImplicitParam(name = "jwt", value = "JWT Token", required = true, dataType = "string", paramType = "header")})
-    public ResponseEntity<String>  acceptToClub(@ApiIgnore final Authentication authentication, @PathVariable Long id, @RequestBody Long userClubId){
+    public ResponseEntity<String>  acceptToClub(@ApiIgnore final Authentication authentication, @PathVariable Long id, @PathVariable Long userClubId){
         if (authentication == null || !authentication.isAuthenticated()) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }

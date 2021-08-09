@@ -3,8 +3,10 @@ package com.ssafy.booktory.service;
 import com.ssafy.booktory.domain.book.Book;
 import com.ssafy.booktory.domain.book.BookRepository;
 import com.ssafy.booktory.domain.bookclub.BookClub;
+import com.ssafy.booktory.domain.bookclub.BookClubRepository;
 import com.ssafy.booktory.domain.club.*;
 import com.ssafy.booktory.domain.clubgenre.ClubGenre;
+import com.ssafy.booktory.domain.clubgenre.ClubGenreRepository;
 import com.ssafy.booktory.domain.common.UserClubState;
 import com.ssafy.booktory.domain.genre.Genre;
 import com.ssafy.booktory.domain.genre.GenreRepository;
@@ -34,9 +36,12 @@ public class ClubService {
     private final UserRepository userRepository;
     private final BookRepository bookRepository;
     private final GenreRepository genreRepository;
+    private final BookClubRepository bookClubRepository;
+    private final ClubGenreRepository clubGenreRepository;
     private final UserClubRepository userClubRepository;
+    private final NotificationService notificationService;
 
-    public Club createClub(Long userId, ClubSaveRequestDto clubSaveRequestDto){
+    public void createClub(Long userId, ClubSaveRequestDto clubSaveRequestDto){
 
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("사용자 정보가 존재하지 않습니다."));
@@ -46,9 +51,11 @@ public class ClubService {
 
         List<BookClub> bookClubs = bookIdListToBookClubList(clubSaveRequestDto.getBooks(), savedClub);
         savedClub.updateBookClubs(bookClubs);
+        bookClubs.forEach(bookClubRepository::save);
 
         List<ClubGenre> clubGenres = genreIdListToClubGenreList(clubSaveRequestDto.getGenres(), savedClub);
         savedClub.updateGenres(clubGenres);
+        clubGenres.forEach(clubGenreRepository::save);
 
         UserClub userClub = UserClub.builder()
                 .club(savedClub)
@@ -57,7 +64,13 @@ public class ClubService {
                 .build();
         userClubRepository.save(userClub);
 
-        return clubRepository.save(savedClub);
+        int clubCnt = clubRepository.countClubByUserId(user.getId());
+        if (clubCnt == 1) {
+            notificationService.makeBadgeNotification(1, user);
+        }
+        if (clubCnt == 3) {
+            notificationService.makeBadgeNotification(2, user);
+        }
     }
 
     @Transactional
@@ -86,7 +99,7 @@ public class ClubService {
                 .orElseThrow(()-> new NoSuchElementException("존재하지 않는 클럽입니다."));
         User leader = userRepository.findById(leaderId)
                 .orElseThrow(()-> new NoSuchElementException("사용자 정보가 존재하지 않습니다."));
-        if(club.getUser().getId() != leader.getId())
+        if(!club.getUser().getId().equals(leader.getId()))
             throw new IllegalAccessException("클럽장만 클럽 정보를 수정할 수 있습니다.");
 
         if(getClubMembersCount(club) < clubUpdateRequestDto.getMaxMember())
@@ -102,6 +115,7 @@ public class ClubService {
         return clubRepository.save(club);
     }
 
+    @Transactional
     public UserClub applyToClub(Long userId, Long clubId) {
         Club club = clubRepository.findById(clubId)
                 .orElseThrow(()-> new NoSuchElementException("존재하지 않는 클럽입니다."));
@@ -112,6 +126,9 @@ public class ClubService {
                 .club(club)
                 .state(UserClubState.APPLY)
                 .build();
+
+        notificationService.makeNotification("apply", club, user);
+
         return userClubRepository.save(userClub);
     }
 
@@ -120,19 +137,23 @@ public class ClubService {
         UserClub userClub = userClubRepository.findById(userClubId)
                 .orElseThrow(()->new NoSuchElementException("존재하지않는 가입신청입니다."));
 
-        if(clubId != userClub.getClub().getId() )
+        if(!clubId.equals(userClub.getClub().getId()))
             throw new IllegalAccessException("클럽에 접근권한이 없습니다.");
-        if(leaderId != userClub.getClub().getUser().getId())
+        if(!leaderId.equals(userClub.getClub().getUser().getId()))
             throw new IllegalAccessException("클럽장만 가입을 승인할 수 있습니다.");
         if(userClub.getState() == UserClubState.ACCEPT)
             throw new IllegalStateException("이미 처리된 요청입니다.");
         if(!isAccept) {
             userClubRepository.delete(userClub);
-            return null;
+            notificationService.makeNotification("reject", userClub.getClub(), userClub.getUser());
+            return Optional.empty();
         }
         if(getClubMembersCount(userClub.getClub()) >= userClub.getClub().getMaxMember())
             throw new IllegalArgumentException("멤버를 더이상 수용할 수 없습니다.");
         userClub.acceptJoin();
+        notificationService.makeNotification("accept", userClub.getClub(), userClub.getUser());
+        notificationService.makeBadgeNotification(0, userClub.getUser());
+
         return Optional.of(userClubRepository.save(userClub));
     }
     public void deleteJoin(Long userId, Long clubId) {
@@ -148,7 +169,7 @@ public class ClubService {
         Club club = clubRepository.findById(clubId)
                 .orElseThrow(()-> new NoSuchElementException("존재하지 않는 클럽입니다."));
 
-        if(club.getUser().getId() != leaderId){
+        if(!club.getUser().getId().equals(leaderId)){
             throw new IllegalAccessException("클럽 삭제 권한이 없습니다.");
         }
         clubRepository.delete(club);
