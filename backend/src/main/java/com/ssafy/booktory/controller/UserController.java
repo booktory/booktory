@@ -16,9 +16,12 @@ import org.springframework.web.servlet.view.RedirectView;
 import springfox.documentation.annotations.ApiIgnore;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Api(value = "User API")
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping(value = "/api/users", produces = "application/json;charset=UTF-8")
 @RequiredArgsConstructor
@@ -46,6 +49,9 @@ public class UserController {
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody @ApiParam(value = "로그인 정보(아이디, 비밀번호)") UserLoginRequestDto userLoginRequestDto) {
         User user = userService.findByEmail(userLoginRequestDto.getEmail());
+        if (!user.getIsAccept()) {
+            throw new IllegalArgumentException("인증되지 않은 회원입니다.");
+        }
         if (passwordEncoder.matches(userLoginRequestDto.getPassword(), user.getPassword())) {
             return ResponseEntity.status(HttpStatus.CREATED).body(jwtTokenProvider.createToken(user.getId(), user.getRoles()));
         }
@@ -55,9 +61,12 @@ public class UserController {
     @ApiOperation(value = "회원가입을 위한 이메일 인증을 진행한다.")
     @GetMapping("/authentication/{token}")
     public RedirectView authenticateEmail(@PathVariable @ApiParam(value = "사용자 인증 토큰") String token) {
-        userService.updateAcceptState(token);
         RedirectView redirectView = new RedirectView();
-        redirectView.setUrl("http://localhost:8080/success");
+        String userEmail = userService.updateAcceptState(token);
+        Map<String, String> attributes = new HashMap<>();
+        attributes.put("email", userEmail);
+        redirectView.setAttributesMap(attributes);
+        redirectView.setUrl("http://localhost:8080/register/extrainfo");
         return redirectView;
     }
 
@@ -72,7 +81,7 @@ public class UserController {
     @GetMapping("/password/reset/{token}")
     public RedirectView goResetPassword(@PathVariable @ApiParam(value = "사용자 인증 토큰") String token) {
         RedirectView redirectView = new RedirectView();
-        redirectView.setUrl("http://localhost:8080/resetPassword");
+        redirectView.setUrl("http://localhost:8080/password/update");
         return redirectView;
     }
 

@@ -55,11 +55,12 @@ public class UserService {
         return userRepository.findByEmail(email).orElseThrow(() -> new NoSuchElementException("존재하지 않는 이메일입니다."));
     }
 
-    public void updateAcceptState(String token) {
+    public String updateAcceptState(String token) {
         Long id = Long.valueOf(jwtTokenProvider.getUserId(token));
         User user = userRepository.findById(id).orElseThrow(() -> new NoSuchElementException("존재하지 않는 아이디입니다."));
         user.updateAcceptState(true);
         userRepository.save(user);
+        return user.getEmail();
     }
 
     public User registerExtraInfo(UserPatchExtraRequestDto userPatchExtraRequestDto) {
@@ -97,7 +98,7 @@ public class UserService {
             message.setSubject("책토리 회원가입 인증 이메일입니다.");
             URL url = null;
             try {
-                url = new URL("http://localhost:8080/users/authentication/" + token);
+                url = new URL("http://localhost:8080/api/users/authentication/" + token);
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }
@@ -107,7 +108,7 @@ public class UserService {
             message.setSubject("책토리 비밀번호 변경 이메일입니다.");
             URL url = null;
             try {
-                url = new URL("http://localhost:8080/users/password/reset/" + token);
+                url = new URL("http://localhost:8080/api/users/password/reset/" + token);
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }
