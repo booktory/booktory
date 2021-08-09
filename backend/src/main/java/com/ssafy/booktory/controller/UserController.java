@@ -2,6 +2,7 @@ package com.ssafy.booktory.controller;
 
 import com.ssafy.booktory.domain.user.*;
 import com.ssafy.booktory.domain.book.BookByUserResponseDto;
+import com.ssafy.booktory.service.NotificationService;
 import com.ssafy.booktory.service.UserService;
 import com.ssafy.booktory.util.JwtTokenProvider;
 import io.swagger.annotations.*;
@@ -28,6 +29,7 @@ import java.util.Map;
 public class UserController {
 
     private final UserService userService;
+    private final NotificationService notificationService;
     private final PasswordEncoder passwordEncoder;
 
     @ApiOperation(value = "회원 가입", notes = "필요한 정보를 받아 회원가입한다.")
@@ -165,6 +167,18 @@ public class UserController {
         }
         User user = ((User)authentication.getPrincipal());
         return ResponseEntity.status(HttpStatus.OK).body(userService.getReadBooks(user.getId()));
+    }
+
+    @ApiOperation(value = "로그아웃", notes = "로그아웃할 때 redis에 저장된 fcm token을 지워준다.")
+    @ApiImplicitParams({@ApiImplicitParam(name = "jwt", value = "JWT Token", required = true, dataType = "string", paramType = "header")})
+    @GetMapping("/logout")
+    public ResponseEntity<String> logout(@ApiIgnore final Authentication authentication) {
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+        User user = ((User)authentication.getPrincipal());
+        notificationService.deleteToken(user.getId());
+        return ResponseEntity.status(HttpStatus.OK).body("success");
     }
 
 }
