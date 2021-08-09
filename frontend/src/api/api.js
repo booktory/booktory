@@ -14,5 +14,8 @@ export default {
     updateUserInfo: "/users",
     changePassword: "/users/password",
     deleteUser: "/users",
+
+    // club
+    deleteClub: "/clubs/",
   },
 };
