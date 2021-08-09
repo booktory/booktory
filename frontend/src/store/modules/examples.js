@@ -1,5 +1,48 @@
 export default {
   state: {
+    meetingList: [
+      {
+        id: 0,
+        bookId: 0,
+        bookTitle: "The Pshchology of Money",
+        bookThumbnail: "이미지",
+        startDateTime: "2021-08-01",
+        endDateTime: "2021-08-21",
+        userList: [
+          {
+            userId: 0,
+            userNickname: "소프트콘",
+            profileImg: "유저프로필1",
+          },
+          {
+            userId: 1,
+            userNickname: "나야나",
+            profileImg: "유저프로필2",
+          },
+        ],
+      },
+      {
+        id: 1,
+        bookId: 1,
+        bookTitle: "만들어진 신",
+        bookThumbnail: "이미지",
+        startDateTime: "2021-07-24",
+        endDateTime: "2021-08-01",
+        userList: [
+          {
+            userId: 0,
+            userNickname: "소프트콘",
+            profileImg: "유저프로필1",
+          },
+          {
+            userId: 1,
+            userNickname: "나야나",
+            profileImg: "유저프로필2",
+          },
+        ],
+      },
+    ],
+
     genresList: [
       "소설",
       "장르소설",

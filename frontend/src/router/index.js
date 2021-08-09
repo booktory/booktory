@@ -78,10 +78,29 @@ const routes = [
     component: () => import("@/views/clubs/ClubSearchBarPageListItem.vue"),
   },
 
+  // 클럽상세 홈
   {
     path: "/clubdetail",
     name: "ClubdetailHome",
-    component: () => import("@/views/clubdetail/ClubdetailHome.vue"),
+    component: () => import("@/views/clubdetail/ClubdetailHome/ClubdetailHome.vue"),
+  },
+  // 클럽상세 레이아웃
+  {
+    path: "/clubdetail/layout",
+    name: "ClubdetailLayout",
+    component: () => import("@/views/clubdetail/ClubdetailLayout/ClubdetailLayout.vue"),
+  },
+  // 클럽상세 모임일정
+  {
+    path: "/clubdetail/meeting",
+    name: "ClubdetailMetting",
+    component: () => import("@/views/clubdetail/ClubdetailMeeting/ClubdetailMeeting.vue"),
+  },
+  // 클럽상세 모임일정 만들기
+  {
+    path: "/clubdetail/meeting/create",
+    name: "ClubdetailMettingCreate",
+    component: () => import("@/views/clubdetail/ClubdetailMeeting/ClubdetailMeetingCreate.vue"),
   },
 
   // 내 서재
