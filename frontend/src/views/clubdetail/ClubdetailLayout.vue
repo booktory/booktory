@@ -1,5 +1,12 @@
 <template>
   <div>
+    <div class="bg-img">
+      <!-- 위 배경 박스 -->
+      ddd
+    </div>
+    <div>
+      <!-- 가운데 내용카드 -->
+    </div>
     <Navbar class="footer" />
   </div>
 </template>
