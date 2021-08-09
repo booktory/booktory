@@ -4,7 +4,7 @@
       <icon-base><icon-arrow-left /></icon-base>
     </div>
     <span class="font-body-4 welcome">안녕하세요, {{ user.nickname }}님</span>
-    <div class="icon right">
+    <div class="icon right" @click="$router.push({ name: 'Notification' })">
       <icon-base :width="'1.6em'" :height="'1.6em'"><icon-bell /></icon-base>
     </div>
   </div>
