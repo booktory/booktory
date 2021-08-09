@@ -28,7 +28,6 @@ import java.util.Map;
 public class UserController {
 
     private final UserService userService;
-    private final JwtTokenProvider jwtTokenProvider;
     private final PasswordEncoder passwordEncoder;
 
     @ApiOperation(value = "회원 가입", notes = "필요한 정보를 받아 회원가입한다.")
@@ -47,15 +46,15 @@ public class UserController {
 
     @ApiOperation(value = "일반 로그인", notes = "아이디와 비밀번호를 받아 로그인한다.")
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody @ApiParam(value = "로그인 정보(아이디, 비밀번호)") UserLoginRequestDto userLoginRequestDto) {
+    public ResponseEntity<UserLoginResponseDto> login(@RequestBody @ApiParam(value = "로그인 정보(아이디, 비밀번호)") UserLoginRequestDto userLoginRequestDto) {
         User user = userService.findByEmail(userLoginRequestDto.getEmail());
         if (!user.getIsAccept()) {
             throw new IllegalArgumentException("인증되지 않은 회원입니다.");
         }
         if (passwordEncoder.matches(userLoginRequestDto.getPassword(), user.getPassword())) {
-            return ResponseEntity.status(HttpStatus.CREATED).body(jwtTokenProvider.createToken(user.getId(), user.getRoles()));
+            return ResponseEntity.status(HttpStatus.CREATED).body(userService.doLogin(user));
         }
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("잘못된 비밀번호입니다.");
+        throw new IllegalArgumentException("잘못된 비밀번호입니다.");
     }
 
     @ApiOperation(value = "회원가입을 위한 이메일 인증을 진행한다.")

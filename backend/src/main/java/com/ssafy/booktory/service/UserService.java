@@ -74,6 +74,11 @@ public class UserService {
         return userRepository.save(user);
     }
 
+    public UserLoginResponseDto doLogin(User user) {
+        String jwt = jwtTokenProvider.createToken(user.getId(), user.getRoles());
+        return new UserLoginResponseDto(jwt, user.getNickname(), user.getEmail());
+    }
+
     public void findPassword(String email) {
         if (!userRepository.existsByEmail(email)) {
             throw new NoSuchElementException("가입되지 않은 이메일입니다.");
@@ -165,4 +170,5 @@ public class UserService {
                 .map(book -> new BookByUserResponseDto(book.getBook().getId(), book.getBook().getTitle(), book.getBook().getThumbnail()))
                 .collect(Collectors.toList());
     }
+
 }
