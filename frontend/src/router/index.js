@@ -84,12 +84,6 @@ const routes = [
     name: "ClubdetailHome",
     component: () => import("@/views/clubdetail/ClubdetailHome/ClubdetailHome.vue"),
   },
-  // 클럽상세 레이아웃
-  {
-    path: "/clubdetail/layout",
-    name: "ClubdetailLayout",
-    component: () => import("@/views/clubdetail/ClubdetailLayout/ClubdetailLayout.vue"),
-  },
   // 클럽상세 모임일정
   {
     path: "/clubdetail/meeting",
@@ -101,6 +95,12 @@ const routes = [
     path: "/clubdetail/meeting/create",
     name: "ClubdetailMettingCreate",
     component: () => import("@/views/clubdetail/ClubdetailMeeting/ClubdetailMeetingCreate.vue"),
+  },
+  // 클럽상세 클럽관리
+  {
+    path: "/clubdetail/manage",
+    name: "ClubdetailManage",
+    component: () => import("@/views/clubdetail/ClubdetailManage/ClubdetailManage.vue"),
   },
 
   // 내 서재
