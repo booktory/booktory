@@ -102,6 +102,12 @@ const routes = [
     name: "ClubdetailManage",
     component: () => import("@/views/clubdetail/ClubdetailManage/ClubdetailManage.vue"),
   },
+  // 클럽상세 클럽관리 - 클럽 정보 수정
+  {
+    path: "/clubdetail/manage/update",
+    name: "ClubdetailManageUpdate",
+    component: () => import("@/views/clubdetail/ClubdetailManage/ClubdetailManageUpdate.vue"),
+  },
 
   // 내 서재
   {

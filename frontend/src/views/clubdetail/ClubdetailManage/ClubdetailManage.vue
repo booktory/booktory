@@ -1,14 +1,12 @@
 <template>
   <div class="clubdetail-container">
     <div class="bg-image">
-      <div class="icon" @click="$router.push({ name: 'ClubHome' })">
-        <icon-base><icon-x /></icon-base>
-      </div>
+      <TopHeader />
       <div class="card">
         <div class="main">
           <h4 class="title">클럽 관리</h4>
           <div class="menu-wrapper">
-            <div class="menu-item" @click="clickUpdate">
+            <div class="menu-item" @click="$router.push({ name: 'ClubdetailManageUpdate' })">
               <div class="icon">
                 <icon-base><icon-edit /></icon-base>
               </div>
@@ -42,7 +40,7 @@
         </div>
       </div>
     </div>
-    <Navbar class="footer" />
+    <Navbar :selected="'manage'" class="footer" />
   </div>
 </template>
 
@@ -50,6 +48,7 @@
 import { mapActions } from "vuex";
 import "./ClubdetailManage.scss";
 import Navbar from "@/views/clubdetail/Navbar.vue";
+import TopHeader from "@/views/clubdetail/TopHeader.vue";
 import IconEdit from "@/components/icons/IconEdit.vue";
 import IconMessage from "@/components/icons/IconMessage.vue";
 import IconBook from "@/components/icons/IconBook.vue";
@@ -61,6 +60,7 @@ export default {
   name: "ClubdetailManage",
   components: {
     Navbar,
+    TopHeader,
     IconEdit,
     IconMessage,
     IconBook,
