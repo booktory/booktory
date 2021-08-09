@@ -1,5 +1,5 @@
 export default {
-  URL: "/api",
+  URL: "http://localhost:8080/api",
   ROUTES: {
     // accounts
     login: "/users/login",
@@ -15,7 +15,19 @@ export default {
     changePassword: "/users/password",
     deleteUser: "/users",
 
-    // club
+    // clubs
+    createClub: "/clubs",
+    getClubInfo: "/clubs/",
+    updateClubInfo: "/clubs/",
     deleteClub: "/clubs/",
+    getJoinedClub: "/clubs/list",
+
+    // book-club
+    createBook: "/bookclubs",
+    deleteBook: "/bookclubs/",
+    createMeeting: "/bookclubs",
+    cancleMeeting: "/bookclubs/",
+    getBookClubInfo: "/bookclubs/",
+    getBookClubList: "/bookclubs/list/",
   },
 };

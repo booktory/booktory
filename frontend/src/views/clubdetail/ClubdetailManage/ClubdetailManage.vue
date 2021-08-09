@@ -18,7 +18,7 @@
               </div>
               <span class="font-body-3">문의 게시판</span>
             </div>
-            <div class="menu-item" @click="clickCreate">
+            <div class="menu-item" @click="$router.push({ name: 'ClubdetailManageCreate' })">
               <div class="icon">
                 <icon-base><icon-book /></icon-base>
               </div>
