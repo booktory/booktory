@@ -6,7 +6,7 @@
           ><icon-home
         /></icon-base>
       </p>
-      <p class="sub-item font-body-4">홈</p>
+      <p :class="{ orange: selected == 'home' }" class="sub-item font-body-4">홈</p>
     </div>
     <div class="item">
       <p class="sub-item icon">
@@ -14,7 +14,7 @@
           ><icon-rwm
         /></icon-base>
       </p>
-      <p class="sub-item font-body-4">같이읽기</p>
+      <p :class="{ orange: selected == 'rwm' }" class="sub-item font-body-4">같이읽기</p>
     </div>
     <div class="item" @click="$router.push({ name: 'MyBook' })">
       <p class="sub-item icon">
@@ -22,7 +22,7 @@
           ><icon-mybook
         /></icon-base>
       </p>
-      <p class="sub-item font-body-4">내 서재</p>
+      <p :class="{ orange: selected == 'mybook' }" class="sub-item font-body-4">내 서재</p>
     </div>
     <div class="item" @click="$router.push({ name: 'MyPage' })">
       <p class="sub-item icon">
@@ -30,7 +30,7 @@
           ><icon-mypage
         /></icon-base>
       </p>
-      <p class="sub-item font-body-4">마이페이지</p>
+      <p :class="{ orange: selected == 'mypage' }" class="sub-item font-body-4">마이페이지</p>
     </div>
   </div>
 </template>
@@ -69,5 +69,9 @@ export default {
 .sub-item {
   margin: auto;
   padding: 5px;
+}
+
+.orange {
+  color: var(--orange);
 }
 </style>
