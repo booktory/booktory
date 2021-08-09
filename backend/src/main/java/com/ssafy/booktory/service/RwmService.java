@@ -14,7 +14,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -25,6 +28,7 @@ public class RwmService {
     private final RwmRepository rwmRepository;
     private final RwmLogRepository rwmLogRepository;
     private final UserRepository userRepository;
+    private final NotificationService notificationService;
 
     @Transactional
     public List<RwmListResponseDto> getRwmList() {
@@ -65,7 +69,17 @@ public class RwmService {
                 .orElseThrow(()-> new NoSuchElementException("존재하지 않는 rwm방 입니다."));
         RwmLog rwmLog = rwmLogRepository.findByUserAndRwm(user, rwm)
                 .orElseThrow(()-> new NoSuchElementException("입장 중인 로그가 존재하지 않습니다."));
+
+        Date exitTime = dateTimeToDate(LocalDateTime.now());
+        Date enterTime = dateTimeToDate(rwmLog.getCreatedDate());
+        if (((exitTime.getTime() - enterTime.getTime()) / (1000*60*60)) >= 2) {
+            notificationService.makeBadgeNotification(14, user);
+        }
         rwmLogRepository.delete(rwmLog);
+    }
+
+    private Date dateTimeToDate(LocalDateTime time) {
+        return Date.from(time.atZone(ZoneId.systemDefault()).toInstant());
     }
 
 }
