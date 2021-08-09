@@ -102,6 +102,19 @@ const routes = [
     name: "ClubdetailMettingCreate",
     component: () => import("@/views/clubdetail/ClubdetailMeeting/ClubdetailMeetingCreate.vue"),
   },
+  // 클럽상세 책 확인
+  {
+    path: "/clubdetail/book",
+    name: "ClubdetailBook",
+    component: () => import("@/views/clubdetail/ClubdetailBook/ClubdetailBook.vue"),
+  },
+
+  // 클럽상세 담벼락
+  {
+    path: "/clubdetail/talk",
+    name: "ClubdetailTalk",
+    component: () => import("@/views/clubdetail/ClubdetailTalk/ClubdetailTalk.vue"),
+  },
 
   // 내 서재
   {
