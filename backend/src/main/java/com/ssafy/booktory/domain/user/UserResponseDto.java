@@ -13,6 +13,7 @@ public class UserResponseDto {
 
     private Long id;
     private String nickname;
+    private String email;
     private String name;
     private LocalDate birth;
     private String profileImg;
@@ -23,6 +24,7 @@ public class UserResponseDto {
     public UserResponseDto(User user, List<Integer> badgeList) {
         this.id = user.getId();
         this.nickname = user.getNickname();
+        this.email = user.getEmail();
         this.name = user.getName();
         this.birth = user.getBirth();
         this.profileImg = user.getProfileImg();

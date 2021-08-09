@@ -16,6 +16,7 @@ import springfox.documentation.annotations.ApiIgnore;
 import java.util.List;
 
 @Api(value = "Question API")
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/questions")
 @RequiredArgsConstructor
