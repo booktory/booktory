@@ -9,7 +9,7 @@
     <div class="user-info">
       <img class="profile-image" src="@/assets/images/profile_default.svg" alt="profile-image" />
       <div class="info-frame">
-        <span class="font-body-4">{{ mainBadge }}</span>
+        <span v-if="mainBadge" class="font-body-4">{{ mainBadge }}</span>
         <h5>{{ nickname }}</h5>
         <span class="font-body-4">{{ email }}</span>
       </div>
