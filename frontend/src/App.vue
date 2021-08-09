@@ -3,7 +3,7 @@
     <router-view />
   </div>
 </template>
-<script scr="./firebaseConfig.js"></script>
+
 <style scoped>
 #app {
   -webkit-font-smoothing: antialiased;

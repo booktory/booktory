@@ -3,6 +3,7 @@ import axios from "axios";
 import router from "@/router";
 import Swal from "sweetalert2";
 import cookies from "vue-cookies";
+import fire from "../../firebase.js";
 
 const accountStore = {
   namespaced: true,
@@ -93,6 +94,22 @@ const accountStore = {
           };
           commit("SET_TOKEN", res.data.jwt, { root: true });
           commit("SET_USER", user, { root: true });
+
+          // FCM Token 저장
+          let message = fire.messaging();
+          message.getToken().then((fcmtoken) => {
+            console.log(fcmtoken);
+            axios
+              .post(SERVER.URL + SERVER.ROUTES.registerFCMToken, {
+                token: fcmtoken,
+                email: user.email,
+              })
+              .then(console.log("redis 저장"))
+              .catch((err) => {
+                console.log(err);
+              });
+          });
+
           Swal.fire({
             icon: "success",
             title: "로그인 성공",
@@ -165,7 +182,13 @@ const accountStore = {
         });
     },
     // 로그아웃
-    logout({ commit }) {
+    logout({ rootGetters, commit }) {
+      axios
+        .get(SERVER.URL + SERVER.ROUTES.logout, rootGetters.config)
+        .then(console.log("redis 삭제"))
+        .catch((err) => {
+          console.log(err);
+        });
       commit("SET_TOKEN", null);
       cookies.remove("auth-token");
       commit("SET_USER", null);

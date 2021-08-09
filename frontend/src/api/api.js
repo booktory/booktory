@@ -7,6 +7,7 @@ export default {
     registerExtraInfo: "/users/extra",
     findPassword: "/users/password/",
     goResetPassword: "/users/password/reset/",
+    logout: "/users/logout",
 
     // mypage
     getUserInfo: "/users/me",
@@ -14,5 +15,8 @@ export default {
     updateUserInfo: "/users",
     changePassword: "/users/password",
     deleteUser: "/users",
+
+    // notification
+    registerFCMToken: "/notification",
   },
 };

@@ -149,9 +149,9 @@ const routes = [
 
   // 알람
   {
-    ​path: "/notification", 
-    ​name: "Notification",
-    ​component: () => import("@/views/notification/Notification.vue"),
+    path: "/notification",
+    name: "Notification",
+    component: () => import("@/views/notification/Notification.vue"),
   },
 ];
 
