@@ -2,6 +2,7 @@ package com.ssafy.booktory.controller;
 
 import com.ssafy.booktory.domain.user.*;
 import com.ssafy.booktory.domain.book.BookByUserResponseDto;
+import com.ssafy.booktory.service.NotificationService;
 import com.ssafy.booktory.service.UserService;
 import com.ssafy.booktory.util.JwtTokenProvider;
 import io.swagger.annotations.*;
@@ -16,16 +17,19 @@ import org.springframework.web.servlet.view.RedirectView;
 import springfox.documentation.annotations.ApiIgnore;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Api(value = "User API")
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping(value = "/api/users", produces = "application/json;charset=UTF-8")
 @RequiredArgsConstructor
 public class UserController {
 
     private final UserService userService;
-    private final JwtTokenProvider jwtTokenProvider;
+    private final NotificationService notificationService;
     private final PasswordEncoder passwordEncoder;
 
     @ApiOperation(value = "회원 가입", notes = "필요한 정보를 받아 회원가입한다.")
@@ -44,20 +48,26 @@ public class UserController {
 
     @ApiOperation(value = "일반 로그인", notes = "아이디와 비밀번호를 받아 로그인한다.")
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody @ApiParam(value = "로그인 정보(아이디, 비밀번호)") UserLoginRequestDto userLoginRequestDto) {
+    public ResponseEntity<UserLoginResponseDto> login(@RequestBody @ApiParam(value = "로그인 정보(아이디, 비밀번호)") UserLoginRequestDto userLoginRequestDto) {
         User user = userService.findByEmail(userLoginRequestDto.getEmail());
-        if (passwordEncoder.matches(userLoginRequestDto.getPassword(), user.getPassword())) {
-            return ResponseEntity.status(HttpStatus.CREATED).body(jwtTokenProvider.createToken(user.getId(), user.getRoles()));
+        if (!user.getIsAccept()) {
+            throw new IllegalArgumentException("인증되지 않은 회원입니다.");
         }
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("잘못된 비밀번호입니다.");
+        if (passwordEncoder.matches(userLoginRequestDto.getPassword(), user.getPassword())) {
+            return ResponseEntity.status(HttpStatus.CREATED).body(userService.doLogin(user));
+        }
+        throw new IllegalArgumentException("잘못된 비밀번호입니다.");
     }
 
     @ApiOperation(value = "회원가입을 위한 이메일 인증을 진행한다.")
     @GetMapping("/authentication/{token}")
     public RedirectView authenticateEmail(@PathVariable @ApiParam(value = "사용자 인증 토큰") String token) {
-        userService.updateAcceptState(token);
         RedirectView redirectView = new RedirectView();
-        redirectView.setUrl("http://localhost:8080/success");
+        String userEmail = userService.updateAcceptState(token);
+        Map<String, String> attributes = new HashMap<>();
+        attributes.put("email", userEmail);
+        redirectView.setAttributesMap(attributes);
+        redirectView.setUrl("http://localhost:8080/register/extrainfo");
         return redirectView;
     }
 
@@ -72,7 +82,7 @@ public class UserController {
     @GetMapping("/password/reset/{token}")
     public RedirectView goResetPassword(@PathVariable @ApiParam(value = "사용자 인증 토큰") String token) {
         RedirectView redirectView = new RedirectView();
-        redirectView.setUrl("http://localhost:8080/resetPassword");
+        redirectView.setUrl("http://localhost:8080/password/update");
         return redirectView;
     }
 
@@ -157,6 +167,18 @@ public class UserController {
         }
         User user = ((User)authentication.getPrincipal());
         return ResponseEntity.status(HttpStatus.OK).body(userService.getReadBooks(user.getId()));
+    }
+
+    @ApiOperation(value = "로그아웃", notes = "로그아웃할 때 redis에 저장된 fcm token을 지워준다.")
+    @ApiImplicitParams({@ApiImplicitParam(name = "jwt", value = "JWT Token", required = true, dataType = "string", paramType = "header")})
+    @GetMapping("/logout")
+    public ResponseEntity<String> logout(@ApiIgnore final Authentication authentication) {
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+        User user = ((User)authentication.getPrincipal());
+        notificationService.deleteToken(user.getId());
+        return ResponseEntity.status(HttpStatus.OK).body("success");
     }
 
 }

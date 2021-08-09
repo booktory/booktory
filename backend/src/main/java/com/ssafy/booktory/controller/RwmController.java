@@ -19,6 +19,7 @@ import springfox.documentation.annotations.ApiIgnore;
 import java.util.List;
 
 @Api(value = "Read With Me API")
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/rwms")
 @RequiredArgsConstructor
