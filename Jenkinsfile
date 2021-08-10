@@ -51,21 +51,28 @@ pipeline {
 						--network booktorycicdnetwork \
 						frontend:latest'
 
+						sh 'pwd'
+						sh 'ls -l'
+
 						sh 'docker run -d --name backend \
 						--network booktorynetwork backend:latest'
+
+						sh 'pwd'
+						sh 'ls -l'
+						
 					}catch(e) {
 						currentBuild.result = "FAILURE"
                     } finally {
 						if(currentBuild.result == "FAILURE"){
 							mattermostSend (
                                     color: "danger", 
-                                    message: "Build FAILED: ${env.JOB_NAME} #${env.BUILD_NUMBER} (<${env.BUILD_URL}|Link to build>)"
+                                    message: "RUN FAILED: ${env.JOB_NAME} #${env.BUILD_NUMBER} (<${env.BUILD_URL}|Link to build>)"
                             )
 						}
 						else{
 							mattermostSend (
                                     color: "good", 
-                                    message: "Build SUCCESS: ${env.JOB_NAME} #${env.BUILD_NUMBER} (<${env.BUILD_URL}|Link to build>)"
+                                    message: "RUN SUCCESS: ${env.JOB_NAME} #${env.BUILD_NUMBER} (<${env.BUILD_URL}|Link to build>)"
                             )
 						}
 					}
