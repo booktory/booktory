@@ -2,6 +2,7 @@
   <div class="container">
     <TopHeader />
     <MyProfile
+      v-if="userInfo"
       :mainBadge="this.mainBadge"
       :nickname="this.userInfo.nickname"
       :email="this.userInfo.email"
@@ -29,7 +30,7 @@ export default {
   computed: {
     ...mapState("mypageStore", ["userInfo", "mainBadge", "badgeList"]),
   },
-  data: function() {
+  data: function () {
     return {};
   },
   methods: {
