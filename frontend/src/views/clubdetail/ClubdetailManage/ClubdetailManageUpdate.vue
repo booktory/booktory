@@ -213,48 +213,6 @@ export default {
 </script>
 
 <style scoped>
-.gerne-keyword {
-  width: 100%;
-  margin: 4% auto 0;
-  justify-content: space-between;
-}
-
-.gerne-keyword span {
-  margin: 0.5% 0.4%;
-}
-
-.tag {
-  display: inline-block;
-  margin: 0 auto;
-  padding: 0.5% 1.6%;
-  border: 0;
-  border-radius: 1em;
-  color: white;
-  background-color: var(--light-orange);
-}
-
-.input-div label,
-.input-div .message {
-  margin-left: 1em;
-}
-
-.input-div .message {
-  margin: 1em 1em;
-}
-
-.input-div div,
-.input-div input {
-  width: 100%;
-}
-
-.label {
-  text-align: left;
-  display: block;
-  margin: 1.6em 0 0.7em 1em;
-  font-size: 1.2rem;
-  color: var(--grey);
-}
-
 .rules * {
   text-align: left;
 }
