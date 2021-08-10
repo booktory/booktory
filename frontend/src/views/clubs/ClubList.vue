@@ -1,11 +1,12 @@
 <template>
-  <div>
+  <div class="">
     <ClubListItem
       :bookclub="bookclubList[index]"
       :maxLength="bookclubList.length"
       :index="index"
       @click-left="onClickLeft"
       @click-right="onClickRight"
+      class="bg-img"
     />
   </div>
 </template>
@@ -39,4 +40,4 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped></style>
