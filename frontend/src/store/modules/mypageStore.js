@@ -1,5 +1,7 @@
 import SERVER from "@/api/api";
 import axios from "axios";
+import router from "@/router";
+import Swal from "sweetalert2";
 
 const mypageStore = {
   namespaced: true,
@@ -92,6 +94,7 @@ const mypageStore = {
     },
   },
   actions: {
+    // 회원 정보 확인
     findUserInfo({ rootGetters, getters, commit }) {
       axios
         .get(SERVER.URL + SERVER.ROUTES.getUserInfo, rootGetters.config)
@@ -114,6 +117,35 @@ const mypageStore = {
         })
         .catch((err) => {
           console.log(err);
+        });
+    },
+    // 회원 정보 수정
+    updateUserInfo({ rootGetters, commit }, userData) {
+      axios
+        .patch(SERVER.URL + SERVER.ROUTES.updateUserInfo, userData, rootGetters.config)
+        .then((res) => {
+          commit("userNickname", userData.nickname, { root: true });
+          localStorage.setItem("userNickname", userData.nickname);
+          Swal.fire({
+            icon: "success",
+            title: "프로필 수정 완료",
+            html: "프로필이 수정 되었습니다.<br>지금부터 바뀐 정보를 확인하실 수 있어요!",
+            showConfirmButton: false,
+            timer: 1000,
+            timerProgressBar: true,
+          });
+          console.log(res.data);
+          router.push({ name: "MyPage" });
+        })
+        .catch((err) => {
+          Swal.fire({
+            icon: "error",
+            title: "프로필 수정 실패",
+            text: err.response.data.message,
+            showConfirmButton: false,
+            timer: 1500,
+            timerProgressBar: false,
+          });
         });
     },
   },
