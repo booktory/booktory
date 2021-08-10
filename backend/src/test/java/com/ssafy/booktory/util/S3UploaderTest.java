@@ -1,4 +1,4 @@
-package com.ssafy.booktory.util;
+/*package com.ssafy.booktory.util;
 
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -22,4 +22,4 @@ class S3UploaderTest {
     }
 
 
-}
+}*/
