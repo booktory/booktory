@@ -129,7 +129,7 @@
       :root {
         /* Color Styles */
         /* Main */
-        --light-orange: #fdcc97;
+        --light-orange: #ffba70;
         --orange: #ff7f00;
         --very-light-brown: #c39a76;
         --light-brown: #bf5f0e;
@@ -159,14 +159,15 @@
       .navbar {
         /* width: 100vw; */
         display: grid;
-        grid-template-columns: 12% 76% 12%;
-        height: 6em;
+        grid-template-columns: 11% 78% 11%;
+        height: 5.5em;
         align-items: center;
         justify-items: right;
       }
 
       .footer {
         width: 100%;
+        height: 5.2rem;
         left: 0;
         bottom: 0;
         position: fixed;
@@ -254,6 +255,10 @@
         color: var(--dark-grey);
         /* border: 1px solid var(--dark-grey); */
       }
+      .input-div {
+        width: 30rem;
+        margin: 2rem auto 2rem;
+      }
 
       .input-div * {
         text-align: left;
@@ -261,7 +266,7 @@
 
       .input-div label {
         display: block;
-        margin: 5.5% 0 1.5% 14%;
+        margin: 0 0 0.6rem 1.6rem;
         font-size: 1.2rem;
         font-weight: 500;
         color: var(--grey);
@@ -269,17 +274,16 @@
 
       .input-div > div {
         display: inline-block;
-        width: 80%;
-        height: 24%;
-        border-radius: 2em;
+        width: 100%;
+        height: 100%;
+        border-radius: 2rem;
         box-shadow: 0 0.4em 0.8em 0 rgba(142, 141, 208, 0.16);
         background-color: var(--white);
       }
 
       .input-div input {
-        width: 88%;
-        height: 100%;
-        padding: 3.6% 6%;
+        width: 90%;
+        padding: 0.9rem 1.8rem;
         border: 0;
         background: transparent;
         box-shadow: none;
@@ -293,9 +297,14 @@
 
       .input-div .message {
         height: 12px;
-        margin-left: 13.3%;
+        margin: 1.2rem 0 0 1.6rem;
         font-size: 1rem;
         color: var(--orange);
+      }
+
+      #birth input {
+        height: 100%;
+        line-height: 1.6rem;
       }
 
       #birth svg {
@@ -304,7 +313,8 @@
       }
 
       #birth i {
-        right: 6%;
+        right: 1.4rem;
+        top: 1.6rem;
       }
 
       .text-link {
@@ -313,10 +323,10 @@
       }
 
       .m-top-10 {
-        margin-top: 10%;
+        margin-top: 4rem;
       }
       .m-top-5 {
-        margin-top: 5%;
+        margin-top: 3rem;
       }
       .m-top {
         margin-top: 6em;

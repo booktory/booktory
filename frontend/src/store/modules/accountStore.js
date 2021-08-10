@@ -87,12 +87,9 @@ const accountStore = {
       axios
         .post(SERVER.URL + info.location, info.data)
         .then((res) => {
-          let user = {
-            email: res.data.email,
-            nickname: res.data.nickname,
-          };
           commit("SET_TOKEN", res.data.jwt, { root: true });
-          commit("SET_USER", user, { root: true });
+          commit("SET_USER_EMAIL", res.data.email, { root: true });
+          commit("SET_USER_NICKNAME", res.data.nickname, { root: true });
           Swal.fire({
             icon: "success",
             title: "로그인 성공",
@@ -168,8 +165,10 @@ const accountStore = {
     logout({ commit }) {
       commit("SET_TOKEN", null);
       cookies.remove("auth-token");
-      commit("SET_USER", null);
-      localStorage.removeItem("user");
+      commit("SET_USER_EMAIL", null);
+      commit("SET_USER_NICKNAME", null);
+      localStorage.removeItem("userEmail");
+      localStorage.removeItem("userNickname");
       Swal.fire({
         icon: "success",
         title: "로그아웃 완료",

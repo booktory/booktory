@@ -25,9 +25,8 @@ export default {
 }
 
 .logo {
-  width: 89.3%;
-  height: 41.9%;
-  margin: 10% 0;
+  width: 88%;
+  margin: 1rem 0;
   object-fit: contain;
 }
 </style>

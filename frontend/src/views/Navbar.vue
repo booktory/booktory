@@ -6,7 +6,7 @@
           ><icon-home
         /></icon-base>
       </p>
-      <p class="sub-item font-body-4">홈</p>
+      <p :class="{ orange: selected == 'home' }" class="sub-item font-body-5">홈</p>
     </div>
     <div class="item">
       <p class="sub-item icon">
@@ -14,7 +14,7 @@
           ><icon-rwm
         /></icon-base>
       </p>
-      <p class="sub-item font-body-4">같이읽기</p>
+      <p :class="{ orange: selected == 'rwm' }" class="sub-item font-body-5">같이읽기</p>
     </div>
     <div class="item" @click="$router.push({ name: 'MyBook' })">
       <p class="sub-item icon">
@@ -22,7 +22,7 @@
           ><icon-mybook
         /></icon-base>
       </p>
-      <p class="sub-item font-body-4">내 서재</p>
+      <p :class="{ orange: selected == 'mybook' }" class="sub-item font-body-5">내 서재</p>
     </div>
     <div class="item" @click="$router.push({ name: 'MyPage' })">
       <p class="sub-item icon">
@@ -30,7 +30,7 @@
           ><icon-mypage
         /></icon-base>
       </p>
-      <p class="sub-item font-body-4">마이페이지</p>
+      <p :class="{ orange: selected == 'mypage' }" class="sub-item font-body-5">마이페이지</p>
     </div>
   </div>
 </template>
@@ -59,15 +59,19 @@ export default {
 
 .navbar-container {
   display: grid;
-  padding: 3% 3% 3%;
-  grid-template-columns: repeat(4, auto [col-start]);
-  grid-template-rows: auto;
+  padding: 0;
+  grid-template-columns: repeat(4, 1fr);
   justify-items: center;
-  align-items: start;
+  align-items: center;
 }
 
 .sub-item {
   margin: auto;
-  padding: 5px;
+  padding-top: 0.2em;
+}
+
+.orange {
+  color: var(--orange);
+  font-weight: bold;
 }
 </style>

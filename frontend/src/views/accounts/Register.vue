@@ -7,7 +7,7 @@
     </div>
     <h4 class="title">회원가입</h4>
     <p class="sub-title">회원정보를 입력해주세요</p>
-    <div class="input-div m-top-10">
+    <div class="input-div m-top-5">
       <label for="nickname">닉네임</label>
       <div>
         <input

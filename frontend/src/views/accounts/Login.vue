@@ -7,7 +7,7 @@
     </div>
     <h4 class="title">로그인</h4>
     <p class="sub-title">이메일과 비밀번호를 입력해주세요</p>
-    <div class="input-div m-top-10">
+    <div class="input-div m-top-5">
       <label for="email">이메일</label>
       <div>
         <input
