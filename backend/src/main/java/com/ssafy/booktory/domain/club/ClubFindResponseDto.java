@@ -1,5 +1,8 @@
 package com.ssafy.booktory.domain.club;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import com.ssafy.booktory.domain.clubgenre.ClubGenre;
 import com.ssafy.booktory.domain.genre.Genre;
 import lombok.AllArgsConstructor;
@@ -15,6 +18,9 @@ import java.util.List;
 @AllArgsConstructor
 public class ClubFindResponseDto {
     private String name;
+
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @JsonFormat(pattern = "yyyy-MM-dd kk:mm:ss")
     private LocalDateTime date;
     private String img;
     private String info;

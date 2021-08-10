@@ -6,10 +6,10 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class RwmParticipantListArgDto {
-    Long userId;
-    String userNickName;
-    String profileImg;
-    String bookName;
+    private Long userId;
+    private String userNickName;
+    private String profileImg;
+    private String bookName;
 
     public RwmParticipantListArgDto(RwmLog rwmLog){
         this.userId = rwmLog.getUser().getId();
