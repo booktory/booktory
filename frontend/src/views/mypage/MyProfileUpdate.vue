@@ -93,6 +93,7 @@
           maxlength="11"
           placeholder="전화번호를 입력해주세요"
           required
+          @keyup.enter="clickUpdate"
         />
       </div>
       <p v-if="error.phone" class="message">{{ error.phone }}</p>

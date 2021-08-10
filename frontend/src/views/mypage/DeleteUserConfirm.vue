@@ -11,13 +11,12 @@
           type="password"
           id="password"
           placeholder="비밀번호를 입력해주세요"
+          @keyup.enter="clickDelete"
         />
       </div>
       <p class="message">8자 이상 입력해주세요</p>
     </div>
-    <button type="button" class="button-2 m-top-10" @click="clickDelete">
-      탈퇴하기
-    </button>
+    <button type="button" class="button-2 m-top-10" @click="clickDelete">탈퇴하기</button>
     <Navbar :selected="'mypage'" class="footer" />
   </div>
 </template>
