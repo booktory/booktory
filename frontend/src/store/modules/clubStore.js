@@ -56,6 +56,25 @@ const clubStore = {
           commit("SET_JOINED_LIST", joined);
         });
     },
+    rejectJoin({ rootGetters, getters, commit }, userClubId) {
+      axios
+        .delete(SERVER.URL + "/clubs/" + getters.clubId + "/join/" + userClubId, rootGetters.config)
+        .then((res) => {
+          console.log(res);
+          this.findApplyList();
+        })
+        .catch((err) => {
+          console.log(err);
+          var apply = getters.applyList;
+          for (var i = 0; i < apply.length; i++) {
+            if (apply[i].id == userClubId) {
+              apply.splice(i, 1);
+              break;
+            }
+          }
+          commit("SET_APPLY_LIST", apply);
+        });
+    },
     // 클럽 가입신청 회원 목록
     findApplyList({ rootGetters, getters, commit }) {
       axios
