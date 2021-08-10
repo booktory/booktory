@@ -7,12 +7,16 @@ const clubStore = {
   namespaced: true,
   state: {
     clubId: null,
+    isLeader: null,
     applyList: null,
     joinedList: null,
   },
   getters: {
     clubId(state) {
       return state.clubId;
+    },
+    isLeader(state) {
+      return state.isLeader;
     },
     applyList(state) {
       return state.applyList;
@@ -25,6 +29,9 @@ const clubStore = {
     SET_CLUBID(state, data) {
       state.clubId = data;
     },
+    SET_IS_LEADER(state, data) {
+      state.isLeader = data;
+    },
     SET_APPLY_LIST(state, data) {
       state.applyList = data;
     },
@@ -33,6 +40,7 @@ const clubStore = {
     },
   },
   actions: {
+    // 클럽 가입신청 수락
     acceptToClub({ rootGetters, getters, commit }, userClubId) {
       axios
         .put(SERVER.URL + "/clubs/" + getters.clubId + "/join/" + userClubId, rootGetters.config)
@@ -56,6 +64,7 @@ const clubStore = {
           commit("SET_JOINED_LIST", joined);
         });
     },
+    // 클럽 가입신청 거절
     rejectJoin({ rootGetters, getters, commit }, userClubId) {
       axios
         .delete(SERVER.URL + "/clubs/" + getters.clubId + "/join/" + userClubId, rootGetters.config)
@@ -133,6 +142,35 @@ const clubStore = {
           commit("SET_JOINED_LIST", list);
         });
     },
+    // 클럽 탈퇴
+    deleteClubUser({ rootGetters, getters }) {
+      axios
+        .delete(
+          SERVER.URL + SERVER.ROUTES.deleteClub + getters.clubId + "/user",
+          rootGetters.config
+        )
+        .then((res) => {
+          console.log(res);
+          Swal.fire({
+            icon: "success",
+            title: "클럽 탈퇴 완료",
+            showConfirmButton: false,
+            timer: 1000,
+            timerProgressBar: true,
+          });
+          router.push({ name: "ClubHome" });
+        })
+        .catch((err) => {
+          Swal.fire({
+            icon: "error",
+            title: "클럽 탈퇴 실패",
+            text: err.response.data.message,
+            showConfirmButton: false,
+            timer: 1500,
+            timerProgressBar: false,
+          });
+        });
+    },
     // 클럽 삭제
     deleteClub({ rootGetters, getters }) {
       axios
@@ -141,7 +179,7 @@ const clubStore = {
           console.log(res);
           Swal.fire({
             icon: "success",
-            title: "클럽 삭제 성공",
+            title: "클럽 삭제 완료",
             showConfirmButton: false,
             timer: 1000,
             timerProgressBar: true,
