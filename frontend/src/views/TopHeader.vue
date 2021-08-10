@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapActions, mapState } from "vuex";
 
 export default {
   components: {},
@@ -20,8 +20,12 @@ export default {
   computed: {
     ...mapState(["userNickname"]),
   },
-  methods: {},
-  created() {},
+  methods: {
+    ...mapActions(["fetchUser"]),
+  },
+  created() {
+    this.fetchUser();
+  },
 };
 </script>
 
