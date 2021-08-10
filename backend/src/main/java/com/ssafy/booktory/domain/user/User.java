@@ -1,5 +1,8 @@
 package com.ssafy.booktory.domain.user;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import com.ssafy.booktory.domain.answer.Answer;
 import com.ssafy.booktory.domain.board.Board;
 import com.ssafy.booktory.domain.bookclubuser.BookClubUser;
@@ -49,6 +52,8 @@ public class User implements UserDetails {
     @Column(length = 20)
     private String name;
 
+    @JsonSerialize(using = LocalDateSerializer.class)
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate birth;
 
     private String profileImg;
