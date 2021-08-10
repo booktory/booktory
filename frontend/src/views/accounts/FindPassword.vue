@@ -7,7 +7,7 @@
     </div>
     <h4 class="title">비밀번호 찾기</h4>
     <p class="sub-title">가입하신 이메일을 입력해주세요</p>
-    <div class="input-div m-top-10">
+    <div class="input-div m-top-5">
       <label for="user_email">이메일</label>
       <div>
         <input
