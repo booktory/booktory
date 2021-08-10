@@ -2,20 +2,20 @@
   <div class="">
     <div class="club-card" @click="selectClub">
       <div class="club-card-img">
-        <!-- <img :src="clubImg" alt="club image" /> -->
-        이미지
+        <img src="https://picsum.photos/200" alt="#" />
       </div>
       <div class="club-card-text">
-        <h6>{{ clubName }}</h6>
-        <p><span>클럽장</span>{{ leaderId }} | <span>참가자</span>{{ maxMember }}</p>
-        <div class="club-card-genres">
+        <h6 class="club-card-text-name">{{ clubName }}</h6>
+        <p class="club-card-text-user">
+          <span>클럽장</span>{{ leaderId }} | <span>참가자</span>{{ maxMember }}
+        </p>
+        <div class="club-card-text-genres">
           <span class="genre-keyword" v-for="(genre, idx) in genres" :key="idx" :value="genre">
             <button class="tag">{{ genre.genreName }}</button>
           </span>
         </div>
       </div>
     </div>
-    <hr />
   </div>
 </template>
 
@@ -34,7 +34,7 @@ export default {
   },
   computed: {
     clubImg: function () {
-      return this.club.img;
+      return this.club.clubImg;
     },
     clubName: function () {
       return this.club.name;
@@ -52,33 +52,60 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .club-card {
   width: 80%;
-  height: 15%;
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-  gap: 10px;
-  border-radius: 10px;
-  background-color: #f1ece5;
+  height: 8rem;
+  background-color: var(--very-light-grey);
+  border-radius: 1rem;
+  margin: 1rem auto;
+
+  .club-card-img {
+    width: 30%;
+    height: 100%;
+    float: left;
+    align-content: center;
+
+    img {
+      width: 100%;
+      height: 100%;
+      border-radius: 1rem;
+    }
+  }
+  .club-card-text * {
+    text-align: left;
+  }
+  .club-card-text {
+    width: 70%;
+    height: 100%;
+    float: left;
+    &-name {
+      padding: 5%;
+    }
+    &-user {
+      padding-left: 5%;
+      padding-top: 1%;
+    }
+    &-genres {
+      padding-left: 5%;
+      padding-top: 1%;
+    }
+  }
 }
 
-img {
-  object-fit: cover;
-}
-
-.club-card-text * {
-  text-align: left;
+h6,
+p {
+  margin: 0;
 }
 
 .tag {
-  margin: 0 0.2%;
+  display: inline-block;
+  margin: 0 auto;
   padding: 0.5% 1.6%;
   border: 0;
-  border-radius: 10px;
+  border-radius: 1em;
   color: white;
-  background-color: #a4c0f3;
+  background-color: var(--light-orange);
+  margin: 0.5% 0.4%;
 }
 </style>
