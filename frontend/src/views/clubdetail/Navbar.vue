@@ -28,7 +28,7 @@ export default {
 
 .navbar-container {
   display: grid;
-  padding: 6% 0;
+  padding: 5% 0;
   grid-template-columns: repeat(4, auto [col-start]);
   grid-template-rows: auto;
   justify-items: center;
