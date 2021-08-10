@@ -2,9 +2,11 @@
   <div class="container">
     <TopHeader />
     <MyProfile
-      :mainBadge="this.mainBadge"
-      :nickname="this.userInfo.nickname"
-      :email="this.userInfo.email"
+      v-if="userInfo"
+      :mainBadge="mainBadge"
+      :nickname="userInfo.nickname"
+      :email="userInfo.email"
+      :profileImg="userInfo.profileImg"
     />
     <BadgeList :badgeList="this.badgeList" />
     <Navbar :selected="'mypage'" class="footer" />
@@ -29,7 +31,7 @@ export default {
   computed: {
     ...mapState("mypageStore", ["userInfo", "mainBadge", "badgeList"]),
   },
-  data: function() {
+  data: function () {
     return {};
   },
   methods: {
