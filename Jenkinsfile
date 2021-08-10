@@ -50,6 +50,7 @@ pipeline {
 						frontend:latest'
 
 						sh 'docker run -d --name backend \
+						-v /home/ubuntu/backend/settings/:/backend/src/main/resources/ \
 						--network booktorycicdnetwork backend:latest'
 
 						sh 'docker ps'
