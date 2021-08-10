@@ -114,6 +114,13 @@ const routes = [
     name: "ClubdetailManageCreate",
     component: () => import("@/views/clubdetail/ClubdetailManage/ClubdetailManageCreate.vue"),
   },
+  // 클럽상세 클럽관리 - 가입신청 관리
+  {
+    path: "/clubdetail/manage/user",
+    name: "ClubdetailManageUser",
+    component: () => import("@/views/clubdetail/ClubdetailManage/ClubdetailManageUser.vue"),
+  },
+
   // 클럽상세 책 확인
   {
     path: "/clubdetail/book",
