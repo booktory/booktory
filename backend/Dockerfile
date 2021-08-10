@@ -1,4 +1,5 @@
 FROM openjdk:11 AS builder
+WORKDIR /backend
 COPY . .
 RUN chmod +x ./gradlew
 
