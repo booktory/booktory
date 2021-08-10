@@ -16,7 +16,6 @@ export default {
     changePassword: "/users/password",
     deleteUser: "/users",
 
-<<<<<<< HEAD
     // clubs
     createClub: "/clubs",
     getClubInfo: "/clubs/",
@@ -31,9 +30,7 @@ export default {
     cancleMeeting: "/bookclubs/",
     getBookClubInfo: "/bookclubs/",
     getBookClubList: "/bookclubs/list/",
-=======
     // notification
     registerFCMToken: "/notification",
->>>>>>> feature/fe-notification
   },
 };
