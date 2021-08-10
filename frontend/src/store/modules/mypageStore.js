@@ -103,17 +103,18 @@ const mypageStore = {
           commit("SET_USERINFO", res.data);
           // 배지 목록 가져오기
           let badgeList = getters.badgeList;
-          // 대표 배지 설정
-          let mainBadgeName = null;
-          if (res.data.mainBadge) {
-            mainBadgeName = badgeList[res.data.mainBadge].name;
-          }
-          commit("SET_MAINBADGE", mainBadgeName);
           // 나의 배지 목록 설정
-          for (var i = 0; i < res.data.badgeList; i++) {
+          for (var i = 0; i < res.data.badgeList.length; i++) {
             badgeList[res.data.badgeList[i]].state = true;
           }
           commit("SET_BADGELIST", badgeList);
+          // 대표 배지 설정
+          let mainBadgeName = null;
+          if (res.data.mainBadge >= 0) {
+            mainBadgeName = badgeList[res.data.mainBadge].name;
+            badgeList[res.data.mainBadge].isMain = true;
+          }
+          commit("SET_MAINBADGE", mainBadgeName);
         })
         .catch((err) => {
           console.log(err);
@@ -141,6 +142,31 @@ const mypageStore = {
           Swal.fire({
             icon: "error",
             title: "프로필 수정 실패",
+            text: err.response.data.message,
+            showConfirmButton: false,
+            timer: 1500,
+            timerProgressBar: false,
+          });
+        });
+    },
+    changeMainBadge({ getters }, badgeId) {
+      axios
+        .patch(SERVER.URL + "/users/" + getters.userInfo.id + "/main-badge/" + badgeId)
+        .then((res) => {
+          Swal.fire({
+            icon: "success",
+            title: "대표배지 설정 완료",
+            showConfirmButton: false,
+            timer: 1000,
+            timerProgressBar: true,
+          });
+          console.log(res.data);
+          router.go(0);
+        })
+        .catch((err) => {
+          Swal.fire({
+            icon: "error",
+            title: "대표배지 설정 실패",
             text: err.response.data.message,
             showConfirmButton: false,
             timer: 1500,

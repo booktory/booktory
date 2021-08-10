@@ -8,7 +8,7 @@
       :email="userInfo.email"
       :profileImg="userInfo.profileImg"
     />
-    <BadgeList :badgeList="this.badgeList" />
+    <BadgeList :badgeList="badgeList" />
     <Navbar :selected="'mypage'" class="footer" />
   </div>
 </template>
