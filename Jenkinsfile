@@ -17,8 +17,6 @@ pipeline {
 			steps {
 				script {
                     try {
-						sh 'pwd'
-						sh 'ls -a'
 						sh 'docker build -t frontend:latest frontend/'
 						sh 'docker build -t backend:latest backend/'
 					}catch(e) {
@@ -51,14 +49,11 @@ pipeline {
 						--network booktorycicdnetwork \
 						frontend:latest'
 
-						sh 'pwd'
-						sh 'ls -l'
-
 						sh 'docker run -d --name backend \
 						--network booktorycicdnetwork backend:latest'
 
-						sh 'pwd'
-						sh 'ls -l'
+						sh 'docker ps'
+						sh 'docker images'
 						
 					}catch(e) {
 						currentBuild.result = "FAILURE"
