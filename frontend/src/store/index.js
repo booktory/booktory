@@ -11,6 +11,8 @@ import clubStore from "@/store/modules/clubStore";
 import VueCookies from "vue-cookies";
 Vue.use(VueCookies);
 Vue.$cookies.config("1d");
+import router from "@/router";
+import Swal from "sweetalert2";
 
 export default new Vuex.Store({
   state: {
@@ -39,6 +41,23 @@ export default new Vuex.Store({
     fetchUser({ commit }) {
       commit("SET_USER_EMAIL", localStorage.getItem("userEmail"));
       commit("SET_USER_NICKNAME", localStorage.getItem("userNickname"));
+    },
+    // 로그아웃
+    logout({ commit }) {
+      commit("SET_TOKEN", null);
+      Vue.$cookies.remove("auth-token");
+      commit("SET_USER_EMAIL", null);
+      localStorage.removeItem("userEmail");
+      commit("SET_USER_NICKNAME", null);
+      localStorage.removeItem("userNickname");
+      Swal.fire({
+        icon: "success",
+        title: "로그아웃 완료",
+        showConfirmButton: false,
+        timer: 1000,
+        timerProgressBar: true,
+      });
+      router.push({ name: "Login" });
     },
   },
   modules: {

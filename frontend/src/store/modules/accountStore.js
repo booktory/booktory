@@ -2,7 +2,6 @@ import SERVER from "@/api/api";
 import axios from "axios";
 import router from "@/router";
 import Swal from "sweetalert2";
-import cookies from "vue-cookies";
 
 const accountStore = {
   namespaced: true,
@@ -160,23 +159,6 @@ const accountStore = {
             text: err.response.data.message,
           });
         });
-    },
-    // 로그아웃
-    logout({ commit }) {
-      commit("SET_TOKEN", null);
-      cookies.remove("auth-token");
-      commit("SET_USER_EMAIL", null);
-      commit("SET_USER_NICKNAME", null);
-      localStorage.removeItem("userEmail");
-      localStorage.removeItem("userNickname");
-      Swal.fire({
-        icon: "success",
-        title: "로그아웃 완료",
-        showConfirmButton: false,
-        timer: 1000,
-        timerProgressBar: true,
-      });
-      router.push({ name: "Login" });
     },
   },
 };
