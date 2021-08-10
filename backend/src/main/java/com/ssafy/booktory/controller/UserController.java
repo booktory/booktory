@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 @Api(value = "User API")
 @CrossOrigin(origins = "*")
@@ -31,6 +32,7 @@ public class UserController {
     private final UserService userService;
     private final NotificationService notificationService;
     private final PasswordEncoder passwordEncoder;
+    private final JwtTokenProvider jwtTokenProvider;
 
     @ApiOperation(value = "회원 가입", notes = "필요한 정보를 받아 회원가입한다.")
     @PostMapping()
@@ -81,7 +83,12 @@ public class UserController {
     @ApiOperation(value = "비밀번호 변경 페이지 이동", notes = "링크를 통해 비밀번호 변경 페이지로 이동시킨다.")
     @GetMapping("/password/reset/{token}")
     public RedirectView goResetPassword(@PathVariable @ApiParam(value = "사용자 인증 토큰") String token) {
+        Long id = Long.valueOf(jwtTokenProvider.getUserId(token));
+        User user = userService.findUserById(id);
         RedirectView redirectView = new RedirectView();
+        Map<String, String> attributes = new HashMap<>();
+        attributes.put("email", user.getEmail());
+        redirectView.setAttributesMap(attributes);
         redirectView.setUrl("http://localhost:8080/password/update");
         return redirectView;
     }
