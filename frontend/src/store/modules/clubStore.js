@@ -5,13 +5,119 @@ import Swal from "sweetalert2";
 
 const clubStore = {
   namespaced: true,
-  state: {},
-  getters: {},
-  mutations: {},
+  state: {
+    clubId: null,
+    applyList: null,
+    joinedList: null,
+  },
+  getters: {
+    clubId(state) {
+      return state.clubId;
+    },
+    applyList(state) {
+      return state.applyList;
+    },
+    joinedList(state) {
+      return state.joinedList;
+    },
+  },
+  mutations: {
+    SET_CLUBID(state, data) {
+      state.clubId = data;
+    },
+    SET_APPLY_LIST(state, data) {
+      state.applyList = data;
+    },
+    SET_JOINED_LIST(state, data) {
+      state.joinedList = data;
+    },
+  },
   actions: {
-    delete({ rootGetters }, clubId) {
+    acceptToClub({ rootGetters, getters, commit }, userClubId) {
       axios
-        .delete(SERVER.URL + SERVER.ROUTES.deleteClub + clubId, rootGetters.config)
+        .put(SERVER.URL + "/clubs/" + getters.clubId + "/join/" + userClubId, rootGetters.config)
+        .then((res) => {
+          console.log(res);
+          this.findApplyList();
+          this.findJoinedList();
+        })
+        .catch((err) => {
+          console.log(err);
+          var apply = getters.applyList;
+          var joined = getters.joinedList;
+          for (var i = 0; i < apply.length; i++) {
+            if (apply[i].id == userClubId) {
+              joined.push(apply[i]);
+              apply.splice(i, 1);
+              break;
+            }
+          }
+          commit("SET_APPLY_LIST", apply);
+          commit("SET_JOINED_LIST", joined);
+        });
+    },
+    // 클럽 가입신청 회원 목록
+    findApplyList({ rootGetters, getters, commit }) {
+      axios
+        .get(SERVER.URL + "/clubs/" + getters.clubId + "/users/apply", rootGetters.config)
+        .then((res) => {
+          commit("SET_APPLY_LIST", res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+          let list = [
+            {
+              id: 1,
+              userProfileImg: "",
+              userNickname: "소프트콘",
+            },
+            {
+              id: 2,
+              userProfileImg: "",
+              userNickname: "수염맨의여행을떠나요",
+            },
+            {
+              id: 3,
+              userProfileImg: "",
+              userNickname: "책토리",
+            },
+          ];
+          commit("SET_APPLY_LIST", list);
+        });
+    },
+    // 클럽 가입된 회원 목록
+    findJoinedList({ getters, commit }) {
+      axios
+        .get(SERVER.URL + "/clubs/" + getters.clubId + "/users")
+        .then((res) => {
+          commit("SET_JOINED_LIST", res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+          let list = [
+            {
+              Id: 4,
+              userProfileImg: "",
+              userNickname: "가입1",
+            },
+            {
+              Id: 5,
+              userProfileImg: "",
+              userNickname: "가입2",
+            },
+            {
+              Id: 6,
+              userProfileImg: "",
+              userNickname: "가입3",
+            },
+          ];
+          commit("SET_JOINED_LIST", list);
+        });
+    },
+    // 클럽 삭제
+    deleteClub({ rootGetters, getters }) {
+      axios
+        .delete(SERVER.URL + SERVER.ROUTES.deleteClub + getters.clubId, rootGetters.config)
         .then((res) => {
           console.log(res);
           Swal.fire({
