@@ -55,7 +55,7 @@ pipeline {
 						sh 'ls -l'
 
 						sh 'docker run -d --name backend \
-						--network booktorynetwork backend:latest'
+						--network booktorycicdnetwork backend:latest'
 
 						sh 'pwd'
 						sh 'ls -l'
