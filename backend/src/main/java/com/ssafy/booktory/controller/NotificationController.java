@@ -30,10 +30,10 @@ public class NotificationController {
     @PostMapping()
     public ResponseEntity<String> register(@RequestBody @ApiParam(value = "발급 받은 FCM Token") FCMRequestDto fcmRequestDto) {
         User user = userService.findByEmail(fcmRequestDto.getEmail());
-        if (redisUtil.getValue(prefix + user.getId()) == null) {
-            notificationService.registerToken(user.getId(), fcmRequestDto.getToken());
+        if (redisUtil.getValue(prefix + user.getId()) != null) {
+            notificationService.deleteToken(user.getId());
         }
-
+        notificationService.registerToken(user.getId(), fcmRequestDto.getToken());
         return ResponseEntity.status(HttpStatus.CREATED).body("success");
     }
 

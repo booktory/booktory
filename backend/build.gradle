@@ -55,6 +55,9 @@ dependencies {
 
 	// Firebase Notification
 	implementation 'com.google.firebase:firebase-admin:6.8.1'
+
+	// Jackson Datatype
+	implementation group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jsr310', version: '2.12.3'
 }
 
 test {

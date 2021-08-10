@@ -1,5 +1,8 @@
 package com.ssafy.booktory.domain.bookclub;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import com.ssafy.booktory.domain.bookclubuser.BookClubParticipantDto;
 import com.ssafy.booktory.domain.user.User;
 import lombok.AllArgsConstructor;
@@ -18,7 +21,13 @@ public class BookClubListResponseDto {
     private Long bookId;
     private String bookTitle;
     private String bookThumbnail;
+
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @JsonFormat(pattern = "yyyy-MM-dd kk:mm:ss")
     private LocalDateTime startDateTime;
+
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @JsonFormat(pattern = "yyyy-MM-dd kk:mm:ss")
     private LocalDateTime endDateTime;
     private List<BookClubParticipantDto> userList = new ArrayList<>();
 

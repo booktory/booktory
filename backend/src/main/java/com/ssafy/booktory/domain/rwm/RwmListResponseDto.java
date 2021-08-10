@@ -7,11 +7,11 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class RwmListResponseDto {
-    Long id;
-    String name;
-    String info;
-    String img;
-    int userCount;
+    private Long id;
+    private String name;
+    private String info;
+    private String img;
+    private int userCount;
 
     public RwmListResponseDto(Rwm rwm, int userCount){
         this.id = rwm.getId();

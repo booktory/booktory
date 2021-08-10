@@ -1,5 +1,8 @@
 package com.ssafy.booktory.domain.bookclub;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import com.ssafy.booktory.domain.book.Book;
 import com.ssafy.booktory.domain.club.Club;
 import io.swagger.annotations.Api;
@@ -19,7 +22,13 @@ public class BookClubAddRequestDto{
     private Long id;
     private Long bookId;
     private Long clubId;
+
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @JsonFormat(pattern = "yyyy-MM-dd kk:mm:ss")
     private LocalDateTime startDateTime;
+
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @JsonFormat(pattern = "yyyy-MM-dd kk:mm:ss")
     private LocalDateTime endDateTime;
 
     @Builder

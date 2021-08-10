@@ -11,8 +11,8 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 public class RwmParticipantResponseDto {
-    String rwmName;
-    List<RwmParticipantListArgDto> userList = new ArrayList<>();
+    private String rwmName;
+    private List<RwmParticipantListArgDto> userList = new ArrayList<>();
 
     public RwmParticipantResponseDto(String rwmName, List<RwmLog> rwmLogs){
         this.rwmName = rwmName;

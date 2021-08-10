@@ -1,5 +1,8 @@
 package com.ssafy.booktory.domain.book;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -18,6 +21,9 @@ public class BookBySearchResponseDto {
     private String author;
     private String translators;
     private String publisher;
+
+    @JsonSerialize(using = LocalDateSerializer.class)
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate date;
     private String thumbnail;
 
