@@ -5,12 +5,12 @@
         <icon-base><icon-arrow-left /></icon-base>
       </div>
     </div>
-    <h4>클럽찾기</h4>
-    <span class="font-body-2">클럽명 또는 도서 분야로 검색하기</span>
+    <h4 class="title">클럽찾기</h4>
+    <span class="font-body-2 sub-title">클럽명 또는 도서 분야로 검색하기</span>
     <ClubSearchBar />
     <ClubSearchKeyword />
     <ClubSearchResult />
-    <p class="club-create" @click="$router.push({ name: 'ClubCreate' })">클럽 만들기</p>
+    <p class="text-link" @click="$router.push({ name: 'ClubCreate' })">클럽 만들기</p>
   </div>
 </template>
 
@@ -30,8 +30,10 @@ export default {
 </script>
 
 <style scoped>
-.club-create {
+.text-link {
   text-align: right;
+  font-size: 1rem;
+  color: var(--grey);
   margin-right: 10%;
 }
 </style>

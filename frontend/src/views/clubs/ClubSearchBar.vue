@@ -1,5 +1,5 @@
 <template>
-  <div class="input-div m-top-10">
+  <div class="input-div m-top-5">
     <div>
       <input
         type="text"

@@ -4,10 +4,10 @@
       <p :class="{ orange: selected == 'home' }" class="sub-item font-body-4">클럽 홈</p>
     </div>
     <div class="item">
-      <p :class="{ orange: selected == 'schedule' }" class="sub-item font-body-4">모임 일정</p>
+      <p :class="{ orange: selected == 'meeting' }" class="sub-item font-body-4">모임 일정</p>
     </div>
     <div class="item">
-      <p :class="{ orange: selected == 'board' }" class="sub-item font-body-4">담벼락</p>
+      <p :class="{ orange: selected == 'talk' }" class="sub-item font-body-4">담벼락</p>
     </div>
     <div class="item" @click="$router.push({ name: 'ClubdetailManage' })">
       <p :class="{ orange: selected == 'manage' }" class="sub-item font-body-4">클럽 관리</p>

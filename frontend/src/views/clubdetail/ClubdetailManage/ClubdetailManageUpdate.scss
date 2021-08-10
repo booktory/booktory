@@ -37,6 +37,131 @@
         .title {
           text-align: center;
         }
+
+        // input-div
+        .input-div {
+          .message {
+            margin: 1em;
+          }
+
+          div {
+            width: 100%;
+          }
+          label {
+            margin-left: 1em;
+          }
+          input {
+            width: 100%;
+          }
+        }
+
+        // label
+        .label {
+          text-align: left;
+          display: block;
+          margin: 1.6em 0 0.7em 1em;
+          font-size: 1.2rem;
+          color: var(--grey);
+        }
+
+        // gerne
+        .gerne-keyword {
+          width: 100%;
+          margin: 4% auto 0;
+          justify-content: space-between;
+
+          .tag {
+            display: inline-block;
+            margin: 0 auto;
+            padding: 0.5% 1.6%;
+            border: 0;
+            border-radius: 1em;
+            color: white;
+            background-color: var(--light-orange);
+          }
+          span {
+            margin: 0.5% 0.4%;
+          }
+        }
+
+        // rules
+        .rules * {
+          text-align: left;
+        }
+        .rules {
+          display: inline-block;
+          width: 100%;
+          margin: 0 auto;
+
+          .label {
+            margin-bottom: 0.2em;
+
+            div {
+              width: 93%;
+              margin-left: 0.4em;
+            }
+          }
+          .input-div {
+            margin: 0;
+            width: 100%;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            span {
+              margin-right: 1em;
+            }
+          }
+        }
+
+        // select
+        select {
+          width: 3em;
+          margin: 1% 2% 2%;
+          padding: 2%;
+          font-size: 1.4rem;
+          color: var(--grey);
+          border: 0;
+          border-radius: 2em;
+          background-color: #fff;
+          box-shadow: 0 0.4em 0.8em 0 rgba(142, 141, 208, 0.16);
+        }
+
+        // checkbox
+        #checkbox {
+          width: 2rem;
+          height: 2rem;
+          border: 1px solid #cccccc;
+          transition: all linear 0.3s;
+          display: inline-block;
+          margin-right: 0.7em;
+        }
+
+        // max-member
+        .two-input {
+          display: flex;
+          margin-top: 0.7em;
+          .max-member {
+            text-align: left;
+            width: 100%;
+            #v-model-select > select {
+              width: 4em;
+              margin: 0 0 0 1.2rem;
+            }
+          }
+          // is-open
+          .is-open {
+            text-align: left;
+            width: 100%;
+            div {
+              text-align: left;
+              display: flex;
+              align-items: center;
+            }
+            .wrap {
+              margin-left: 1rem;
+            }
+          }
+        }
       }
     }
   }

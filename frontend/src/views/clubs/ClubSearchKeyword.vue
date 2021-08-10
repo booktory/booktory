@@ -1,5 +1,5 @@
 <template>
-  <div class="input-div">
+  <div class="input-div m-top-5">
     <label>검색할 도서 분야 선택</label>
     <span class="genre-keyword" v-for="(genre, idx) in genresList" :key="idx" :value="genre">
       <button class="tag">{{ genre }}</button>
@@ -28,11 +28,13 @@ export default {
 
 <style scoped>
 .tag {
-  margin: 0 0.2%;
+  display: inline-block;
+  margin: 0 auto;
   padding: 0.5% 1.6%;
   border: 0;
-  border-radius: 10px;
+  border-radius: 1em;
   color: white;
-  background-color: #a4c0f3;
+  background-color: var(--light-orange);
+  margin: 0.5% 0.4%;
 }
 </style>
