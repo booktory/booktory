@@ -62,7 +62,6 @@
       }
 
       /* Fonts */
-      @import url("https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap");
       @font-face {
         font-family: "NanumSquareRound";
         src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_two@1.0/NanumSquareRound.woff")
@@ -70,9 +69,25 @@
         font-weight: normal;
         font-style: normal;
       }
+      @font-face {
+        font-family: "CookieRun-Regular";
+        src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/CookieRun-Regular.woff")
+          format("woff");
+        font-weight: normal;
+        font-style: normal;
+      }
 
       /* Text Styles */
       /* Header */
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6 {
+        font-weight: normal;
+        font-family: "CookieRun-Regular";
+      }
       h1 {
         font-size: 5.6rem;
       }
@@ -318,6 +333,7 @@
       }
 
       .text-link {
+        display: inline-block;
         font-size: 1.5rem;
         color: var(--grey);
       }

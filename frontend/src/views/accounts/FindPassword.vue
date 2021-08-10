@@ -6,7 +6,6 @@
       </div>
     </div>
     <h4 class="title">비밀번호 찾기</h4>
-    <p class="sub-title">가입하신 이메일을 입력해주세요</p>
     <div class="input-div m-top-5">
       <label for="user_email">이메일</label>
       <div>
@@ -18,7 +17,7 @@
           }"
           type="email"
           id="email"
-          placeholder="이메일을 입력해주세요"
+          placeholder="가입하신 이메일을 입력해주세요"
           autocapitalize="none"
           autocorrect="none"
           required
@@ -82,8 +81,9 @@ export default {
       }
     },
     validEmail(email) {
-      // eslint-disable-next-line
-      var reg = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
+      var reg =
+        // eslint-disable-next-line
+        /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
       return reg.test(email);
     },
   },
