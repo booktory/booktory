@@ -76,11 +76,11 @@ public class ClubService {
     }
 
     @Transactional
-    public ClubFindResponseDto findClub(Long id){
+    public ClubFindResponseDto findClub(Long id, Long userId){
         Club club = clubRepository.findById(id)
                 .orElseThrow(()->new NoSuchElementException("존재하지 않는 클럽입니다."));
         int nowMember = getClubMembersCount(club);
-        return new ClubFindResponseDto(club, nowMember);
+        return new ClubFindResponseDto(club, nowMember, userId);
     }
 
     @Transactional

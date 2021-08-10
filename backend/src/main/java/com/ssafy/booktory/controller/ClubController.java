@@ -6,6 +6,7 @@ import com.ssafy.booktory.domain.userclub.UserClubListResponseDto;
 import com.ssafy.booktory.service.ClubService;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,7 @@ import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.List;
 
+@Slf4j
 @Api(value = "Club API")
 @CrossOrigin(origins = "*")
 @RestController
@@ -44,8 +46,14 @@ public class ClubController {
 
     @GetMapping("/{id}")
     @ApiOperation(value = "클럽정보 확인", notes = "해당 클럽의 정보를 모두 반환한다.")
-    public ResponseEntity<ClubFindResponseDto> findClub(@PathVariable Long id){
-        return ResponseEntity.status(HttpStatus.OK).body(clubService.findClub(id));
+    @ApiImplicitParams({@ApiImplicitParam(name = "jwt", value = "JWT Token", required = true, dataType = "string", paramType = "header")})
+    public ResponseEntity<ClubFindResponseDto> findClub(@ApiIgnore final Authentication authentication, @PathVariable Long id){
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+        Long userId = ((User)authentication.getPrincipal()).getId();
+
+        return ResponseEntity.status(HttpStatus.OK).body(clubService.findClub(id, userId));
     }
 
     @GetMapping("/list")
