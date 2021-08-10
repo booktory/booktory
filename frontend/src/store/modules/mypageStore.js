@@ -149,6 +149,34 @@ const mypageStore = {
           });
         });
     },
+    // 비밀번호 변경
+    changePassword({ dispatch, rootGetters }, passwordData) {
+      axios
+        .patch(SERVER.URL + SERVER.ROUTES.changePassword, passwordData, rootGetters.config)
+        .then((res) => {
+          console.log(res.data);
+          Swal.fire({
+            icon: "success",
+            title: "비밀번호 변경 완료",
+            html: "비밀번호가 변경 되었습니다.<br>바뀐 비밀번호로 다시 로그인 해주세요!",
+            showConfirmButton: false,
+            timer: 1000,
+            timerProgressBar: true,
+          });
+          dispatch("logout", null, { root: true });
+        })
+        .catch((err) => {
+          Swal.fire({
+            icon: "error",
+            title: "비밀번호 변경 실패",
+            text: err.response.data.message,
+            showConfirmButton: false,
+            timer: 1500,
+            timerProgressBar: false,
+          });
+        });
+    },
+    // 대표배지 설정
     changeMainBadge({ getters }, badgeId) {
       axios
         .patch(SERVER.URL + "/users/" + getters.userInfo.id + "/main-badge/" + badgeId)
