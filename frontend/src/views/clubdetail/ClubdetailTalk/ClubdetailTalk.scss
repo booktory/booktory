@@ -1,0 +1,78 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.clubdetail-container {
+  width: 100vw;
+
+  .bg-image {
+    height: 20vh;
+    background-image: url("../images/club-backgroud.png");
+    background-size: cover;
+    position: relative;
+
+    .icon {
+      right: 4vw;
+      top: 2vh;
+      position: absolute;
+    }
+
+    .card {
+      width: 100%;
+      height: 90vh;
+      top: 6vh;
+
+      background-color: var(--beige);
+      border-radius: 20% 20% 0 0 / 10% 10% 0 0;
+      position: absolute;
+
+      // 여기서부터 메인 시작!
+      .main * {
+        text-align: left;
+      }
+
+      .main {
+        padding: 10%;
+
+        .talk-card {
+          width: 100%;
+          height: 60vh;
+          background-color: var(--white);
+          border-radius: 1rem;
+          box-shadow: 0 0.4em 0.8em 0 rgba(142, 141, 208, 0.16);
+        }
+
+        .talk-input > input {
+          width: 85%;
+          height: 5vh;
+          margin: 2% 0;
+          padding: 0 5%;
+          background-color: var(--white);
+          border: 0;
+          border-radius: 1rem 0 0 1rem;
+          box-shadow: 0 0.4em 0 0 rgba(142, 141, 208, 0.16);
+        }
+        .talk-input > button {
+          width: 15%;
+          height: 5vh;
+          text-align: center;
+          color: var(--orange);
+          background-color: var(--white);
+          border: 0;
+          border-radius: 0 1rem 1rem 0;
+          box-shadow: 0 0.4em 0 0 rgba(142, 141, 208, 0.16);
+        }
+      }
+    }
+  }
+}
+
+.footer {
+  width: 100%;
+  left: 0;
+  bottom: 0;
+  position: fixed;
+  text-align: center;
+}

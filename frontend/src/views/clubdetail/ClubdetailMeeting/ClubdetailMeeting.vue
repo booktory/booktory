@@ -8,7 +8,7 @@
         <div class="main">
           <div class="main-head">
             <h4>다음 모임</h4>
-            <button @click="$router.push({ name: 'ClubHome' })">모임 만들기</button>
+            <button @click="$router.push({ name: 'ClubdetailMettingCreate' })">모임 만들기</button>
           </div>
           <div class="next-meeting">
             <div class="next-metting-card">
