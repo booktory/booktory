@@ -8,15 +8,18 @@ import com.ssafy.booktory.domain.genre.Genre;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 public class ClubFindResponseDto {
+    private Boolean isLeader = false;
     private String name;
 
     @JsonSerialize(using = LocalDateTimeSerializer.class)
@@ -32,7 +35,8 @@ public class ClubFindResponseDto {
     private String freeRule;
     private List<String> genres = new ArrayList<>(); //
 
-    public ClubFindResponseDto(Club club, int nowMember){
+    public ClubFindResponseDto(Club club, int nowMember, Long userId){
+        this.isLeader = (userId.equals(club.getUser().getId()));
         this.name = club.getName();
         this.date = club.getCreatedDate();
         this.img = club.getImg();
