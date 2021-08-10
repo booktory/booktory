@@ -12,11 +12,11 @@
           <div class="" v-for="(alarm, idx) in alarmList" :key="idx">
             <div class="alarm-contents unread" v-if="alarm.status == 0">
               <div class="alarm-contents-message">{{ alarm.message }}</div>
-              <div class="alarm-contents-time">{{ alarm.time }}</div>
+              <div class="alarm-contents-time">{{ convertTime(alarm.time) }}</div>
             </div>
             <div class="alarm-contents" v-else>
               <div class="alarm-contents-message">{{ alarm.message }}</div>
-              <div class="alarm-contents-time">{{ alarm.time }}</div>
+              <div class="alarm-contents-time">{{ convertTime(alarm.time) }}</div>
             </div>
           </div>
         </div>
@@ -109,6 +109,21 @@ export default {
           }
         }
       });
+    },
+    convertTime(time) {
+      let curTime = new Date();
+      let alarmTime = new Date(time);
+      let diffTime = Math.floor((curTime.getTime() - alarmTime.getTime()) / 1000 / 60);
+      if (diffTime < 1) return "방금 전";
+      if (diffTime < 60) return `${diffTime}분 전`;
+
+      let diffTimeHour = Math.floor(diffTime / 60);
+      if (diffTimeHour < 24) return `${diffTimeHour}시간 전`;
+
+      let diffTimeDay = Math.floor(diffTimeHour / 60 / 24);
+      if (diffTimeDay < 365) return `${diffTimeDay}일 전`;
+
+      return `${Math.floor(diffTimeDay / 365)}년 전`;
     },
   },
 };
