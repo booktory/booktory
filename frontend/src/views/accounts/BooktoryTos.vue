@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <TopHeader v-if="user" />
+    <TopHeader v-if="authToken" />
     <div v-else class="navbar">
       <div class="icon" @click="$router.go(-1)">
         <icon-base><icon-arrow-left /></icon-base>
@@ -206,7 +206,7 @@
 
       <p>제 1 조 (시행일) 이 약관은 2021년 7월 12일부터 시행한다.</p>
     </div>
-    <Navbar v-if="user" :selected="'mypage'" class="footer" />
+    <Navbar v-if="authToken" :selected="'mypage'" class="footer" />
   </div>
 </template>
 
@@ -222,7 +222,7 @@ export default {
     Navbar,
   },
   computed: {
-    ...mapState(["user"]),
+    ...mapState(["authToken"]),
   },
 };
 </script>
