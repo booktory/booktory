@@ -13,6 +13,8 @@ public interface UserClubRepository extends JpaRepository<UserClub, Long> {
 
     UserClub findByUserAndClub(User user, Club club);
 
+    int countByUserAndClub(User user, Club club);
+
     List<UserClub> findAllByClub(Club club);
 
     List<UserClub> findByClubIdAndState(Long clubId, UserClubState state);

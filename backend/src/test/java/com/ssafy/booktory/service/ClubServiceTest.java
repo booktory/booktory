@@ -106,19 +106,19 @@ class ClubServiceTest {
 //        assertEquals(club1.getName(), club2.getName());
 //    }
 
-    @Test
-    @Rollback(value = true)
-    public void 클럽_가입신청(){
-        //given
-        clubService.applyToClub(follower.getId(),  club.getId());
-
-        //when
-        UserClub userClub = userClubRepository.findByUserAndClub(follower, club);
-
-        //then
-        assertEquals(UserClubState.APPLY, userClub.getState());
-
-    }
+//    @Test
+//    @Rollback(value = true)
+//    public void 클럽_가입신청(){
+//        //given
+//        clubService.applyToClub(follower.getId(),  club.getId());
+//
+//        //when
+//        UserClub userClub = userClubRepository.findByUserAndClub(follower, club);
+//
+//        //then
+//        assertEquals(UserClubState.APPLY, userClub.getState());
+//
+//    }
 
     @Test
     @Rollback(value = true)

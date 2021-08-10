@@ -1,5 +1,6 @@
 package com.ssafy.booktory.service;
 
+import com.amazonaws.services.kms.model.AlreadyExistsException;
 import com.ssafy.booktory.domain.book.Book;
 import com.ssafy.booktory.domain.book.BookRepository;
 import com.ssafy.booktory.domain.bookclub.BookClub;
@@ -16,6 +17,7 @@ import com.ssafy.booktory.domain.userclub.UserClub;
 import com.ssafy.booktory.domain.userclub.UserClubListResponseDto;
 import com.ssafy.booktory.domain.userclub.UserClubRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -74,11 +76,11 @@ public class ClubService {
     }
 
     @Transactional
-    public ClubFindResponseDto findClub(Long id){
+    public ClubFindResponseDto findClub(Long id, Long userId){
         Club club = clubRepository.findById(id)
                 .orElseThrow(()->new NoSuchElementException("존재하지 않는 클럽입니다."));
         int nowMember = getClubMembersCount(club);
-        return new ClubFindResponseDto(club, nowMember);
+        return new ClubFindResponseDto(club, nowMember, userId);
     }
 
     @Transactional
@@ -94,15 +96,15 @@ public class ClubService {
         return clubListFindResponseDtoList;
     }
 
-    public Club updateClub(Long id, ClubUpdateRequestDto clubUpdateRequestDto, Long leaderId) throws Exception {
+    public Club updateClub(Long id, ClubUpdateRequestDto clubUpdateRequestDto, Long leaderId) {
         Club club = clubRepository.findById(id)
                 .orElseThrow(()-> new NoSuchElementException("존재하지 않는 클럽입니다."));
         User leader = userRepository.findById(leaderId)
                 .orElseThrow(()-> new NoSuchElementException("사용자 정보가 존재하지 않습니다."));
         if(!club.getUser().getId().equals(leader.getId()))
-            throw new IllegalAccessException("클럽장만 클럽 정보를 수정할 수 있습니다.");
+            throw new IllegalStateException("클럽장만 클럽 정보를 수정할 수 있습니다.");
 
-        if(getClubMembersCount(club) < clubUpdateRequestDto.getMaxMember())
+        if(getClubMembersCount(club) > clubUpdateRequestDto.getMaxMember())
             throw new IllegalArgumentException("최대 수용멤버를 현재 멤버 수 보다 적게 설정할 수 없습니다.");
 
         club.updateClub(clubUpdateRequestDto.getName(), clubUpdateRequestDto.getImg(), clubUpdateRequestDto.getInfo(),
@@ -116,11 +118,14 @@ public class ClubService {
     }
 
     @Transactional
-    public UserClub applyToClub(Long userId, Long clubId) {
+    public UserClub applyToClub(Long userId, Long clubId){
         Club club = clubRepository.findById(clubId)
                 .orElseThrow(()-> new NoSuchElementException("존재하지 않는 클럽입니다."));
         User user = userRepository.findById(userId)
                 .orElseThrow(()->new NoSuchElementException("존재하지 않는 회원입니다."));
+        if(userClubRepository.countByUserAndClub(user, club) != 0){
+            throw new IllegalStateException("이미 처리된 요청입니다.");
+        }
         UserClub userClub = UserClub.builder()
                 .user(user)
                 .club(club)
@@ -133,14 +138,14 @@ public class ClubService {
     }
 
     @Transactional
-    public Optional<UserClub> acceptToClub(Long leaderId, Long clubId, Long userClubId, boolean isAccept) throws Exception{
+    public Optional<UserClub> acceptToClub(Long leaderId, Long clubId, Long userClubId, boolean isAccept){
         UserClub userClub = userClubRepository.findById(userClubId)
                 .orElseThrow(()->new NoSuchElementException("존재하지않는 가입신청입니다."));
 
         if(!clubId.equals(userClub.getClub().getId()))
-            throw new IllegalAccessException("클럽에 접근권한이 없습니다.");
+            throw new IllegalStateException("클럽에 접근권한이 없습니다.");
         if(!leaderId.equals(userClub.getClub().getUser().getId()))
-            throw new IllegalAccessException("클럽장만 가입을 승인할 수 있습니다.");
+            throw new IllegalStateException("클럽장만 가입을 승인할 수 있습니다.");
         if(userClub.getState() == UserClubState.ACCEPT)
             throw new IllegalStateException("이미 처리된 요청입니다.");
         if(!isAccept) {
@@ -165,23 +170,44 @@ public class ClubService {
         userClubRepository.delete(userClub);
     }
 
-    public void deleteClub(Long leaderId, Long clubId) throws Exception {
+    public void deleteClub(Long leaderId, Long clubId) {
         Club club = clubRepository.findById(clubId)
                 .orElseThrow(()-> new NoSuchElementException("존재하지 않는 클럽입니다."));
 
         if(!club.getUser().getId().equals(leaderId)){
-            throw new IllegalAccessException("클럽 삭제 권한이 없습니다.");
+            throw new IllegalStateException("클럽 삭제 권한이 없습니다.");
         }
         clubRepository.delete(club);
     }
 
-    public UserClubListResponseDto joinedUserList(Long clubId) {
+    @Transactional
+    public List<UserClubListResponseDto> appliedUserList(Long clubId, Long leaderId){
         Club club = clubRepository.findById(clubId)
                 .orElseThrow(()->new NoSuchElementException("존재하지 않는 클럽입니다."));
 
-        UserClubListResponseDto userClubListResponseDto = new UserClubListResponseDto();
-        userClubListResponseDto.toDto(userClubRepository.findAllByClub(club));
-        return userClubListResponseDto;
+        if(!leaderId.equals(club.getUser().getId())){
+            throw new IllegalStateException("클럽장만 신청자를 열람할 수 있습니다.");
+        }
+
+        List<UserClubListResponseDto> userClubListResponseDtos = new ArrayList<>();
+        List<UserClub> userClubs = userClubRepository.findByClubIdAndState(clubId, UserClubState.APPLY);
+        for(UserClub userClub : userClubs)
+            userClubListResponseDtos.add(new UserClubListResponseDto(userClub));
+
+        return userClubListResponseDtos;
+    }
+
+    @Transactional
+    public List<UserClubListResponseDto> acceptedUserList(Long clubId) {
+        Club club = clubRepository.findById(clubId)
+                .orElseThrow(()->new NoSuchElementException("존재하지 않는 클럽입니다."));
+
+        List<UserClubListResponseDto> userClubListResponseDtos = new ArrayList<>();
+        List<UserClub> userClubs = userClubRepository.findByClubIdAndState(clubId, UserClubState.ACCEPT);
+        for(UserClub userClub : userClubs)
+            userClubListResponseDtos.add(new UserClubListResponseDto(userClub));
+
+        return userClubListResponseDtos;
     }
 
     private List<BookClub> bookIdListToBookClubList(List<Long> bookIdList, Club savedClub){
