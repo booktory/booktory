@@ -13,7 +13,8 @@ import cookies from "vue-cookies";
 export default new Vuex.Store({
   state: {
     authToken: cookies.get("auth-token"),
-    user: localStorage.getItem("user"),
+    userEmail: localStorage.getItem("userEmail"),
+    userNickname: localStorage.getItem("userNickname"),
   },
   getters: {
     config: (state) => ({ headers: { jwt: state.authToken } }),
@@ -23,9 +24,13 @@ export default new Vuex.Store({
       state.authToken = data;
       cookies.set("auth-token", data);
     },
-    SET_USER(state, data) {
-      state.user = data;
-      localStorage.setItem("user", data);
+    SET_USER_EMAIL(state, data) {
+      state.userEmail = data;
+      localStorage.setItem("userEmail", data);
+    },
+    SET_USER_NICKNAME(state, data) {
+      state.userNickname = data;
+      localStorage.setItem("userNickname", data);
     },
   },
   actions: {},
