@@ -24,7 +24,7 @@
               </div>
               <span class="font-body-3">읽을 책 추가</span>
             </div>
-            <div class="menu-item" @click="clickManage">
+            <div class="menu-item" @click="$router.push({ name: 'ClubdetailManageUser' })">
               <div class="icon">
                 <icon-base><icon-users /></icon-base>
               </div>
@@ -68,7 +68,7 @@ export default {
     IconTrash,
   },
   methods: {
-    ...mapActions("clubStore", ["delete"]),
+    ...mapActions("clubStore", ["deleteClub"]),
     clickDelete() {
       Swal.fire({
         showCancelButton: true,
@@ -78,9 +78,7 @@ export default {
         cancelButtonText: "취소",
       }).then((result) => {
         if (result.isConfirmed) {
-          // 나중에 수정할 것!
-          // this.delete(clubId);
-          this.delete();
+          this.deleteClub();
         }
       });
     },
