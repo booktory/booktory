@@ -46,7 +46,7 @@ export default {
   name: "Notification",
   components: {},
   computed: {
-    ...mapState(["user"]),
+    ...mapState(["userNickname"]),
   },
   data() {
     return {
@@ -55,12 +55,10 @@ export default {
     };
   },
   created() {
-    console.log(this.user.nickname);
     this.alarmList = [];
-    const usersref = fire.database().ref(`users/${this.user.nickname}`).limitToLast(5);
+    const usersref = fire.database().ref(`users/${this.userNickname}`).limitToLast(5);
     usersref.on("value", (list) => {
       const data = list.val();
-      // console.log(data);
       for (let key in data) {
         this.alarmList.unshift({
           message: data[key].message,
@@ -74,12 +72,12 @@ export default {
     updateReadStatus() {
       fire
         .database()
-        .ref(`users/${this.user.nickname}`)
+        .ref(`users/${this.userNickname}`)
         .on("value", (list) => {
           const data = list.val();
           for (let key in data) {
             if (data[key].readStatus === 0) {
-              fire.database().ref(`users/${this.user.nickname}/${key}`).update({
+              fire.database().ref(`users/${this.userNickname}/${key}`).update({
                 readStatus: 1,
               });
             }
@@ -92,7 +90,7 @@ export default {
       this.page += 1;
       const usersref = fire
         .database()
-        .ref(`users/${this.user.nickname}`)
+        .ref(`users/${this.userNickname}`)
         .limitToLast(5 * this.page);
 
       usersref.on("value", (list) => {
