@@ -50,12 +50,11 @@ pipeline {
 						sh 'docker run -d --name frontend \
 						-p 80:80 \
 						-p 443:443 \
-						-v /etc/letsencrypt/live/i5a607.p.ssafy.io/:/var/jenkins_home/workspace/Booktory-pipeline/sslkey/ \
+						-v /etc/letsencrypt/live/i5a607.p.ssafy.io/:/etc/nginx/conf.d/ \
 						-v /etc/localtime:/etc/localtime:ro \
 						--network booktorycicdnetwork \
 						frontend:latest'
-						
-						sh 'ls -l /var/jenkins_home/workspace/Booktory-pipeline/sslkey/'
+					
 
 						sh 'docker run -d --name backend \
 						-p 8282:8080 \
