@@ -7,7 +7,7 @@
       <div class="card">
         <div class="main">
           <h4 class="title">클럽 관리</h4>
-          <div v-if="isLeader" class="menu-wrapper">
+          <div v-if="true" class="menu-wrapper">
             <div class="menu-item" @click="$router.push({ name: 'ClubdetailManageUpdate' })">
               <div class="icon">
                 <icon-base><icon-edit /></icon-base>
@@ -56,7 +56,7 @@
 
 <script>
 import { mapState, mapActions } from "vuex";
-import "./ClubdetailManage.scss";
+
 import Navbar from "@/views/clubdetail/Navbar.vue";
 import IconEdit from "@/components/icons/IconEdit.vue";
 import IconMessage from "@/components/icons/IconMessage.vue";
@@ -112,4 +112,6 @@ export default {
 };
 </script>
 
-<style></style>
+<style lang="scss" scoped>
+@import "./ClubdetailManage.scss";
+</style>
