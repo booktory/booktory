@@ -13,7 +13,6 @@
 </template>
 
 <script>
-import "./ClubdetailLayout.scss";
 import Navbar from "@/views/clubdetail/Navbar.vue";
 
 export default {
@@ -24,4 +23,6 @@ export default {
 };
 </script>
 
-<style></style>
+<style lang="scss" scoped>
+@import "./ClubdetailLayout.scss";
+</style>

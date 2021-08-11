@@ -153,7 +153,7 @@
 
 <script>
 import { mapActions } from "vuex";
-import "./ClubdetailManageUpdate.scss";
+
 import Navbar from "@/views/clubdetail/Navbar.vue";
 import TopHeader from "@/views/clubdetail/TopHeader.vue";
 import Swal from "sweetalert2";
@@ -212,4 +212,6 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style lang="scss" scoped>
+@import "./ClubdetailManageUpdate.scss";
+</style>

@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import "./ClubdetailManageCreate.scss";
+//
 import Navbar from "@/views/clubdetail/Navbar.vue";
 import TopHeader from "@/views/clubdetail/TopHeader.vue";
 import ClubCreateBookBar from "@/views/clubs/ClubCreateBookBar.vue";
@@ -59,4 +59,6 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style lang="scss" scoped>
+@import "./ClubdetailManageCreate.scss";
+</style>

@@ -26,7 +26,7 @@
 
 <script>
 import { mapState, mapActions } from "vuex";
-import "./ClubdetailManageUser.scss";
+
 import Navbar from "@/views/clubdetail/Navbar.vue";
 import TopHeader from "@/views/clubdetail/TopHeader.vue";
 import ClubdetailManageUserList from "@/views/clubdetail/ClubdetailManage/ClubdetailManageUserList.vue";
@@ -51,7 +51,8 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+@import "./ClubdetailManageUser.scss";
 .user-list {
   margin: 1rem 0 3rem 0.6rem;
 }
