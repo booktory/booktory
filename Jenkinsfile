@@ -17,8 +17,13 @@ pipeline {
 			steps {
 				script {
                     try {
-						sh 'docker build -t frontend:latest /home/ubuntu/docker/jenkins-data/workspace/Booktory-pipeline/frontend/'
-						sh 'docker build -t backend:latest /home/ubuntu/docker/jenkins-data/workspace/Booktory-pipeline/backend/'
+						sh 'pwd'
+						
+						sh 'ls -l /var/jenkins-data/workspace/Booktory-pipeline/frontend/'
+						sh 'docker build -t frontend:latest /var/jenkins-data/workspace/Booktory-pipeline/frontend/'
+
+						sh 'ls -l /var/jenkins-data/workspace/Booktory-pipeline/backend/'
+						sh 'docker build -t backend:latest /var/jenkins-data/workspace/Booktory-pipeline/backend/'
 					}catch(e) {
                         mattermostSend (
                                 color: "danger", 
