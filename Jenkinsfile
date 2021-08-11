@@ -20,10 +20,10 @@ pipeline {
 						sh 'pwd'
 
 						sh 'ls -l'
-						sh 'docker build -t frontend:latest /var/jenkins-data/workspace/Booktory-pipeline/frontend/'
+						sh 'docker build -t frontend:latest /var/jenkins_home/workspace/Booktory-pipeline/frontend/'
 
 						sh 'ls -l'
-						sh 'docker build -t backend:latest /var/jenkins-data/workspace/Booktory-pipeline/backend/'
+						sh 'docker build -t backend:latest /var/jenkins_home/workspace/Booktory-pipeline/backend/'
 					}catch(e) {
                         mattermostSend (
                                 color: "danger", 
