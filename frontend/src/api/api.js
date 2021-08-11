@@ -6,7 +6,7 @@ export default {
     register: "/users",
     registerExtraInfo: "/users/extra",
     findPassword: "/users/password/",
-    goResetPassword: "/users/password/reset/",
+    resetPassword: "/users/password/reset",
     logout: "/users/logout",
 
     // mypage

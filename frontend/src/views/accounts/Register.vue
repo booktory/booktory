@@ -86,7 +86,6 @@
       회원가입
     </button>
     <p class="text-link" @click="$router.push({ name: 'BooktoryTos' })">이용약관 보기</p>
-    <p class="text-link" @click="$router.push({ name: 'ExtraInfo' })">추가정보 입력</p>
   </div>
 </template>
 
