@@ -74,4 +74,4 @@ build
 *.lnk
 
 # 비공개 설정파일
-# application-private-info.properties
+application-private-info.properties

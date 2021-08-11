@@ -17,8 +17,8 @@ pipeline {
 			steps {
 				script {
                     try {
-						sh 'docker build -t frontend:latest frontend/'
-						sh 'docker build -t backend:latest backend/'
+						sh 'docker build -t frontend:latest /home/ubuntu/docker/jenkins-data/workspace/Booktory-pipeline/frontend/'
+						sh 'docker build -t backend:latest /home/ubuntu/docker/jenkins-data/workspace/Booktory-pipeline/backend/'
 					}catch(e) {
                         mattermostSend (
                                 color: "danger", 
@@ -46,6 +46,7 @@ pipeline {
 
 						sh 'docker run -d --name frontend \
 						-p 80:80 \
+						-p 443:443 \
 						-v /home/ubuntu/sslkey/:/etc/letsencrypt/live/i5a607.p.ssafy.io/ \
 						-v /etc/localtime:/etc/localtime:ro \
 						--network booktorycicdnetwork \
