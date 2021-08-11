@@ -18,11 +18,11 @@ pipeline {
 				script {
                     try {
 						sh 'pwd'
-						
-						sh 'ls -l /var/jenkins-data/workspace/Booktory-pipeline/frontend/'
+
+						sh 'ls -l'
 						sh 'docker build -t frontend:latest /var/jenkins-data/workspace/Booktory-pipeline/frontend/'
 
-						sh 'ls -l /var/jenkins-data/workspace/Booktory-pipeline/backend/'
+						sh 'ls -l'
 						sh 'docker build -t backend:latest /var/jenkins-data/workspace/Booktory-pipeline/backend/'
 					}catch(e) {
                         mattermostSend (
