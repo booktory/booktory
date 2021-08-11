@@ -11,7 +11,7 @@
             <button @click="$router.push({ name: 'ClubdetailMettingCreate' })">모임 만들기</button>
           </div>
           <div class="next-meeting">
-            <div class="next-metting-card">
+            <div class="next-metting-card m-top-1">
               <div class="next-metting-card-head">
                 <h5>{{ nextMetting.endDateTime }} <span>오후 9:00</span></h5>
               </div>
@@ -23,7 +23,11 @@
           </div>
           <div class="pre-meeting">
             <h4>지난 모임</h4>
-            <div class="pre-metting-card" v-for="(preMetting, idx) in preMettings" :key="idx">
+            <div
+              class="pre-metting-card m-top-1"
+              v-for="(preMetting, idx) in preMettings"
+              :key="idx"
+            >
               <div class="pre-metting-card-head">
                 <h5>{{ preMetting.endDateTime }} <span>오후 9:00</span></h5>
               </div>
@@ -66,4 +70,11 @@ export default {
 
 <style lang="scss" scoped>
 @import "./ClubdetailMeeting.scss";
+.m-top-1 {
+  margin-top: 1rem;
+}
+
+.m-top-2 {
+  margin-top: 2rem;
+}
 </style>
