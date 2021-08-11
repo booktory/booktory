@@ -9,5 +9,5 @@ RUN ./gradlew clean build
 FROM adoptopenjdk:11-jdk
 COPY --from=builder /backend/build/libs/*.jar app.jar
 
-EXPOSE 3000
+EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "./app.jar"]
