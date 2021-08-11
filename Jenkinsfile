@@ -43,6 +43,10 @@ pipeline {
 				
 						sh 'docker images -f dangling=true && docker rmi -f $(docker images -f dangling=true -q)' 
 
+
+						sh 'pwd'
+						sh 'ls -l'
+
 						sh 'docker run -d --name frontend \
 						-p 80:80 \
 						-p 443:443 \
@@ -55,8 +59,8 @@ pipeline {
 						-p 8282:8080 \
 						--network booktorycicdnetwork backend:latest'
 
-						sh 'docker ps'
 						sh 'docker images'
+						sh 'docker ps'
 						
 					}catch(e) {
 						currentBuild.result = "FAILURE"
