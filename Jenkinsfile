@@ -46,6 +46,7 @@ pipeline {
 
 						sh 'pwd'
 						sh 'ls -l'
+						sh 'ls /var/jenkins_home'
 
 						sh 'docker run -d --name frontend \
 						-p 80:80 \
