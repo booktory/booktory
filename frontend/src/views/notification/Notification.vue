@@ -28,7 +28,7 @@
         <div v-if="alarmList.length < page * 5 && alarmList.length > 0">
           <p class="alarm-button-no">더 이상 알림이 존재하지 않습니다.</p>
         </div>
-        <div v-else>
+        <div v-else-if="alarmList.length >= page * 5">
           <button type="button" class="alarm-button" @click="getMoreAlarm">
             더 많은 알림 보기
           </button>
