@@ -178,6 +178,13 @@ const routes = [
     name: "DeleteUserConfirm",
     component: () => import("@/views/mypage/DeleteUserConfirm.vue"),
   },
+
+  // 알람
+  {
+    path: "/notification",
+    name: "Notification",
+    component: () => import("@/views/notification/Notification.vue"),
+  },
 ];
 
 const router = new VueRouter({

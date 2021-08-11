@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class FirebaseNotification {
 
-    private Boolean isRead;
+    private int readStatus;
     private String message;
     private String createDateTime;
 

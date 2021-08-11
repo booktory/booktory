@@ -13,6 +13,8 @@ Vue.use(VueCookies);
 Vue.$cookies.config("1d");
 import router from "@/router";
 import Swal from "sweetalert2";
+import SERVER from "@/api/api";
+import axios from "axios";
 
 export default new Vuex.Store({
   state: {
@@ -43,7 +45,13 @@ export default new Vuex.Store({
       commit("SET_USER_NICKNAME", localStorage.getItem("userNickname"));
     },
     // 로그아웃
-    logout({ commit }) {
+    logout({ getters, commit }) {
+      axios
+        .get(SERVER.URL + SERVER.ROUTES.logout, getters.config)
+        .then(console.log("redis 삭제"))
+        .catch((err) => {
+          console.log(err);
+        });
       commit("SET_TOKEN", null);
       Vue.$cookies.remove("auth-token");
       commit("SET_USER_EMAIL", null);

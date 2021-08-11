@@ -7,6 +7,7 @@ export default {
     registerExtraInfo: "/users/extra",
     findPassword: "/users/password/",
     goResetPassword: "/users/password/reset/",
+    logout: "/users/logout",
 
     // mypage
     getUserInfo: "/users/me",
@@ -33,5 +34,8 @@ export default {
     // file-upload
     uploadProfileImg: "/files/user",
     uploadBoardFile: "/files/board",
+
+    // notification
+    registerFCMToken: "/notification",
   },
 };

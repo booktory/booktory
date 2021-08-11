@@ -48,7 +48,7 @@ public class FCMService {
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference ref = database.getReference().child("users").child(nickname);
         DatabaseReference newRef = ref.push();
-        newRef.setValueAsync(new FirebaseNotification(false, notificationRequestDto.getMessage(), formattedDate));
+        newRef.setValueAsync(new FirebaseNotification(0, notificationRequestDto.getMessage(), formattedDate));
     }
 
 }
