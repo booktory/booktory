@@ -12,7 +12,7 @@
           </div>
           <!-- 읽는 중 -->
           <div class="now-reading">
-            <div class="now-reading-card">
+            <div class="now-reading-card m-top-1">
               <div class="now-reading-card-head">
                 <h5>{{ nowBook.title }}</h5>
               </div>
@@ -27,7 +27,7 @@
           <!-- 앞으로 읽을 책 -->
           <div class="next-reeding">
             <h4>앞으로 읽을 책</h4>
-            <div class="next-reading-card">
+            <div class="next-reading-card m-top-1">
               <div class="next-reading-card-head">
                 <h5>{{ nextBook.title }}</h5>
               </div>
@@ -43,7 +43,7 @@
           <!-- 읽었어요 -->
           <div class="pre-meeting">
             <h4>읽었어요</h4>
-            <div class="pre-reading-card">
+            <div class="pre-reading-card m-top-1">
               <div class="pre-reading-card-head">
                 <h5>{{ preBook.title }}</h5>
               </div>
@@ -86,4 +86,11 @@ export default {
 
 <style lang="scss" scoped>
 @import "./ClubdetailBook.scss";
+.m-top-1 {
+  margin-top: 1rem;
+}
+
+.m-top-2 {
+  margin-top: 2rem;
+}
 </style>

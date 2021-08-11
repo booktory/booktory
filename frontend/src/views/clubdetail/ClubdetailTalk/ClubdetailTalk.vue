@@ -7,11 +7,11 @@
       <div class="card">
         <div class="main">
           <h4 class="title">담벼락</h4>
-          <p class="font-body-6">
+          <p class="font-body-4 m-top-1">
             클럽 멤버원들과 자유롭게 대화하며 의견을 나누는 공간입니다. 올바른 담벼락 문화를 위해
             상대방을 배려하는 바르고 고운말을 사용합시다.
           </p>
-          <div class="talk-card">
+          <div class="talk-card m-top-1">
             <div class="article">
               <div class="article-head"></div>
               <div class="article-body"></div>
@@ -41,4 +41,11 @@ export default {
 
 <style lang="scss" scoped>
 @import "./ClubdetailTalk.scss";
+.m-top-1 {
+  margin-top: 1rem;
+}
+
+.m-top-2 {
+  margin-top: 2rem;
+}
 </style>

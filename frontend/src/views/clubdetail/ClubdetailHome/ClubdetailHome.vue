@@ -18,33 +18,51 @@
           >
             <button class="tag">{{ genre.genreName }}</button>
           </span>
-          <div class="font-body-2">
+          <div class="font-body-2 m-top-1">
             {{ bookclub.info }}
           </div>
 
-          <div>
+          <div class="m-top-1">
             <span class="font-body-4">{{ bookclub.leader_id }}</span> |
             <span class="font-body-4">{{ bookclub.max_member }}명</span>
           </div>
 
-          <div class="meeting">
-            <button type="button" class="metting-button">모임 참여하기</button>
-            <button type="button" class="metting-button">일정 확인하기</button>
+          <div class="meeting m-top-2">
+            <button type="button" class="metting-button">
+              <div class="metting-button-head">
+                <div class="metting-button-head-icon">
+                  <icon-base><icon-video /></icon-base>
+                </div>
+                <div class="metting-button-head-date">
+                  <p>8월 15일</p>
+                  <p>21:00 예정</p>
+                </div>
+              </div>
+              <div class="metting-button-body">모임 참여하기</div>
+            </button>
+            <button type="button" class="metting-button">
+              <div class="metting-button-head">
+                <div class="metting-button-head-icon">
+                  <icon-base><icon-bookmark /></icon-base>
+                </div>
+              </div>
+              <div class="metting-button-body">일정 확인하기</div>
+            </button>
           </div>
 
-          <div class="rules">
+          <div class="rules m-top-2">
             <h5>운영규칙</h5>
-            <p class="font-body-2">- 한 달에 {{ bookclub.volum_rule }}권을 읽어요</p>
-            <p class="font-body-2">- {{ bookclub.week_rule }}주에 1번 만나요</p>
-            <p class="font-body-2">- {{ bookclub.free_rule }}</p>
+            <p class="font-body-2 m-top-1">• 한 달에 {{ bookclub.volum_rule }}권을 읽어요</p>
+            <p class="font-body-2 m-top-1">• {{ bookclub.week_rule }}주에 1번 만나요</p>
+            <p class="font-body-2 m-top-1">• {{ bookclub.free_rule }}</p>
           </div>
 
-          <div class="books">
+          <div class="books m-top-2">
             <div class="books-head">
               <h5>클럽 서재</h5>
-              <button>더 보기</button>
+              <button @click="$router.push({ name: 'ClubdetailBook' })">더 보기</button>
             </div>
-            <div class="books-list">
+            <div class="books-list m-top-1">
               <span v-for="(book, idx) in books" :key="idx">
                 <img :src="book.thumbnail" alt="" class="book-thumbnail" />
               </span>
@@ -60,11 +78,15 @@
 <script>
 // import "./ClubdetailHome.scss";
 import Navbar from "@/views/clubdetail/Navbar.vue";
+import IconVideo from "@/components/icons/IconVideo.vue";
+import IconBookmark from "@/components/icons/IconBookmark.vue";
 
 export default {
   name: "ClubdetailHome",
   components: {
     Navbar,
+    IconVideo,
+    IconBookmark,
   },
   computed: {
     bookclub: function () {
@@ -102,6 +124,7 @@ export default {
     .card {
       width: 100%;
       height: 70vh;
+
       top: 20vh;
 
       background-color: var(--beige);
@@ -115,15 +138,17 @@ export default {
       // 여기서부터 메인 시작!
       .main {
         text-align: left;
-        padding: 10%;
+        padding: 10% 10% 20%;
 
         .tag {
-          margin: 0 0.2%;
-          padding: 1.6% 2%;
+          display: inline-block;
+          margin: 0 auto;
+          padding: 0.5% 1.6%;
           border: 0;
-          border-radius: 20%;
+          border-radius: 1em;
           color: white;
-          background-color: #a4c0f3;
+          background-color: var(--light-orange);
+          margin: 0.5% 0.4%;
         }
 
         .meeting {
@@ -132,8 +157,8 @@ export default {
           align-items: center;
 
           .metting-button {
-            width: 35%;
-            padding: 10% 2% 10%;
+            width: 15rem;
+            height: 10rem;
             margin: 2%;
 
             border-radius: 20px;
@@ -141,6 +166,29 @@ export default {
 
             color: white;
             background-color: #bdbcdb;
+
+            &-head {
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+
+              &-icon {
+                display: inline-block;
+                color: var(--white);
+                width: 3.5em;
+                height: 3.5em;
+                margin-left: 1.5rem;
+              }
+              &-date {
+                display: inline-block;
+                margin-right: 1.5rem;
+                text-align: right;
+              }
+            }
+            &-body {
+              margin-top: 1rem;
+              text-align: center;
+            }
           }
         }
 
@@ -167,6 +215,13 @@ export default {
       }
     }
   }
+}
+.m-top-1 {
+  margin-top: 1rem;
+}
+
+.m-top-2 {
+  margin-top: 2rem;
 }
 
 .footer {
