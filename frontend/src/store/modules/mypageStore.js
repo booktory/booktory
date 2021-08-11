@@ -70,6 +70,7 @@ const mypageStore = {
         isMain: false,
       },
     ],
+    alarmRead: true,
   },
   getters: {
     userInfo(state) {
@@ -81,6 +82,9 @@ const mypageStore = {
     badgeList(state) {
       return state.badgeList;
     },
+    alarmRead(state) {
+      return state.alarmRead;
+    },
   },
   mutations: {
     SET_USERINFO(state, data) {
@@ -91,6 +95,9 @@ const mypageStore = {
     },
     SET_MAINBADGE(state, data) {
       state.mainBadge = data;
+    },
+    SET_ALARM_READ(state, data) {
+      state.alarmRead = data;
     },
   },
   actions: {
@@ -201,6 +208,10 @@ const mypageStore = {
             timerProgressBar: false,
           });
         });
+    },
+    // 알람 읽음 여부 체크
+    fetchAlarmRead({ commit }, chk) {
+      commit("SET_ALARM_READ", chk);
     },
   },
 };
