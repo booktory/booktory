@@ -8,6 +8,7 @@ FROM nginx:stable-alpine as production-stage
 
 COPY ./homepage.conf /etc/nginx/conf.d/homepage.conf
 COPY --from=build-stage ./homepage/dist /usr/share/nginx/html/homepage
+RUN ls ./homepage/dist -l
 
 EXPOSE 3000
 CMD ["nginx", "-g", "daemon off;"] 
