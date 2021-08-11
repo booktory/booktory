@@ -23,7 +23,7 @@ pipeline {
 						sh 'docker build -t frontend:latest /var/jenkins_home/workspace/Booktory-pipeline/frontend/'
 
 						sh 'ls -l'
-						sh 'docker build -t backend:latest /var/jenkins_home/workspace/Booktory-pipeline/backend/'
+						sh 'docker build -t backend:latest /var/jenkins_home/workspace/Booktory-pipelineㅣㄴ/backend/'
 					}catch(e) {
                         mattermostSend (
                                 color: "danger", 
@@ -52,7 +52,7 @@ pipeline {
 						sh 'docker run -d --name frontend \
 						-p 80:80 \
 						-p 443:443 \
-						-v /home/ubuntu/sslkey/:/etc/letsencrypt/live/i5a607.p.ssafy.io/ \
+						-v /etc/letsencrypt/live/i5a607.p.ssafy.io/:/var/jenkins_home/workspace/Booktory-pipeline/sslkey/ \
 						-v /etc/localtime:/etc/localtime:ro \
 						--network booktorycicdnetwork \
 						frontend:latest'
