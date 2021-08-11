@@ -40,6 +40,12 @@ const routes = [
     name: "FindPassword",
     component: () => import("@/views/accounts/FindPassword.vue"),
   },
+  // 비밀번호 찾기 - 새로운 비밀번호 입력
+  {
+    path: "/password/update",
+    name: "FindPasswordUpdate",
+    component: () => import("@/views/accounts/FindPasswordUpdate.vue"),
+  },
 
   // 홈 화면(내 클럽 보기)
   {

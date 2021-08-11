@@ -16,7 +16,7 @@ const accountStore = {
       Swal.fire({
         title: "인증 메일 발송 중",
         html: "잠시만 기다려주세요.",
-        timer: 3000,
+        timer: 4000,
         timerProgressBar: true,
         onBeforeOpen: () => {
           Swal.showLoading();
@@ -135,13 +135,13 @@ const accountStore = {
       dispatch("postAuthDataLogin", info);
     },
     // 비밀번호 찾기
-    findPassword({ dispatch }, emailData) {
+    findPassword({ dispatch }, email) {
       console.log(dispatch);
       let timerInterval;
       Swal.fire({
         title: "이메일 발송 중",
         html: "잠시만 기다려주세요.",
-        timer: 3000,
+        timer: 4000,
         timerProgressBar: true,
         onBeforeOpen: () => {
           Swal.showLoading();
@@ -160,7 +160,7 @@ const accountStore = {
         },
       });
       axios
-        .post(SERVER.URL + SERVER.ROUTES.findPassword + emailData)
+        .post(SERVER.URL + SERVER.ROUTES.findPassword + email)
         .then((res) => {
           console.log(res.data);
           Swal.fire({
@@ -174,6 +174,34 @@ const accountStore = {
             icon: "error",
             title: "이메일 발송 실패",
             text: err.response.data.message,
+          });
+        });
+    },
+    // 비밀번호 찾기 - 새로운 비밀번호로 변경
+    resetPassword({ dispatch }, passwordData) {
+      console.log(dispatch);
+      axios
+        .patch(SERVER.URL + SERVER.ROUTES.resetPassword, passwordData)
+        .then((res) => {
+          console.log(res.data);
+          Swal.fire({
+            icon: "success",
+            title: "비밀번호 변경 완료",
+            html: "비밀번호가 변경 되었습니다.<br>바뀐 비밀번호로 다시 로그인 해주세요!",
+            showConfirmButton: false,
+            timer: 1000,
+            timerProgressBar: true,
+          });
+          router.push({ name: "Login" });
+        })
+        .catch((err) => {
+          Swal.fire({
+            icon: "error",
+            title: "비밀번호 변경 실패",
+            text: err.response.data.message,
+            showConfirmButton: false,
+            timer: 1500,
+            timerProgressBar: false,
           });
         });
     },
