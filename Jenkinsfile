@@ -54,6 +54,7 @@ pipeline {
 						sh 'docker ps'
 
 						sh 'docker run -d --name backend \
+						-p 8282:8080
 						--network booktorycicdnetwork backend:latest'
 
 						sh 'docker ps'
