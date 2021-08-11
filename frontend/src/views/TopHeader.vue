@@ -6,7 +6,7 @@
     <span v-if="userNickname" class="font-body-4 welcome">안녕하세요, {{ userNickname }}님</span>
     <div v-if="userNickname" class="icon right" @click="$router.push({ name: 'Notification' })">
       <icon-base :width="'1.6em'" :height="'1.6em'"><icon-bell /></icon-base>
-      <div v-if="!this.isRead" class="noti"></div>
+      <div v-if="!alarmRead" class="noti"></div>
     </div>
   </div>
 </template>
@@ -17,35 +17,27 @@ import fire from "@/firebase.js";
 
 export default {
   components: {},
-  data() {
-    return {
-      isRead: true,
-    };
-  },
   name: "TopHeader",
   computed: {
     ...mapState(["userNickname"]),
+    ...mapState("mypageStore", ["alarmRead"]),
   },
   methods: {
     ...mapActions(["fetchUser"]),
+    ...mapActions("mypageStore", ["fetchAlarmRead"]),
     pollAlarm() {
-      let tries = 10;
-      let polling = setInterval(() => {
-        if (!tries--) {
-          clearInterval(polling);
-        } else {
-          let chk = true;
-          const usersref = fire.database().ref(`users/${this.userNickname}`).limitToLast(1);
-          usersref.on("value", (list) => {
-            const data = list.val();
-            for (let key in data) {
-              if (data[key].readStatus == 0) {
-                chk = false;
-              }
+      setInterval(() => {
+        let chk = true;
+        const usersref = fire.database().ref(`users/${this.userNickname}`).limitToLast(1);
+        usersref.on("value", (list) => {
+          const data = list.val();
+          for (let key in data) {
+            if (data[key].readStatus == 0) {
+              chk = false;
             }
-          });
-          this.isRead = chk;
-        }
+          }
+        });
+        this.fetchAlarmRead(chk);
       }, 500);
     },
   },
