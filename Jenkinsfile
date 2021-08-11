@@ -19,7 +19,6 @@ pipeline {
                     try {
 						sh 'docker build -t frontend:latest frontend/'
 						sh 'docker build -t backend:latest backend/'
-						sh 'docker images'
 					}catch(e) {
                         mattermostSend (
                                 color: "danger", 
