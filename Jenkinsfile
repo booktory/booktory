@@ -45,7 +45,7 @@ pipeline {
 						sh 'docker images'
 
 						sh 'docker run -d --name frontend \
-						-p 80:80
+						-p 80:80 \
 						-v /home/ubuntu/sslkey/:/etc/letsencrypt/live/i5a607.p.ssafy.io/ \
 						-v /etc/localtime:/etc/localtime:ro \
 						--network booktorycicdnetwork \
