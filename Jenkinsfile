@@ -46,8 +46,6 @@ pipeline {
 
 						sh 'pwd'
 						sh 'ls -l'
-						sh 'mkdir /var/jenkins_home/workspace/Booktory-pipeline/sslkey/'
-
 
 						sh 'docker run -d --name frontend \
 						-p 80:80 \
