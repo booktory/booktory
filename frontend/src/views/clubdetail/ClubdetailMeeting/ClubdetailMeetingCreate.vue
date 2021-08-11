@@ -1,13 +1,13 @@
 <template>
   <div class="clubdetail-container">
     <div class="bg-image">
-      <div class="icon" @click="$router.push({ name: 'ClubHome' })">
+      <div class="icon-head" @click="$router.push({ name: 'ClubHome' })">
         <icon-base><icon-x /></icon-base>
       </div>
       <div class="card">
         <div class="main">
           <div class="main-head">
-            <h4>모임 생성</h4>
+            <h4 class="title">모임 생성</h4>
           </div>
           <div class="create-meeting-card">
             <div class="create-meeting-schedule">

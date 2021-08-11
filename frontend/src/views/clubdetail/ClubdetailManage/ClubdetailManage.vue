@@ -1,7 +1,9 @@
 <template>
   <div class="clubdetail-container">
     <div class="bg-image">
-      <TopHeader />
+      <div class="icon" @click="$router.push({ name: 'ClubHome' })">
+        <icon-base><icon-x /></icon-base>
+      </div>
       <div class="card">
         <div class="main">
           <h4 class="title">클럽 관리</h4>
@@ -48,7 +50,7 @@
         </div>
       </div>
     </div>
-    <Navbar :selected="'manage'" class="footer" />
+    <Navbar class="footer" />
   </div>
 </template>
 
@@ -56,7 +58,6 @@
 import { mapState, mapActions } from "vuex";
 import "./ClubdetailManage.scss";
 import Navbar from "@/views/clubdetail/Navbar.vue";
-import TopHeader from "@/views/clubdetail/TopHeader.vue";
 import IconEdit from "@/components/icons/IconEdit.vue";
 import IconMessage from "@/components/icons/IconMessage.vue";
 import IconBook from "@/components/icons/IconBook.vue";
@@ -69,7 +70,6 @@ export default {
   name: "ClubdetailManage",
   components: {
     Navbar,
-    TopHeader,
     IconEdit,
     IconMessage,
     IconBook,

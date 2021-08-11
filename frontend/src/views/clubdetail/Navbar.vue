@@ -3,10 +3,10 @@
     <div class="item" @click="$router.push({ name: 'ClubdetailHome' })">
       <p :class="{ orange: selected == 'home' }" class="sub-item font-body-4">클럽 홈</p>
     </div>
-    <div class="item">
+    <div class="item" @click="$router.push({ name: 'ClubdetailMetting' })">
       <p :class="{ orange: selected == 'meeting' }" class="sub-item font-body-4">모임 일정</p>
     </div>
-    <div class="item">
+    <div class="item" @click="$router.push({ name: 'ClubdetailTalk' })">
       <p :class="{ orange: selected == 'talk' }" class="sub-item font-body-4">담벼락</p>
     </div>
     <div class="item" @click="$router.push({ name: 'ClubdetailManage' })">
