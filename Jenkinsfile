@@ -19,11 +19,8 @@ pipeline {
                     try {
 						sh 'pwd'
 
-						sh 'ls -l'
-						sh 'docker build -t frontend:latest /var/jenkins_home/workspace/Booktory-pipeline/frontend/'
-
-						sh 'ls -l'
-						sh 'docker build -t backend:latest /var/jenkins_home/workspace/Booktory-pipelineㅣㄴ/backend/'
+						sh 'docker build -t frontend:latest ./frontend/'
+						sh 'docker build -t backend:latest ./backend/'
 					}catch(e) {
                         mattermostSend (
                                 color: "danger", 
@@ -46,9 +43,6 @@ pipeline {
 				
 						sh 'docker images -f dangling=true && docker rmi -f $(docker images -f dangling=true -q)' 
 
-						sh 'docker ps'
-						sh 'docker images'
-
 						sh 'docker run -d --name frontend \
 						-p 80:80 \
 						-p 443:443 \
@@ -56,8 +50,6 @@ pipeline {
 						-v /etc/localtime:/etc/localtime:ro \
 						--network booktorycicdnetwork \
 						frontend:latest'
-
-						sh 'docker ps'
 
 						sh 'docker run -d --name backend \
 						-p 8282:8080 \
