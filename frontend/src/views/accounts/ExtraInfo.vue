@@ -99,7 +99,7 @@ export default {
   data() {
     return {
       extraData: {
-        email: "wonji616@gmail.com",
+        email: this.$route.query.email,
         profileImg: "",
         name: "",
         birth: "",
