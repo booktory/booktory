@@ -3,11 +3,12 @@
     <TopHeader />
     <MyProfile
       v-if="userInfo"
-      :mainBadge="this.mainBadge"
-      :nickname="this.userInfo.nickname"
-      :email="this.userInfo.email"
+      :mainBadge="mainBadge"
+      :nickname="userInfo.nickname"
+      :email="userInfo.email"
+      :profileImg="userInfo.profileImg"
     />
-    <BadgeList :badgeList="this.badgeList" />
+    <BadgeList :badgeList="badgeList" />
     <Navbar :selected="'mypage'" class="footer" />
   </div>
 </template>

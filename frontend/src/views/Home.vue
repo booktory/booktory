@@ -21,12 +21,13 @@ export default {
 <style scoped>
 .title-orange {
   color: var(--orange);
-  font-size: 2.4rem;
+  font-size: 2rem;
+  font-family: "CookieRun-Regular";
 }
 
 .logo {
   width: 88%;
-  margin: 1rem 0;
+  margin: 1rem 0 0;
   object-fit: contain;
 }
 </style>

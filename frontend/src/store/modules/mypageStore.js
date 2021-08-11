@@ -1,5 +1,7 @@
 import SERVER from "@/api/api";
 import axios from "axios";
+import router from "@/router";
+import Swal from "sweetalert2";
 
 const mypageStore = {
   namespaced: true,
@@ -92,6 +94,7 @@ const mypageStore = {
     },
   },
   actions: {
+    // 회원 정보 확인
     findUserInfo({ rootGetters, getters, commit }) {
       axios
         .get(SERVER.URL + SERVER.ROUTES.getUserInfo, rootGetters.config)
@@ -100,20 +103,103 @@ const mypageStore = {
           commit("SET_USERINFO", res.data);
           // 배지 목록 가져오기
           let badgeList = getters.badgeList;
-          // 대표 배지 설정
-          let mainBadgeName = null;
-          if (res.data.mainBadge) {
-            mainBadgeName = badgeList[res.data.mainBadge].name;
-          }
-          commit("SET_MAINBADGE", mainBadgeName);
           // 나의 배지 목록 설정
-          for (var i = 0; i < res.data.badgeList; i++) {
+          for (var i = 0; i < res.data.badgeList.length; i++) {
             badgeList[res.data.badgeList[i]].state = true;
           }
           commit("SET_BADGELIST", badgeList);
+          // 대표 배지 설정
+          let mainBadgeName = null;
+          if (res.data.mainBadge >= 0) {
+            mainBadgeName = badgeList[res.data.mainBadge].name;
+            badgeList[res.data.mainBadge].isMain = true;
+          }
+          commit("SET_MAINBADGE", mainBadgeName);
         })
         .catch((err) => {
           console.log(err);
+        });
+    },
+    // 회원 정보 수정
+    updateUserInfo({ rootGetters, commit }, userData) {
+      axios
+        .patch(SERVER.URL + SERVER.ROUTES.updateUserInfo, userData, rootGetters.config)
+        .then((res) => {
+          commit("userNickname", userData.nickname, { root: true });
+          localStorage.setItem("userNickname", userData.nickname);
+          Swal.fire({
+            icon: "success",
+            title: "프로필 수정 완료",
+            html: "프로필이 수정 되었습니다.<br>지금부터 바뀐 정보를 확인하실 수 있어요!",
+            showConfirmButton: false,
+            timer: 1000,
+            timerProgressBar: true,
+          });
+          console.log(res.data);
+          router.push({ name: "MyPage" });
+        })
+        .catch((err) => {
+          Swal.fire({
+            icon: "error",
+            title: "프로필 수정 실패",
+            text: err.response.data.message,
+            showConfirmButton: false,
+            timer: 1500,
+            timerProgressBar: false,
+          });
+        });
+    },
+    // 비밀번호 변경
+    changePassword({ dispatch, rootGetters }, passwordData) {
+      axios
+        .patch(SERVER.URL + SERVER.ROUTES.changePassword, passwordData, rootGetters.config)
+        .then((res) => {
+          console.log(res.data);
+          Swal.fire({
+            icon: "success",
+            title: "비밀번호 변경 완료",
+            html: "비밀번호가 변경 되었습니다.<br>바뀐 비밀번호로 다시 로그인 해주세요!",
+            showConfirmButton: false,
+            timer: 1000,
+            timerProgressBar: true,
+          });
+          dispatch("logout", null, { root: true });
+        })
+        .catch((err) => {
+          Swal.fire({
+            icon: "error",
+            title: "비밀번호 변경 실패",
+            text: err.response.data.message,
+            showConfirmButton: false,
+            timer: 1500,
+            timerProgressBar: false,
+          });
+        });
+    },
+    // 대표배지 설정
+    changeMainBadge({ getters }, badgeId) {
+      axios
+        .patch(SERVER.URL + "/users/" + getters.userInfo.id + "/main-badge/" + badgeId)
+        .then((res) => {
+          Swal.fire({
+            icon: "success",
+            title: "대표배지 설정 완료",
+            showConfirmButton: false,
+            timer: 1000,
+            timerProgressBar: true,
+          });
+          console.log(res.data);
+          router.go(0);
+        })
+        .catch((err) => {
+          Swal.fire({
+            icon: "error",
+            title: "대표배지 설정 실패",
+            text: err.response.data.message,
+            showConfirmButton: false,
+            timer: 1500,
+            timerProgressBar: false,
+          });
         });
     },
   },

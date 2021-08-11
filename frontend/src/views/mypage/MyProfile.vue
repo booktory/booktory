@@ -7,16 +7,20 @@
       </div>
     </div>
     <div class="user-info">
-      <img class="profile-image" src="@/assets/images/profile_default.svg" alt="profile-image" />
+      <img
+        class="profile-image"
+        :src="profileImg ? profileImg : 'https://via.placeholder.com/50'"
+        alt="profile-image"
+      />
       <div class="info-frame">
-        <span v-if="mainBadge" class="font-body-4">{{ mainBadge }}</span>
+        <span v-if="mainBadge" class="font-body-4 main-badge">{{ mainBadge }}</span>
         <h5>{{ nickname }}</h5>
         <span class="font-body-4">{{ email }}</span>
       </div>
     </div>
     <button
       type="button"
-      class="button-1 m-top-5"
+      class="button-1 update-btn"
       @click="$router.push({ name: 'MyProfileUpdate' })"
     >
       프로필 수정
@@ -42,6 +46,9 @@ export default {
     email: {
       type: String,
     },
+    profileImg: {
+      type: String,
+    },
   },
 };
 </script>
@@ -55,6 +62,13 @@ export default {
   top: 0;
   right: 0;
   margin-right: 8%;
+}
+.update-btn {
+  margin-top: 1.5rem;
+}
+.main-badge {
+  color: var(--brown);
+  font-weight: bold;
 }
 .user-info {
   display: flex;

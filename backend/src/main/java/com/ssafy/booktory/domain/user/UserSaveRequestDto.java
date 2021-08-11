@@ -18,6 +18,7 @@ public class UserSaveRequestDto {
                 .nickname(nickname)
                 .email(email)
                 .password(password)
+                .mainBadge(-1)
                 .isAccept(false)
                 .build();
     }

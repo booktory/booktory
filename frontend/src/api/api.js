@@ -30,6 +30,11 @@ export default {
     cancleMeeting: "/bookclubs/",
     getBookClubInfo: "/bookclubs/",
     getBookClubList: "/bookclubs/list/",
+
+    // file-upload
+    uploadProfileImg: "/files/user",
+    uploadBoardFile: "/files/board",
+
     // notification
     registerFCMToken: "/notification",
   },

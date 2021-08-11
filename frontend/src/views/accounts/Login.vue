@@ -6,7 +6,6 @@
       </div>
     </div>
     <h4 class="title">로그인</h4>
-    <p class="sub-title">이메일과 비밀번호를 입력해주세요</p>
     <div class="input-div m-top-5">
       <label for="email">이메일</label>
       <div>
@@ -57,7 +56,7 @@
     </div>
     <div class="text-div">
       <p class="font-body-3">아직 회원이 아니신가요?</p>
-      <h5 @click="$router.push({ name: 'Register' })">회원가입하기</h5>
+      <h5 class="register-btn" @click="$router.push({ name: 'Register' })">회원가입하기</h5>
     </div>
   </div>
 </template>
@@ -104,8 +103,9 @@ export default {
       } else this.error.email = false;
     },
     validEmail(email) {
-      // eslint-disable-next-line
-      var reg = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
+      var reg =
+        // eslint-disable-next-line
+        /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
       return reg.test(email);
     },
     // 비밀번호 유효성 검사
@@ -145,9 +145,12 @@ export default {
   height: 4.8em;
   margin: 5% 1.5%;
 }
-
 .text-div * {
   color: var(--grey);
   margin: 0.6em auto;
+}
+.register-btn {
+  display: inline-block;
+  margin: 0.2rem;
 }
 </style>
