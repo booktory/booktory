@@ -19,6 +19,7 @@ pipeline {
                     try {
 						sh 'docker build -t frontend:latest frontend/'
 						sh 'docker build -t backend:latest backend/'
+						sh 'docker images'
 					}catch(e) {
                         mattermostSend (
                                 color: "danger", 
@@ -41,11 +42,16 @@ pipeline {
 				
 						sh 'docker images -f dangling=true && docker rmi -f $(docker images -f dangling=true -q)' 
 
+						sh 'docker ps'
+						sh 'docker images'
+
 						sh 'docker run -d --name frontend \
 						-v /home/ubuntu/sslkey/:/etc/letsencrypt/live/i5a607.p.ssafy.io/ \
 						-v /etc/localtime:/etc/localtime:ro \
 						--network booktorycicdnetwork \
 						frontend:latest'
+
+						sh 'docker ps'
 
 						sh 'docker run -d --name backend \
 						--network booktorycicdnetwork backend:latest'
