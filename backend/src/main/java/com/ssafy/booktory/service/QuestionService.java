@@ -40,6 +40,7 @@ public class QuestionService {
                             answer.getUser().getNickname(),
                             answer.getUser().getProfileImg(),
                             answer.getContents(),
+                            answer.getCreatedDate(),
                             question.getIsOpen()))
                     .collect(Collectors.toList());
 
@@ -49,6 +50,7 @@ public class QuestionService {
                     question.getUser().getNickname(),
                     question.getUser().getProfileImg(),
                     question.getContents(),
+                    question.getCreatedDate(),
                     question.getIsOpen(),
                     answerResponseDtos));
         });
