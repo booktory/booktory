@@ -46,7 +46,6 @@ pipeline {
 
 						sh 'pwd'
 						sh 'ls -l'
-						sh 'ls /var/jenkins_home'
 
 						sh 'docker run -d --name frontend \
 						-p 80:80 \
@@ -55,6 +54,8 @@ pipeline {
 						-v /etc/localtime:/etc/localtime:ro \
 						--network booktorycicdnetwork \
 						frontend:latest'
+						
+						sh 'ls -l /var/jenkins_home/workspace/Booktory-pipeline/sslkey/'
 
 						sh 'docker run -d --name backend \
 						-p 8282:8080 \
