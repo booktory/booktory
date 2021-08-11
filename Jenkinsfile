@@ -47,7 +47,7 @@ pipeline {
 						sh 'pwd'
 						sh 'ls -l'
 
-						sh 'docker run -d --name frontend \
+						sh 'docker run --name frontend \
 						-p 80:80 \
 						-p 443:443 \
 						-v /etc/letsencrypt/live/i5a607.p.ssafy.io/:/var/jenkins_home/workspace/Booktory-pipeline/sslkey/ \
