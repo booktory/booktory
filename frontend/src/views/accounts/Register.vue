@@ -6,7 +6,6 @@
       </div>
     </div>
     <h4 class="title">회원가입</h4>
-    <p class="sub-title">회원정보를 입력해주세요</p>
     <div class="input-div m-top-5">
       <label for="nickname">닉네임</label>
       <div>
@@ -148,8 +147,9 @@ export default {
       } else this.error.email = false;
     },
     validEmail(email) {
-      // eslint-disable-next-line
-      var reg = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
+      var reg =
+        // eslint-disable-next-line
+        /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
       return reg.test(email);
     },
     // 비밀번호 유효성 검사

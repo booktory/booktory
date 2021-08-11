@@ -17,6 +17,7 @@
 <script>
 import Swal from "sweetalert2";
 import IconStar from "@/components/icons/IconStar.vue";
+import { mapActions } from "vuex";
 
 export default {
   name: "BadgeItem",
@@ -24,7 +25,7 @@ export default {
     IconStar,
   },
   props: {
-    index: {
+    badgeId: {
       type: Number,
     },
     state: {
@@ -41,7 +42,8 @@ export default {
     },
   },
   methods: {
-    clickBadge: function() {
+    ...mapActions("mypageStore", ["changeMainBadge"]),
+    clickBadge() {
       Swal.fire({
         title: this.name,
         showConfirmButton: false,
@@ -63,26 +65,14 @@ export default {
               text: "대표 배지를 변경하시겠습니까?",
               confirmButtonText: "네, 변경할래요",
               cancelButtonText: "취소",
+            }).then((result) => {
+              if (result.isConfirmed) {
+                this.changeMainBadge(this.badgeId);
+              }
             });
           }
         }
       });
-    },
-    changeMainBadge: function() {
-      if (this.isMain) {
-        Swal.fire({
-          icon: "error",
-          text: "현재 설정된 대표 배지입니다",
-        });
-      } else {
-        Swal.fire({
-          showCancelButton: true,
-          title: this.name,
-          text: "대표 배지를 변경하시겠습니까?",
-          confirmButtonText: "네, 변경할래요",
-          cancelButtonText: "취소",
-        });
-      }
     },
   },
 };

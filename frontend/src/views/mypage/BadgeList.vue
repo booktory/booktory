@@ -5,7 +5,7 @@
       <BadgeItem
         v-for="(item, index) in badgeList"
         :key="item.id"
-        :index="index"
+        :badgeId="index"
         :state="item.state"
         :name="item.name"
         :content="item.content"

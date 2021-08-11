@@ -1,7 +1,6 @@
 <template>
   <div class="container m-top">
     <h4 class="title">추가정보 입력</h4>
-    <p class="sub-title">추가정보를 입력해주세요</p>
     <div class="m-top-5">
       <div class="profile-img-div">
         <input
@@ -15,7 +14,11 @@
         <div class="icon profile-btn" @click="clickProfileImg">
           <icon-base><icon-camera /></icon-base>
         </div>
-        <img class="profile-img" src="@/assets/images/profile_default.svg" alt="Profile Image" />
+        <img
+          class="profile-img"
+          :src="extraData.profileImg ? extraData.profileImg : 'https://via.placeholder.com/100'"
+          alt="Profile Image"
+        />
       </div>
     </div>
     <div class="input-div">
@@ -25,7 +28,7 @@
           v-model="extraData.name"
           v-bind:class="{
             error: error.name,
-            complete: !error.name && extraData.name.length !== 0,
+            complete: !error.name,
           }"
           type="text"
           id="name"
@@ -45,10 +48,9 @@
         v-model="extraData.birth"
         v-bind:class="{
           error: error.birth,
-          complete: !error.birth && extraData.birth.length !== 0,
+          complete: !error.birth,
         }"
-        format="YYYY-MM-DD"
-        type="date"
+        value-type="format"
         placeholder="생년월일을 선택해주세요"
         :default-value="defaultDate"
         :disabled-date="disabledAfterTodayAndBefore100Year"
@@ -64,13 +66,14 @@
           v-model="extraData.phone"
           v-bind:class="{
             error: error.phone,
-            complete: !error.phone && extraData.phone.length !== 0,
+            complete: !error.phone,
           }"
           type="tel"
           id="phone"
           maxlength="11"
           placeholder="전화번호를 입력해주세요"
           required
+          @keyup.enter="clickExtraInfo"
         />
       </div>
       <p v-if="error.phone" class="message">{{ error.phone }}</p>
@@ -86,10 +89,13 @@ import router from "@/router";
 import axios from "axios";
 import Swal from "sweetalert2";
 import IconCamera from "@/components/icons/IconCamera.vue";
+import SERVER from "@/api/api";
 
 export default {
   name: "ExtraInfo",
-  components: { IconCamera },
+  components: {
+    IconCamera,
+  },
   data() {
     return {
       extraData: {
@@ -149,12 +155,11 @@ export default {
       let image = this.$refs["image"].files[0];
       form.append("file", image);
       axios
-        .post("/api/files/user", form, {
+        .post(SERVER.URL + SERVER.ROUTES.uploadProfileImg, form, {
           headers: { "Content-Type": "multipart/form-data" },
         })
         .then(({ data }) => {
           this.extraData.profileImg = data;
-          console.log(this.extraData.profileImg);
         })
         .catch((err) => console.log(err));
     },
@@ -164,6 +169,7 @@ export default {
       today.setHours(0, 0, 0, 0);
       return date > today || date < new Date(today.getTime() - 100 * 365 * 24 * 3600 * 1000);
     },
+    // 이름 유효성 검사
     checkNameForm() {
       if (this.extraData.name.length > 0 && this.extraData.name.length > 20) {
         this.error.name = "이름이 너무 길어요! 20자 이하로 입력해주세요";
@@ -176,6 +182,7 @@ export default {
       var reg = /^[가-힣a-zA-Z\s]+$/;
       return reg.test(name);
     },
+    // 생년월일 유효성 검사
     checkBirthForm() {
       if (this.extraData.birth.length > 0 && !this.validBirth(this.extraData.birth)) {
         this.error.birth = "생년월일을 올바른 형식으로 입력해주세요";
@@ -186,6 +193,7 @@ export default {
       var reg = /^\d{4}-\d{2}-\d{2}$/;
       return reg.test(birth);
     },
+    // 전화번호 유효성 검사
     checkPhoneForm() {
       if (this.extraData.phone.length > 0 && this.extraData.phone.length < 9) {
         this.error.phone = "전화번호가 너무 짧아요";

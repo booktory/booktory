@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapActions, mapState } from "vuex";
 import fire from "@/firebase.js";
 
 export default {
@@ -27,6 +27,7 @@ export default {
     ...mapState(["userNickname"]),
   },
   methods: {
+    ...mapActions(["fetchUser"]),
     pollAlarm() {
       let tries = 10;
       let polling = setInterval(() => {
@@ -49,6 +50,7 @@ export default {
     },
   },
   created() {
+    this.fetchUser();
     this.pollAlarm();
   },
 };
