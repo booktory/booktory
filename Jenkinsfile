@@ -42,8 +42,6 @@ pipeline {
 						sh 'docker images -f dangling=true && docker rmi -f $(docker images -f dangling=true -q)' 
 
 						sh 'docker run -d --name frontend \
-						-p 80:80 \
-						-p 443:443 \
 						-v /home/ubuntu/sslkey/:/etc/letsencrypt/live/i5a607.p.ssafy.io/ \
 						-v /etc/localtime:/etc/localtime:ro \
 						--network booktorycicdnetwork \
