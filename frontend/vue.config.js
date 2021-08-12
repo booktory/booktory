@@ -2,7 +2,7 @@ module.exports = {
   devServer: {
     proxy: {
       "^/": {
-        target: "http://localhost:8080",
+        target: "https://i5a607.p.ssafy.io",
         changeOrigin: true,
         logLevel: "debug",
       },
