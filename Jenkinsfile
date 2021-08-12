@@ -51,7 +51,7 @@ pipeline {
 						frontend:latest'
 					
 
-						sh 'docker run -d --name backend \ß
+						sh 'docker run -d --name backend \
 						-p 8080:8080 \
 						--network booktorycicdnetwork backend:latest'
 
