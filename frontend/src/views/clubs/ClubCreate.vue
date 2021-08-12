@@ -76,7 +76,7 @@
           <span class="font-body-3">
             • &nbsp;&nbsp;한 달에
             <span id="v-model-select">
-              <select v-model="clubData.volumRule">
+              <select v-model="clubData.volumeRule">
                 <option>1</option>
                 <option>2</option>
                 <option>3</option>
@@ -188,7 +188,7 @@ export default {
         info: "",
         maxMember: 8,
         isOpen: true,
-        volumRule: 1,
+        volumeRule: 1,
         weekRule: 2,
         freeRule: "",
         genres: [],
@@ -329,7 +329,6 @@ export default {
   display: block;
   margin: 0 0 1rem 1.6rem;
   font-size: 1.2rem;
-  font-weight: 500;
   color: var(--grey);
 }
 
@@ -396,7 +395,6 @@ select {
 }
 
 .two-input .max-member #v-model-select > select {
-  // width: 3em;
   margin: 0 0 0 2rem;
 }
 
