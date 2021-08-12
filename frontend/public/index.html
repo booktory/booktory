@@ -378,6 +378,36 @@
       .m-bottom {
         margin-top: 6em;
       }
+
+      /* video */
+      #video-container video {
+        position: relative;
+        float: left;
+        width: 50%;
+        cursor: pointer;
+      }
+
+      #video-container video + div {
+        float: left;
+        width: 50%;
+        position: relative;
+        margin-left: -50%;
+      }
+
+      #video-container h6 {
+        background-color: var(--very-light-orange);
+        color: var(--dark-grey);
+        letter-spacing: 0.1rem;
+        padding: 0.3rem;
+        position: absolute;
+        top: 0;
+      }
+
+      video {
+        width: 100%;
+        height: auto;
+      }
+
       .empty-div {
         height: 10rem;
       }
