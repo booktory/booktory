@@ -47,8 +47,9 @@ export default {
 }
 .book-bottom {
   position: absolute;
+  z-index: 10;
   left: -12%;
-  bottom: -2%;
+  bottom: -3%;
   width: 450%;
   height: 0.7em;
   margin: 0 auto;
