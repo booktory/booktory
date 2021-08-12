@@ -134,6 +134,13 @@ const routes = [
     component: () => import("@/views/clubdetail/ClubdetailBook/ClubdetailBook.vue"),
   },
 
+  // 클럽상세 책 추가
+  {
+    path: "/clubdetail/book/add",
+    name: "ClubdetailBookAdd",
+    component: () => import("@/views/clubdetail/ClubdetailBook/ClubdetailBookAdd.vue"),
+  },
+
   // 클럽상세 담벼락
   {
     path: "/clubdetail/talk",
