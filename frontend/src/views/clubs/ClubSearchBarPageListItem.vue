@@ -1,10 +1,11 @@
 <template>
   <div class="container">
-    <div class="navbar">
+    <!-- <div class="navbar">
       <div class="icon" @click="$router.go(-1)">
         <icon-base><icon-arrow-left /></icon-base>
       </div>
-    </div>
+    </div> -->
+    <TopHeader />
     <h5>
       {{ club.name }}
     </h5>
@@ -33,14 +34,25 @@
           </div>
         </div>
       </div>
-      <button type="button" class="button-2 m-top-10">문의 게시판</button>
+      <button
+        type="button"
+        class="button-2 m-top-10"
+        @click="$router.push({ name: 'ClubQuestion' })"
+      >
+        문의 게시판
+      </button>
       <button type="button" class="button-2 m-top-10">가입 신청</button>
     </div>
   </div>
 </template>
 <script>
+import TopHeader from "@/views/TopHeader.vue";
+
 export default {
   name: "ClubSearchBarPageListItem",
+  components: {
+    TopHeader,
+  },
   computed: {
     club: function () {
       return this.$store.state.examples.bookclubs[0].clubList[0];
