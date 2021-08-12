@@ -76,7 +76,7 @@ public class UserService {
 
     public UserLoginResponseDto doLogin(User user) {
         String jwt = jwtTokenProvider.createToken(user.getId(), user.getRoles());
-        return new UserLoginResponseDto(jwt, user.getNickname(), user.getEmail());
+        return new UserLoginResponseDto(jwt, user.getId(), user.getNickname(), user.getEmail());
     }
 
     public void findPassword(String email) {
