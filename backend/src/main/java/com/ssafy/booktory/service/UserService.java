@@ -7,6 +7,7 @@ import com.ssafy.booktory.domain.book.BookByUserResponseDto;
 import com.ssafy.booktory.util.JwtTokenProvider;
 import com.ssafy.booktory.util.Uploader;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -20,6 +21,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -129,8 +131,10 @@ public class UserService {
         User user = userRepository.findById(userId).orElseThrow(() -> new NoSuchElementException("존재하지 않는 회원입니다."));
 
         String originFileURL = user.getProfileImg();
-        if(!originFileURL.equals(userUpdateRequestDto.getProfileImg()))
+        if(originFileURL != null && !originFileURL.equals("") && !originFileURL.equals(userUpdateRequestDto.getProfileImg())){
             uploader.deleteS3Instance(originFileURL);
+        }
+
         user.update(userUpdateRequestDto.getNickname(), userUpdateRequestDto.getName(), userUpdateRequestDto.getBirth(), userUpdateRequestDto.getProfileImg(), userUpdateRequestDto.getPhone());
         userRepository.save(user);
     }
