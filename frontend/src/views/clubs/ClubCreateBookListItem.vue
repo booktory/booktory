@@ -10,7 +10,6 @@
         <p>{{ bookPublisher }} | {{ bookDate }}</p>
       </div>
     </div>
-    {{ selectedBook }}
   </div>
 </template>
 
@@ -21,9 +20,6 @@ export default {
     book: {
       type: Object,
     },
-    selectedBook: {
-      type: Object,
-    },
   },
   methods: {
     selectBook: function () {
@@ -31,6 +27,9 @@ export default {
     },
   },
   computed: {
+    bookId: function () {
+      return this.book.id;
+    },
     bookImg: function () {
       return this.book.thumbnail;
     },
@@ -57,7 +56,6 @@ export default {
 .club-card {
   display: flex;
   justify-content: center;
-  align-items: flex-start;
   margin: 0 auto;
   width: 80%;
   height: 7rem;
@@ -67,24 +65,26 @@ export default {
   margin-bottom: 1rem;
 
   &-img {
-    width: 30%;
+    width: 5rem;
     height: 100%;
-    text-align: center;
-    // background-color: var(--beige);
 
     img {
       width: 5rem;
       height: 7rem;
-      border-radius: 1em;
+      border-radius: 1em 0 0 1em;
       box-shadow: 0 3% 3px 0 var(--bg-black), inset 0 0 3px 0 var(--bg-black);
     }
   }
   &-text {
-    width: 70%;
+    width: 100%;
     text-align: left;
-    margin-left: 1rem;
+    margin-left: 1.2rem;
+    position: relative;
+    overflow: hidden;
 
     h6 {
+      white-space: nowrap;
+      overflow: hidden;
       text-align: left;
       margin: 0;
       margin-top: 1rem;
