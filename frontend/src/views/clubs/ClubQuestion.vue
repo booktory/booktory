@@ -7,7 +7,7 @@
         <p class="sub-title-c">클럽에 대해 궁금한 사항들을 물어보세요</p>
         <div class="question-board">
           <ClubQuestionList v-if="questionList" :questionList="questionList" />
-          <div class="user-list empty" v-else>
+          <div class="empty" v-else>
             <span class="font-body-3">작성된 질문이 없습니다</span>
           </div>
         </div>
