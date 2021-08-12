@@ -2,7 +2,7 @@
   <div class="">
     <div class="club-card" @click="selectClub">
       <div class="club-card-img">
-        <img src="https://picsum.photos/200" alt="#" />
+        <img :src="clubImg" alt="클럽이미지" />
       </div>
       <div class="club-card-text">
         <h6 class="club-card-text-name">{{ clubName }}</h6>

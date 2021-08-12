@@ -5,15 +5,22 @@ const searchStore = {
   namespaced: true,
   state: {
     bookList: null,
+    clubList: null,
   },
   getters: {
     bookList(state) {
       return state.bookList;
     },
+    clubList(state) {
+      return state.clubList;
+    },
   },
   mutations: {
     SET_BOOKLIST(state, data) {
       state.bookList = data;
+    },
+    SET_CLUBLIST(state, data) {
+      state.clubList = data;
     },
   },
   actions: {
@@ -28,7 +35,30 @@ const searchStore = {
           console.log(err);
         });
     },
+    // 클럽명(키워드)로 클럽 검색
+    searchClubByName({ commit }, keyword) {
+      axios
+        .get(SERVER.URL + SERVER.ROUTES.searchClubByNameAndGenre + "?keyword=" + keyword)
+        .then((res) => {
+          // console.log(res.data);
+          commit("SET_CLUBLIST", res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    // 장르로 클럽 검색
+    searchClubByGenre({ commit }, genre) {
+      axios
+        .get(SERVER.URL + SERVER.ROUTES.searchClubByNameAndGenre + "?genre=" + genre)
+        .then((res) => {
+          console.log(res.data);
+          commit("SET_CLUBLIST", res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
   },
 };
-
 export default searchStore;

@@ -9,7 +9,7 @@
     <span class="font-body-2 sub-title">클럽명 또는 도서 분야로 검색하기</span>
     <ClubSearchBar />
     <ClubSearchKeyword />
-    <ClubSearchResult />
+
     <p class="text-link" @click="$router.push({ name: 'ClubCreate' })">클럽 만들기</p>
   </div>
 </template>
@@ -17,14 +17,12 @@
 <script>
 import ClubSearchBar from "@/views/clubs/ClubSearchBar.vue";
 import ClubSearchKeyword from "@/views/clubs/ClubSearchKeyword.vue";
-import ClubSearchResult from "@/views/clubs/ClubSearchResult.vue";
 
 export default {
   name: "ClubSearch",
   components: {
     ClubSearchBar,
     ClubSearchKeyword,
-    ClubSearchResult,
   },
 };
 </script>
