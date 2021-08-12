@@ -6,7 +6,10 @@
         <h4 class="title">문의 게시판</h4>
         <p class="sub-title-c">클럽에 대해 궁금한 사항들을 물어보세요</p>
         <div class="question-board">
-          <ClubQuestionList :questionList="questionList" />
+          <ClubQuestionList v-if="questionList" :questionList="questionList" />
+          <div class="user-list empty" v-else>
+            <span class="font-body-3">작성된 질문이 없습니다</span>
+          </div>
         </div>
         <button class="button-3" @click="clickRegister" :disabled="!questionData.contents">
           등록
@@ -29,6 +32,7 @@
             placeholder="질문을 입력해주세요"
           />
         </div>
+        <div class="empty-div"></div>
       </div>
     </div>
     <Navbar class="footer" />
@@ -91,6 +95,7 @@ export default {
   top: 5em;
 }
 .main {
+  height: inherit;
   padding: 3rem 3rem 10rem;
   background-color: var(--beige);
   border-radius: 7em 7em 0 0;
@@ -101,11 +106,16 @@ export default {
 }
 .question-board {
   width: inherit;
-  min-height: 50rem;
+  min-height: 20rem;
   margin-top: 2rem;
   background-color: var(--white);
   border-radius: 1rem;
   box-shadow: 0 0.4em 0.8em 0 rgba(142, 141, 208, 0.16);
+}
+.empty {
+  text-align: left;
+  padding: 1.8rem;
+  color: var(--grey);
 }
 h5 {
   display: flex;

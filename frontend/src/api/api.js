@@ -22,6 +22,7 @@ export default {
     updateClubInfo: "/clubs/",
     deleteClub: "/clubs/",
     getJoinedClub: "/clubs/list",
+    questions: "/questions/",
 
     // book-club
     createBook: "/bookclubs",

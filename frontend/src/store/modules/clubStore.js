@@ -10,6 +10,7 @@ const clubStore = {
     isLeader: null,
     applyList: null,
     joinedList: null,
+    questionList: null,
   },
   getters: {
     clubId(state) {
@@ -24,6 +25,9 @@ const clubStore = {
     joinedList(state) {
       return state.joinedList;
     },
+    questionList(state) {
+      return state.questionList;
+    },
   },
   mutations: {
     SET_CLUBID(state, data) {
@@ -37,6 +41,9 @@ const clubStore = {
     },
     SET_JOINED_LIST(state, data) {
       state.joinedList = data;
+    },
+    SET_QUESTION_LIST(state, data) {
+      state.questionList = data;
     },
   },
   actions: {
@@ -190,6 +197,78 @@ const clubStore = {
           Swal.fire({
             icon: "error",
             title: "클럽 삭제 실패",
+            text: err.response.data.message,
+            showConfirmButton: false,
+            timer: 1500,
+            timerProgressBar: false,
+          });
+        });
+    },
+    // 문의게시판 목록 확인
+    findQuestionList({ getters, commit }) {
+      axios
+        .get(SERVER.URL + SERVER.ROUTES.questions + getters.clubId)
+        .then((res) => {
+          // 문의게시판 목록 설정
+          commit("SET_QUESTION_LIST", res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    // 문의게시판 질문 등록
+    registerQuestion({ rootGetters, getters }, questionData) {
+      axios
+        .post(
+          SERVER.URL + SERVER.ROUTES.questions + getters.clubId,
+          questionData,
+          rootGetters.config
+        )
+        .then((res) => {
+          console.log(res);
+          Swal.fire({
+            icon: "success",
+            title: "질문 등록 완료",
+            showConfirmButton: false,
+            timer: 1000,
+            timerProgressBar: true,
+          });
+          router.go(0);
+        })
+        .catch((err) => {
+          Swal.fire({
+            icon: "error",
+            title: "질문 등록 실패",
+            text: err.response.data.message,
+            showConfirmButton: false,
+            timer: 1500,
+            timerProgressBar: false,
+          });
+        });
+    },
+    // 문의게시판 답글 등록
+    registerAnswer({ rootGetters }, questionData) {
+      axios
+        .post(
+          SERVER.URL + SERVER.ROUTES.questions + questionData.questionId + "/answer",
+          questionData,
+          rootGetters.config
+        )
+        .then((res) => {
+          console.log(res);
+          Swal.fire({
+            icon: "success",
+            title: "답글 등록 완료",
+            showConfirmButton: false,
+            timer: 1000,
+            timerProgressBar: true,
+          });
+          router.go(0);
+        })
+        .catch((err) => {
+          Swal.fire({
+            icon: "error",
+            title: "답글 등록 실패",
             text: err.response.data.message,
             showConfirmButton: false,
             timer: 1500,
