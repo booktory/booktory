@@ -3,60 +3,83 @@
     <div class="bg-image">
       <TopHeader />
       <div class="card">
-        <div class="main">
+        <div v-if="clubInfo" class="main">
           <h4 class="title">클럽 정보 수정</h4>
-          <div class="input-div m-top-2">
+          <div class="input-div">
             <label for="name">클럽 이름</label>
             <div>
               <input
-                v-model="clubData.name"
+                v-model="clubInfo.name"
+                v-bind:class="{
+                  error: error.name,
+                  complete: !error.name && clubInfo.name.length !== 0,
+                }"
                 type="text"
                 id="name"
+                maxlength="10"
                 placeholder="클럽 이름을 입력해주세요"
+                autocapitalize="none"
+                autocorrect="none"
+                required
               />
             </div>
+            <p v-if="error.name" class="message">{{ error.name }}</p>
           </div>
-          <div class="input-div m-top-2">
+          <div class="input-div">
             <label for="info">클럽 소개</label>
             <div>
               <input
-                v-model="clubData.info"
+                v-model="clubInfo.info"
+                v-bind:class="{
+                  error: error.info,
+                  complete: !error.info && clubInfo.info.length !== 0,
+                }"
                 type="text"
                 id="info"
-                placeholder="클럽을 소개해주세요"
+                maxlength="30"
+                placeholder="클럽 소개를 입력해주세요"
+                autocapitalize="none"
+                autocorrect="none"
+                required
               />
             </div>
-            <p class="message">30자 이내로 입력해주세요.</p>
+            <p v-if="error.info" class="message">{{ error.info }}</p>
           </div>
-          <div class="input-div m-top-2">
+          <div class="input-div">
             <label for="genres">클럽에서 다룰 도서 분야</label>
             <div>
-              <input
-                v-model="clubData.genres"
-                type="text"
-                id="genres"
-                placeholder="최대 5개까지 선택 가능합니다."
-                readonly
-              />
+              <div v-if="clubInfo.genres.length > 0" class="genre-inner-div">
+                <span
+                  @click="removeGenre"
+                  v-for="(genre, index) in clubInfo.genres"
+                  :key="index"
+                  :id="genre"
+                  class="input-tag"
+                  >{{ genreList[genre - 1] }}</span
+                >
+              </div>
+              <div v-else class="genre-inner-div">
+                <span class="placeholder">도서 분야를 선택해주세요</span>
+              </div>
             </div>
-          </div>
-
-          <!-- 장르 키워드 선택 -->
-          <div class="gerne-keyword">
-            <span v-for="(gerne, idx) in genresList" :key="idx" :value="gerne">
-              <span @click="addGerne" class="tag">{{ gerne }}</span>
-            </span>
+            <!-- 장르 키워드 선택 -->
+            <div class="genre-keyword">
+              <span @click="addGenre" v-for="(name, index) in genreList" :key="index">
+                <span :id="index + 1" class="tag">{{ name }}</span>
+              </span>
+            </div>
+            <p v-if="error.genres" class="message">{{ error.genres }}</p>
           </div>
 
           <!-- 운영 규칙 설정 -->
-          <div class="rules m-top-2">
+          <div class="rules">
             <div class="label">운영 규칙</div>
             <!--  -->
             <div>
               <span class="font-body-3">
-                • 한 달에
+                • &nbsp;&nbsp;한 달에
                 <span id="v-model-select">
-                  <select v-model="clubData.volumRule">
+                  <select v-model="clubInfo.volumeRule">
                     <option>1</option>
                     <option>2</option>
                     <option>3</option>
@@ -77,7 +100,7 @@
               <span class="font-body-3">
                 •
                 <span id="v-model-select">
-                  <select v-model="clubData.weekRule">
+                  <select v-model="clubInfo.weekRule">
                     <option>1</option>
                     <option>2</option>
                     <option>3</option>
@@ -96,9 +119,9 @@
             <!--  -->
             <div class="input-div">
               <span class="font-body-3">• </span>
-              <div>
+              <div class="freeRule-div">
                 <input
-                  v-model="clubData.freeRule"
+                  v-model="clubInfo.freeRule"
                   type="text"
                   id="freeRule"
                   placeholder="만나서 독서토론을 진행해요"
@@ -113,7 +136,7 @@
               <div class="label">클럽 최대 인원수</div>
               <span class="font-body-3">
                 <span id="v-model-select">
-                  <select v-model="clubData.maxMember">
+                  <select v-model="clubInfo.maxMember">
                     <option>1</option>
                     <option>2</option>
                     <option>3</option>
@@ -128,18 +151,16 @@
               </span>
             </div>
             <!-- 공개 여부 -->
-            <div class="is-open m-top-1">
+            <div class="is-open">
               <div class="label">공개 여부</div>
               <div class="wrap">
-                <input type="checkbox" id="checkbox" v-model="clubData.isOpen" />
-                <span class="font-body-3 is-open-text" v-if="clubData.isOpen">공개</span>
+                <input type="checkbox" id="checkbox" v-model="clubInfo.isOpen" />
+                <span class="font-body-3 is-open-text" v-if="clubInfo.isOpen">공개</span>
                 <span class="font-body-3 is-open-text" v-else>비공개</span>
               </div>
             </div>
           </div>
-          <button type="button" class="button-2" @click="$router.push({ name: 'ClubCreateBook' })">
-            다음
-          </button>
+          <button type="button" class="button-2" @click="clickUpdate">수정하기</button>
         </div>
       </div>
     </div>
@@ -148,73 +169,121 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
-
-import Navbar from "@/views/clubdetail/Navbar.vue";
+import { mapActions, mapState } from "vuex";
 import TopHeader from "@/views/clubdetail/TopHeader.vue";
+import Navbar from "@/views/clubdetail/Navbar.vue";
 import Swal from "sweetalert2";
 
 export default {
   name: "ClubdetailManageUpdate",
   components: {
-    Navbar,
     TopHeader,
+    Navbar,
+  },
+  computed: {
+    ...mapState("searchStore", ["genreList"]),
+    ...mapState("clubStore", ["clubInfo"]),
   },
   data() {
     return {
-      clubData: {
-        name: "",
-        img: "https://picsum.photos/200/300",
-        info: "",
-        maxMember: 8,
-        isOpen: true,
-        volumRule: 1,
-        weekRule: 2,
-        freeRule: "",
-        genres: [],
-        books: [],
+      error: {
+        name: false,
+        info: false,
+        genres: false,
       },
+      isSubmit: false,
     };
   },
-  computed: {
-    genresList: function () {
-      return this.$store.state.examples.genresList;
+  watch: {
+    clubInfo: {
+      deep: true,
+      handler() {
+        this.checkNameForm();
+        this.checkInfoForm();
+        this.checkGenreForm();
+      },
     },
   },
   methods: {
-    addGerne: function (event) {
-      let gerne = event.target.textContent;
-      return this.clubData.genres.length >= 5
-        ? alert("최대 5개까지 추가가 가능해요!")
-        : this.clubData.genres.push(gerne);
+    ...mapActions("clubStore", ["findClubInfo", "updateClub"]),
+    // 수정하기 버튼 클릭
+    clickUpdate() {
+      if (this.isSubmit) {
+        this.updateClub(this.clubInfo);
+      }
     },
-    ...mapActions("clubStore", ["delete"]),
-    clickDelete() {
-      Swal.fire({
-        showCancelButton: true,
-        title: "클럽 삭제",
-        html: "클럽 정보가 모두 삭제되고 다시 되돌릴 수 없습니다.<br>정말 클럽을 삭제 하시겠습니까?",
-        confirmButtonText: "삭제하기",
-        cancelButtonText: "취소",
-      }).then((result) => {
-        if (result.isConfirmed) {
-          // 나중에 수정할 것!
-          // this.delete(clubId);
-          this.delete();
+    // 도서 분야 추가
+    addGenre: function (event) {
+      let index = -1;
+      for (var i = 0; i < this.clubInfo.genres.length; i++) {
+        if (event.target.id == this.clubInfo.genres[i]) {
+          index = i;
+          break;
         }
-      });
+      }
+      if (index < 0) {
+        if (this.clubInfo.genres.length < 5) {
+          this.clubInfo.genres.push(event.target.id);
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "최대 5개까지 선택 가능해요",
+            showConfirmButton: false,
+            timer: 2000,
+            timerProgressBar: false,
+          });
+        }
+      }
     },
+    // 추가된 도서 분야 제거
+    removeGenre(event) {
+      console.log(event.target);
+      for (var i = 0; i < this.clubInfo.genres.length; i++) {
+        if (event.target.id == this.clubInfo.genres[i]) {
+          this.clubInfo.genres.splice(i, 1);
+          break;
+        }
+      }
+    },
+    // 클럽 이름 유효성 검사
+    checkNameForm() {
+      if (this.clubInfo.name.length > 0 && this.clubInfo.name.length > 10) {
+        this.error.name = "클럽 이름이 너무 길어요! 10자 이하로 입력해주세요";
+      } else this.error.name = false;
+    },
+    // 클럽 소개 유효성 검사
+    checkInfoForm() {
+      if (this.clubInfo.info.length > 0 && this.clubInfo.info.length > 30) {
+        this.error.info = "클럽 소개가 너무 길어요! 30자 이하로 입력해주세요";
+      } else this.error.info = false;
+    },
+    // 클럽 도서 분야 유효성 검사
+    checkGenreForm() {
+      if (this.clubInfo.genres.length <= 0) {
+        this.error.genres = "선택한 도서 분야가 없어요! 도서 분야를 선택해주세요";
+      } else this.error.genres = false;
+
+      // 유효성 검사 통과 시 다음 버튼 활성화
+      if (this.clubInfo.name.length > 0 && this.clubInfo.info.length > 0) {
+        let isSubmit = true;
+        Object.values(this.error).map((v) => {
+          if (v) isSubmit = false;
+        });
+        this.isSubmit = isSubmit;
+      } else {
+        this.isSubmit = false;
+      }
+    },
+  },
+  created() {
+    this.findClubInfo();
   },
 };
 </script>
 
 <style lang="scss" scoped>
 @import "./ClubdetailManageUpdate.scss";
-.m-top-1 {
-  margin-top: 1rem;
-}
-
-.m-top-2 {
-  margin-top: 2rem;
+.input-div {
+  margin: 2rem auto 2rem;
 }
 </style>
