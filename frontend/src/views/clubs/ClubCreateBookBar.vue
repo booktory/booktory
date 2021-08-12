@@ -1,21 +1,59 @@
 <template>
-  <div class="input-div m-top-10">
-    <label>읽을 책 찾기</label>
-    <div>
-      <input type="text" placeholder="책 이름을 입력해주세요" @input="onInputKeyworkd" />
+  <div class="input-div">
+    <p class="label font-body-4">읽을 책 찾기</p>
+    <div class="search-div">
+      <div class="icon search-icon" @click="clickSearch">
+        <icon-base :iconColor="'var(--grey)'"><icon-search /></icon-base>
+      </div>
+      <input
+        v-model="keyword"
+        type="text"
+        placeholder="검색어를 입력해주세요"
+        @keyup.enter="clickSearch"
+      />
     </div>
   </div>
 </template>
 
 <script>
+import { mapActions } from "vuex";
+import IconSearch from "@/components/icons/IconSearch.vue";
+
 export default {
   name: "ClubCreateBookBar",
+  components: {
+    IconSearch,
+  },
+  data() {
+    return {
+      keyword: "",
+    };
+  },
+  watch: {
+    // keyword: function (text) {
+    //   this.searchBookByKeyword(text);
+    // },
+  },
   methods: {
-    onInputKeyworkd: function (event) {
-      this.$emit("input-keyword", event.target.value);
+    ...mapActions("searchStore", ["searchBookByKeyword"]),
+    clickSearch() {
+      this.searchBookByKeyword(this.keyword);
     },
   },
 };
 </script>
 
-<style></style>
+<style scoped>
+.label {
+  font-weight: bold;
+  margin-left: 1rem;
+}
+.search-div {
+  position: relative;
+}
+.search-icon {
+  position: absolute;
+  top: 0.6rem;
+  right: 1rem;
+}
+</style>
