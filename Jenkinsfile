@@ -56,9 +56,6 @@ pipeline {
 
 						sh 'docker run -d --name backend \
 						--network booktorycicdnetwork backend:latest'
-
-						sh 'docker images'
-						sh 'docker ps'
 						
 					}catch(e) {
 						currentBuild.result = "FAILURE"
