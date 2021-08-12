@@ -26,7 +26,7 @@
 
 <script>
 import ClubSearchBarPageList from "@/views/clubs/ClubSearchBarPageList.vue";
-// import TopHeader from "@/views/TopHeader.vue";
+import router from "@/router";
 
 export default {
   name: "ClubSearchBarPage",
@@ -42,6 +42,7 @@ export default {
   methods: {
     onSelectClub: function (club) {
       console.log(club);
+      router.push({ name: "ClubSearchBarPageListItem" });
     },
   },
   computed: {
