@@ -30,7 +30,7 @@
       .main {
         height: 100%;
         text-align: left;
-        padding: 3em 3em 10em;
+        padding: 10% 10% 20%;
         background-color: var(--beige);
         border-radius: 7em 7em 0 0;
 
@@ -45,6 +45,7 @@
           }
 
           div {
+            margin-top: 0.5rem;
             width: 100%;
           }
           label {
@@ -165,6 +166,10 @@
       }
     }
   }
+}
+button {
+  height: 4rem;
+  margin: 3rem auto;
 }
 
 @media (min-width: 768px) {
