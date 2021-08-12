@@ -3,6 +3,7 @@
     <h4 class="title">책토리와 함께하는 <span class="title-orange">독서모임</span></h4>
     <p class="sub-title">책을 읽고 사람들과 함께 생각을 공유해요</p>
     <img class="logo" src="@/assets/images/booktory.svg" alt="Booktory Logo" />
+    <!-- <div class="main-image"></div> -->
     <button type="button" class="button-2" @click="$router.push({ name: 'Login' })">
       시작하기
     </button>
@@ -29,5 +30,18 @@ export default {
   width: 88%;
   margin: 1rem 0 0;
   object-fit: contain;
+}
+
+@keyframes image-ani {
+  to {
+    background-position: -2940px 0;
+  }
+}
+.main-image {
+  /* 너비 5880px(/14frame = 420px), 높이 500px */
+  width: 210px;
+  height: 250px;
+  background: url(../assets/images/image-animation.png) no-repeat 0 0 / auto 250px;
+  animation: image-ani 1s infinite steps(14);
 }
 </style>

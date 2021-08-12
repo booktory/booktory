@@ -2,10 +2,11 @@
   <div class="container">
     <div class="top-box">
       <input
-        v-model="clubName"
+        v-model="keyword"
         type="text"
         placeholder="검색할 클럽명을 입력해주세요"
-        class="absolute-box font-body-5"
+        class="absolute-box font-body-3"
+        @keyup.enter="clickSearch"
       />
       <div class="icon top-icon" @click="$router.go(-1)">
         <icon-base><icon-arrow-left /></icon-base>
@@ -25,6 +26,7 @@
 </template>
 
 <script>
+import { mapActions, mapState } from "vuex";
 import ClubSearchBarPageList from "@/views/clubs/ClubSearchBarPageList.vue";
 import router from "@/router";
 
@@ -36,19 +38,22 @@ export default {
   },
   data: function () {
     return {
-      clubName: "",
+      keyword: "",
     };
   },
   methods: {
-    onSelectClub: function (club) {
-      console.log(club);
+    ...mapActions("searchStore", ["searchClubByName"]),
+    clickSearch() {
+      this.searchClubByName(this.keyword);
+    },
+
+    onSelectClub: function () {
+      // console.log(club);
       router.push({ name: "ClubSearchBarPageListItem" });
     },
   },
   computed: {
-    clubList: function () {
-      return this.$store.state.examples.bookclubs[0].clubList;
-    },
+    ...mapState("searchStore", ["clubList"]),
   },
 };
 </script>
