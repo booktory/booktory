@@ -191,6 +191,12 @@ const routes = [
     name: "Notification",
     component: () => import("@/views/notification/Notification.vue"),
   },
+  // 미팅
+  {
+    path: "/meeting",
+    name: "Meeting",
+    component: () => import("@/views/meeting/MeetingRoom.vue"),
+  },
 ];
 
 const router = new VueRouter({
