@@ -83,6 +83,12 @@ const routes = [
     name: "ClubSearchBarPageListItem",
     component: () => import("@/views/clubs/ClubSearchBarPageListItem.vue"),
   },
+  // 클럽 문의 게시판
+  {
+    path: "/club/question",
+    name: "ClubQuestion",
+    component: () => import("@/views/clubs/ClubQuestion.vue"),
+  },
 
   // 클럽상세 홈
   {
@@ -132,6 +138,13 @@ const routes = [
     path: "/clubdetail/book",
     name: "ClubdetailBook",
     component: () => import("@/views/clubdetail/ClubdetailBook/ClubdetailBook.vue"),
+  },
+
+  // 클럽상세 책 추가
+  {
+    path: "/clubdetail/book/add",
+    name: "ClubdetailBookAdd",
+    component: () => import("@/views/clubdetail/ClubdetailBook/ClubdetailBookAdd.vue"),
   },
 
   // 클럽상세 담벼락

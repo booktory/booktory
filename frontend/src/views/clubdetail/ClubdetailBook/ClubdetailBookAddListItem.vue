@@ -1,60 +1,53 @@
 <template>
   <div class="">
-    <div class="club-card">
-      <div class="icon delete-icon" @click="deleteBook">
-        <icon-base :iconColor="'var(--light-brown)'"><icon-delete /></icon-base>
-      </div>
+    <div class="club-card" @click="selectBook">
       <div class="club-card-img">
         <img :src="bookImg" alt="club image" />
       </div>
       <div class="club-card-text">
         <h6>{{ bookTitle }}</h6>
-        <p>{{ bookAuthor }} | {{ bookTranslators }}</p>
-        <p>{{ bookPublisher }} | {{ bookDate }}</p>
+        <p class="font-body-5">{{ bookAuthor }} | {{ bookTranslators }}</p>
+        <p class="font-body-5">{{ bookPublisher }} | {{ bookDate }}</p>
       </div>
     </div>
+    {{ selectedBook }}
   </div>
 </template>
 
 <script>
-import IconDelete from "@/components/icons/IconDelete.vue";
-
 export default {
-  name: "ClubCreateBookListSelected",
-  components: {
-    IconDelete,
-  },
+  name: "ClubdetailBookAddListItem",
   props: {
+    book: {
+      type: Object,
+    },
     selectedBook: {
-      type: [String, Object],
+      type: Object,
     },
   },
   methods: {
-    deleteBook: function () {
-      this.$emit("delete-book", this.selectedBook);
+    selectBook: function () {
+      this.$emit("select-book", this.book);
     },
   },
   computed: {
-    bookId: function () {
-      return this.selectedBook.id;
-    },
     bookImg: function () {
-      return this.selectedBook.thumbnail;
+      return this.book.thumbnail;
     },
     bookTitle: function () {
-      return this.selectedBook.title;
+      return this.book.title;
     },
     bookAuthor: function () {
-      return this.selectedBook.author;
+      return this.book.author;
     },
     bookTranslators: function () {
-      return this.selectedBook.translators;
+      return this.book.translators;
     },
     bookPublisher: function () {
-      return this.selectedBook.publisher;
+      return this.book.publisher;
     },
     bookDate: function () {
-      return this.selectedBook.date;
+      return this.book.date;
     },
   },
 };
@@ -62,45 +55,36 @@ export default {
 
 <style lang="scss" scoped>
 .club-card {
-  position: relative;
   display: flex;
   justify-content: center;
+  align-items: flex-start;
   margin: 0 auto;
-  width: 80%;
+  width: 90%;
   height: 7rem;
 
   background-color: var(--very-light-grey);
   border-radius: 1rem;
   margin-bottom: 1rem;
 
-  .delete-icon {
-    position: absolute;
-    bottom: 0.6rem;
-    right: 0.6rem;
-    z-index: 10;
-  }
-
   &-img {
-    width: 5rem;
+    width: 30%;
     height: 100%;
+    text-align: center;
+    // background-color: var(--beige);
 
     img {
       width: 5rem;
       height: 7rem;
-      border-radius: 1em 0 0 1em;
+      border-radius: 1em;
       box-shadow: 0 3% 3px 0 var(--bg-black), inset 0 0 3px 0 var(--bg-black);
     }
   }
   &-text {
-    width: 100%;
+    width: 70%;
     text-align: left;
-    margin-left: 1.2rem;
-    position: relative;
-    overflow: hidden;
+    margin-left: 1rem;
 
     h6 {
-      white-space: nowrap;
-      overflow: hidden;
       text-align: left;
       margin: 0;
       margin-top: 1rem;

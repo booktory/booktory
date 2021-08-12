@@ -129,8 +129,9 @@ public class UserService {
         User user = userRepository.findById(userId).orElseThrow(() -> new NoSuchElementException("존재하지 않는 회원입니다."));
 
         String originFileURL = user.getProfileImg();
+        if(!originFileURL.equals(userUpdateRequestDto.getProfileImg()))
+            uploader.deleteS3Instance(originFileURL);
         user.update(userUpdateRequestDto.getNickname(), userUpdateRequestDto.getName(), userUpdateRequestDto.getBirth(), userUpdateRequestDto.getProfileImg(), userUpdateRequestDto.getPhone());
-        uploader.deleteS3Instance(originFileURL);
         userRepository.save(user);
     }
 

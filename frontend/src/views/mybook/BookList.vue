@@ -4,7 +4,7 @@
     <div class="book-list-wrapper">
       <BookItem
         v-for="(item, index) in bookList"
-        :key="item.id"
+        :key="index"
         :index="index"
         :id="item.id"
         :thumbnail="item.thumbnail"

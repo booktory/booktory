@@ -6,7 +6,9 @@ Vue.use(Vuex);
 import examples from "./modules/examples.js";
 import accountStore from "@/store/modules/accountStore";
 import mypageStore from "@/store/modules/mypageStore";
+import mybookStore from "@/store/modules/mybookStore";
 import clubStore from "@/store/modules/clubStore";
+import searchStore from "@/store/modules/searchStore";
 
 import VueCookies from "vue-cookies";
 Vue.use(VueCookies);
@@ -71,7 +73,9 @@ export default new Vuex.Store({
   modules: {
     accountStore,
     mypageStore,
+    mybookStore,
     clubStore,
+    searchStore,
     examples,
   },
 });

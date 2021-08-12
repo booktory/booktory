@@ -11,10 +11,12 @@ export default {
 
     // mypage
     getUserInfo: "/users/me",
-    getReadBooks: "/users/books",
     updateUserInfo: "/users",
     changePassword: "/users/password",
     deleteUser: "/users",
+
+    // mybook
+    getReadBooks: "/users/books",
 
     // clubs
     createClub: "/clubs",
@@ -22,6 +24,7 @@ export default {
     updateClubInfo: "/clubs/",
     deleteClub: "/clubs/",
     getJoinedClub: "/clubs/list",
+    questions: "/questions/",
 
     // book-club
     createBook: "/bookclubs",
@@ -30,6 +33,9 @@ export default {
     cancleMeeting: "/bookclubs/",
     getBookClubInfo: "/bookclubs/",
     getBookClubList: "/bookclubs/list/",
+
+    // search
+    searchBookByKeyword: "/search/books",
 
     // file-upload
     uploadProfileImg: "/files/user",
