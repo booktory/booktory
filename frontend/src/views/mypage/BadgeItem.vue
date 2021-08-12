@@ -1,15 +1,15 @@
 <template>
   <div class="badge-item-wrapper" @click="clickBadge">
-    <div v-if="state" class="isTrue">
+    <div v-if="badge.state" class="isTrue">
       <img src="@/assets/images/profile_default.svg" class="badgeImage" />
-      <div v-if="isMain" class="main-badge">
+      <div v-if="badge.isMain" class="main-badge">
         <icon-base :iconColor="'var(--white)'"><icon-star /></icon-base>
       </div>
-      <p class="badgeName font-body-5">{{ name }}</p>
+      <p class="badgeName font-body-5">{{ badge.name }}</p>
     </div>
     <div v-else class="isFalse">
       <img src="@/assets/images/profile_default.svg" class="badgeImage" />
-      <p class="badgeName font-body-5 isFalse">{{ name }}</p>
+      <p class="badgeName font-body-5 isFalse">{{ badge.name }}</p>
     </div>
   </div>
 </template>
@@ -28,32 +28,23 @@ export default {
     badgeId: {
       type: Number,
     },
-    state: {
-      type: Boolean,
-    },
-    name: {
-      type: String,
-    },
-    content: {
-      type: String,
-    },
-    isMain: {
-      type: Boolean,
+    badge: {
+      type: Object,
     },
   },
   methods: {
     ...mapActions("mypageStore", ["changeMainBadge"]),
     clickBadge() {
       Swal.fire({
-        title: this.name,
+        title: this.badge.name,
         showConfirmButton: false,
-        showDenyButton: this.state,
+        showDenyButton: this.badge.state,
         denyButtonColor: "var(--brown)",
         denyButtonText: "대표배지 설정",
-        html: "획득 방법: " + this.content,
+        html: "획득 방법: " + this.badge.content,
       }).then((result) => {
         if (result.isDenied) {
-          if (this.isMain) {
+          if (this.badge.isMain) {
             Swal.fire({
               icon: "error",
               text: "현재 설정된 대표 배지입니다",
@@ -61,13 +52,13 @@ export default {
           } else {
             Swal.fire({
               showCancelButton: true,
-              title: this.name,
+              title: this.badge.name,
               text: "대표 배지를 변경하시겠습니까?",
               confirmButtonText: "네, 변경할래요",
               cancelButtonText: "취소",
             }).then((result) => {
               if (result.isConfirmed) {
-                this.changeMainBadge(this.badgeId);
+                this.changeMainBadge(this.badge.badgeId);
               }
             });
           }

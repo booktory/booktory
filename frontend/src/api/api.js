@@ -34,6 +34,9 @@ export default {
     getBookClubInfo: "/bookclubs/",
     getBookClubList: "/bookclubs/list/",
 
+    // search
+    searchBookByKeyword: "/search/books",
+
     // file-upload
     uploadProfileImg: "/files/user",
     uploadBoardFile: "/files/board",
