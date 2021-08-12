@@ -1,50 +1,53 @@
 <template>
   <div class="">
-    <div class="club-card" @click="deleteBook">
+    <div class="club-card" @click="selectBook">
       <div class="club-card-img">
         <img :src="bookImg" alt="club image" />
       </div>
       <div class="club-card-text">
         <h6>{{ bookTitle }}</h6>
-        <p>{{ bookAuthor }} | {{ bookTranslators }}</p>
-        <p>{{ bookPublisher }} | {{ bookDate }}</p>
+        <p class="font-body-5">{{ bookAuthor }} | {{ bookTranslators }}</p>
+        <p class="font-body-5">{{ bookPublisher }} | {{ bookDate }}</p>
       </div>
     </div>
+    {{ selectedBook }}
   </div>
 </template>
 
 <script>
 export default {
-  name: "ClubCreateBookListSelected",
+  name: "ClubdetailBookAddListItem",
   props: {
+    book: {
+      type: Object,
+    },
     selectedBook: {
-      type: [String, Object],
+      type: Object,
     },
   },
   methods: {
-    deleteBook: function () {
-      console.log(this.selectedBook);
-      this.$emit("delete-book", this.selectedBook);
+    selectBook: function () {
+      this.$emit("select-book", this.book);
     },
   },
   computed: {
     bookImg: function () {
-      return this.selectedBook.thumbnail;
+      return this.book.thumbnail;
     },
     bookTitle: function () {
-      return this.selectedBook.title;
+      return this.book.title;
     },
     bookAuthor: function () {
-      return this.selectedBook.author;
+      return this.book.author;
     },
     bookTranslators: function () {
-      return this.selectedBook.translators;
+      return this.book.translators;
     },
     bookPublisher: function () {
-      return this.selectedBook.publisher;
+      return this.book.publisher;
     },
     bookDate: function () {
-      return this.selectedBook.date;
+      return this.book.date;
     },
   },
 };
@@ -56,7 +59,7 @@ export default {
   justify-content: center;
   align-items: flex-start;
   margin: 0 auto;
-  width: 80%;
+  width: 90%;
   height: 7rem;
 
   background-color: var(--very-light-grey);

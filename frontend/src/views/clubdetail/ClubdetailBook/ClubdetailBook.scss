@@ -43,6 +43,9 @@
 
         // now, next, pre에서 공통으로 사용되는 카드형식입니다.
         .now-reading-card {
+          display: flex;
+          justify-content: flex-start;
+          align-content: center;
           width: 100%;
           height: 30%;
           padding: 5%;
@@ -50,9 +53,18 @@
           background-color: var(--white);
           border-radius: 1rem;
           box-shadow: 0 0.4em 0.8em 0 rgba(142, 141, 208, 0.16);
+
+          &-left {
+            margin-right: 1rem;
+          }
+          &-right {
+          }
         }
 
         .next-reading-card {
+          display: flex;
+          justify-content: flex-start;
+          align-content: center;
           width: 100%;
           height: 30%;
           padding: 5%;
@@ -60,9 +72,18 @@
           background-color: var(--white);
           border-radius: 1rem;
           box-shadow: 0 0.4em 0.8em 0 rgba(142, 141, 208, 0.16);
+
+          &-left {
+            margin-right: 1rem;
+          }
+          &-right {
+          }
         }
 
         .pre-reading-card {
+          display: flex;
+          justify-content: flex-start;
+          align-content: center;
           width: 100%;
           height: 30%;
           padding: 5%;
@@ -70,10 +91,24 @@
           background-color: var(--white);
           border-radius: 1rem;
           box-shadow: 0 0.4em 0.8em 0 rgba(142, 141, 208, 0.16);
+
+          &-left {
+            margin-right: 1rem;
+          }
+          &-right {
+          }
         }
       }
     }
   }
+}
+
+img {
+  width: 4.5rem;
+  height: 6rem;
+  margin: 2%;
+  border-radius: 1em;
+  box-shadow: 0 3px 3px 0 var(--bg-black), inset 0 0 3px 0 var(--bg-black);
 }
 
 .footer {

@@ -5,7 +5,7 @@
       <div class="card">
         <div class="main">
           <h4 class="title">클럽 정보 수정</h4>
-          <div class="input-div m-top-5">
+          <div class="input-div m-top-2">
             <label for="name">클럽 이름</label>
             <div>
               <input
@@ -16,7 +16,7 @@
               />
             </div>
           </div>
-          <div class="input-div">
+          <div class="input-div m-top-2">
             <label for="info">클럽 소개</label>
             <div>
               <input
@@ -28,7 +28,7 @@
             </div>
             <p class="message">30자 이내로 입력해주세요.</p>
           </div>
-          <div class="input-div">
+          <div class="input-div m-top-2">
             <label for="genres">클럽에서 다룰 도서 분야</label>
             <div>
               <input
@@ -49,7 +49,7 @@
           </div>
 
           <!-- 운영 규칙 설정 -->
-          <div class="rules">
+          <div class="rules m-top-2">
             <div class="label">운영 규칙</div>
             <!--  -->
             <div>
@@ -109,7 +109,7 @@
 
           <div class="two-input">
             <!-- 클럽 인원 -->
-            <div class="max-member">
+            <div class="max-member m-top-1">
               <div class="label">클럽 최대 인원수</div>
               <span class="font-body-3">
                 <span id="v-model-select">
@@ -128,7 +128,7 @@
               </span>
             </div>
             <!-- 공개 여부 -->
-            <div class="is-open">
+            <div class="is-open m-top-1">
               <div class="label">공개 여부</div>
               <div class="wrap">
                 <input type="checkbox" id="checkbox" v-model="clubData.isOpen" />
@@ -137,11 +137,7 @@
               </div>
             </div>
           </div>
-          <button
-            type="button"
-            class="button-2 m-top-10"
-            @click="$router.push({ name: 'ClubCreateBook' })"
-          >
+          <button type="button" class="button-2" @click="$router.push({ name: 'ClubCreateBook' })">
             다음
           </button>
         </div>
@@ -214,4 +210,11 @@ export default {
 
 <style lang="scss" scoped>
 @import "./ClubdetailManageUpdate.scss";
+.m-top-1 {
+  margin-top: 1rem;
+}
+
+.m-top-2 {
+  margin-top: 2rem;
+}
 </style>

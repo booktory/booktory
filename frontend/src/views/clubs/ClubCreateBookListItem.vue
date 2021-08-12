@@ -2,8 +2,7 @@
   <div class="">
     <div class="club-card" @click="selectBook">
       <div class="club-card-img">
-        <!-- <img :src="bookImg" alt="club image" /> -->
-        이미지
+        <img :src="bookImg" alt="club image" />
       </div>
       <div class="club-card-text">
         <h6>{{ bookTitle }}</h6>
@@ -11,7 +10,6 @@
         <p>{{ bookPublisher }} | {{ bookDate }}</p>
       </div>
     </div>
-    <hr />
     {{ selectedBook }}
   </div>
 </template>
@@ -55,24 +53,47 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss" scoped>
 .club-card {
-  width: 80%;
-  height: 15%;
   display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-  gap: 10px;
-  border-radius: 10px;
-  background-color: #f1ece5;
-}
+  justify-content: center;
+  align-items: flex-start;
+  margin: 0 auto;
+  width: 80%;
+  height: 7rem;
 
-img {
-  object-fit: cover;
-}
+  background-color: var(--very-light-grey);
+  border-radius: 1rem;
+  margin-bottom: 1rem;
 
-.club-card-text * {
-  text-align: left;
+  &-img {
+    width: 30%;
+    height: 100%;
+    text-align: center;
+    // background-color: var(--beige);
+
+    img {
+      width: 5rem;
+      height: 7rem;
+      border-radius: 1em;
+      box-shadow: 0 3% 3px 0 var(--bg-black), inset 0 0 3px 0 var(--bg-black);
+    }
+  }
+  &-text {
+    width: 70%;
+    text-align: left;
+    margin-left: 1rem;
+
+    h6 {
+      text-align: left;
+      margin: 0;
+      margin-top: 1rem;
+    }
+    p {
+      text-align: left;
+      margin: 0;
+      margin-top: 0.5rem;
+    }
+  }
 }
 </style>

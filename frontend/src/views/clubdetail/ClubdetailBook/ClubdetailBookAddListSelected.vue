@@ -15,7 +15,7 @@
 
 <script>
 export default {
-  name: "ClubCreateBookListSelected",
+  name: "ClubdetailBookAddListSelected",
   props: {
     selectedBook: {
       type: [String, Object],
@@ -55,8 +55,8 @@ export default {
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  margin: 0 auto;
-  width: 80%;
+  margin: 1rem auto 0;
+  width: 90%;
   height: 7rem;
 
   background-color: var(--very-light-grey);

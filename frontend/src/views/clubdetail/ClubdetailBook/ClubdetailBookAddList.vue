@@ -1,6 +1,6 @@
 <template>
   <div class="">
-    <ClubCreateBookListItem
+    <ClubdetailBookAddListItem
       v-for="(book, idx) in books"
       :key="idx"
       :book="book"
@@ -8,7 +8,7 @@
     />
     <label>선택한 책 목록</label>
 
-    <ClubCreateBookListSelected
+    <ClubdetailBookAddListSelected
       v-for="(selectedBook, idx) in selectedBooks"
       :key="'selected' + idx"
       :selectedBook="selectedBook"
@@ -18,14 +18,14 @@
 </template>
 
 <script>
-import ClubCreateBookListItem from "@/views/clubs/ClubCreateBookListItem.vue";
-import ClubCreateBookListSelected from "@/views/clubs/ClubCreateBookListSelected.vue";
+import ClubdetailBookAddListItem from "@/views/clubdetail/ClubdetailBook/ClubdetailBookAddListItem.vue";
+import ClubdetailBookAddListSelected from "@/views/clubdetail/ClubdetailBook/ClubdetailBookAddListSelected.vue";
 
 export default {
-  name: "ClubCreateBookList",
+  name: "ClubdetailBookAddList",
   components: {
-    ClubCreateBookListItem,
-    ClubCreateBookListSelected,
+    ClubdetailBookAddListItem,
+    ClubdetailBookAddListSelected,
   },
   props: {
     books: {
