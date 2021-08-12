@@ -41,10 +41,6 @@ pipeline {
 				
 						sh 'docker images -f dangling=true && docker rmi -f $(docker images -f dangling=true -q)' 
 
-
-						sh 'pwd'
-						sh 'ls -l'
-
 						sh 'docker run -d --name frontend \
 						-p 80:80 \
 						-p 443:443 \
