@@ -40,7 +40,11 @@
               </div>
               <div class="metting-button-body">모임 참여하기</div>
             </button>
-            <button type="button" class="metting-button">
+            <button
+              type="button"
+              class="metting-button"
+              @click="$router.push({ name: 'ClubdetailMetting' })"
+            >
               <div class="metting-button-head">
                 <div class="metting-button-head-icon">
                   <icon-base><icon-bookmark /></icon-base>
@@ -166,6 +170,7 @@ export default {
 
             color: white;
             background-color: #bdbcdb;
+            box-shadow: 0 0.4em 0.8em 0 rgba(142, 141, 208, 0.3);
 
             &-head {
               display: flex;

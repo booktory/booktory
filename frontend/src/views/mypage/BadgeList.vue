@@ -2,15 +2,7 @@
   <div>
     <p class="label font-body-3">나의 배지</p>
     <div class="badge-list-wrapper">
-      <BadgeItem
-        v-for="(item, index) in badgeList"
-        :key="item.id"
-        :badgeId="index"
-        :state="item.state"
-        :name="item.name"
-        :content="item.content"
-        :isMain="item.isMain"
-      />
+      <BadgeItem v-for="(badge, index) in badgeList" :key="index" :badgeId="index" :badge="badge" />
     </div>
   </div>
 </template>

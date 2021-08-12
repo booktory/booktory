@@ -105,38 +105,36 @@
       </div>
 
       <!-- 클럽 인원 -->
-      <div class="max-member">
-        <div class="label">클럽 최대 인원수</div>
-        <span class="font-body-3">
-          <span id="v-model-select">
-            <select v-model="clubData.maxMember">
-              <option>1</option>
-              <option>2</option>
-              <option>3</option>
-              <option>4</option>
-              <option>5</option>
-              <option>6</option>
-              <option>7</option>
-              <option>8</option>
-            </select>
+      <div class="two-input">
+        <div class="max-member">
+          <div class="label">클럽 최대 인원수</div>
+          <span class="font-body-3">
+            <span id="v-model-select">
+              <select v-model="clubData.maxMember">
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+                <option>6</option>
+                <option>7</option>
+                <option>8</option>
+              </select>
+            </span>
+            명
           </span>
-          명
-        </span>
-      </div>
-      <!-- 공개 여부 -->
-      <div class="is-open">
-        <div class="label">공개 여부</div>
-        <div>
-          <input type="checkbox" id="checkbox" v-model="clubData.isOpen" />
-          <span class="font-body-3 is-open-text" v-if="clubData.isOpen">공개</span>
-          <span class="font-body-3 is-open-text" v-else>비공개</span>
+        </div>
+        <!-- 공개 여부 -->
+        <div class="is-open">
+          <div class="label">공개 여부</div>
+          <div class="wrap">
+            <input type="checkbox" id="checkbox" v-model="clubData.isOpen" />
+            <span class="font-body-3 is-open-text" v-if="clubData.isOpen">공개</span>
+            <span class="font-body-3 is-open-text" v-else>비공개</span>
+          </div>
         </div>
       </div>
-      <button
-        type="button"
-        class="button-2 m-top-10"
-        @click="$router.push({ name: 'ClubCreateBook' })"
-      >
+      <button type="button" class="button-2" @click="$router.push({ name: 'ClubCreateBook' })">
         다음
       </button>
     </div>
@@ -178,23 +176,29 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .text-div * {
   color: var(--grey);
   margin: 0.6em auto;
 }
 .gerne-keyword {
   width: 80%;
-  margin: 5% auto 0;
+  margin: 4% auto 0;
+  justify-content: space-between;
 }
 
 .tag {
-  margin: 0% 0.2%;
+  display: inline-block;
+  margin: 0 auto;
   padding: 0.5% 1.6%;
   border: 0;
-  border-radius: 10px;
+  border-radius: 1em;
   color: white;
-  background-color: #a4c0f3;
+  background-color: var(--light-orange);
+}
+
+.gerne-keyword span {
+  margin: 0.5% 0.4%;
 }
 
 .label {
@@ -216,6 +220,27 @@ export default {
   margin: 0 auto;
 }
 
+.rules .label {
+  margin-bottom: 0.2em;
+}
+
+.rules .label div {
+  width: 93%;
+  margin-left: 0.4em;
+}
+
+.rules .input-div {
+  margin: 0;
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.rules .input-div span {
+  margin-right: 1em;
+}
+
 select {
   width: 15%;
   margin: 1% 2% 2%;
@@ -228,28 +253,35 @@ select {
   box-shadow: 0 0.4em 0.8em 0 rgba(142, 141, 208, 0.16);
 }
 
-.max-member {
-  display: inline-block;
-  text-align: left;
-  width: 80%;
-  margin: 0 auto;
+.two-input {
+  display: flex;
+  justify-content: center;
+  padding: 10%;
 }
 
-.max-member #v-model-select > select {
-  width: 30%;
+.two-input .max-member {
+  text-align: left;
+  width: 100%;
+}
+
+.two-input .max-member #v-model-select > select {
+  width: 50%;
+  margin-top: 0.5rem;
   padding: 2% 10% 2%;
 }
 
-.is-open {
+.two-input .is-open {
   text-align: left;
-  width: 80%;
-  margin: 0 auto;
+  width: 100%;
 }
 
-.is-open > div {
+.two-input .is-open > div {
   text-align: left;
   display: flex;
   align-items: center;
+}
+.two-input .is-open .wrap {
+  margin-left: 1rem;
 }
 
 #checkbox {
