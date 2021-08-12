@@ -36,11 +36,23 @@ const searchStore = {
         });
     },
     // 클럽명(키워드)로 클럽 검색
-    searchClubByNameAndGenre({ commit }, keyword) {
+    searchClubByName({ commit }, keyword) {
       axios
         .get(SERVER.URL + SERVER.ROUTES.searchClubByNameAndGenre + "?keyword=" + keyword)
         .then((res) => {
           // console.log(res.data);
+          commit("SET_CLUBLIST", res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    // 장르로 클럽 검색
+    searchClubByGenre({ commit }, genre) {
+      axios
+        .get(SERVER.URL + SERVER.ROUTES.searchClubByNameAndGenre + "?genre=" + genre)
+        .then((res) => {
+          console.log(res.data);
           commit("SET_CLUBLIST", res.data);
         })
         .catch((err) => {

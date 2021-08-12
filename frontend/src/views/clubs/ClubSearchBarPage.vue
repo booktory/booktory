@@ -42,13 +42,13 @@ export default {
     };
   },
   methods: {
-    ...mapActions("searchStore", ["searchClubByNameAndGenre"]),
+    ...mapActions("searchStore", ["searchClubByName"]),
     clickSearch() {
-      this.searchClubByNameAndGenre(this.keyword);
+      this.searchClubByName(this.keyword);
     },
 
-    onSelectClub: function (club) {
-      console.log(club);
+    onSelectClub: function () {
+      // console.log(club);
       router.push({ name: "ClubSearchBarPageListItem" });
     },
   },
