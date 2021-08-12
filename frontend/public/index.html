@@ -256,8 +256,25 @@
         color: var(--white);
       }
 
-      .button-2:disabled {
+      .button-2:disabled,
+      .button-3:disabled {
         background-color: var(--light-grey);
+      }
+
+      .button-3 {
+        float: right;
+        font-size: 1.2rem;
+        letter-spacing: 0.5rem;
+        margin: 2.2rem 1rem 0 0;
+        padding: 0.3rem 1.1rem 0.3rem 1.5rem;
+        border-radius: 1em;
+        border: 0;
+        color: var(--white);
+        background-color: var(--orange);
+      }
+
+      body button.swal2-styled.swal2-confirm {
+        background-color: var(--orange);
       }
 
       .white-bg {
@@ -307,7 +324,8 @@
       }
 
       .input-div input::placeholder,
-      .input-div input::before {
+      .input-div input::before,
+      textarea::placeholder {
         color: var(--light-grey);
       }
 
@@ -316,6 +334,14 @@
         margin: 1.2rem 0 0 1.6rem;
         font-size: 1rem;
         color: var(--orange);
+      }
+
+      label.swal2-input-label {
+        font-size: 1.6rem;
+        font-family: "CookieRun-Regular";
+      }
+      textarea {
+        text-align: left;
       }
 
       #birth input {
