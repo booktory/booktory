@@ -11,10 +11,12 @@ export default {
 
     // mypage
     getUserInfo: "/users/me",
-    getReadBooks: "/users/books",
     updateUserInfo: "/users",
     changePassword: "/users/password",
     deleteUser: "/users",
+
+    // mybook
+    getReadBooks: "/users/books",
 
     // clubs
     createClub: "/clubs",
