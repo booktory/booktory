@@ -4,14 +4,41 @@ import axios from "axios";
 const searchStore = {
   namespaced: true,
   state: {
+    genreList: [
+      "소설",
+      "장르소설",
+      "희곡",
+      "시",
+      "고전",
+      "만화",
+      "에세이",
+      "경제경영",
+      "자기계발",
+      "외국어",
+      "IT",
+      "인문학",
+      "사회과학",
+      "역사",
+      "자연과학",
+      "예술",
+      "대중문화",
+      "종교/역학",
+      "기타",
+    ],
     bookList: null,
   },
   getters: {
+    genreList(state) {
+      return state.genreList;
+    },
     bookList(state) {
       return state.bookList;
     },
   },
   mutations: {
+    SET_GENRELIST(state, data) {
+      state.genreList = data;
+    },
     SET_BOOKLIST(state, data) {
       state.bookList = data;
     },
