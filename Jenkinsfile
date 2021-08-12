@@ -51,12 +51,12 @@ pipeline {
 						frontend:latest'
 					
 
-						sh 'docker run -d --name backend \
+						sh 'docker run -d --name backend \ß
 						-p 8080:8080 \
 						--network booktorycicdnetwork backend:latest'
 
 						sh 'docker images'
-						sh 'docker ps'
+						sh 'docker ps -a'ß
 
 						
 					}catch(e) {
