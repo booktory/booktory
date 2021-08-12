@@ -42,7 +42,9 @@ public class S3Uploader implements Uploader{
 
     @Override
     public void deleteS3Instance(String url) {
-        System.out.println(s3Url);
+        log.info("file url : " + url);
+        if(url.indexOf(s3Url) == -1)
+            return ;
         String fileName = url.replaceFirst(s3Url, "");
         amazonS3Client.deleteObject(bucket, fileName);
         log.info(fileName + " 삭제완료");
