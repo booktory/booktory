@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,6 +15,13 @@ import java.util.Optional;
 public interface BookClubRepository extends JpaRepository<BookClub, Long> {
     Optional<BookClub> findByBookAndClub(Book book, Club club);
     List<BookClub> findByClub(Club club);
+
+    @Query(value = "SELECT * FROM book_club WHERE club_id = :clubId AND end_datetime IS NOT NULL ORDER BY end_datetime DESC LIMIT 0, 1", nativeQuery = true)
+    BookClub findByClubIdFirstByOrderByEndDatetimeDesc(Long clubId);
+
+//    @Query("SELECT bc FROM BookClub bc WHERE bc.endDatetime >= :curDatetime AND bc.club.id = :clubId")
+    @Query(value = "SELECT * FROM book_club WHERE end_datetime >= :curDatetime AND club_id = :clubId", nativeQuery = true)
+    BookClub findByEndDatetimeGreaterThanCurDatetime(@Param("curDatetime") LocalDateTime curDatetime, @Param("clubId") Long clubId);
 
     @Query(value = "SELECT COUNT(*) " +
             "FROM book_club AS a " +
