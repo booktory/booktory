@@ -62,8 +62,8 @@
         </div>
         <!-- 장르 키워드 선택 -->
         <div class="genre-keyword">
-          <span @click="addGenre" v-for="(name, index) in genreList" :key="index">
-            <span :id="index + 1" class="tag">{{ name }}</span>
+          <span v-for="(name, index) in genreList" :key="index">
+            <span @click="addGenre" :id="index + 1" class="tag">{{ name }}</span>
           </span>
         </div>
         <p v-if="error.genres" class="message">{{ error.genres }}</p>
@@ -310,7 +310,7 @@ export default {
   padding: 0.2rem 0.6rem;
   border: 0;
   border-radius: 1em;
-  color: white;
+  color: var(--white);
   background-color: var(--light-orange);
 }
 .input-tag {
