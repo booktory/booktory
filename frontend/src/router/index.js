@@ -149,9 +149,9 @@ const routes = [
 
   // 클럽상세 담벼락
   {
-    path: "/clubdetail/talk",
-    name: "ClubdetailTalk",
-    component: () => import("@/views/clubdetail/ClubdetailTalk/ClubdetailTalk.vue"),
+    path: "/clubdetail/board",
+    name: "ClubdetailBoard",
+    component: () => import("@/views/clubdetail/ClubdetailBoard/ClubdetailBoard.vue"),
   },
 
   // 내 서재
