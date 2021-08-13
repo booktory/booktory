@@ -1,59 +1,82 @@
 <template>
-  <div class="register">
+  <div>
     <div class="container">
-      <div class="navbar">
-        <div class="icon" @click="$router.go(-1)">
-          <icon-base><icon-arrow-left /></icon-base>
-        </div>
-      </div>
+      <TopHeader />
       <h4 class="title">클럽 만들기</h4>
-
-      <div class="input-div m-top-10">
+      <div class="input-div">
         <label for="name">클럽 이름</label>
         <div>
           <input
             v-model="clubData.name"
+            v-bind:class="{
+              error: error.name,
+              complete: !error.name && clubData.name.length !== 0,
+            }"
             type="text"
             id="name"
+            maxlength="10"
             placeholder="클럽 이름을 입력해주세요"
+            autocapitalize="none"
+            autocorrect="none"
+            required
           />
         </div>
+        <p v-if="error.name" class="message">{{ error.name }}</p>
       </div>
       <div class="input-div">
         <label for="info">클럽 소개</label>
         <div>
-          <input v-model="clubData.info" type="text" id="info" placeholder="클럽을 소개해주세요" />
+          <input
+            v-model="clubData.info"
+            v-bind:class="{
+              error: error.info,
+              complete: !error.info && clubData.info.length !== 0,
+            }"
+            type="text"
+            id="info"
+            maxlength="30"
+            placeholder="클럽 소개를 입력해주세요"
+            autocapitalize="none"
+            autocorrect="none"
+            required
+          />
         </div>
-        <p class="message">30자 이내로 입력해주세요.</p>
+        <p v-if="error.info" class="message">{{ error.info }}</p>
       </div>
       <div class="input-div">
         <label for="genres">클럽에서 다룰 도서 분야</label>
         <div>
-          <input
-            v-model="clubData.genres"
-            type="text"
-            id="genres"
-            placeholder="최대 5개까지 선택 가능합니다."
-          />
+          <div v-if="clubData.genres.length > 0" class="genre-inner-div">
+            <span
+              @click="removeGenre"
+              v-for="(genre, index) in clubData.genres"
+              :key="index"
+              :id="genre"
+              class="input-tag"
+              >{{ genreList[genre - 1] }}</span
+            >
+          </div>
+          <div v-else class="genre-inner-div">
+            <span class="placeholder">도서 분야를 선택해주세요</span>
+          </div>
         </div>
-      </div>
-
-      <!-- 장르 키워드 선택 -->
-      <div class="gerne-keyword">
-        <span v-for="(gerne, idx) in genresList" :key="idx" :value="gerne">
-          <span @click="addGerne" class="tag">{{ gerne }}</span>
-        </span>
+        <!-- 장르 키워드 선택 -->
+        <div class="genre-keyword">
+          <span @click="addGenre" v-for="(name, index) in genreList" :key="index">
+            <span :id="index + 1" class="tag">{{ name }}</span>
+          </span>
+        </div>
+        <p v-if="error.genres" class="message">{{ error.genres }}</p>
       </div>
 
       <!-- 운영 규칙 설정 -->
       <div class="rules">
         <div class="label">운영 규칙</div>
-        <!--  -->
         <div>
-          <span class="font-body-2">
-            - 한 달에
+          <span class="font-body-3">
+            • &nbsp;&nbsp;한 달에
             <span id="v-model-select">
-              <select v-model="clubData.volumRule">
+              <select v-model="clubData.volumeRule">
                 <option>1</option>
                 <option>2</option>
                 <option>3</option>
@@ -71,8 +94,8 @@
         </div>
         <!--  -->
         <div>
-          <span class="font-body-2">
-            -
+          <span class="font-body-3">
+            •
             <span id="v-model-select">
               <select v-model="clubData.weekRule">
                 <option>1</option>
@@ -92,8 +115,8 @@
         </div>
         <!--  -->
         <div class="input-div">
-          <span class="font-body-2">- </span>
-          <div>
+          <span class="font-body-3">• </span>
+          <div class="freeRule-div">
             <input
               v-model="clubData.freeRule"
               type="text"
@@ -104,8 +127,8 @@
         </div>
       </div>
 
-      <!-- 클럽 인원 -->
       <div class="two-input">
+        <!-- 클럽 인원 -->
         <div class="max-member">
           <div class="label">클럽 최대 인원수</div>
           <span class="font-body-3">
@@ -134,43 +157,130 @@
           </div>
         </div>
       </div>
-      <button type="button" class="button-2" @click="$router.push({ name: 'ClubCreateBook' })">
+      <button type="button" class="button-2 m-top-10" :disabled="!isSubmit" @click="clickNext">
         다음
       </button>
     </div>
+    <Navbar :selected="'home'" class="footer" />
   </div>
 </template>
 
 <script>
+import TopHeader from "@/views/TopHeader.vue";
+import Navbar from "@/views/Navbar.vue";
+import Swal from "sweetalert2";
+import { mapActions, mapState } from "vuex";
+
 export default {
   name: "ClubCreate",
+  components: {
+    TopHeader,
+    Navbar,
+  },
+  computed: {
+    ...mapState("searchStore", ["genreList"]),
+  },
   data() {
     return {
       clubData: {
         name: "",
-        img: "https://picsum.photos/200/300",
+        img: "",
         info: "",
         maxMember: 8,
         isOpen: true,
-        volumRule: 1,
+        volumeRule: 1,
         weekRule: 2,
         freeRule: "",
         genres: [],
         books: [],
       },
+      error: {
+        name: false,
+        info: false,
+        genres: false,
+      },
+      isSubmit: false,
     };
   },
-  methods: {
-    addGerne: function (event) {
-      let gerne = event.target.textContent;
-      return this.clubData.genres.length >= 5
-        ? alert("최대 5개까지 추가가 가능해요!")
-        : this.clubData.genres.push(gerne);
+  watch: {
+    clubData: {
+      deep: true,
+      handler() {
+        this.checkNameForm();
+        this.checkInfoForm();
+        this.checkGenreForm();
+      },
     },
   },
-  computed: {
-    genresList: function () {
-      return this.$store.state.examples.genresList;
+  methods: {
+    ...mapActions("clubStore", ["saveClubData"]),
+    // 다음 버튼 클릭
+    clickNext() {
+      if (this.isSubmit) {
+        this.saveClubData(this.clubData);
+      }
+    },
+    // 도서 분야 추가
+    addGenre: function (event) {
+      let index = -1;
+      for (var i = 0; i < this.clubData.genres.length; i++) {
+        if (event.target.id == this.clubData.genres[i]) {
+          index = i;
+          break;
+        }
+      }
+      if (index < 0) {
+        if (this.clubData.genres.length < 5) {
+          this.clubData.genres.push(event.target.id);
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "최대 5개까지 선택 가능해요",
+            showConfirmButton: false,
+            timer: 2000,
+            timerProgressBar: false,
+          });
+        }
+      }
+    },
+    // 추가된 도서 분야 제거
+    removeGenre(event) {
+      console.log(event.target);
+      for (var i = 0; i < this.clubData.genres.length; i++) {
+        if (event.target.id == this.clubData.genres[i]) {
+          this.clubData.genres.splice(i, 1);
+          break;
+        }
+      }
+    },
+    // 클럽 이름 유효성 검사
+    checkNameForm() {
+      if (this.clubData.name.length > 0 && this.clubData.name.length > 10) {
+        this.error.name = "클럽 이름이 너무 길어요! 10자 이하로 입력해주세요";
+      } else this.error.name = false;
+    },
+    // 클럽 소개 유효성 검사
+    checkInfoForm() {
+      if (this.clubData.info.length > 0 && this.clubData.info.length > 30) {
+        this.error.info = "클럽 소개가 너무 길어요! 30자 이하로 입력해주세요";
+      } else this.error.info = false;
+    },
+    // 클럽 도서 분야 유효성 검사
+    checkGenreForm() {
+      if (this.clubData.genres.length <= 0) {
+        this.error.genres = "선택한 도서 분야가 없어요! 도서 분야를 선택해주세요";
+      } else this.error.genres = false;
+
+      // 유효성 검사 통과 시 다음 버튼 활성화
+      if (this.clubData.name.length > 0 && this.clubData.info.length > 0) {
+        let isSubmit = true;
+        Object.values(this.error).map((v) => {
+          if (v) isSubmit = false;
+        });
+        this.isSubmit = isSubmit;
+      } else {
+        this.isSubmit = false;
+      }
     },
   },
 };
@@ -181,33 +291,53 @@ export default {
   color: var(--grey);
   margin: 0.6em auto;
 }
-.gerne-keyword {
-  width: 80%;
-  margin: 4% auto 0;
-  justify-content: space-between;
+.genre-keyword {
+  background: transparent;
+  box-shadow: none;
+  margin: 1.5rem auto 0;
+  text-align: center;
 }
-
-.tag {
+.genre-keyword span {
+  margin: 0 0.2rem 0.4rem;
+}
+.genre-inner-div {
+  padding: 0.85rem 0;
+  margin-left: 1rem;
+}
+.tag,
+.input-tag {
   display: inline-block;
-  margin: 0 auto;
-  padding: 0.5% 1.6%;
+  padding: 0.2rem 0.6rem;
   border: 0;
   border-radius: 1em;
   color: white;
   background-color: var(--light-orange);
 }
-
-.gerne-keyword span {
-  margin: 0.5% 0.4%;
+.input-tag {
+  margin: 0 0.3rem;
+  padding: 0.25rem 0.6rem;
+  background-color: var(--orange);
+}
+.placeholder {
+  font-size: 1.4rem;
+  color: var(--light-grey);
+  margin-left: 0.7rem;
 }
 
 .label {
   text-align: left;
   display: block;
-  margin: 5.5% 0 3% 5%;
+  margin: 0 0 1rem 1.6rem;
   font-size: 1.2rem;
-  font-weight: 500;
   color: var(--grey);
+}
+
+.freeRule-div {
+  margin-left: -0.5rem;
+  height: 3.4rem;
+}
+#freeRule {
+  padding-left: 1.2rem;
 }
 
 .rules * {
@@ -215,8 +345,8 @@ export default {
 }
 
 .rules {
+  width: 30rem;
   display: inline-block;
-  width: 80%;
   margin: 0 auto;
 }
 
@@ -242,21 +372,21 @@ export default {
 }
 
 select {
-  width: 15%;
+  width: 3em;
   margin: 1% 2% 2%;
-  padding: 2%;
+  padding: 0.6rem 0 0.6rem 0.7rem;
   font-size: 1.4rem;
-  color: #8a8894;
+  color: var(--grey);
   border: 0;
-  border-radius: 24px;
-  background-color: #fff;
+  border-radius: 2em;
+  background-color: var(--white);
   box-shadow: 0 0.4em 0.8em 0 rgba(142, 141, 208, 0.16);
 }
 
 .two-input {
+  width: 30em;
   display: flex;
-  justify-content: center;
-  padding: 10%;
+  margin: 2em auto 0;
 }
 
 .two-input .max-member {
@@ -265,9 +395,7 @@ select {
 }
 
 .two-input .max-member #v-model-select > select {
-  width: 50%;
-  margin-top: 0.5rem;
-  padding: 2% 10% 2%;
+  margin: 0 0 0 2rem;
 }
 
 .two-input .is-open {
@@ -281,15 +409,14 @@ select {
   align-items: center;
 }
 .two-input .is-open .wrap {
-  margin-left: 1rem;
+  margin: 1.4rem 0 0 1.6rem;
 }
 
 #checkbox {
-  width: 2rem;
-  height: 2rem;
-  border: 1px solid #cccccc;
+  width: 1.8rem;
+  height: 1.8rem;
   transition: all linear 0.3s;
   display: inline-block;
-  margin: 5%;
+  margin-right: 0.7em;
 }
 </style>

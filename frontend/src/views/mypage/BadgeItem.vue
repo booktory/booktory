@@ -1,14 +1,20 @@
 <template>
   <div class="badge-item-wrapper" @click="clickBadge">
     <div v-if="badge.state" class="isTrue">
-      <img src="@/assets/images/profile_default.svg" class="badgeImage" />
+      <img
+        :src="'https://booktory.s3.ap-northeast-2.amazonaws.com/static/badge/' + badgeId + '.png'"
+        class="badgeImage"
+      />
       <div v-if="badge.isMain" class="main-badge">
         <icon-base :iconColor="'var(--white)'"><icon-star /></icon-base>
       </div>
       <p class="badgeName font-body-5">{{ badge.name }}</p>
     </div>
     <div v-else class="isFalse">
-      <img src="@/assets/images/profile_default.svg" class="badgeImage" />
+      <img
+        :src="'https://booktory.s3.ap-northeast-2.amazonaws.com/static/badge/' + badgeId + '.png'"
+        class="badgeImage"
+      />
       <p class="badgeName font-body-5 isFalse">{{ badge.name }}</p>
     </div>
   </div>
@@ -41,7 +47,11 @@ export default {
         showDenyButton: this.badge.state,
         denyButtonColor: "var(--brown)",
         denyButtonText: "대표배지 설정",
-        html: "획득 방법: " + this.badge.content,
+        html:
+          "<img width='200' height='200' src='https://booktory.s3.ap-northeast-2.amazonaws.com/static/badge/" +
+          this.badgeId +
+          ".png'><br>획득 방법: " +
+          this.badge.content,
       }).then((result) => {
         if (result.isDenied) {
           if (this.badge.isMain) {
@@ -73,7 +83,7 @@ export default {
 .badge-item-wrapper {
   position: relative;
   align-items: center;
-  gap: 1%;
+  /* gap: 1%; */
 }
 .isFalse {
   color: var(--light-grey);
@@ -83,7 +93,6 @@ export default {
 }
 .badgeImage {
   width: 8em;
-  border-radius: 10em;
 }
 .back {
   width: 7em;
@@ -91,7 +100,7 @@ export default {
   background: red;
 }
 .badgeName {
-  margin: 0.3em auto 0.6em;
+  margin: 0 auto 0.6em;
 }
 .main-badge {
   width: 1.6em;

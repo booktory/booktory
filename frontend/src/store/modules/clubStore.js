@@ -11,6 +11,8 @@ const clubStore = {
     applyList: null,
     joinedList: null,
     questionList: null,
+    clubInfo: null,
+    newClubData: null,
   },
   getters: {
     clubId(state) {
@@ -27,6 +29,12 @@ const clubStore = {
     },
     questionList(state) {
       return state.questionList;
+    },
+    clubInfo(state) {
+      return state.clubInfo;
+    },
+    newClubData(state) {
+      return state.newClubData;
     },
   },
   mutations: {
@@ -45,8 +53,79 @@ const clubStore = {
     SET_QUESTION_LIST(state, data) {
       state.questionList = data;
     },
+    SET_CLUB_INFO(state, data) {
+      state.clubInfo = data;
+    },
+    SET_NEW_CLUBDATA(state, data) {
+      state.newClubData = data;
+    },
   },
   actions: {
+    // 새 클럽 만들 정보 저장
+    saveClubData({ commit }, clubData) {
+      commit("SET_NEW_CLUBDATA", clubData);
+      router.push({ name: "ClubCreateBook" });
+    },
+    // 새 클럽 만들기
+    createClub({ rootGetters, getters }, books) {
+      let clubData = getters.newClubData;
+      clubData.books = books;
+      axios
+        .post(SERVER.URL + SERVER.ROUTES.createClub, clubData, rootGetters.config)
+        .then((res) => {
+          console.log(res.data);
+          Swal.fire({
+            icon: "success",
+            title: "클럽 생성 완료",
+            html: "클럽 생성이 완료 되었습니다.<br>지금부터 새로운 클럽에서 활동하실 수 있어요!",
+          });
+          router.push({ name: "ClubHome" });
+        })
+        .catch((err) => {
+          Swal.fire({
+            icon: "error",
+            title: "클럽 생성 실패",
+            text: err.response.data.message,
+          });
+        });
+    },
+    // 현재 클럽 정보 확인
+    findClubInfo({ rootGetters, getters, commit }) {
+      axios
+        .get(SERVER.URL + SERVER.ROUTES.getClubInfo + getters.clubId, rootGetters.config)
+        .then((res) => {
+          commit("SET_CLUB_INFO", res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    // 클럽 정보 수정
+    updateClub({ rootGetters, getters }, clubData) {
+      axios
+        .patch(SERVER.URL + SERVER.ROUTES.updateClub + getters.clubId, clubData, rootGetters.config)
+        .then((res) => {
+          Swal.fire({
+            icon: "success",
+            title: "클럽 정보 수정 완료",
+            showConfirmButton: false,
+            timer: 1000,
+            timerProgressBar: true,
+          });
+          console.log(res.data);
+          router.push({ name: "ClubdetailManage" });
+        })
+        .catch((err) => {
+          Swal.fire({
+            icon: "error",
+            title: "클럽 정보 수정 실패",
+            text: err.response.data.message,
+            showConfirmButton: false,
+            timer: 1500,
+            timerProgressBar: false,
+          });
+        });
+    },
     // 클럽 가입신청 수락
     acceptToClub({ rootGetters, getters, commit }, userClubId) {
       axios
