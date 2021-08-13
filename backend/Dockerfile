@@ -4,7 +4,7 @@ COPY . .
 RUN chmod +x ./gradlew
 
 RUN rm -rf src/test
-RUN ./gradlew clean build
+RUN ./gradlew clean build boot.jar
 
 FROM adoptopenjdk:11-jdk
 COPY --from=builder ./backend/build/libs/*.jar app.jar
