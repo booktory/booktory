@@ -15,7 +15,7 @@
         :src="'https://booktory.s3.ap-northeast-2.amazonaws.com/static/badge/' + badgeId + '.png'"
         class="badgeImage"
       />
-      <p class="badgeName font-body-5 isFalse">{{ badge.name }}</p>
+      <p class="badgeName font-body-5">{{ badge.name }}</p>
     </div>
   </div>
 </template>
@@ -48,10 +48,14 @@ export default {
         denyButtonColor: "var(--brown)",
         denyButtonText: "대표배지 설정",
         html:
-          "<img width='200' height='200' src='https://booktory.s3.ap-northeast-2.amazonaws.com/static/badge/" +
+          "<div class=" +
+          (this.badge.state ? "" : "isFalse") +
+          "><img class=" +
+          " width='200' height='200' src='https://booktory.s3.ap-northeast-2.amazonaws.com/static/badge/" +
           this.badgeId +
           ".png'><br>획득 방법: " +
-          this.badge.content,
+          this.badge.content +
+          "</div>",
       }).then((result) => {
         if (result.isDenied) {
           if (this.badge.isMain) {
@@ -84,12 +88,6 @@ export default {
   position: relative;
   align-items: center;
   /* gap: 1%; */
-}
-.isFalse {
-  color: var(--light-grey);
-}
-.isFalse img {
-  opacity: 30%;
 }
 .badgeImage {
   width: 8em;
