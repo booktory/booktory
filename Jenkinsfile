@@ -52,7 +52,7 @@ pipeline {
 					
 
 						sh 'docker run -d --name backend \
-						-p 8080:8080 \
+						-p 8082:8082 \
 						--network booktorycicdnetwork backend:latest'
 
 						sh 'docker images'
