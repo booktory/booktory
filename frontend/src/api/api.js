@@ -34,6 +34,11 @@ export default {
     getBookClubInfo: "/bookclubs/",
     getBookClubList: "/bookclubs/list/",
 
+    // board
+    getBoard: "/boards/",
+    registerBoard: "/boards/",
+    deleteBoard: "/boards/",
+
     // search
     searchBookByKeyword: "/search/books",
     searchClubByNameAndGenre: "/search/clubs",

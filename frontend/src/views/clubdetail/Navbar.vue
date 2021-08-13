@@ -6,7 +6,7 @@
     <div class="item" @click="$router.push({ name: 'ClubdetailMetting' })">
       <p :class="{ orange: selected == 'meeting' }" class="sub-item font-body-4">모임 일정</p>
     </div>
-    <div class="item" @click="$router.push({ name: 'ClubdetailTalk' })">
+    <div class="item" @click="$router.push({ name: 'ClubdetailBoard' })">
       <p :class="{ orange: selected == 'talk' }" class="sub-item font-body-4">담벼락</p>
     </div>
     <div class="item" @click="$router.push({ name: 'ClubdetailManage' })">
