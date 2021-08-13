@@ -6,7 +6,6 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import com.ssafy.booktory.domain.book.Book;
 import com.ssafy.booktory.domain.clubgenre.ClubGenre;
 import com.ssafy.booktory.domain.genre.Genre;
-import jdk.vm.ci.meta.Local;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,6 +29,7 @@ public class ClubFindResponseDto {
     private LocalDateTime date;
     private String img;
     private String info;
+    private String leaderName;
     private int nowMember;
     private int maxMember;
     private Boolean isOpen;
@@ -53,6 +53,7 @@ public class ClubFindResponseDto {
         this.date = club.getCreatedDate();
         this.img = club.getImg();
         this.info = club.getInfo();
+        this.leaderName = club.getUser().getName();
         this.nowMember = nowMember;
         this.maxMember = club.getMaxMember();
         this.isOpen = club.getIsOpen();
@@ -70,6 +71,7 @@ public class ClubFindResponseDto {
         this.date = club.getCreatedDate();
         this.img = club.getImg();
         this.info = club.getInfo();
+        this.leaderName = club.getUser().getName();
         this.nowMember = nowMember;
         this.maxMember = club.getMaxMember();
         this.isOpen = club.getIsOpen();
