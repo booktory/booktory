@@ -3,8 +3,10 @@
     <TopHeader />
     <ClubList />
     <div class="text-right">
-      <span class="text-link" @click="$router.push({ name: 'ClubSearch' })">클럽 찾기 | </span>
-      <span class="text-link" @click="$router.push({ name: 'ClubCreate' })">클럽 만들기</span>
+      <span @click="$router.push({ name: 'ClubSearch' })">클럽 찾기</span>&nbsp;|&nbsp;<span
+        @click="$router.push({ name: 'ClubCreate' })"
+        >클럽 만들기</span
+      >
     </div>
     <Navbar :selected="'home'" class="footer" />
   </div>
@@ -27,26 +29,28 @@ export default {
 
 <style scoped>
 .bg-img {
+  position: relative;
+}
+.bg-img:after {
+  position: absolute;
+  content: "";
+  top: 0;
+  left: 0;
+  width: 100%;
   height: 100vh;
-  background-image: linear-gradient(to bottom, var(--white) 0%, var(--light-grey) 100%),
-    url("./images/club-backgroud.png");
-  background-blend-mode: multiply;
+  background-image: url("./images/club-backgroud.png");
   background-size: cover;
+  opacity: 30%;
+  z-index: -1;
 }
 .text-right {
   text-align: right;
-  margin-right: 10%;
+  margin: 0 3.5rem;
 }
-.text-link {
-  font-size: 1.5rem;
-  color: var(--white);
-}
-
-.footer {
-  width: 100%;
-  left: 0;
-  bottom: 0;
-  position: fixed;
-  text-align: center;
+.text-right,
+.text-right span {
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: var(--dark-grey);
 }
 </style>
