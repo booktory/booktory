@@ -61,6 +61,13 @@ public class UserController {
         throw new IllegalArgumentException("잘못된 비밀번호입니다.");
     }
 
+    @ApiOperation(value = "소셜 로그인", notes = "구글 및 카카오 아이디를 통해 로그인한다.")
+    @PostMapping("/social")
+    public ResponseEntity<UserSocialLoginResponseDto> login(@RequestBody @ApiParam(value = "소셜 로그인 정보(이메일, socialType") UserSocialLoginRequestDto userSocialLoginRequestDto) {
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(userService.socialLogin(userSocialLoginRequestDto));
+    }
+
+
     @ApiOperation(value = "회원가입을 위한 이메일 인증을 진행한다.")
     @GetMapping("/authentication/{token}")
     public RedirectView authenticateEmail(@PathVariable @ApiParam(value = "사용자 인증 토큰") String token) {
