@@ -1,6 +1,5 @@
 package com.ssafy.booktory.service;
 
-import com.amazonaws.services.kms.model.AlreadyExistsException;
 import com.ssafy.booktory.domain.book.Book;
 import com.ssafy.booktory.domain.book.BookRepository;
 import com.ssafy.booktory.domain.bookclub.BookClub;
@@ -17,17 +16,16 @@ import com.ssafy.booktory.domain.userclub.UserClub;
 import com.ssafy.booktory.domain.userclub.UserClubListResponseDto;
 import com.ssafy.booktory.domain.userclub.UserClubRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+
 
 @Slf4j
 @Service("clubService")
@@ -47,6 +45,9 @@ public class ClubService {
 
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("사용자 정보가 존재하지 않습니다."));
+        if (clubRepository.existsByName(clubSaveRequestDto.getName())) {
+            throw new IllegalArgumentException("이미 존재하는 클럽명입니다.");
+        }
 
         Club club = clubSaveRequestDto.toEntity(user);
         Club savedClub = clubRepository.save(club);
@@ -80,7 +81,17 @@ public class ClubService {
         Club club = clubRepository.findById(id)
                 .orElseThrow(()->new NoSuchElementException("존재하지 않는 클럽입니다."));
         int nowMember = getClubMembersCount(club);
-        return new ClubFindResponseDto(club, nowMember, userId);
+        Book book = null;
+        LocalDateTime endDateTime = null;
+        BookClub bookClub = bookClubRepository.findByClubIdFirstByOrderByEndDatetimeDesc(id);
+
+        if (bookClub != null && LocalDateTime.now().isBefore(bookClub.getEndDatetime())) {
+            book = bookRepository.findById(bookClub.getBook().getId()).orElseThrow(() -> new NoSuchElementException("존재하는 책이 없습니다."));
+            endDateTime = bookClub.getEndDatetime();
+        }
+
+        if (book == null) return new ClubFindResponseDto(club, nowMember, userId);
+        else return new ClubFindResponseDto(club, nowMember, userId, book, endDateTime);
     }
 
     @Transactional
@@ -111,7 +122,11 @@ public class ClubService {
                 clubUpdateRequestDto.getMaxMember(), clubUpdateRequestDto.getIsOpen(),
                 clubUpdateRequestDto.getVolumeRule(), clubUpdateRequestDto.getWeekRule(), clubUpdateRequestDto.getFreeRule());
 
+        List<ClubGenre> deleteClubGenres = clubGenreRepository.findByClubId(club.getId());
+        clubGenreRepository.deleteAll(deleteClubGenres);
+
         List<ClubGenre> clubGenres = genreIdListToClubGenreList(clubUpdateRequestDto.getGenres(), club);
+
         club.updateGenres(clubGenres);
 
         return clubRepository.save(club);
