@@ -31,7 +31,7 @@
     <div class="card-background club-info">
       <h4 class="club-info-title">{{ clubInfo.name }}</h4>
       <div class="font-body-4 club-info-user">
-        <b>클럽장</b> {{ clubInfo.leader_id }}&nbsp;|&nbsp;<b>참가자</b> {{ clubInfo.nowMember }}명
+        <b>클럽장</b> {{ clubInfo.leaderName }}&nbsp;|&nbsp;<b>참가자</b> {{ clubInfo.nowMember }}명
       </div>
       <div>
         <div class="font-body-3 club-info-text">
