@@ -30,4 +30,17 @@ export default {
   margin: 4rem 0 0;
   object-fit: contain;
 }
+
+@keyframes image-ani {
+  to {
+    background-position: -2940px 0;
+  }
+}
+.main-image {
+  /* 너비 5880px(/14frame = 420px), 높이 500px */
+  width: 210px;
+  height: 250px;
+  background: url(../assets/images/image-animation.png) no-repeat 0 0 / auto 250px;
+  animation: image-ani 1s infinite steps(14);
+}
 </style>

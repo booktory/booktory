@@ -36,6 +36,7 @@ export default {
 
     // search
     searchBookByKeyword: "/search/books",
+    searchClubByNameAndGenre: "/search/clubs",
 
     // file-upload
     uploadProfileImg: "/files/user",
