@@ -248,7 +248,7 @@ export default {
     },
   },
   created() {
-    this.findUserInfo(this.userInfo);
+    this.findUserInfo();
   },
 };
 </script>
