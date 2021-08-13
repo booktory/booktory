@@ -74,6 +74,9 @@ const clubStore = {
         .get(SERVER.URL + SERVER.ROUTES.findClubList, rootGetters.config)
         .then((res) => {
           commit("SET_MYCLUB_LIST", res.data);
+          if (res.data.length <= 0) {
+            router.push({ name: "ClubSearch" });
+          }
         })
         .catch((err) => {
           console.log(err);
