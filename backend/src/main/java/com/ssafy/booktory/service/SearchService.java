@@ -39,9 +39,8 @@ public class SearchService {
             } else {
                 clubGenreList = clubGenreRepository.findClubsByGenres(searchGenres);
             }
-            clubList = clubGenreList.stream()
-                    .collect(Collectors.groupingBy(ClubGenre::getClub)).keySet()
-                    .stream().collect(Collectors.toList());
+            clubList = new ArrayList<>(clubGenreList.stream()
+                    .collect(Collectors.groupingBy(ClubGenre::getClub)).keySet());
         } else {
             clubList = clubRepository.findByNameContains(keyword);
         }

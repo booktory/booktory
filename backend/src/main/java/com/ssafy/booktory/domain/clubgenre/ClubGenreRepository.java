@@ -16,4 +16,6 @@ public interface ClubGenreRepository extends JpaRepository<ClubGenre, Long> {
     @Query("SELECT cg FROM ClubGenre cg JOIN cg.club c JOIN cg.genre g " +
             "WHERE g.name IN (:searchGenres)")
     List<ClubGenre> findClubsByGenres(List<String> searchGenres);
+
+    List<ClubGenre> findByClubId(Long clubId);
 }

@@ -8,4 +8,6 @@ public interface ClubRepository extends JpaRepository<Club, Long> {
     List<Club> findByNameContains(String keyword);
 
     int countClubByUserId(Long userId);
+
+    boolean existsByName(String name);
 }
