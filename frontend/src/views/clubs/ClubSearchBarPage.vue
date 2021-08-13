@@ -22,6 +22,7 @@
         class="page-item"
       />
     </div>
+    <Navbar :selected="'home'" />
   </div>
 </template>
 
@@ -29,12 +30,14 @@
 import { mapActions, mapState } from "vuex";
 import ClubSearchBarPageList from "@/views/clubs/ClubSearchBarPageList.vue";
 import router from "@/router";
+import Navbar from "@/views/Navbar.vue";
 
 export default {
   name: "ClubSearchBarPage",
   components: {
     ClubSearchBarPageList,
     // TopHeader,
+    Navbar,
   },
   data: function () {
     return {
