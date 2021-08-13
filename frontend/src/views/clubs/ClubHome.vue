@@ -6,7 +6,7 @@
       <span class="text-link" @click="$router.push({ name: 'ClubSearch' })">클럽 찾기 | </span>
       <span class="text-link" @click="$router.push({ name: 'ClubCreate' })">클럽 만들기</span>
     </div>
-    <Navbar :selected="'home'" class="footer" />
+    <Navbar :selected="'home'" />
   </div>
 </template>
 
@@ -27,7 +27,7 @@ export default {
 
 <style scoped>
 .bg-img {
-  height: 100vh;
+  height: 100%;
   background-image: linear-gradient(to bottom, var(--white) 0%, var(--light-grey) 100%),
     url("./images/club-backgroud.png");
   background-blend-mode: multiply;
@@ -40,13 +40,5 @@ export default {
 .text-link {
   font-size: 1.5rem;
   color: var(--white);
-}
-
-.footer {
-  width: 100%;
-  left: 0;
-  bottom: 0;
-  position: fixed;
-  text-align: center;
 }
 </style>
