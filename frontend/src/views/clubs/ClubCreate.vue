@@ -161,7 +161,7 @@
         다음
       </button>
     </div>
-    <Navbar :selected="'home'" class="footer" />
+    <Navbar :selected="'home'" />
   </div>
 </template>
 
