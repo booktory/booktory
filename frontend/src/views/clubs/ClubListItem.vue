@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="clubInfo">
     <!-- 헤드 => 좌우 넘기기 있음 -->
     <div class="header">
       <span v-if="index !== 0">
@@ -13,7 +13,7 @@
         </div>
       </span>
       <h5>
-        {{ club.name }}
+        {{ clubInfo.name }}
       </h5>
       <span v-if="index !== maxLength - 1">
         <div class="icon" @click="clickRight">
@@ -29,61 +29,76 @@
 
     <!-- 바디1 => 클럽 정보 -->
     <div class="card-background club-info">
-      <h4 class="club-info-title">{{ club.name }}</h4>
+      <h4 class="club-info-title">{{ clubInfo.name }}</h4>
       <div class="font-body-4 club-info-user">
-        <b>클럽장</b> {{ club.leader_id }}&nbsp;|&nbsp;<b>참가자</b> {{ club.max_member }}명
+        <b>클럽장</b> {{ clubInfo.leader_id }}&nbsp;|&nbsp;<b>참가자</b> {{ clubInfo.nowMember }}명
       </div>
       <div>
         <div class="font-body-3 club-info-text">
-          {{ club.info }}
+          {{ clubInfo.info }}
         </div>
         <span
-          v-for="(clubGenre, idx) in club.genres"
+          v-for="(genre, idx) in clubInfo.genres"
           :key="idx"
+          :id="genre"
           class="font-body-4 club-info-genre"
         >
-          {{ clubGenre.genreName }}
+          {{ genreList[genre - 1] }}
         </span>
       </div>
 
-      <!-- 바디2 => 책 정보 -->
-      <div class="bookcard-background">
-        <div class="bookcard-box">
-          <img :src="book.thumbnail" alt="bookThumbnail" class="bookcard-image" />
-          <div class="bookcard-info">
-            <div class="bookcard-info-more">
-              <span class="font-body-4">책 목록 더보기</span>
-            </div>
-            <span class="bookcard-info-now font-body-5">읽고 있는 책</span>
-            <h5 class="bookcard-info-title">
-              {{ book.title.length > 30 ? book.title.substr(0, 30) + "・・・" : book.title }}
-            </h5>
-            <div class="bookcard-info-subtitle font-body-4">
-              {{
-                book.author.length > 8 ? book.author.substr(0, 8) + "・・・" : book.author
-              }}&nbsp;|&nbsp;{{
-                book.publisher.length > 8 ? book.publisher.substr(0, 8) + "・・・" : book.publisher
-              }}
+      <div v-if="clubInfo.endDateTime">
+        <!-- 바디2 => 책 정보 -->
+        <div class="bookcard-background">
+          <div class="bookcard-box">
+            <img :src="clubInfo.thumbnail" alt="bookThumbnail" class="bookcard-image" />
+            <div class="bookcard-info">
+              <div class="bookcard-info-more">
+                <span class="font-body-4">책 목록 더보기</span>
+              </div>
+              <span class="bookcard-info-now font-body-5">읽고 있는 책</span>
+              <h5 class="bookcard-info-title">
+                {{
+                  clubInfo.title.length > 30
+                    ? clubInfo.title.substr(0, 30) + "・・・"
+                    : clubInfo.title
+                }}
+              </h5>
+              <div class="bookcard-info-subtitle font-body-4">
+                {{
+                  clubInfo.author.length > 8
+                    ? clubInfo.author.substr(0, 8) + "・・・"
+                    : clubInfo.author
+                }}&nbsp;|&nbsp;{{
+                  clubInfo.publisher.length > 8
+                    ? clubInfo.publisher.substr(0, 8) + "・・・"
+                    : clubInfo.publisher
+                }}
+              </div>
             </div>
           </div>
         </div>
+        <!-- 모임 정보 -->
+        <div class="meeting">
+          <h5>{{ convertTime(clubInfo.endDateTime) }}</h5>
+          <span class="font-body-4">{{ needTimeStr }}</span>
+        </div>
+        <button :disabled="!isStart" class="button-2 m-top-5">모임 입장하기</button>
       </div>
-      <!-- 모임 정보 -->
-      <div class="meeting">
-        <h5>2021.08.17 오후 9:00</h5>
-        <span class="font-body-4">모임까지 00일 00시 00분 남았습니다.</span>
+      <div v-else>
+        <span class="empty-meeting">예정된 모임이 없습니다.</span>
       </div>
-      <button :disabled="!isStart" class="button-2 m-top-5">모임 입장하기</button>
     </div>
   </div>
 </template>
 
 <script>
+import { mapActions, mapState } from "vuex";
 export default {
   name: "ClubListItem",
   props: {
-    bookclub: {
-      type: Object,
+    clubId: {
+      type: Number,
     },
     maxLength: {
       type: Number,
@@ -92,26 +107,72 @@ export default {
       type: Number,
     },
   },
+  computed: {
+    ...mapState("clubStore", ["clubInfo"]),
+    ...mapState("searchStore", ["genreList"]),
+  },
   data() {
     return {
       isStart: false,
+      needTimeStr: "",
     };
   },
+  watch: {
+    clubId: {
+      handler() {
+        this.findClubInfo(this.clubId);
+      },
+    },
+  },
   methods: {
+    ...mapActions("clubStore", ["findClubInfo"]),
     clickLeft: function () {
       this.$emit("click-left");
     },
     clickRight: function () {
       this.$emit("click-right");
     },
+    convertTime(data) {
+      let date = new Date(data);
+      let year = date.getFullYear();
+      let month = date.getMonth() + 1;
+      let day = date.getDate();
+      let hour = date.getHours();
+      let ampm = hour / 12 >= 1 ? "오후 " : "오전 ";
+      let minute = date.getMinutes();
+      let dateStr =
+        year + "년 " + month + "월 " + day + "일 " + ampm + (hour % 12) + "시 " + minute + "분";
+      return dateStr;
+    },
+    convertNeedTime() {
+      let target = new Date(this.clubInfo.endDateTime);
+      let curr = new Date();
+      let diffSecond = Math.floor((target.getTime() - curr.getTime()) / 1000);
+      let diffTime = Math.floor(diffSecond / 60);
+      let diffTimeHour = Math.floor(diffTime / 60);
+      let diffTimeDay = Math.floor(diffTimeHour / 24);
+      // 모임까지 00일 00시 00분 00초 남았습니다.
+      let dateStr = "모임까지 ";
+      if (diffTimeDay > 0) dateStr += diffTimeDay + "일 ";
+      if (diffTimeHour > 0) dateStr += (diffTimeHour % 24) + "시간 ";
+      if (diffTime >= 10) dateStr += (diffTime % 60) + "분 ";
+      else {
+        this.isStart = true;
+        return "모임이 시작되었습니다";
+      }
+      if (diffSecond > 0) dateStr += (diffSecond % 60) + "초 ";
+      return dateStr + "남았습니다.";
+    },
+    start() {
+      this.polling = setInterval(() => {
+        this.needTimeStr = this.convertNeedTime();
+        if (this.isStart) clearInterval(this.polling);
+      }, 1000);
+    },
   },
-  computed: {
-    club: function () {
-      return this.bookclub.clubList[0];
-    },
-    book: function () {
-      return this.bookclub.bookList[0];
-    },
+  created() {
+    this.findClubInfo(this.clubId);
+    this.start();
   },
 };
 </script>
@@ -131,7 +192,7 @@ export default {
   width: 30rem;
   min-height: 50vh;
   margin: 5% auto;
-  padding: 4rem 1rem;
+  padding: 4rem 1rem 4.5rem;
   border-radius: 10px;
   box-shadow: 0 4px 8px 4px rgba(161, 160, 228, 0.16);
   background-color: var(--white);
@@ -210,5 +271,11 @@ export default {
 .meeting h4,
 h5 {
   margin: 0.7rem;
+}
+.empty-meeting {
+  display: inline-block;
+  margin-top: 4rem;
+  font-size: 1.4rem;
+  color: var(--grey);
 }
 </style>

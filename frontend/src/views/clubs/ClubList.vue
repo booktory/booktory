@@ -1,8 +1,8 @@
 <template>
-  <div class="">
+  <div v-if="myClubList">
     <ClubListItem
-      :bookclub="bookclubList[index]"
-      :maxLength="bookclubList.length"
+      :clubId="myClubList[index].id"
+      :maxLength="myClubList.length"
       :index="index"
       @click-left="onClickLeft"
       @click-right="onClickRight"
@@ -13,11 +13,15 @@
 
 <script>
 import ClubListItem from "@/views/clubs/ClubListItem.vue";
+import { mapActions, mapState } from "vuex";
 
 export default {
   name: "ClubList",
   components: {
     ClubListItem,
+  },
+  computed: {
+    ...mapState("clubStore", ["myClubList"]),
   },
   data: function () {
     return {
@@ -25,6 +29,7 @@ export default {
     };
   },
   methods: {
+    ...mapActions("clubStore", ["findClubList"]),
     onClickLeft: function () {
       this.index -= 1;
     },
@@ -32,10 +37,8 @@ export default {
       this.index += 1;
     },
   },
-  computed: {
-    bookclubList: function () {
-      return this.$store.state.examples.bookclubs;
-    },
+  created() {
+    this.findClubList();
   },
 };
 </script>
