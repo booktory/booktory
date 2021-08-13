@@ -1,5 +1,5 @@
 export default {
-  URL: "/api",
+  URL: "https://i5a607.p.ssafy.io/api",
   ROUTES: {
     // accounts
     login: "/users/login",
