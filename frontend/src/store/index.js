@@ -23,6 +23,7 @@ export default new Vuex.Store({
     authToken: Vue.$cookies.get("auth-token"),
     userEmail: null,
     userNickname: null,
+    userId: null,
   },
   getters: {
     config: (state) => ({ headers: { jwt: state.authToken } }),
@@ -40,11 +41,16 @@ export default new Vuex.Store({
       state.userNickname = data;
       localStorage.setItem("userNickname", data);
     },
+    SET_USER_ID(state, data) {
+      state.userId = data;
+      localStorage.setItem("userId", data);
+    },
   },
   actions: {
     fetchUser({ commit }) {
       commit("SET_USER_EMAIL", localStorage.getItem("userEmail"));
       commit("SET_USER_NICKNAME", localStorage.getItem("userNickname"));
+      commit("SET_USER_ID", localStorage.getItem("userId"));
     },
     // 로그아웃
     logout({ getters, commit }) {
@@ -60,6 +66,8 @@ export default new Vuex.Store({
       localStorage.removeItem("userEmail");
       commit("SET_USER_NICKNAME", null);
       localStorage.removeItem("userNickname");
+      commit("SET_USER_ID", null);
+      localStorage.removeItem("userId");
       Swal.fire({
         icon: "success",
         title: "로그아웃 완료",

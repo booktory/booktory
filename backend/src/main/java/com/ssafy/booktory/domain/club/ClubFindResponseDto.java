@@ -6,7 +6,6 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import com.ssafy.booktory.domain.book.Book;
 import com.ssafy.booktory.domain.clubgenre.ClubGenre;
 import com.ssafy.booktory.domain.genre.Genre;
-import jdk.vm.ci.meta.Local;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

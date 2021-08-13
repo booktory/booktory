@@ -6,7 +6,7 @@ import Swal from "sweetalert2";
 const clubStore = {
   namespaced: true,
   state: {
-    clubId: null,
+    clubId: 167,
     isLeader: null,
     applyList: null,
     joinedList: null,
