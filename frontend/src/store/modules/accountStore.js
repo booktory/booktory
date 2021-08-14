@@ -112,6 +112,7 @@ const accountStore = {
           commit("SET_TOKEN", res.data.jwt, { root: true });
           commit("SET_USER_EMAIL", res.data.email, { root: true });
           commit("SET_USER_NICKNAME", res.data.nickname, { root: true });
+          commit("SET_USER_ID", res.data.id, { root: true });
 
           // FCM Token 저장
           dispatch("saveFcmToken", res.data.email);

@@ -29,11 +29,7 @@ export default {
       keyword: "",
     };
   },
-  watch: {
-    // keyword: function (text) {
-    //   this.searchBookByKeyword(text);
-    // },
-  },
+  watch: {},
   methods: {
     ...mapActions("searchStore", ["searchBookByKeyword"]),
     clickSearch() {

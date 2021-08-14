@@ -13,7 +13,7 @@
       </div>
     </div>
     <div class="club-search-result">
-      <label> 검색된 클럽 목록 </label>
+      <label>검색된 클럽 목록</label>
       <ClubSearchBarPageList
         v-for="(club, idx) in clubList"
         :key="idx"
@@ -22,7 +22,6 @@
         class="page-item"
       />
     </div>
-    <Navbar :selected="'home'" />
   </div>
 </template>
 
@@ -30,14 +29,11 @@
 import { mapActions, mapState } from "vuex";
 import ClubSearchBarPageList from "@/views/clubs/ClubSearchBarPageList.vue";
 import router from "@/router";
-import Navbar from "@/views/Navbar.vue";
 
 export default {
   name: "ClubSearchBarPage",
   components: {
     ClubSearchBarPageList,
-    // TopHeader,
-    Navbar,
   },
   data: function () {
     return {
@@ -46,12 +42,13 @@ export default {
   },
   methods: {
     ...mapActions("searchStore", ["searchClubByName"]),
+    ...mapActions("clubStore", ["findClubInfo"]),
     clickSearch() {
       this.searchClubByName(this.keyword);
     },
 
-    onSelectClub: function () {
-      // console.log(club);
+    onSelectClub() {
+      // this.findClubInfo(clubId);
       router.push({ name: "ClubSearchBarPageListItem" });
     },
   },
@@ -96,7 +93,7 @@ export default {
     padding: 7.5% 5% 7.5% 20%;
     text-align: left;
     border: 0;
-    background-color: #fff;
+    background-color: var(--white);
     box-sizing: border-box;
   }
 }

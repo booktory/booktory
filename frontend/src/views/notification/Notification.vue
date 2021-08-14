@@ -118,7 +118,7 @@ export default {
       let diffTimeHour = Math.floor(diffTime / 60);
       if (diffTimeHour < 24) return `${diffTimeHour}시간 전`;
 
-      let diffTimeDay = Math.floor(diffTimeHour / 60 / 24);
+      let diffTimeDay = Math.floor(diffTimeHour / 24);
       if (diffTimeDay < 365) return `${diffTimeDay}일 전`;
 
       return `${Math.floor(diffTimeDay / 365)}년 전`;

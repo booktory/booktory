@@ -9,7 +9,11 @@
     <div class="user-info">
       <img
         class="profile-image"
-        :src="profileImg ? profileImg : 'https://via.placeholder.com/50'"
+        :src="
+          profileImg
+            ? profileImg
+            : 'https://booktory.s3.ap-northeast-2.amazonaws.com/static/default/profile.png'
+        "
         alt="profile-image"
       />
       <div class="info-frame">
@@ -82,6 +86,7 @@ export default {
   width: 6em;
   height: 6em;
   border-radius: 10em;
+  background-color: var(--very-light-orange);
 }
 .info-frame {
   display: flex;

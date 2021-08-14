@@ -6,15 +6,22 @@ import Swal from "sweetalert2";
 const clubStore = {
   namespaced: true,
   state: {
+    myClubList: null,
+    clubInfo: null,
     clubId: null,
     isLeader: null,
     applyList: null,
     joinedList: null,
     questionList: null,
-    clubInfo: null,
     newClubData: null,
   },
   getters: {
+    myClubList(state) {
+      return state.myClubList;
+    },
+    clubInfo(state) {
+      return state.clubInfo;
+    },
     clubId(state) {
       return state.clubId;
     },
@@ -30,14 +37,14 @@ const clubStore = {
     questionList(state) {
       return state.questionList;
     },
-    clubInfo(state) {
-      return state.clubInfo;
-    },
     newClubData(state) {
       return state.newClubData;
     },
   },
   mutations: {
+    SET_MYCLUB_LIST(state, data) {
+      state.myClubList = data;
+    },
     SET_CLUBID(state, data) {
       state.clubId = data;
     },
@@ -61,6 +68,32 @@ const clubStore = {
     },
   },
   actions: {
+    // 내 클럽 정보 확인
+    findClubList({ rootGetters, commit }) {
+      axios
+        .get(SERVER.URL + SERVER.ROUTES.findClubList, rootGetters.config)
+        .then((res) => {
+          commit("SET_MYCLUB_LIST", res.data);
+          if (res.data.length <= 0) {
+            router.push({ name: "ClubSearch" });
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    // 해당 클럽 정보 확인
+    findClubInfo({ rootGetters, commit }, clubId) {
+      axios
+        .get(SERVER.URL + SERVER.ROUTES.getClubInfo + clubId, rootGetters.config)
+        .then((res) => {
+          commit("SET_CLUBID", clubId);
+          commit("SET_CLUB_INFO", res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
     // 새 클럽 만들 정보 저장
     saveClubData({ commit }, clubData) {
       commit("SET_NEW_CLUBDATA", clubData);
@@ -87,17 +120,6 @@ const clubStore = {
             title: "클럽 생성 실패",
             text: err.response.data.message,
           });
-        });
-    },
-    // 현재 클럽 정보 확인
-    findClubInfo({ rootGetters, getters, commit }) {
-      axios
-        .get(SERVER.URL + SERVER.ROUTES.getClubInfo + getters.clubId, rootGetters.config)
-        .then((res) => {
-          commit("SET_CLUB_INFO", res.data);
-        })
-        .catch((err) => {
-          console.log(err);
         });
     },
     // 클럽 정보 수정

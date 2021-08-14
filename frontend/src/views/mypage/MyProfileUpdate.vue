@@ -12,12 +12,16 @@
           accept="image/*"
           @change="uploadImage()"
         />
-        <div class="icon profile-btn" @click="clickProfileImg">
+        <div class="icon profile-btn" @click="clickProfileBtn">
           <icon-base><icon-camera /></icon-base>
         </div>
         <img
           class="profile-img"
-          :src="userInfo.profileImg ? userInfo.profileImg : 'https://via.placeholder.com/100'"
+          :src="
+            userInfo.profileImg
+              ? userInfo.profileImg
+              : 'https://booktory.s3.ap-northeast-2.amazonaws.com/static/default/profile.png'
+          "
           alt="Profile Image"
         />
       </div>
@@ -160,6 +164,23 @@ export default {
           timer: 1500,
         });
       }
+    },
+    clickProfileBtn() {
+      Swal.fire({
+        html: "<h5 style='margin: 0;'>프로필 사진 설정</h5>",
+        confirmButtonText: "사진 업로드",
+        showDenyButton: true,
+        denyButtonColor: "var(--light-brown)",
+        denyButtonText: "기본 이미지로 변경",
+        showCancelButton: true,
+        cancelButtonText: "취소",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.clickProfileImg();
+        } else if (result.isDenied) {
+          this.userInfo.profileImg = "";
+        }
+      });
     },
     // 프로필 사진 버튼 클릭
     clickProfileImg() {
