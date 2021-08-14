@@ -72,7 +72,7 @@ export default {
               cancelButtonText: "취소",
             }).then((result) => {
               if (result.isConfirmed) {
-                this.changeMainBadge(this.badge.badgeId);
+                this.changeMainBadge(this.badgeId);
               }
             });
           }
