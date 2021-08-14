@@ -9,7 +9,6 @@ const routes = [
     name: "Home",
     component: () => import("@/views/Home.vue"),
   },
-
   // 로그인
   {
     path: "/login",

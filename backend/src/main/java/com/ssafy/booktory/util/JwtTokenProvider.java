@@ -22,10 +22,9 @@ import java.util.List;
 @RequiredArgsConstructor
 public class JwtTokenProvider {
 
-    @Value("spring.jwt.secret")
+    @Value("${spring.jwt.secret}")
     private String secretKey;
-
-    private Long tokenValidTime = 30 * 60 * 1000L; // 토큰 유효시간 30분
+    private final Long tokenValidTime = 1000L * 60 * 60 * 7 * 24; // 토큰 유효시간 1시간
 
     private final UserDetailsService userDetailsService;
 

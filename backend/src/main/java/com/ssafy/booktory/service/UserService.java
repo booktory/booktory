@@ -81,6 +81,30 @@ public class UserService {
         return new UserLoginResponseDto(jwt, user.getId(), user.getNickname(), user.getEmail());
     }
 
+    public UserSocialLoginResponseDto socialLogin(UserSocialLoginRequestDto userSocialLoginRequestDto) {
+        String email = userSocialLoginRequestDto.getEmail();
+        String socialType = userSocialLoginRequestDto.getSocialType();
+
+        User joinUser = userSocialLoginRequestDto.toEntity(socialType);
+        Boolean isJoin = false;
+        if (!userRepository.findByEmail(email).isPresent()) {
+            userRepository.save(joinUser);
+            isJoin = true;
+        }
+
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new NoSuchElementException("존재하지 않은 회원입니다."));
+        if (user.getSocialType().toString().equals("NONE")) {
+            throw new IllegalArgumentException("소셜 로그인 회원이 아닙니다.");
+        }
+        if (isJoin) {
+            user.updateNickname(user.getSocialType() + String.valueOf(user.getId()));
+            userRepository.save(user);
+        }
+        String jwt = jwtTokenProvider.createToken(user.getId(), user.getRoles());
+
+        return new UserSocialLoginResponseDto(jwt, user.getId(), user.getNickname(), user.getEmail(), isJoin);
+    }
+
     public void findPassword(String email) {
         if (!userRepository.existsByEmail(email)) {
             throw new NoSuchElementException("가입되지 않은 이메일입니다.");
@@ -175,5 +199,4 @@ public class UserService {
                 .map(book -> new BookByUserResponseDto(book.getBook().getId(), book.getBook().getTitle(), book.getBook().getThumbnail()))
                 .collect(Collectors.toList());
     }
-
 }

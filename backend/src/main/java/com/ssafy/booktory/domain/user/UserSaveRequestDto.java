@@ -20,6 +20,7 @@ public class UserSaveRequestDto {
                 .password(password)
                 .mainBadge(-1)
                 .isAccept(false)
+                .socialType(SocialType.NONE)
                 .build();
     }
 
