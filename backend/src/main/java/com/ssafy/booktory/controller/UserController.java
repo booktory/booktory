@@ -77,7 +77,7 @@ public class UserController {
         attributes.put("email", userEmail);
         attributes.put("isSocialUser", "false");
         redirectView.setAttributesMap(attributes);
-        redirectView.setUrl("http://localhost:8080/register/extrainfo");
+        redirectView.setUrl("https://i5a607.p.ssafy.io/register/extrainfo");
         return redirectView;
     }
 
@@ -97,7 +97,7 @@ public class UserController {
         Map<String, String> attributes = new HashMap<>();
         attributes.put("email", user.getEmail());
         redirectView.setAttributesMap(attributes);
-        redirectView.setUrl("http://localhost:8080/password/update");
+        redirectView.setUrl("https://i5a607.p.ssafy.io/password/update");
         return redirectView;
     }
 
