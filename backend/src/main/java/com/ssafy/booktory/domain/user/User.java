@@ -7,6 +7,7 @@ import com.ssafy.booktory.domain.answer.Answer;
 import com.ssafy.booktory.domain.board.Board;
 import com.ssafy.booktory.domain.bookclubuser.BookClubUser;
 import com.ssafy.booktory.domain.club.Club;
+import com.ssafy.booktory.domain.common.UserClubState;
 import com.ssafy.booktory.domain.notification.Notification;
 import com.ssafy.booktory.domain.question.Question;
 import com.ssafy.booktory.domain.rwmlog.RwmLog;
@@ -71,6 +72,9 @@ public class User implements UserDetails {
     @ColumnDefault("false")
     private Boolean isAccept;
 
+    @Enumerated(EnumType.STRING)
+    private SocialType socialType;
+
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> roles = new ArrayList<>();
 
@@ -106,7 +110,7 @@ public class User implements UserDetails {
 
     @Builder
     public User(String email, String nickname, String password, String name, LocalDate birth,
-                String profileImg, String phone, int badge, int mainBadge, Boolean isAccept){
+                String profileImg, String phone, int badge, int mainBadge, Boolean isAccept, SocialType socialType){
         this.email = email;
         this.nickname = nickname;
         this.password = password;
@@ -117,6 +121,7 @@ public class User implements UserDetails {
         this.badge = badge;
         this.mainBadge = mainBadge;
         this.isAccept = isAccept;
+        this.socialType = socialType;
     }
 
     public void addExtraInfo(String name, LocalDate birth, String profileImg, String phone) {
@@ -174,6 +179,10 @@ public class User implements UserDetails {
 
     public void updateAcceptState(Boolean state) {
         this.isAccept = state;
+    }
+
+    public void updateNickname(String nickname) {
+        this.nickname = nickname;
     }
 
     public List<Integer> getBadgeList(int badge) {

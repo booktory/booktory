@@ -72,7 +72,13 @@ const accountStore = {
             html: "회원가입이 완료 되었습니다.<br>지금부터 책토리를 이용하실 수 있어요!",
           });
           console.log(res.data);
-          router.push({ name: "Login" });
+          // console.log(extraData.isSocialUser);
+          if (extraData.isSocialUser === "true") {
+            router.push({ name: "ClubHome" });
+            // localStorage.removeItem("isSocialUser");
+          } else {
+            router.push({ name: "Login" });
+          }
         })
         .catch((err) => {
           Swal.fire({
@@ -82,8 +88,24 @@ const accountStore = {
           });
         });
     },
+    saveFcmToken({ dispatch }, email) {
+      console.log(dispatch);
+      let message = fire.messaging();
+      message.getToken().then((fcmtoken) => {
+        // console.log(fcmtoken);
+        axios
+          .post(SERVER.URL + SERVER.ROUTES.registerFCMToken, {
+            token: fcmtoken,
+            email: email,
+          })
+          .then(console.log("redis 저장"))
+          .catch((err) => {
+            console.log(err);
+          });
+      });
+    },
     // 로그인 처리
-    postAuthDataLogin({ commit }, info) {
+    postAuthDataLogin({ commit, dispatch }, info) {
       axios
         .post(SERVER.URL + info.location, info.data)
         .then((res) => {
@@ -92,19 +114,7 @@ const accountStore = {
           commit("SET_USER_NICKNAME", res.data.nickname, { root: true });
 
           // FCM Token 저장
-          let message = fire.messaging();
-          message.getToken().then((fcmtoken) => {
-            console.log(fcmtoken);
-            axios
-              .post(SERVER.URL + SERVER.ROUTES.registerFCMToken, {
-                token: fcmtoken,
-                email: res.data.email,
-              })
-              .then(console.log("redis 저장"))
-              .catch((err) => {
-                console.log(err);
-              });
-          });
+          dispatch("saveFcmToken", res.data.email);
 
           Swal.fire({
             icon: "success",
@@ -133,6 +143,45 @@ const accountStore = {
         location: SERVER.ROUTES.login,
       };
       dispatch("postAuthDataLogin", info);
+    },
+    // 소셜 로그인
+    socialLogin({ commit, dispatch }, socialDataLogin) {
+      axios
+        .post(SERVER.URL + SERVER.ROUTES.socialLogin, socialDataLogin)
+        .then((res) => {
+          commit("SET_TOKEN", res.data.jwt, { root: true });
+          commit("SET_USER_EMAIL", res.data.email, { root: true });
+          commit("SET_USER_NICKNAME", res.data.nickname, { root: true });
+          let isJoin = res.data.isJoinUser;
+          // 회원가입 후 로그인 진행
+          if (isJoin) {
+            router.push({
+              name: "ExtraInfo",
+              query: { email: res.data.email, isSocialUser: "true" },
+            });
+          } else {
+            // FCM 토큰 저장
+            dispatch("saveFcmToken", res.data.email);
+            Swal.fire({
+              icon: "success",
+              title: "로그인 성공",
+              showConfirmButton: false,
+              timer: 1000,
+              timerProgressBar: true,
+            });
+            router.push({ name: "ClubHome" });
+          }
+        })
+        .catch((err) => {
+          Swal.fire({
+            icon: "error",
+            title: "소셜 로그인 실패",
+            text: err.response.data.message,
+            showConfirmButton: false,
+            timer: 2000,
+            timerProgressBar: false,
+          });
+        });
     },
     // 비밀번호 찾기
     findPassword({ dispatch }, email) {
