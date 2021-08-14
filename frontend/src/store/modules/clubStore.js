@@ -87,6 +87,7 @@ const clubStore = {
       axios
         .get(SERVER.URL + SERVER.ROUTES.getClubInfo + clubId, rootGetters.config)
         .then((res) => {
+          commit("SET_CLUBID", clubId);
           commit("SET_CLUB_INFO", res.data);
         })
         .catch((err) => {

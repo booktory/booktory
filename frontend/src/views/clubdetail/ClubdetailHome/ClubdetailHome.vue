@@ -1,5 +1,5 @@
 <template>
-  <div class="clubdetail-container">
+  <div v-if="clubInfo" class="clubdetail-container">
     <div class="bg-image">
       <div class="icon" @click="$router.push({ name: 'ClubHome' })">
         <icon-base><icon-x /></icon-base>
@@ -8,23 +8,25 @@
       <div class="card">
         <div class="main">
           <h3>
-            {{ bookclub.name }}
+            {{ clubInfo.name }}
           </h3>
-          <span
-            class="genre-keyword"
-            v-for="(genre, idx) in bookclub.genres"
-            :key="idx"
-            :value="genre"
-          >
-            <button class="tag">{{ genre.genreName }}</button>
-          </span>
+          <div class="genre-keyword">
+            <span
+              class="tag font-body-4"
+              v-for="(genre, idx) in clubInfo.genres"
+              :key="idx"
+              :value="genre"
+            >
+              {{ genreList[genre - 1] }}
+            </span>
+          </div>
           <div class="font-body-2 m-top-1">
-            {{ bookclub.info }}
+            {{ clubInfo.info }}
           </div>
 
           <div class="m-top-1">
-            <span class="font-body-4">{{ bookclub.leader_id }}</span> |
-            <span class="font-body-4">{{ bookclub.max_member }}명</span>
+            <span class="font-body-4"><b>클럽장</b> {{ clubInfo.leaderName }}</span
+            >&nbsp;|&nbsp;<span class="font-body-4"><b>참가자</b> {{ clubInfo.nowMember }}명</span>
           </div>
 
           <div class="meeting m-top-2">
@@ -56,9 +58,9 @@
 
           <div class="rules m-top-2">
             <h5>운영규칙</h5>
-            <p class="font-body-2 m-top-1">• 한 달에 {{ bookclub.volum_rule }}권을 읽어요</p>
-            <p class="font-body-2 m-top-1">• {{ bookclub.week_rule }}주에 1번 만나요</p>
-            <p class="font-body-2 m-top-1">• {{ bookclub.free_rule }}</p>
+            <p class="font-body-2 m-top-1">• 한 달에 {{ clubInfo.volumeRule }}권을 읽어요</p>
+            <p class="font-body-2 m-top-1">• {{ clubInfo.weekRule }}주에 1번 만나요</p>
+            <p v-if="clubInfo.freeRule" class="font-body-2 m-top-1">• {{ clubInfo.freeRule }}</p>
           </div>
 
           <div class="books m-top-2">
@@ -80,7 +82,7 @@
 </template>
 
 <script>
-// import "./ClubdetailHome.scss";
+import { mapState } from "vuex";
 import Navbar from "@/views/clubdetail/Navbar.vue";
 import IconVideo from "@/components/icons/IconVideo.vue";
 import IconBookmark from "@/components/icons/IconBookmark.vue";
@@ -93,9 +95,8 @@ export default {
     IconBookmark,
   },
   computed: {
-    bookclub: function () {
-      return this.$store.state.examples.bookclubs[0].clubList[0];
-    },
+    ...mapState("clubStore", ["clubInfo"]),
+    ...mapState("searchStore", ["genreList"]),
     books: function () {
       return this.$store.state.examples.bookclubs[0].bookList;
     },
@@ -146,13 +147,12 @@ export default {
 
         .tag {
           display: inline-block;
-          margin: 0 auto;
-          padding: 0.5% 1.6%;
+          padding: 0.2rem 0.6rem;
+          margin: 0.5rem 0 0 0.4rem;
           border: 0;
           border-radius: 1em;
           color: white;
           background-color: var(--light-orange);
-          margin: 0.5% 0.4%;
         }
 
         .meeting {
@@ -169,7 +169,7 @@ export default {
             border: 0;
 
             color: white;
-            background-color: #bdbcdb;
+            background-color: var(--very-light-brown);
             box-shadow: 0 0.4em 0.8em 0 rgba(142, 141, 208, 0.3);
 
             &-head {

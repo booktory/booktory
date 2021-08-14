@@ -28,7 +28,7 @@
     </div>
 
     <!-- 바디1 => 클럽 정보 -->
-    <div class="card-background club-info">
+    <div class="card-background club-info" @click="clickCard">
       <h4 class="club-info-title">{{ clubInfo.name }}</h4>
       <div class="font-body-4 club-info-user">
         <b>클럽장</b> {{ clubInfo.leaderName }}&nbsp;|&nbsp;<b>참가자</b> {{ clubInfo.nowMember }}명
@@ -81,9 +81,9 @@
         <!-- 모임 정보 -->
         <div class="meeting">
           <h5>{{ convertTime(clubInfo.endDateTime) }}</h5>
-          <span class="font-body-4">{{ needTimeStr }}</span>
+          <span class="font-body-4">{{ remainTimeStr }}</span>
         </div>
-        <button :disabled="!isStart" class="button-2 m-top-5">모임 입장하기</button>
+        <button :disabled="!isOpen" class="button-2 m-top-5">모임 입장하기</button>
       </div>
       <div v-else>
         <span class="empty-meeting">예정된 모임이 없습니다.</span>
@@ -94,6 +94,8 @@
 
 <script>
 import { mapActions, mapState } from "vuex";
+import router from "@/router";
+
 export default {
   name: "ClubListItem",
   props: {
@@ -113,8 +115,9 @@ export default {
   },
   data() {
     return {
+      isOpen: false,
       isStart: false,
-      needTimeStr: "",
+      remainTimeStr: "",
     };
   },
   watch: {
@@ -132,6 +135,11 @@ export default {
     clickRight: function () {
       this.$emit("click-right");
     },
+    // 클럽 카드 클릭
+    clickCard() {
+      router.push({ name: "ClubdetailHome" });
+    },
+    // 모임 시간 년월일 변환
     convertTime(data) {
       let date = new Date(data);
       let year = date.getFullYear();
@@ -144,7 +152,8 @@ export default {
         year + "년 " + month + "월 " + day + "일 " + ampm + (hour % 12) + "시 " + minute + "분";
       return dateStr;
     },
-    convertNeedTime() {
+    // 모임까지 남은 시간 계산
+    convertRemainTime() {
       let target = new Date(this.clubInfo.endDateTime);
       let curr = new Date();
       let diffSecond = Math.floor((target.getTime() - curr.getTime()) / 1000);
@@ -156,22 +165,33 @@ export default {
       if (diffTimeDay > 0) dateStr += diffTimeDay + "일 ";
       if (diffTimeHour > 0) dateStr += (diffTimeHour % 24) + "시간 ";
       if (diffTime >= 10) dateStr += (diffTime % 60) + "분 ";
-      else {
+      else if (diffTime >= 0) {
+        this.isOpen = true;
+        return "곧 모임이 시작됩니다.";
+      } else {
+        this.isOpen = true;
         this.isStart = true;
-        return "모임이 시작되었습니다";
+        return "모임이 시작되었습니다.";
       }
       if (diffSecond > 0) dateStr += (diffSecond % 60) + "초 ";
       return dateStr + "남았습니다.";
     },
+    init() {
+      this.initPolling = setInterval(() => {
+        this.remainTimeStr = this.convertRemainTime();
+        if (this.clubInfo) clearInterval(this.initPolling);
+      }, 100);
+    },
     start() {
       this.polling = setInterval(() => {
-        this.needTimeStr = this.convertNeedTime();
+        this.remainTimeStr = this.convertRemainTime();
         if (this.isStart) clearInterval(this.polling);
       }, 1000);
     },
   },
   created() {
     this.findClubInfo(this.clubId);
+    this.init();
     this.start();
   },
 };
