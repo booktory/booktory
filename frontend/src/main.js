@@ -76,6 +76,18 @@ firebaseModule.init();
 // kakao login
 window.Kakao.init("2d28ddad0da9ae11feff8fbe006682af");
 
+// google login
+import GAuth from "vue-google-oauth2";
+
+const gauthOption = {
+  clientId: "160792286358-2kffcdol1v9o8phfbponpp9g5bc9ld03.apps.googleusercontent.com",
+  scope: "email profile",
+  prompt: "consent",
+  fetch_basic_profile: true,
+};
+
+Vue.use(GAuth, gauthOption);
+
 new Vue({
   router,
   store,

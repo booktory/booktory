@@ -51,7 +51,7 @@
       <p class="text-link">비밀번호 찾기</p>
     </router-link>
     <div class="social-login">
-      <img src="@/assets/icons/naver.svg" />
+      <img src="@/assets/icons/google.svg" @click="googleLogin" />
       <img src="@/assets/icons/kakao.svg" @click="kakaoLogin" />
     </div>
     <div class="text-div">
@@ -135,6 +135,16 @@ export default {
       // eslint-disable-next-line
       var reg = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{0,}$/;
       return reg.test(password);
+    },
+    async googleLogin() {
+      const googleUser = await this.$gAuth.signIn();
+      const profile = googleUser.getBasicProfile();
+      const socialLoginData = {
+        email: profile.getEmail(),
+        socialType: "GOOGLE",
+      };
+      // console.log(profile.getEmail());
+      this.socialLogin(socialLoginData);
     },
     kakaoLogin() {
       window.Kakao.Auth.login({
