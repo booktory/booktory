@@ -2,12 +2,12 @@
   <div class="">
     <div class="club-card" @click="selectBook">
       <div class="club-card-img">
-        <img :src="bookImg" alt="club image" />
+        <img :src="bookImg" alt="책이미지" />
       </div>
       <div class="club-card-text">
         <h6>{{ bookTitle }}</h6>
-        <p>{{ bookAuthor }} | {{ bookTranslators }}</p>
-        <p>{{ bookPublisher }} | {{ bookDate }}</p>
+        <p>{{ bookAuthor }}&nbsp;|&nbsp;{{ bookTranslators }}</p>
+        <p>{{ bookPublisher }}&nbsp;|&nbsp;{{ bookDate }}</p>
       </div>
     </div>
   </div>
@@ -55,11 +55,9 @@ export default {
 <style lang="scss" scoped>
 .club-card {
   display: flex;
-  justify-content: center;
-  margin: 0 auto;
   width: 80%;
   height: 7rem;
-
+  margin: 0 auto;
   background-color: var(--very-light-grey);
   border-radius: 1rem;
   margin-bottom: 1rem;

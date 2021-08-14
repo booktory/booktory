@@ -86,6 +86,7 @@ export default {
   width: 6em;
   height: 6em;
   border-radius: 10em;
+  background-color: var(--very-light-orange);
 }
 .info-frame {
   display: flex;

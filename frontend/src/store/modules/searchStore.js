@@ -40,13 +40,13 @@ const searchStore = {
     },
   },
   mutations: {
-    SET_GENRELIST(state, data) {
+    SET_GENRE_LIST(state, data) {
       state.genreList = data;
     },
-    SET_BOOKLIST(state, data) {
+    SET_BOOK_LIST(state, data) {
       state.bookList = data;
     },
-    SET_CLUBLIST(state, data) {
+    SET_CLUB_LIST(state, data) {
       state.clubList = data;
     },
   },
@@ -56,7 +56,7 @@ const searchStore = {
       axios
         .get(SERVER.URL + SERVER.ROUTES.searchBookByKeyword + "?keyword=" + keyword)
         .then((res) => {
-          commit("SET_BOOKLIST", res.data);
+          commit("SET_BOOK_LIST", res.data);
         })
         .catch((err) => {
           console.log(err);
@@ -67,8 +67,7 @@ const searchStore = {
       axios
         .get(SERVER.URL + SERVER.ROUTES.searchClubByNameAndGenre + "?keyword=" + keyword)
         .then((res) => {
-          // console.log(res.data);
-          commit("SET_CLUBLIST", res.data);
+          commit("SET_CLUB_LIST", res.data);
         })
         .catch((err) => {
           console.log(err);
@@ -79,8 +78,7 @@ const searchStore = {
       axios
         .get(SERVER.URL + SERVER.ROUTES.searchClubByNameAndGenre + "?genre=" + genre)
         .then((res) => {
-          console.log(res.data);
-          commit("SET_CLUBLIST", res.data);
+          commit("SET_CLUB_LIST", res.data);
         })
         .catch((err) => {
           console.log(err);
