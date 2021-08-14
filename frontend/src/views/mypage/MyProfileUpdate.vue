@@ -17,7 +17,11 @@
         </div>
         <img
           class="profile-img"
-          :src="userInfo.profileImg ? userInfo.profileImg : 'https://via.placeholder.com/100'"
+          :src="
+            userInfo.profileImg
+              ? userInfo.profileImg
+              : 'https://booktory.s3.ap-northeast-2.amazonaws.com/static/default/profile.png'
+          "
           alt="Profile Image"
         />
       </div>
