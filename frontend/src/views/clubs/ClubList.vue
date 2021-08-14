@@ -31,10 +31,10 @@ export default {
   methods: {
     ...mapActions("clubStore", ["findClubList"]),
     onClickLeft: function () {
-      this.index -= 1;
+      this.index--;
     },
     onClickRight: function () {
-      this.index += 1;
+      this.index++;
     },
   },
   created() {

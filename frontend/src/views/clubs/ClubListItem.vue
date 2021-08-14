@@ -81,9 +81,15 @@
         <!-- 모임 정보 -->
         <div class="meeting">
           <h5>{{ convertTime(clubInfo.endDateTime) }}</h5>
-          <span class="font-body-4">{{ remainTimeStr }}</span>
+          <span class="font-body-4">{{ meetingInfo.remainTime }}</span>
         </div>
-        <button :disabled="!isOpen" class="button-2 m-top-5">모임 입장하기</button>
+        <button
+          :disabled="!meetingInfo.isOpen"
+          class="button-2 m-top-5 meetingBtn"
+          @click="clickMeeting"
+        >
+          모임 입장하기
+        </button>
       </div>
       <div v-else>
         <span class="empty-meeting">예정된 모임이 없습니다.</span>
@@ -110,7 +116,7 @@ export default {
     },
   },
   computed: {
-    ...mapState("clubStore", ["clubInfo"]),
+    ...mapState("clubStore", ["clubInfo", "meetingInfo"]),
     ...mapState("searchStore", ["genreList"]),
   },
   data() {
@@ -128,7 +134,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions("clubStore", ["findClubInfo"]),
+    ...mapActions("clubStore", ["findClubInfo", "pollingStart", "pollingEnd"]),
     clickLeft: function () {
       this.$emit("click-left");
     },
@@ -138,6 +144,11 @@ export default {
     // 클럽 카드 클릭
     clickCard() {
       router.push({ name: "ClubdetailHome" });
+    },
+    // 모임 입장하기 버튼 클릭
+    clickMeeting(event) {
+      event.stopPropagation();
+      router.push({ name: "Meeting" });
     },
     // 모임 시간 년월일 변환
     convertTime(data) {
@@ -152,47 +163,13 @@ export default {
         year + "년 " + month + "월 " + day + "일 " + ampm + (hour % 12) + "시 " + minute + "분";
       return dateStr;
     },
-    // 모임까지 남은 시간 계산
-    convertRemainTime() {
-      let target = new Date(this.clubInfo.endDateTime);
-      let curr = new Date();
-      let diffSecond = Math.floor((target.getTime() - curr.getTime()) / 1000);
-      let diffTime = Math.floor(diffSecond / 60);
-      let diffTimeHour = Math.floor(diffTime / 60);
-      let diffTimeDay = Math.floor(diffTimeHour / 24);
-      // 모임까지 00일 00시 00분 00초 남았습니다.
-      let dateStr = "모임까지 ";
-      if (diffTimeDay > 0) dateStr += diffTimeDay + "일 ";
-      if (diffTimeHour > 0) dateStr += (diffTimeHour % 24) + "시간 ";
-      if (diffTime >= 10) dateStr += (diffTime % 60) + "분 ";
-      else if (diffTime >= 0) {
-        this.isOpen = true;
-        return "곧 모임이 시작됩니다.";
-      } else {
-        this.isOpen = true;
-        this.isStart = true;
-        return "모임이 시작되었습니다.";
-      }
-      if (diffSecond > 0) dateStr += (diffSecond % 60) + "초 ";
-      return dateStr + "남았습니다.";
-    },
-    init() {
-      this.initPolling = setInterval(() => {
-        this.remainTimeStr = this.convertRemainTime();
-        if (this.clubInfo) clearInterval(this.initPolling);
-      }, 100);
-    },
-    start() {
-      this.polling = setInterval(() => {
-        this.remainTimeStr = this.convertRemainTime();
-        if (this.isStart) clearInterval(this.polling);
-      }, 1000);
-    },
   },
   created() {
     this.findClubInfo(this.clubId);
-    this.init();
-    this.start();
+    this.pollingStart();
+  },
+  destroyed() {
+    this.pollingEnd();
   },
 };
 </script>
@@ -212,7 +189,7 @@ export default {
   width: 30rem;
   min-height: 50vh;
   margin: 5% auto;
-  padding: 4rem 1rem 4.5rem;
+  padding: 4rem 1rem 5rem;
   border-radius: 10px;
   box-shadow: 0 4px 8px 4px rgba(161, 160, 228, 0.16);
   background-color: var(--white);
@@ -220,7 +197,7 @@ export default {
 
 .bookcard-background {
   width: 100%;
-  margin: 1.5rem auto;
+  margin: 2.5rem auto 1.5rem;
   padding: 1.5rem 0 1.5rem;
   background-color: var(--very-light-grey);
   border-radius: 1em;
@@ -281,6 +258,9 @@ export default {
   text-align: left;
 }
 
+.meetingBtn {
+  z-index: 10;
+}
 .meeting {
   margin-top: 2rem;
   display: flex;

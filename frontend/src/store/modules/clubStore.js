@@ -8,6 +8,13 @@ const clubStore = {
   state: {
     myClubList: null,
     clubInfo: null,
+    isPolling: false,
+    meetingInfo: {
+      startTime: "",
+      remainTime: "",
+      isOpen: false,
+      isCalc: true,
+    },
     clubId: null,
     isLeader: null,
     applyList: null,
@@ -21,6 +28,12 @@ const clubStore = {
     },
     clubInfo(state) {
       return state.clubInfo;
+    },
+    isPolling(state) {
+      return state.isPolling;
+    },
+    meetingInfo(state) {
+      return state.meetingInfo;
     },
     clubId(state) {
       return state.clubId;
@@ -45,6 +58,15 @@ const clubStore = {
     SET_MYCLUB_LIST(state, data) {
       state.myClubList = data;
     },
+    SET_CLUB_INFO(state, data) {
+      state.clubInfo = data;
+    },
+    SET_IS_POLLING(state, data) {
+      state.isPolling = data;
+    },
+    SET_MEETING_INFO(state, data) {
+      state.meetingInfo = data;
+    },
     SET_CLUBID(state, data) {
       state.clubId = data;
     },
@@ -59,9 +81,6 @@ const clubStore = {
     },
     SET_QUESTION_LIST(state, data) {
       state.questionList = data;
-    },
-    SET_CLUB_INFO(state, data) {
-      state.clubInfo = data;
     },
     SET_NEW_CLUBDATA(state, data) {
       state.newClubData = data;
@@ -83,16 +102,67 @@ const clubStore = {
         });
     },
     // 해당 클럽 정보 확인
-    findClubInfo({ rootGetters, commit }, clubId) {
+    findClubInfo({ rootGetters, commit, dispatch }, clubId) {
       axios
         .get(SERVER.URL + SERVER.ROUTES.getClubInfo + clubId, rootGetters.config)
         .then((res) => {
           commit("SET_CLUBID", clubId);
           commit("SET_CLUB_INFO", res.data);
+          // 다음 모임 정보 설정
+          let meetingInfo = null;
+          if (res.data.endDateTime) {
+            meetingInfo = {
+              startTime: res.data.endDateTime,
+              remainTime: "",
+              isOpen: false,
+              isCalc: true,
+            };
+          }
+          commit("SET_MEETING_INFO", meetingInfo);
+          dispatch("calcRemainTime");
         })
         .catch((err) => {
           console.log(err);
         });
+    },
+    // 다음 모임까지 남은 시간 계산
+    calcRemainTime({ getters, commit }) {
+      let meetingInfo = getters.meetingInfo;
+      // 다음 모임이 있으면 남은 시간 계산
+      if (meetingInfo && meetingInfo.isCalc) {
+        let target = new Date(meetingInfo.startTime);
+        let curr = new Date();
+        let diffSecond = Math.floor((target.getTime() - curr.getTime()) / 1000);
+        let diffTime = Math.floor(diffSecond / 60);
+        let diffTimeHour = Math.floor(diffTime / 60);
+        let diffTimeDay = Math.floor(diffTimeHour / 24);
+        // 모임까지 00일 00시 00분 00초 남았습니다.
+        let dateStr = "모임까지 ";
+        if (diffTimeDay > 0) dateStr += diffTimeDay + "일 ";
+        if (diffTimeHour > 0) dateStr += (diffTimeHour % 24) + "시간 ";
+        if (diffTime > 10) dateStr += (diffTime % 60) + "분 ";
+        if (diffSecond > 0) dateStr += (diffSecond % 60) + "초 ";
+        meetingInfo.remainTime = dateStr + "남았습니다.";
+        if (diffTime <= 10) {
+          meetingInfo.isOpen = true;
+          meetingInfo.remainTime = "곧 모임이 시작됩니다.";
+        }
+        if (diffSecond <= 0) {
+          meetingInfo.remainTime = "모임이 시작되었습니다.";
+          meetingInfo.isCalc = false;
+        }
+        commit("SET_MEETING_INFO", meetingInfo);
+      }
+    },
+    pollingStart({ getters, commit, dispatch }) {
+      commit("SET_IS_POLLING", true);
+      this.polling = setInterval(() => {
+        dispatch("calcRemainTime");
+        if (!getters.isPolling) clearInterval(this.polling);
+      }, 1000);
+    },
+    pollingEnd({ commit }) {
+      commit("SET_IS_POLLING", false);
     },
     // 새 클럽 만들 정보 저장
     saveClubData({ commit }, clubData) {
