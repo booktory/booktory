@@ -53,7 +53,7 @@ public class ClubFindResponseDto {
         this.date = club.getCreatedDate();
         this.img = club.getImg();
         this.info = club.getInfo();
-        this.leaderName = club.getUser().getName();
+        this.leaderName = club.getUser().getNickname();
         this.nowMember = nowMember;
         this.maxMember = club.getMaxMember();
         this.isOpen = club.getIsOpen();
@@ -71,7 +71,7 @@ public class ClubFindResponseDto {
         this.date = club.getCreatedDate();
         this.img = club.getImg();
         this.info = club.getInfo();
-        this.leaderName = club.getUser().getName();
+        this.leaderName = club.getUser().getNickname();
         this.nowMember = nowMember;
         this.maxMember = club.getMaxMember();
         this.isOpen = club.getIsOpen();
