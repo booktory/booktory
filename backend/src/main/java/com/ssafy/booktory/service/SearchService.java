@@ -48,9 +48,9 @@ public class SearchService {
         List<ClubBySearchResponseDto> clubBySearchResponseDtos = new ArrayList<>();
         clubList.forEach(club -> {
             int nowMember = userClubRepository.findByClubIdAndState(club.getId(), UserClubState.ACCEPT).size();
-            List<String> genreName = new ArrayList<>();
+            List<Long> genreName = new ArrayList<>();
             club.getGenres().forEach(g -> {
-                genreName.add(g.getGenre().getName());
+                genreName.add(g.getGenre().getId());
             });
 
             clubBySearchResponseDtos.add(new ClubBySearchResponseDto(club.getId(),
