@@ -2,17 +2,20 @@
   <div class="">
     <div class="club-card" @click="selectClub">
       <div class="club-card-img">
-        <img :src="clubImg" alt="클럽이미지" />
+        <img
+          :src="
+            clubImg
+              ? clubImg
+              : 'https://booktory.s3.ap-northeast-2.amazonaws.com/static/default/club.png'
+          "
+          alt="클럽이미지"
+        />
       </div>
       <div class="club-card-text">
-        <h6 class="club-card-text-name">{{ clubName }}</h6>
-        <p class="club-card-text-user">
-          <span>클럽장</span>{{ leaderId }} | <span>참가자</span>{{ maxMember }}
-        </p>
+        <h6>{{ clubName }}</h6>
+        <p><b>클럽장</b> {{ leaderName }}&nbsp;|&nbsp;<b>참가자</b> {{ nowMember }}명</p>
         <div class="club-card-text-genres">
-          <span class="genre-keyword" v-for="(genre, idx) in genres" :key="idx" :value="genre">
-            <button class="tag">{{ genre.genreName }}</button>
-          </span>
+          <span class="tag" v-for="(genre, idx) in genres" :key="idx">{{ genre }} </span>
         </div>
       </div>
     </div>
@@ -20,6 +23,8 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+
 export default {
   name: "ClubSearchBarPageList",
   props: {
@@ -33,17 +38,18 @@ export default {
     },
   },
   computed: {
+    ...mapState("searchStore", ["genreList"]),
     clubImg: function () {
       return this.club.clubImg;
     },
     clubName: function () {
       return this.club.name;
     },
-    leaderId: function () {
-      return this.club.leader_id;
+    leaderName: function () {
+      return this.club.leaderName;
     },
-    maxMember: function () {
-      return this.club.max_member;
+    nowMember: function () {
+      return this.club.nowMember;
     },
     genres: function () {
       return this.club.genres;
@@ -54,58 +60,57 @@ export default {
 
 <style lang="scss" scoped>
 .club-card {
+  display: flex;
   width: 80%;
-  height: 8rem;
+  height: 7.5rem;
+  margin: 0 auto;
   background-color: var(--very-light-grey);
   border-radius: 1rem;
-  margin: 1rem auto;
+  margin-bottom: 1rem;
 
-  .club-card-img {
-    width: 30%;
+  &-img {
+    width: 5rem;
     height: 100%;
-    float: left;
-    align-content: center;
 
     img {
-      width: 100%;
-      height: 100%;
-      border-radius: 1rem;
+      width: 5rem;
+      height: 7.5rem;
+      border-radius: 1em 0 0 1em;
+      box-shadow: 0 3% 3px 0 var(--bg-black), inset 0 0 3px 0 var(--bg-black);
     }
   }
-  .club-card-text * {
+  &-text {
+    width: 100%;
     text-align: left;
-  }
-  .club-card-text {
-    width: 70%;
-    height: 100%;
-    float: left;
-    &-name {
-      padding: 5%;
+    margin-left: 1.2rem;
+    position: relative;
+    overflow: hidden;
+
+    h6 {
+      white-space: nowrap;
+      overflow: hidden;
+      text-align: left;
+      margin: 0;
+      margin-top: 1rem;
     }
-    &-user {
-      padding-left: 5%;
-      padding-top: 1%;
+    p {
+      text-align: left;
+      margin: 0;
+      margin-top: 0.5rem;
     }
     &-genres {
-      padding-left: 5%;
-      padding-top: 1%;
+      text-align: left;
     }
   }
-}
-
-h6,
-p {
-  margin: 0;
 }
 
 .tag {
   display: inline-block;
-  margin: 0 auto;
-  padding: 0.5% 1.6%;
+  padding: 0.2rem 0.5rem;
+  margin: 0.4rem 0.3rem 0 0;
   border: 0;
   border-radius: 1em;
-  color: white;
+  color: var(--white);
   background-color: var(--light-orange);
-  margin: 0.5% 0.4%;
 }
 </style>

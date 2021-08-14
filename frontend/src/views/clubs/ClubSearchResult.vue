@@ -3,7 +3,14 @@
     <div v-if="club">
       <div class="club-card" @click="selectClub">
         <div class="club-card-img">
-          <img :src="clubImg" alt="클럽이미지" />
+          <img
+            :src="
+              clubImg
+                ? clubImg
+                : 'https://booktory.s3.ap-northeast-2.amazonaws.com/static/default/club.png'
+            "
+            alt="클럽이미지"
+          />
         </div>
         <div class="club-card-text">
           <h6 class="club-card-text-name">{{ clubName }}</h6>

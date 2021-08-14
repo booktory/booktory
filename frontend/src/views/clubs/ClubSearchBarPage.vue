@@ -13,7 +13,7 @@
       </div>
     </div>
     <div class="club-search-result">
-      <label> 검색된 클럽 목록 </label>
+      <label>검색된 클럽 목록</label>
       <ClubSearchBarPageList
         v-for="(club, idx) in clubList"
         :key="idx"
@@ -34,7 +34,6 @@ export default {
   name: "ClubSearchBarPage",
   components: {
     ClubSearchBarPageList,
-    // TopHeader,
   },
   data: function () {
     return {
@@ -43,12 +42,13 @@ export default {
   },
   methods: {
     ...mapActions("searchStore", ["searchClubByName"]),
+    ...mapActions("clubStore", ["findClubInfo"]),
     clickSearch() {
       this.searchClubByName(this.keyword);
     },
 
-    onSelectClub: function () {
-      // console.log(club);
+    onSelectClub() {
+      // this.findClubInfo(clubId);
       router.push({ name: "ClubSearchBarPageListItem" });
     },
   },

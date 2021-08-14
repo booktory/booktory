@@ -1,10 +1,5 @@
 <template>
   <div class="container">
-    <!-- <div class="navbar">
-      <div class="icon" @click="$router.go(-1)">
-        <icon-base><icon-arrow-left /></icon-base>
-      </div>
-    </div> -->
     <TopHeader />
     <h5>
       {{ club.name }}
