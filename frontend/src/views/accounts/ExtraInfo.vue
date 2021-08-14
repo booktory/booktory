@@ -100,6 +100,7 @@ export default {
     return {
       extraData: {
         email: this.$route.query.email,
+        isSocialUser: this.$route.query.isSocialUser,
         profileImg: "",
         name: "",
         birth: "",
@@ -132,7 +133,11 @@ export default {
         title: "회원가입 완료",
         html: "회원가입이 완료 되었습니다.<br>지금부터 책토리를 이용하실 수 있어요!",
       });
-      router.push({ name: "Login" });
+      if (this.extraData.isSocialUser === "true") {
+        router.push({ name: "ClubHome" });
+      } else {
+        router.push({ name: "Login" });
+      }
     },
     // 추가정보 입력 버튼 클릭
     clickExtraInfo() {

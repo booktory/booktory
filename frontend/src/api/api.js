@@ -3,6 +3,7 @@ export default {
   ROUTES: {
     // accounts
     login: "/users/login",
+    socialLogin: "/users/social",
     register: "/users",
     registerExtraInfo: "/users/extra",
     findPassword: "/users/password/",

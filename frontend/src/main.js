@@ -73,6 +73,9 @@ const firebaseModule = (function () {
 
 firebaseModule.init();
 
+// kakao login
+window.Kakao.init("2d28ddad0da9ae11feff8fbe006682af");
+
 new Vue({
   router,
   store,

@@ -52,7 +52,7 @@
     </router-link>
     <div class="social-login">
       <img src="@/assets/icons/naver.svg" />
-      <img src="@/assets/icons/kakao.svg" />
+      <img src="@/assets/icons/kakao.svg" @click="kakaoLogin" />
     </div>
     <div class="text-div">
       <p class="font-body-3">아직 회원이 아니신가요?</p>
@@ -63,6 +63,7 @@
 
 <script>
 import { mapActions } from "vuex";
+import Swal from "sweetalert2";
 
 export default {
   name: "Login",
@@ -89,7 +90,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions("accountStore", ["login"]),
+    ...mapActions("accountStore", ["login", "socialLogin"]),
     // 로그인 버튼 클릭
     clickLogin() {
       if (this.isSubmit) {
@@ -134,6 +135,39 @@ export default {
       // eslint-disable-next-line
       var reg = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{0,}$/;
       return reg.test(password);
+    },
+    kakaoLogin() {
+      window.Kakao.Auth.login({
+        scope: "account_email",
+        success: () => {
+          /* http에서 https 접근하기 위한 임시 코드(지울 예정) */
+          document.cookie = "safeCookie1=foo; SameSite=Lax";
+          document.cookie = "safeCookie2=foo";
+          document.cookie = "crossCookie=bar; SameSite=None; Secure";
+
+          window.Kakao.API.request({
+            url: "/v2/user/me",
+            success: (res) => {
+              const socialLoginData = {
+                email: res.kakao_account.email,
+                socialType: "KAKAO",
+              };
+              if (socialLoginData.email === undefined) {
+                Swal.fire({
+                  icon: "error",
+                  title: "로그인 실패",
+                  text: "이메일 동의를 체크 해주세요.",
+                  showConfirmButton: false,
+                  timer: 2000,
+                  timerProgressBar: false,
+                });
+              } else {
+                this.socialLogin(socialLoginData);
+              }
+            },
+          });
+        },
+      });
     },
   },
 };

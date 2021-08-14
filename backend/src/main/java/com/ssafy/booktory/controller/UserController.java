@@ -75,6 +75,7 @@ public class UserController {
         String userEmail = userService.updateAcceptState(token);
         Map<String, String> attributes = new HashMap<>();
         attributes.put("email", userEmail);
+        attributes.put("isSocialUser", "false");
         redirectView.setAttributesMap(attributes);
         redirectView.setUrl("http://localhost:8080/register/extrainfo");
         return redirectView;
