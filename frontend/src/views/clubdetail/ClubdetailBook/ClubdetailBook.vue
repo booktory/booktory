@@ -1,74 +1,145 @@
 <template>
   <div class="clubdetail-container">
     <div class="bg-image">
-      <div class="icon" @click="$router.push({ name: 'ClubHome' })">
-        <icon-base><icon-x /></icon-base>
+      <div class="icon icon-back" @click="$router.go(-1)">
+        <icon-base><icon-arrow-left /></icon-base>
       </div>
+      <!-- <div class="icon" @click="$router.push({ name: 'ClubHome' })">
+        <icon-base><icon-x /></icon-base>
+      </div> -->
       <div class="card">
         <div class="main">
           <div class="main-head">
-            <h4>읽는 중</h4>
-            <button @click="$router.push({ name: 'ClubdetailBookAdd' })">책 추가하기</button>
+            <h5>읽는 중</h5>
+            <span
+              v-if="clubInfo.isLeader"
+              class="font-body-4"
+              @click="$router.push({ name: 'ClubdetailBookAdd' })"
+              >책 추가하기</span
+            >
           </div>
           <!-- 읽는 중 -->
           <div class="now-reading">
-            <div class="now-reading-card m-top-1">
-              <div class="now-reading-card-left">
-                <img :src="nowBook.thumbnail" alt="" />
-              </div>
-              <div class="now-reading-card-right">
-                <div class="now-reading-card-head">
-                  <h5>{{ nowBook.title }}</h5>
+            <div v-if="nowbookclub != null">
+              <div class="reading-card m-top-1">
+                <div class="reading-card-left">
+                  <img :src="nowbookclub.bookThumbnail" alt="" />
                 </div>
-                <div class="now-reading-card-body font-body-4">
-                  {{ nowBook.author }} | {{ nowBook.translators }}
-                </div>
-                <div class="now-reading-card-footer font-body-4">
-                  {{ nowBook.publisher }} | {{ nowBook.date }}
+                <div class="reading-card-right">
+                  <div class="reading-card-head">
+                    <h6>
+                      {{
+                        nowbookclub.bookTitle.length > 22
+                          ? nowbookclub.bookTitle.substr(0, 22) + "・・・"
+                          : nowbookclub.bookTitle
+                      }}
+                    </h6>
+                  </div>
+                  <div class="reading-card-body font-body-4">
+                    {{
+                      nowbookclub.bookAuthor.length > 8
+                        ? nowbookclub.bookAuthor.substr(0, 8) + "・・・"
+                        : nowbookclub.bookAuthor
+                    }}&nbsp;|&nbsp;{{ nowbookclub.bookTranslators }}
+                  </div>
+                  <div class="reading-card-footer font-body-4">
+                    {{
+                      nowbookclub.bookPublisher.length > 8
+                        ? nowbookclub.bookPublisher.substr(0, 8) + "・・・"
+                        : nowbookclub.bookPublisher
+                    }}&nbsp;|&nbsp;{{ nowbookclub.bookDate }}
+                  </div>
                 </div>
               </div>
             </div>
+            <div v-else class="font-body-4 reading-card-no">예정된 모임이 없어요 :)</div>
           </div>
           <!-- 앞으로 읽을 책 -->
-          <div class="next-reeding">
-            <h4>앞으로 읽을 책</h4>
-            <div class="next-reading-card m-top-1">
-              <div class="next-reading-card-left">
-                <img :src="nowBook.thumbnail" alt="" />
+          <div class="reading">
+            <h5>앞으로 읽을 책</h5>
+            <div v-if="nextbookclubList.length > 0">
+              <div v-for="(book, idx) in nextbookclubList" :key="idx" class="reading-card m-top-1">
+                <div class="reading-card-left">
+                  <img :src="book.bookThumbnail" alt="" />
+                </div>
+                <div class="reading-card-right">
+                  <div class="reading-card-head">
+                    <h6>
+                      {{
+                        book.bookTitle.length > 22
+                          ? book.bookTitle.substr(0, 22) + "・・・"
+                          : book.booTitle
+                      }}
+                    </h6>
+                  </div>
+                  <div class="reading-card-body font-body-4">
+                    {{
+                      book.bookAuthor.length > 8
+                        ? book.bookAuthor.substr(0, 8) + "・・・"
+                        : book.bookAuthor
+                    }}&nbsp;|&nbsp;{{ book.bookTranslators }}
+                  </div>
+                  <div class="reading-card-footer font-body-4">
+                    {{
+                      book.bookPublisher.length > 8
+                        ? book.bookPublisher.substr(0, 8) + "・・・"
+                        : book.bookPublisher
+                    }}&nbsp;|&nbsp;{{ book.bookDate }}
+                  </div>
+                </div>
               </div>
-              <div class="next-reading-card-right">
-                <div class="next-reading-card-head">
-                  <h5>{{ nextBook.title }}</h5>
-                </div>
-                <div class="next-reading-card-body font-body-4">
-                  {{ nextBook.author }} | {{ nextBook.translators }}
-                </div>
-                <div class="next-reading-card-footer font-body-4">
-                  {{ nextBook.publisher }} | {{ nextBook.date }}
-                </div>
-              </div>
+            </div>
+            <div v-else class="font-body-4 reading-card-no">
+              읽을 책이 없어요. 책을 더 추가해 주세요 :)
             </div>
           </div>
 
           <!-- 읽었어요 -->
-          <div class="pre-meeting">
-            <h4>읽었어요</h4>
-            <div class="pre-reading-card m-top-1">
-              <div class="pre-reading-card-left">
-                <img :src="nowBook.thumbnail" alt="" />
-              </div>
-              <div class="pre-reading-card-right">
-                <div class="pre-reading-card-head">
-                  <h5>{{ preBook.title }}</h5>
+          <div class="reading">
+            <h5>읽었어요</h5>
+            <div v-if="prebookclubList.length > 0">
+              <div v-for="(book, idx) in prebookclubList" :key="idx" class="reading-card m-top-1">
+                <span class="font-body-6 reading-card-date">
+                  {{
+                    book.endDateTime.substr(0, 4) +
+                    "." +
+                    (new Date(book.endDateTime).getMonth() + 1) +
+                    "." +
+                    new Date(book.endDateTime).getDate() +
+                    "에 읽었어요"
+                  }}
+                </span>
+                <div class="reading-card-left">
+                  <img :src="book.bookThumbnail" alt="" />
                 </div>
-                <div class="pre-reading-card-body font-body-3">
-                  {{ preBook.author }} | {{ preBook.translators }}
-                </div>
-                <div class="pre-reading-card-footer font-body-4">
-                  {{ preBook.publisher }} | {{ preBook.date }}
+                <div class="reading-card-right">
+                  <div class="reading-card-head">
+                    <h6>
+                      {{
+                        book.bookTitle.length > 22
+                          ? book.bookTitle.substr(0, 22) + "・・・"
+                          : book.bookTitle
+                      }}
+                    </h6>
+                  </div>
+                  <div class="reading-card-body font-body-4">
+                    {{
+                      book.bookAuthor.length > 8
+                        ? book.bookAuthor.substr(0, 8) + "・・・"
+                        : book.bookAuthor
+                    }}&nbsp;|&nbsp;{{ book.bookTranslators }}
+                  </div>
+                  <div class="reading-card-footer font-body-4">
+                    {{
+                      book.bookPublisher.length > 8
+                        ? book.bookPublisher.substr(0, 8) + "・・・"
+                        : book.bookPublisher
+                    }}&nbsp;|&nbsp;{{ book.bookDate }}
+                  </div>
                 </div>
               </div>
             </div>
+            <div v-else class="font-body-4 reading-card-no">아직 읽은 책이 없어요 :)</div>
           </div>
         </div>
       </div>
@@ -79,6 +150,7 @@
 
 <script>
 import Navbar from "@/views/clubdetail/Navbar.vue";
+import { mapState } from "vuex";
 
 export default {
   name: "ClubdetailBook",
@@ -86,15 +158,13 @@ export default {
     Navbar,
   },
   computed: {
-    nowBook: function () {
-      return this.$store.state.examples.bookclubs[0].bookList[0];
-    },
-    nextBook: function () {
-      return this.$store.state.examples.bookclubs[0].bookList[1];
-    },
-    preBook: function () {
-      return this.$store.state.examples.bookclubs[0].bookList[2];
-    },
+    ...mapState("clubStore", ["clubInfo"]),
+    ...mapState("bookclubStore", [
+      "bookclubList",
+      "nowbookclub",
+      "nextbookclubList",
+      "prebookclubList",
+    ]),
   },
 };
 </script>
