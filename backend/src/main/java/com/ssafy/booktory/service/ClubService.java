@@ -86,7 +86,7 @@ public class ClubService {
         LocalDateTime endDateTime = null;
         BookClub bookClub = bookClubRepository.findByClubIdFirstByOrderByEndDatetimeDesc(id);
 
-        if (bookClub != null && ChronoUnit.MINUTES.between(bookClub.getEndDatetime(), LocalDateTime.now()) <= 10) {
+        if (bookClub != null && ChronoUnit.MINUTES.between(bookClub.getEndDatetime(), LocalDateTime.now()) <= 60) {
             book = bookRepository.findById(bookClub.getBook().getId()).orElseThrow(() -> new NoSuchElementException("존재하는 책이 없습니다."));
             endDateTime = bookClub.getEndDatetime();
         }
