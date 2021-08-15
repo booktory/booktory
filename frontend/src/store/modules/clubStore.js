@@ -2,6 +2,7 @@ import SERVER from "@/api/api";
 import axios from "axios";
 import router from "@/router";
 import Swal from "sweetalert2";
+var moment = require("moment");
 
 const clubStore = {
   namespaced: true,
@@ -138,9 +139,7 @@ const clubStore = {
       let meetingInfo = getters.meetingInfo;
       // 다음 모임이 있으면 남은 시간 계산
       if (meetingInfo && meetingInfo.isCalc) {
-        let target = new Date(meetingInfo.startTime);
-        let curr = new Date();
-        let diffSecond = Math.floor((target.getTime() - curr.getTime()) / 1000);
+        let diffSecond = Math.floor(moment(meetingInfo.startTime).subtract(moment()) / 1000);
         let diffTime = Math.floor(diffSecond / 60);
         let diffTimeHour = Math.floor(diffTime / 60);
         let diffTimeDay = Math.floor(diffTimeHour / 24);
@@ -148,10 +147,10 @@ const clubStore = {
         let dateStr = "모임까지 ";
         if (diffTimeDay > 0) dateStr += diffTimeDay + "일 ";
         if (diffTimeHour > 0) dateStr += (diffTimeHour % 24) + "시간 ";
-        if (diffTime > 10) dateStr += (diffTime % 60) + "분 ";
+        if (diffTime >= 10) dateStr += (diffTime % 60) + "분 ";
         if (diffSecond > 0) dateStr += (diffSecond % 60) + "초 ";
         meetingInfo.remainTime = dateStr + "남았습니다.";
-        if (diffTime <= 10) {
+        if (diffTime < 10) {
           meetingInfo.isOpen = true;
           meetingInfo.remainTime = "곧 모임이 시작됩니다.";
         }
@@ -240,7 +239,7 @@ const clubStore = {
     // 클럽 가입신청
     applyToClub({ rootGetters, getters }) {
       axios
-        .post(SERVER.URL + "/clubs/" + getters.clubId + "/join", rootGetters.config)
+        .post(SERVER.URL + "/clubs/" + getters.clubId + "/join", null, rootGetters.config)
         .then((res) => {
           console.log(res);
           Swal.fire({
@@ -266,7 +265,11 @@ const clubStore = {
     // 클럽 가입신청 수락
     acceptToClub({ rootGetters, getters, dispatch }, userClubId) {
       axios
-        .put(SERVER.URL + "/clubs/" + getters.clubId + "/join/" + userClubId, rootGetters.config)
+        .put(
+          SERVER.URL + "/clubs/" + getters.clubId + "/join/" + userClubId,
+          null,
+          rootGetters.config
+        )
         .then((res) => {
           console.log(res);
           dispatch("findApplyList");

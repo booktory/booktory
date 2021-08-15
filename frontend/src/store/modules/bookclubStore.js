@@ -2,6 +2,7 @@ import SERVER from "@/api/api";
 import axios from "axios";
 import router from "@/router";
 import Swal from "sweetalert2";
+var moment = require("moment");
 
 const bookclubStore = {
   namespaced: true,
@@ -47,13 +48,11 @@ const bookclubStore = {
         .get(SERVER.URL + SERVER.ROUTES.getBookClubList + clubId)
         .then((res) => {
           commit("SET_BOOKCLUB_LIST", res.data);
-          let curDate = new Date();
           let flag = true;
           for (let bookclub of res.data) {
-            let endDate = new Date(bookclub.endDateTime);
             if (bookclub.endDateTime == null) {
               nextbooks.push(bookclub);
-            } else if (curDate.getTime() <= endDate.getTime()) {
+            } else if (moment().subtract(moment(bookclub.endDateTime)) / 1000 / 60 <= 60) {
               flag = false;
               commit("SET_NOWBOOKCLUB", bookclub);
             } else {

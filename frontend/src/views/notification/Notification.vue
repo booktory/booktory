@@ -41,6 +41,7 @@
 import { mapState } from "vuex";
 import fire from "@/firebase.js";
 import router from "@/router";
+var moment = require("moment");
 
 export default {
   name: "Notification",
@@ -109,9 +110,7 @@ export default {
       });
     },
     convertTime(time) {
-      let curTime = new Date();
-      let alarmTime = new Date(time);
-      let diffTime = Math.floor((curTime.getTime() - alarmTime.getTime()) / 1000 / 60);
+      let diffTime = Math.floor(moment().subtract(moment(time)) / 1000 / 60);
       if (diffTime < 1) return "방금 전";
       if (diffTime < 60) return `${diffTime}분 전`;
 

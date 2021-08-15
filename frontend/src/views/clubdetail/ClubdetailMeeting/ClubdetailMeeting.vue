@@ -27,22 +27,14 @@
                 </div>
                 <div class="meeting-card-head">
                   <div class="font-body-3">
-                    {{
-                      nowbookclub.endDateTime.substr(0, 4) +
-                      "년 " +
-                      (new Date(nowbookclub.endDateTime).getMonth() + 1) +
-                      "월 " +
-                      new Date(nowbookclub.endDateTime).getDate() +
-                      "일"
-                    }}
+                    {{ $moment(nowbookclub.endDateTime).format("YYYY년 M월 D일") }}
                     <span
                       >{{
-                        (new Date(nowbookclub.endDateTime).getHours() / 12 >= 1 ? "오후" : "오전") +
-                        " " +
-                        (new Date(nowbookclub.endDateTime).getHours() % 12) +
-                        "시 " +
-                        new Date(nowbookclub.endDateTime).getMinutes() +
-                        "분"
+                        $moment(nowbookclub.endDateTime).format(
+                          $moment(nowbookclub.endDateTime).format("A") == "AM"
+                            ? "오전"
+                            : "오후" + " h시 mm분"
+                        )
                       }}
                     </span>
                   </div>
@@ -79,22 +71,14 @@
               >
                 <div class="meeting-card-head">
                   <div class="font-body-3">
-                    {{
-                      preMeeting.endDateTime.substr(0, 4) +
-                      "년 " +
-                      (new Date(preMeeting.endDateTime).getMonth() + 1) +
-                      "월 " +
-                      new Date(preMeeting.endDateTime).getDate() +
-                      "일"
-                    }}
+                    {{ $moment(preMeeting.endDateTime).format("YYYY년 M월 D일") }}
                     <span
                       >{{
-                        (new Date(preMeeting.endDateTime).getHours() / 12 >= 1 ? "오후" : "오전") +
-                        " " +
-                        (new Date(preMeeting.endDateTime).getHours() % 12) +
-                        "시 " +
-                        new Date(preMeeting.endDateTime).getMinutes() +
-                        "분"
+                        $moment(preMeeting.endDateTime).format(
+                          $moment(preMeeting.endDateTime).format("A") == "AM"
+                            ? "오전 h시 mm분"
+                            : "오후 h시 mm분"
+                        )
                       }}
                     </span>
                   </div>
@@ -142,6 +126,7 @@
 <script>
 import { mapActions, mapState } from "vuex";
 import Navbar from "@/views/clubdetail/Navbar.vue";
+var moment = require("moment");
 
 export default {
   name: "ClubdetailMeeting",
@@ -161,9 +146,7 @@ export default {
       this.cancelMeeting(meetingId);
     },
     convertRemainTime(endDateTime) {
-      let target = new Date(endDateTime);
-      let curr = new Date();
-      let diffSecond = Math.floor((target.getTime() - curr.getTime()) / 1000);
+      let diffSecond = Math.floor(moment(endDateTime).subtract(moment()) / 1000);
       let diffTime = Math.floor(diffSecond / 60);
       let diffTimeHour = Math.floor(diffTime / 60);
       let diffTimeDay = Math.floor(diffTimeHour / 24);

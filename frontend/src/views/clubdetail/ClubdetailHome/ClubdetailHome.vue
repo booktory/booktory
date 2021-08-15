@@ -110,6 +110,7 @@ import { mapActions, mapState } from "vuex";
 import Navbar from "@/views/clubdetail/Navbar.vue";
 import IconVideo from "@/components/icons/IconVideo.vue";
 import IconBookmark from "@/components/icons/IconBookmark.vue";
+var moment = require("moment");
 
 export default {
   name: "ClubdetailHome",
@@ -124,20 +125,11 @@ export default {
     ...mapState("bookclubStore", ["bookclubList"]),
   },
   methods: {
-    ...mapActions("bookclubStore", ["getBookclubList"]),
     ...mapActions("clubStore", ["findClubInfo"]),
     // 모임 시간 년월일 변환
     convertTime(data) {
-      if (!data) return "예정된 모임 없음";
-      let date = new Date(data);
-      let year = date.getFullYear() % 100;
-      let month = date.getMonth() + 1;
-      let day = date.getDate();
-      let hour = date.getHours();
-      let ampm = hour / 12 >= 1 ? "오후 " : "오전 ";
-      let minute = date.getMinutes();
-      let dateStr =
-        year + "년 " + month + "월 " + day + "일<br>" + ampm + (hour % 12) + "시 " + minute + "분";
+      let ampm = moment(data).format("A") == "AM" ? "오전" : "오후";
+      let dateStr = moment(data).format("YY년 M월 D일<br>" + ampm + " h시 mm분");
       return dateStr;
     },
   },
@@ -146,7 +138,6 @@ export default {
   },
   created() {
     this.findClubInfo(this.clubId);
-    this.getBookclubList(this.clubId);
   },
 };
 </script>
@@ -199,7 +190,9 @@ export default {
       }
 
       .meeting {
-        display: flex;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
         justify-content: center;
         align-items: center;
 

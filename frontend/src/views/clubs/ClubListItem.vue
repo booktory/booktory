@@ -54,7 +54,7 @@
             <img :src="clubInfo.thumbnail" alt="bookThumbnail" class="bookcard-image" />
             <div class="bookcard-info">
               <div class="bookcard-info-more">
-                <span class="font-body-4">책 목록 더보기</span>
+                <span class="font-body-4" @click="clickBookList">책 목록 더보기</span>
               </div>
               <span class="bookcard-info-now font-body-5">읽고 있는 책</span>
               <h5 class="bookcard-info-title">
@@ -101,6 +101,7 @@
 <script>
 import { mapActions, mapState } from "vuex";
 import router from "@/router";
+var moment = require("moment");
 
 export default {
   name: "ClubListItem",
@@ -135,6 +136,7 @@ export default {
   },
   methods: {
     ...mapActions("clubStore", ["findClubInfo", "pollingStart", "pollingEnd"]),
+    ...mapActions("bookclubStore", ["getBookclubList"]),
     clickLeft: function () {
       this.$emit("click-left");
     },
@@ -145,6 +147,10 @@ export default {
     clickCard() {
       router.push({ name: "ClubdetailHome" });
     },
+    clickBookList(event) {
+      event.stopPropagation();
+      router.push({ name: "ClubdetailBook" });
+    },
     // 모임 입장하기 버튼 클릭
     clickMeeting(event) {
       event.stopPropagation();
@@ -152,20 +158,14 @@ export default {
     },
     // 모임 시간 년월일 변환
     convertTime(data) {
-      let date = new Date(data);
-      let year = date.getFullYear();
-      let month = date.getMonth() + 1;
-      let day = date.getDate();
-      let hour = date.getHours();
-      let ampm = hour / 12 >= 1 ? "오후 " : "오전 ";
-      let minute = date.getMinutes();
-      let dateStr =
-        year + "년 " + month + "월 " + day + "일 " + ampm + (hour % 12) + "시 " + minute + "분";
+      let ampm = moment(data).format("A") == "AM" ? "오전" : "오후";
+      let dateStr = moment(data).format("YYYY년 M월 D일 " + ampm + " h시 mm분");
       return dateStr;
     },
   },
   created() {
     this.findClubInfo(this.clubId);
+    this.getBookclubList(this.clubId);
     this.pollingStart();
   },
   destroyed() {

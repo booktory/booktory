@@ -85,13 +85,10 @@ export default {
   methods: {
     ...mapActions("bookclubStore", ["createMeeting"]),
     clickCreate() {
-      // console.log(this.selected);
       const createParam = {
         id: this.selected,
         endDateTime: this.endDate,
       };
-      // console.log(typeof new Date(this.endDate));
-      // console.log(this.endDate.format("yyyy-MM-dd HH:mm:ss"));
       this.createMeeting(createParam);
     },
   },

@@ -100,14 +100,7 @@
             <div v-if="prebookclubList.length > 0">
               <div v-for="(book, idx) in prebookclubList" :key="idx" class="reading-card m-top-1">
                 <span class="font-body-6 reading-card-date">
-                  {{
-                    book.endDateTime.substr(0, 4) +
-                    "." +
-                    (new Date(book.endDateTime).getMonth() + 1) +
-                    "." +
-                    new Date(book.endDateTime).getDate() +
-                    "에 읽었어요"
-                  }}
+                  {{ $moment(book.endDateTime).format("YYYY년 M월 D일에 읽었어요") }}
                 </span>
                 <div class="reading-card-left">
                   <img :src="book.bookThumbnail" alt="" />
