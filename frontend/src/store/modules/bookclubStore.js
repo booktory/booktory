@@ -147,6 +147,36 @@ const bookclubStore = {
           });
         });
     },
+    attendMeeting({ rootGetters }, bookclubId) {
+      // console.log(dispatch);
+      axios
+        .post(
+          SERVER.URL + SERVER.ROUTES.attendMeeting + bookclubId + "/user",
+          null,
+          rootGetters.config
+        )
+        .then((res) => {
+          console.log(res);
+          Swal.fire({
+            icon: "success",
+            title: "모임 입장 완료",
+            showConfirmButton: false,
+            timer: 1000,
+            timerProgressBar: true,
+          });
+          router.push({ name: "Meeting" });
+        })
+        .catch((err) => {
+          Swal.fire({
+            icon: "error",
+            title: "모임 입장 실패",
+            text: err.response.data.message,
+            showConfirmButton: false,
+            timer: 1500,
+            timerProgressBar: false,
+          });
+        });
+    },
   },
 };
 
