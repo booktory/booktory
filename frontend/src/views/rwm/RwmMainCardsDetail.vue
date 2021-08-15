@@ -1,5 +1,5 @@
 <template>
-  <div class="rwm-cards-detail">
+  <div class="rwm-cards-detail" @click="$router.push({ name: 'RwmEnterance' })">
     <div class="rwm-img-wrapper">
        <img :src="img" :alt="img" class="rwm-img" />
     </div>
@@ -51,9 +51,6 @@ export default {
 }
 .rwm-img{
     width: 100%;
-}
-.rwm-img-wrapper{
-    
 }
 
 </style>

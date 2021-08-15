@@ -216,6 +216,12 @@ const routes = [
     name: "RwmMain",
     component: () => import("@/views/rwm/RwmMain.vue"),
   },
+  //같이 읽기 입장
+  {
+    path: "/rwm/enterance",
+    name: "RwmEnterance",
+    component: () => import("@/views/rwm/RwmEnterance.vue"),
+  },
 ];
 
 const router = new VueRouter({
