@@ -1,9 +1,12 @@
 <template>
   <div class="clubdetail-container">
     <div class="bg-image">
-      <div class="icon" @click="$router.push({ name: 'ClubHome' })">
-        <icon-base><icon-x /></icon-base>
+      <div class="icon icon-back" @click="$router.go(-1)">
+        <icon-base><icon-arrow-left /></icon-base>
       </div>
+      <!-- <div class="icon" @click="$router.push({ name: 'ClubHome' })">
+        <icon-base><icon-x /></icon-base>
+      </div> -->
       <div class="card">
         <div class="main">
           <div class="main-head">
@@ -19,6 +22,9 @@
           <div class="next-meeting">
             <div v-if="nowbookclub != null">
               <div class="meeting-card m-top-1">
+                <div class="icon" @click="clickCancel(nowbookclub.id)">
+                  <icon-base><icon-x /></icon-base>
+                </div>
                 <div class="meeting-card-head">
                   <div class="font-body-3">
                     {{
@@ -134,7 +140,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapActions, mapState } from "vuex";
 import Navbar from "@/views/clubdetail/Navbar.vue";
 
 export default {
@@ -147,6 +153,10 @@ export default {
     ...mapState("bookclubStore", ["nowbookclub", "prebookclubList"]),
   },
   methods: {
+    ...mapActions("bookclubStore", ["cancelMeeting"]),
+    clickCancel(meetingId) {
+      this.cancelMeeting(meetingId);
+    },
     convertRemainTime(endDateTime) {
       let target = new Date(endDateTime);
       let curr = new Date();

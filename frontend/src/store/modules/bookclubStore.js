@@ -1,7 +1,7 @@
 import SERVER from "@/api/api";
 import axios from "axios";
 // import router from "@/router";
-// import Swal from "sweetalert2";
+import Swal from "sweetalert2";
 
 const bookclubStore = {
   namespaced: true,
@@ -63,6 +63,30 @@ const bookclubStore = {
         })
         .catch((err) => {
           console.log(err);
+        });
+    },
+    cancelMeeting(bookclubId) {
+      axios
+        .patch(SERVER.URL + SERVER.ROUTES.cancelMeeting + bookclubId)
+        .then((res) => {
+          console.log(res);
+          Swal.fire({
+            icon: "success",
+            title: "모임 취소 완료",
+            showConfirmButton: false,
+            timer: 1000,
+            timerProgressBar: true,
+          });
+        })
+        .catch((err) => {
+          Swal.fire({
+            icon: "error",
+            title: "모임 취소 실패",
+            text: err.response.data.message,
+            showConfirmButton: false,
+            timer: 1500,
+            timerProgressBar: false,
+          });
         });
     },
   },

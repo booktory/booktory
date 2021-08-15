@@ -14,8 +14,14 @@
     position: relative;
 
     .icon {
-      right: 4vw;
-      top: 2vh;
+      font-size: 0.8rem;
+      right: 2vw;
+      top: 1.8vh;
+      position: absolute;
+    }
+
+    .icon-back {
+      left: 4vw;
       position: absolute;
     }
 
@@ -43,6 +49,7 @@
 
         // next와 pre에서 공통으로 사용되는 카드형식입니다.
         .meeting-card {
+          position: relative;
           width: 100%;
           height: 30%;
           padding: 5%;

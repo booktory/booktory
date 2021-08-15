@@ -55,7 +55,7 @@
             <button
               type="button"
               class="meeting-button"
-              @click="$router.push({ name: 'ClubdetailMetting' })"
+              @click="$router.push({ name: 'ClubdetailMeeting' })"
             >
               <div class="meeting-button-head">
                 <div class="meeting-button-head-icon">
