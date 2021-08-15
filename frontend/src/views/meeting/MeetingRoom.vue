@@ -4,7 +4,7 @@
       <div class="icon" @click="leaveSession">
         <icon-base><icon-arrow-left /></icon-base>
       </div>
-      <h5 class="meeting-navbar-title">{{ clubName }}</h5>
+      <h5 class="meeting-navbar-title">{{ this.clubInfo.name }}</h5>
       <div class="icon meeting-navbar-book" @click="showBookInfo">
         <icon-base><icon-book /></icon-base>
       </div>
@@ -18,7 +18,6 @@
           v-for="sub in subscribers"
           :key="sub.stream.connection.connectionId"
           :stream-manager="sub"
-          @click.native="updateMainVideoStreamManager(sub)"
         />
       </div>
     </div>
@@ -26,8 +25,10 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 import axios from "axios";
 import Swal from "sweetalert2";
+import router from "@/router";
 import { OpenVidu } from "openvidu-browser";
 import IconBook from "@/components/icons/IconBook.vue";
 import UserVideo from "@/views/meeting/UserVideo";
@@ -53,27 +54,37 @@ export default {
       publisher: undefined,
       isPublisher: true,
       subscribers: [],
-
-      clubName: "클럽명이다아",
-      mySessionId: "SessionA",
-      nickname: "MyNickname" + Math.floor(Math.random() * 100),
     };
+  },
+  computed: {
+    ...mapState(["userNickname"]),
+    ...mapState("clubStore", ["clubInfo", "meetingInfo"]),
   },
   created() {
     this.joinSession();
+    this.mySessionId = "Session" + this.meetingInfo.bookclubId;
   },
   methods: {
     showBookInfo() {
       Swal.fire({
-        html: `<div class="bookcard-background" style="width: 100%;margin: 5% auto;background-color: #f3f3f3;border-radius: 10px;">
-        <div class="bookcard-box" style="display: flex;flex-direction: row;justify-content: flex-start;align-items: flex-start;gap: 10px;padding: 8%;">
-          <img src="http://image.yes24.com/momo/TopCate60/MidCate05/5948182.jpg" alt="bookThumbnail" class="bookcard-image" 
+        html:
+          `<div class="bookcard-background" style="width: 100%;margin: 5% auto;background-color: #f3f3f3;border-radius: 10px;">
+        <div class="bookcard-box" style="display: flex;flex-direction: row;justify-content: flex-start;align-items: flex-start;gap: 10px;">
+          <img src="` +
+          this.clubInfo.thumbnail +
+          `" alt="bookThumbnail" class="bookcard-image" 
           style="width: 8rem;height: 12rem;border-radius: 1rem;box-shadow: 0 3px 3px 0 var(--bg-black), inset 0 0 3px 0 var(--bg-black);"/>
-          <div class="bookcard-info" style="display: flex;flex-direction: column;justify-content: flex-start;align-items: flex-start;margin-top:2rem;">
+          <div class="bookcard-info" style="display: flex;flex-direction: column;justify-content: flex-start;align-items: flex-start;margin-top:1rem;">
             <span class="bookcard-info-now font-body-4">읽고 있는 책</span>
-            <h5 class="bookcard-info-title" style="margin-top:0.5rem;margin-bottom:0.8rem">해리포터 : 죽음의 성물1</h5>
-            <div class="bookcard-info-subtitle font-body-4" style="margin-left: 0.2rem;margin-bottom: 0.5rem;">J.K. 롤링</div>
-            <div class="bookcard-info-subtitle font-body-5" style="margin-left: 0.2rem;margin-bottom: 0.5rem;">문학수첩</div>
+            <div class="bookcard-info-title font-body-2" style="font-weight:bold;margin-top:0.5rem;margin-bottom:0.8rem">` +
+          this.clubInfo.title +
+          `</div>
+            <div class="bookcard-info-subtitle font-body-4" style="margin-left: 0.2rem;margin-bottom: 0.5rem;margin-top:1.5rem">` +
+          this.clubInfo.author +
+          `</div>
+            <div class="bookcard-info-subtitle font-body-5" style="margin-left: 0.2rem;margin-bottom: 0.5rem;">` +
+          this.clubInfo.publisher +
+          `</div>
           </div>
         </div>`,
         cancelButtonText: "닫기",
@@ -114,7 +125,7 @@ export default {
       // 'token' parameter should be retrieved and returned by your own backend
       this.getToken(this.mySessionId).then((token) => {
         this.session
-          .connect(token, { clientData: this.nickname })
+          .connect(token, { clientData: this.userNickname })
           .then(() => {
             // --- Get your own camera stream with the desired properties ---
 
@@ -123,10 +134,10 @@ export default {
               videoSource: undefined, // The source of video. If undefined default webcam
               publishAudio: true, // Whether you want to start publishing with your audio unmuted or not
               publishVideo: true, // Whether you want to start publishing with your video enabled or not
-              resolution: "640x480", // The resolution of your video
+              resolution: "480x640", // The resolution of your video
               frameRate: 30, // The frame rate of your video
               insertMode: "APPEND", // How the video is inserted in the target element 'video-container'
-              mirror: false, // Whether to mirror your local video or not
+              mirror: true, // Whether to mirror your local video or not
             });
 
             this.mainStreamManager = publisher;
@@ -162,6 +173,7 @@ export default {
           this.subscribers = [];
           this.OV = undefined;
 
+          router.go(-1);
           window.removeEventListener("beforeunload", this.leaveSession);
         }
       });

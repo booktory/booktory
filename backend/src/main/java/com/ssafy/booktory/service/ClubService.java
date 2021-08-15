@@ -82,17 +82,21 @@ public class ClubService {
         Club club = clubRepository.findById(id)
                 .orElseThrow(()->new NoSuchElementException("존재하지 않는 클럽입니다."));
         int nowMember = getClubMembersCount(club);
+
+        Long bookClubId = null;
         Book book = null;
         LocalDateTime endDateTime = null;
+
         BookClub bookClub = bookClubRepository.findByClubIdFirstByOrderByEndDatetimeDesc(id);
 
         if (bookClub != null && ChronoUnit.MINUTES.between(bookClub.getEndDatetime(), LocalDateTime.now()) <= 60) {
             book = bookRepository.findById(bookClub.getBook().getId()).orElseThrow(() -> new NoSuchElementException("존재하는 책이 없습니다."));
             endDateTime = bookClub.getEndDatetime();
+            bookClubId = bookClub.getId();
         }
 
         if (book == null) return new ClubFindResponseDto(club, nowMember, userId);
-        else return new ClubFindResponseDto(club, nowMember, userId, book, endDateTime);
+        else return new ClubFindResponseDto(club, nowMember, userId, book, endDateTime, bookClubId);
     }
 
     @Transactional
