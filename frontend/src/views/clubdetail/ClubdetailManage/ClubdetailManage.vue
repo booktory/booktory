@@ -14,7 +14,7 @@
               </div>
               <span class="font-body-3">클럽 정보 수정</span>
             </div>
-            <div class="menu-item" @click="$router.push({ name: 'ClubHome' })">
+            <div class="menu-item" @click="clickQuestion">
               <div class="icon">
                 <icon-base><icon-message /></icon-base>
               </div>
@@ -50,7 +50,7 @@
         </div>
       </div>
     </div>
-    <Navbar class="footer" />
+    <Navbar class="footer" :selected="'manage'" />
   </div>
 </template>
 
@@ -65,6 +65,7 @@ import IconUsers from "@/components/icons/IconUsers.vue";
 import IconTrash from "@/components/icons/IconTrash.vue";
 import IconLogout from "@/components/icons/IconLogout.vue";
 import Swal from "sweetalert2";
+import router from "@/router";
 
 export default {
   name: "ClubdetailManage",
@@ -78,10 +79,15 @@ export default {
     IconLogout,
   },
   computed: {
-    ...mapState("clubStore", ["isLeader"]),
+    ...mapState("clubStore", ["clubId", "isLeader"]),
   },
   methods: {
     ...mapActions("clubStore", ["deleteClub", "deleteClubUser"]),
+    // 문의 게시판 이동
+    clickQuestion() {
+      router.push({ name: "ClubQuestion", query: { clubId: this.clubId } });
+    },
+    // 클럽 삭제
     clickDelete() {
       Swal.fire({
         showCancelButton: true,
@@ -95,6 +101,7 @@ export default {
         }
       });
     },
+    // 클럽 탈퇴
     clickDeleteUser() {
       Swal.fire({
         showCancelButton: true,

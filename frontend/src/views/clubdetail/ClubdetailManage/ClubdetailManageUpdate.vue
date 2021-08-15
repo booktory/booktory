@@ -51,11 +51,11 @@
               <div v-if="clubInfo.genres.length > 0" class="genre-inner-div">
                 <span
                   @click="removeGenre"
-                  v-for="(genre, index) in clubInfo.genres"
-                  :key="index"
+                  v-for="(genre, idx) in clubInfo.genres"
+                  :key="idx"
                   :id="genre"
                   class="input-tag"
-                  >{{ genreList[genre - 1] }}</span
+                  >{{ genreList[genre - 1].name }}</span
                 >
               </div>
               <div v-else class="genre-inner-div">
@@ -64,8 +64,8 @@
             </div>
             <!-- 장르 키워드 선택 -->
             <div class="genre-keyword">
-              <span @click="addGenre" v-for="(name, index) in genreList" :key="index">
-                <span :id="index + 1" class="tag">{{ name }}</span>
+              <span v-for="(genre, idx) in genreList" :key="idx">
+                <span @click="addGenre" :id="genre.id" class="tag">{{ genre.name }}</span>
               </span>
             </div>
             <p v-if="error.genres" class="message">{{ error.genres }}</p>
@@ -237,7 +237,6 @@ export default {
     },
     // 추가된 도서 분야 제거
     removeGenre(event) {
-      console.log(event.target);
       for (var i = 0; i < this.clubInfo.genres.length; i++) {
         if (event.target.id == this.clubInfo.genres[i]) {
           this.clubInfo.genres.splice(i, 1);

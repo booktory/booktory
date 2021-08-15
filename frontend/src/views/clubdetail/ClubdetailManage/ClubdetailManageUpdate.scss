@@ -71,7 +71,7 @@ h4 {
             padding: 0.2rem 0.6rem;
             border: 0;
             border-radius: 1em;
-            color: white;
+            color: var(--white);
             background-color: var(--light-orange);
           }
 
@@ -84,13 +84,14 @@ h4 {
           margin-left: 1rem;
 
           .input-tag {
+            font-size: 1.1rem;
             display: inline-block;
-            padding: 0.25rem 0.6rem;
+            padding: 0.2rem 0.5rem;
             border: 0;
             border-radius: 1em;
-            color: white;
+            color: var(--white);
             background-color: var(--orange);
-            margin: 0 0.3rem;
+            margin: 0 0.2rem;
           }
 
           .placeholder {
