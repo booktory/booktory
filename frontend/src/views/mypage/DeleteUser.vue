@@ -1,12 +1,12 @@
 <template>
   <div class="container">
-    <TopHeader :nickname="nickname" />
+    <TopHeader />
     <h4 class="title">책토리 탈퇴하기</h4>
     <div class="content-div m-top-10">
-      <h4>{{ nickname }}님, 잠깐만요!</h4>
+      <h4>{{ userNickname }}님, 잠깐만요!</h4>
       <p>
-        정말 탈퇴하시겠어요? 탈퇴 후엔 그동안 책토리에서 쌓은 회원님의 소중한 기록들이 삭제되고
-        복구할 수 없어요😢
+        탈퇴를 하면 그동안 쌓은 {{ userNickname }}님의 소중한 기록들이 삭제되고 다시 복구할 수
+        없어요😢 그래도 탈퇴하시겠어요?
       </p>
       <p>
         혹시 책토리 홈페이지 이용에 불편한 점이 있으셨다면 메일을 통해 저희에게 알려주세요. 확인 후
@@ -16,9 +16,7 @@
           >📝의견 보내러 가기</a
         >
       </p>
-      <p>
-        정말로 탈퇴하고 싶으시다면 탈퇴하기 버튼을 눌러주세요.
-      </p>
+      <p>정말로 탈퇴하고 싶으시다면 탈퇴하기 버튼을 눌러주세요.</p>
     </div>
     <button type="button" class="button-2 m-top-10 white-bg" @click="$router.go(-1)">
       다시 이용하기
@@ -33,6 +31,7 @@
 <script>
 import TopHeader from "@/views/TopHeader.vue";
 import Navbar from "@/views/Navbar.vue";
+import { mapState } from "vuex";
 
 export default {
   components: {
@@ -40,10 +39,8 @@ export default {
     Navbar,
   },
   name: "DeleteUser",
-  data() {
-    return {
-      nickname: "책토리",
-    };
+  computed: {
+    ...mapState(["userNickname"]),
   },
   methods: {},
 };

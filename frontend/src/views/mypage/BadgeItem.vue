@@ -68,7 +68,7 @@ export default {
               showCancelButton: true,
               title: this.badge.name,
               text: "대표 배지를 변경하시겠습니까?",
-              confirmButtonText: "네, 변경할래요",
+              confirmButtonText: "변경하기",
               cancelButtonText: "취소",
             }).then((result) => {
               if (result.isConfirmed) {
