@@ -18,7 +18,7 @@
         v-for="(club, idx) in clubList"
         :key="idx"
         :club="club"
-        @select-club="onSelectClub"
+        :keyword="keyword"
         class="page-item"
       />
     </div>
@@ -28,12 +28,14 @@
 <script>
 import { mapActions, mapState } from "vuex";
 import ClubSearchBarPageList from "@/views/clubs/ClubSearchBarPageList.vue";
-import router from "@/router";
 
 export default {
   name: "ClubSearchBarPage",
   components: {
     ClubSearchBarPageList,
+  },
+  computed: {
+    ...mapState("searchStore", ["clubList"]),
   },
   data: function () {
     return {
@@ -46,14 +48,6 @@ export default {
     clickSearch() {
       this.searchClubByName(this.keyword);
     },
-
-    onSelectClub() {
-      // this.findClubInfo(clubId);
-      router.push({ name: "ClubSearchBarPageListItem" });
-    },
-  },
-  computed: {
-    ...mapState("searchStore", ["clubList"]),
   },
 };
 </script>

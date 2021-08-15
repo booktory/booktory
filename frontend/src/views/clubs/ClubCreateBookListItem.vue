@@ -1,5 +1,5 @@
 <template>
-  <div class="">
+  <div>
     <div class="club-card" @click="selectBook">
       <div class="club-card-img">
         <img :src="bookImg" alt="책이미지" />

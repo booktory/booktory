@@ -7,7 +7,7 @@
           <h4 class="title">가입신청 관리</h4>
           <h6 class="sub-title m-top-5">신청한 회원 목록</h6>
           <ClubdetailManageUserList
-            v-if="applyList.length != 0"
+            v-if="applyList && applyList.length > 0"
             class="user-list"
             :userList="applyList"
             :state="'apply'"

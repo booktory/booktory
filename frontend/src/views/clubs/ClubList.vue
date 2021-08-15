@@ -1,5 +1,5 @@
 <template>
-  <div v-if="myClubList">
+  <div v-if="myClubList && myClubList.length > 0">
     <ClubListItem
       :clubId="myClubList[index].id"
       :maxLength="myClubList.length"
@@ -31,10 +31,10 @@ export default {
   methods: {
     ...mapActions("clubStore", ["findClubList"]),
     onClickLeft: function () {
-      this.index -= 1;
+      this.index--;
     },
     onClickRight: function () {
-      this.index += 1;
+      this.index++;
     },
   },
   created() {

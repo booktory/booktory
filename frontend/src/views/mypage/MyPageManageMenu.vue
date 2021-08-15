@@ -56,8 +56,7 @@ export default {
     clickLogout() {
       Swal.fire({
         showCancelButton: true,
-        title: "로그아웃",
-        text: "로그아웃 하시겠습니까?",
+        title: "로그아웃 하시겠습니까?",
         confirmButtonText: "로그아웃",
         cancelButtonText: "취소",
       }).then((result) => {

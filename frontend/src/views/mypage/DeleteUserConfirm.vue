@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <TopHeader :nickname="nickname" />
+    <TopHeader />
     <h4 class="title">비밀번호 입력</h4>
     <p class="sub-title">회원 탈퇴를 위해 비밀번호를 입력해주세요</p>
     <div class="input-div m-top-10">
@@ -24,9 +24,7 @@
 <script>
 import TopHeader from "@/views/TopHeader.vue";
 import Navbar from "@/views/Navbar.vue";
-import router from "@/router";
-import axios from "axios";
-import Swal from "sweetalert2";
+import { mapActions } from "vuex";
 
 export default {
   components: {
@@ -42,29 +40,9 @@ export default {
     };
   },
   methods: {
+    ...mapActions("mypageStore", ["deleteUser"]),
     clickDelete() {
-      axios
-        .delete("/users", {
-          jwt: this.jwt,
-          password: this.password,
-        })
-        .then((res) => {
-          Swal.fire({
-            icon: "success",
-            title: "회원 탈퇴 완료",
-            html: "회원 탈퇴가 완료 되었습니다.",
-          });
-          console.log(res.data);
-          router.push({ name: "Login" });
-        })
-        .catch((error) => {
-          Swal.fire({
-            icon: "error",
-            title: "회원 탈퇴 실패",
-            text: "회원 탈퇴에 실패했습니다.",
-          });
-          console.log(error);
-        });
+      this.deleteUser(this.password);
     },
   },
 };

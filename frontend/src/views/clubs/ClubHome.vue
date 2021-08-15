@@ -3,8 +3,8 @@
     <TopHeader />
     <ClubList />
     <div class="text-right">
-      <span @click="$router.push({ name: 'ClubSearch' })">클럽 찾기</span>&nbsp;|&nbsp;<span
-        @click="$router.push({ name: 'ClubCreate' })"
+      <span @click="$router.push({ name: 'ClubSearch' })">클럽 찾기</span
+      >&nbsp;&nbsp;|&nbsp;&nbsp;<span @click="$router.push({ name: 'ClubCreate' })"
         >클럽 만들기</span
       >
     </div>
@@ -45,12 +45,12 @@ export default {
 }
 .text-right {
   text-align: right;
+  font-size: 1.4rem;
   margin: 0 3.5rem;
+  color: var(--dark-grey);
 }
-.text-right,
 .text-right span {
   font-size: 1.4rem;
   font-weight: bold;
-  color: var(--dark-grey);
 }
 </style>

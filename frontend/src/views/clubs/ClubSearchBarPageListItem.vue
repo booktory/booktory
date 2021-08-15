@@ -1,102 +1,217 @@
 <template>
-  <div class="container">
+  <div v-if="clubInfo" class="container bg-img">
     <TopHeader />
-    <h5>
-      {{ club.name }}
+    <h5 class="header">
+      {{ clubInfo.name }}
     </h5>
+
     <!-- 바디1 => 클럽 정보 -->
-    <div class="card-background">
-      <h4>{{ club.name }}</h4>
-      <div class="font-body-4">클럽장 {{ club.leader_id }} | 참가자 {{ club.max_member }}</div>
+    <div class="card-background club-info">
+      <h4 class="club-info-title">{{ clubInfo.name }}</h4>
+      <div class="font-body-4 club-info-user">
+        <b>클럽장</b> {{ clubInfo.leaderName }}&nbsp;|&nbsp;<b>참가자</b> {{ clubInfo.nowMember }}명
+      </div>
       <div>
-        <div class="font-body-2">
-          {{ club.info }}
+        <div class="font-body-3 club-info-text">
+          {{ clubInfo.info }}
         </div>
-        <span v-for="(clubGenre, idx) in club.genres" :key="idx" class="font-body-4">
-          {{ clubGenre.genreName }}
+        <span
+          v-for="(genre, idx) in clubInfo.genres"
+          :key="idx"
+          :id="genre"
+          class="font-body-4 club-info-genre"
+        >
+          {{ genreList[genre - 1].name }}
         </span>
       </div>
 
-      <!-- 바디2 => 책 정보 -->
-      <div class="bookcard-background">
-        <div class="bookcard-box">
-          <img :src="book.thumbnail" alt="bookThumbnail" class="bookcard-image" />
-          <div class="bookcard-info">
-            <p style="text-align: right" class="sub-title">책 목록 더보기</p>
-            <span class="font-body-4">읽고 있는 책</span>
-            <h5 style="text-align: left; margin: 0px">{{ book.title }}</h5>
-            <div class="sub-title">{{ book.author }} | {{ book.publisher }}</div>
+      <div v-if="clubInfo.endDateTime">
+        <!-- 바디2 => 책 정보 -->
+        <div class="bookcard-background">
+          <div class="bookcard-box">
+            <img :src="clubInfo.thumbnail" alt="bookThumbnail" class="bookcard-image" />
+            <div class="bookcard-info">
+              <div class="bookcard-info-more">
+                <span class="font-body-4">책 목록 더보기</span>
+              </div>
+              <span class="bookcard-info-now font-body-5">읽고 있는 책</span>
+              <h5 class="bookcard-info-title">
+                {{
+                  clubInfo.title.length > 30
+                    ? clubInfo.title.substr(0, 30) + "・・・"
+                    : clubInfo.title
+                }}
+              </h5>
+              <div class="bookcard-info-subtitle font-body-4">
+                {{
+                  clubInfo.author.length > 8
+                    ? clubInfo.author.substr(0, 8) + "・・・"
+                    : clubInfo.author
+                }}&nbsp;|&nbsp;{{
+                  clubInfo.publisher.length > 8
+                    ? clubInfo.publisher.substr(0, 8) + "・・・"
+                    : clubInfo.publisher
+                }}
+              </div>
+            </div>
           </div>
         </div>
       </div>
-      <button
-        type="button"
-        class="button-2 m-top-10"
-        @click="$router.push({ name: 'ClubQuestion' })"
-      >
+      <div v-else>
+        <span class="empty-meeting">읽고 있는 책이 없습니다</span>
+      </div>
+      <button type="button" class="button-2 white-bg m-top-5" @click="clickQuestion">
         문의 게시판
       </button>
-      <button type="button" class="button-2 m-top-10">가입 신청</button>
+      <button type="button" class="button-2" @click="clickApply">가입 신청</button>
     </div>
+    <Navbar :selected="'home'" />
   </div>
 </template>
 <script>
+import { mapActions, mapState } from "vuex";
+import router from "@/router";
+import Swal from "sweetalert2";
 import TopHeader from "@/views/TopHeader.vue";
+import Navbar from "@/views/Navbar.vue";
 
 export default {
   name: "ClubSearchBarPageListItem",
   components: {
     TopHeader,
+    Navbar,
   },
   computed: {
-    club: function () {
-      return this.$store.state.examples.bookclubs[0].clubList[0];
+    ...mapState("clubStore", ["clubInfo", "meetingInfo"]),
+    ...mapState("searchStore", ["genreList"]),
+  },
+  data() {
+    return {
+      clubId: this.$route.query.clubId,
+    };
+  },
+  methods: {
+    ...mapActions("clubStore", ["findClubInfo", "applyToClub"]),
+    clickQuestion() {
+      router.push({ name: "ClubQuestion", query: { clubId: this.clubId } });
     },
-    book: function () {
-      return this.$store.state.examples.bookclubs[0].bookList[0];
+    clickApply() {
+      Swal.fire({
+        showCancelButton: true,
+        title: "가입 신청 하시겠습니까?",
+        confirmButtonText: "신청하기",
+        cancelButtonText: "취소",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.applyToClub();
+        }
+      });
     },
+  },
+  created() {
+    this.findClubInfo(this.clubId);
   },
 };
 </script>
 
 <style scoped>
+.bg-img {
+  position: relative;
+}
+.bg-img:after {
+  position: absolute;
+  content: "";
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-image: url("./images/club-backgroud.png");
+  background-size: cover;
+  opacity: 30%;
+  z-index: -1;
+}
+
+.header {
+  margin: 0 2em;
+}
+
 .card-background {
-  width: 80%;
-  height: 60%;
-  margin: 5% auto 15%;
-  padding: 8% 2%;
+  width: 30rem;
+  min-height: 50vh;
+  margin: 5% auto;
+  padding: 4rem 1rem 5rem;
   border-radius: 10px;
   box-shadow: 0 4px 8px 4px rgba(161, 160, 228, 0.16);
-  background-color: #ffffff;
+  background-color: var(--white);
 }
 
 .bookcard-background {
   width: 100%;
-  margin: 5% auto;
-  padding-bottom: 20px;
-  background-color: #f3f3f3;
-  border-radius: 10px;
+  margin: 2.5rem auto 1.5rem;
+  padding: 1.5rem 0 1.5rem;
+  background-color: var(--very-light-grey);
+  border-radius: 1em;
+}
+
+.club-info-title {
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+.club-info-user {
+  margin-bottom: 1rem;
+}
+.club-info-text {
+  margin: 0 2rem 1rem;
+}
+.club-info-genre {
+  display: inline-block;
+  padding: 0.3rem 0.7rem;
+  margin: 0 0.2rem;
+  border: 0;
+  border-radius: 1em;
+  color: var(--white);
+  background-color: var(--light-brown);
 }
 
 .bookcard-box {
+  position: relative;
   display: flex;
   flex-direction: row;
-  justify-content: flex-start;
-  align-items: flex-start;
-  gap: 10px;
-  padding: 8% 5% 5%;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1.6rem;
+  padding: 0 1.5rem;
 }
-
 .bookcard-image {
-  width: 36%;
-  height: 50%;
-  border-radius: 10px;
+  width: 7rem;
+  border-radius: 1rem;
+  box-shadow: 0 3px 3px 0 var(--bg-black), inset 0 0 3px 0 var(--bg-black);
 }
-
 .bookcard-info {
+  width: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
   align-items: flex-start;
+}
+.bookcard-info-more {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin-right: 1.5rem;
+  color: var(--grey);
+}
+.bookcard-info-title {
+  text-align: left;
+  margin: 0.5rem 0;
+}
+.bookcard-info-subtitle {
+  text-align: left;
+}
+
+.empty-meeting {
+  display: inline-block;
+  margin: 4rem 0 1rem;
+  font-size: 1.4rem;
+  color: var(--grey);
 }
 </style>

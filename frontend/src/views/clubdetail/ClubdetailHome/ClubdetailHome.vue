@@ -1,6 +1,6 @@
 <template>
-  <div v-if="clubInfo" class="clubdetail-container">
-    <div class="bg-image">
+  <div class="container bg-image">
+    <div v-if="clubInfo">
       <div class="icon" @click="$router.push({ name: 'ClubHome' })">
         <icon-base><icon-x /></icon-base>
       </div>
@@ -11,16 +11,11 @@
             {{ clubInfo.name }}
           </h3>
           <div class="genre-keyword">
-            <span
-              class="tag font-body-4"
-              v-for="(genre, idx) in clubInfo.genres"
-              :key="idx"
-              :value="genre"
-            >
-              {{ genreList[genre - 1] }}
+            <span class="tag font-body-4" v-for="(genre, idx) in clubInfo.genres" :key="idx">
+              {{ genreList[genre - 1].name }}
             </span>
           </div>
-          <div class="font-body-2 m-top-1">
+          <div class="font-body-3 m-top-1">
             {{ clubInfo.info }}
           </div>
 
@@ -30,17 +25,22 @@
           </div>
 
           <div class="meeting m-top-2">
-            <button type="button" class="metting-button">
+            <button
+              :disabled="!meetingInfo.isOpen"
+              @click="$router.push({ name: 'Meeting' })"
+              type="button"
+              class="metting-button"
+            >
               <div class="metting-button-head">
                 <div class="metting-button-head-icon">
                   <icon-base><icon-video /></icon-base>
                 </div>
-                <div class="metting-button-head-date">
-                  <p>8월 15일</p>
-                  <p>21:00 예정</p>
-                </div>
+                <div
+                  v-html="convertTime(clubInfo.endDateTime)"
+                  class="metting-button-head-date"
+                ></div>
               </div>
-              <div class="metting-button-body">모임 참여하기</div>
+              <h5 class="metting-button-body">모임 입장하기</h5>
             </button>
             <button
               type="button"
@@ -52,37 +52,44 @@
                   <icon-base><icon-bookmark /></icon-base>
                 </div>
               </div>
-              <div class="metting-button-body">일정 확인하기</div>
+              <h5 class="metting-button-body">일정 확인하기</h5>
             </button>
           </div>
 
           <div class="rules m-top-2">
             <h5>운영규칙</h5>
-            <p class="font-body-2 m-top-1">• 한 달에 {{ clubInfo.volumeRule }}권을 읽어요</p>
-            <p class="font-body-2 m-top-1">• {{ clubInfo.weekRule }}주에 1번 만나요</p>
-            <p v-if="clubInfo.freeRule" class="font-body-2 m-top-1">• {{ clubInfo.freeRule }}</p>
+            <p class="font-body-3 m-top-1">• 한 달에 {{ clubInfo.volumeRule }}권을 읽어요</p>
+            <p class="font-body-3 m-top-1">• {{ clubInfo.weekRule }}주에 1번 만나요</p>
+            <p v-if="clubInfo.freeRule" class="font-body-3 m-top-1">• {{ clubInfo.freeRule }}</p>
           </div>
 
           <div class="books m-top-2">
             <div class="books-head">
               <h5>클럽 서재</h5>
-              <button @click="$router.push({ name: 'ClubdetailBook' })">더 보기</button>
+              <span @click="$router.push({ name: 'ClubdetailBook' })" class="font-body-4"
+                >책 목록 더보기</span
+              >
             </div>
             <div class="books-list m-top-1">
-              <span v-for="(book, idx) in books" :key="idx">
-                <img :src="book.thumbnail" alt="" class="book-thumbnail" />
+              <span v-for="(book, idx) in bookClubList" :key="idx">
+                <img
+                  :src="book.bookThumbnail"
+                  :title="book.bookTitle"
+                  alt="책사진"
+                  class="book-thumbnail"
+                />
               </span>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <Navbar class="footer" />
+    <Navbar class="footer" :selected="'home'" />
   </div>
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapActions, mapState } from "vuex";
 import Navbar from "@/views/clubdetail/Navbar.vue";
 import IconVideo from "@/components/icons/IconVideo.vue";
 import IconBookmark from "@/components/icons/IconBookmark.vue";
@@ -95,11 +102,28 @@ export default {
     IconBookmark,
   },
   computed: {
-    ...mapState("clubStore", ["clubInfo"]),
+    ...mapState("clubStore", ["clubInfo", "meetingInfo", "bookClubList"]),
     ...mapState("searchStore", ["genreList"]),
-    books: function () {
-      return this.$store.state.examples.bookclubs[0].bookList;
+  },
+  methods: {
+    ...mapActions("clubStore", ["findBookClubList"]),
+    // 모임 시간 년월일 변환
+    convertTime(data) {
+      if (!data) return "예정된 모임 없음";
+      let date = new Date(data);
+      let year = date.getFullYear() % 100;
+      let month = date.getMonth() + 1;
+      let day = date.getDate();
+      let hour = date.getHours();
+      let ampm = hour / 12 >= 1 ? "오후 " : "오전 ";
+      let minute = date.getMinutes();
+      let dateStr =
+        year + "년 " + month + "월 " + day + "일<br>" + ampm + (hour % 12) + "시 " + minute + "분";
+      return dateStr;
     },
+  },
+  created() {
+    this.findBookClubList();
   },
 };
 </script>
@@ -111,110 +135,105 @@ export default {
   box-sizing: border-box;
 }
 
-.clubdetail-container {
-  width: 100vw;
+.bg-image {
+  height: 100vh;
+  background-image: url("../images/club-backgroud.png");
+  background-size: cover;
+  position: relative;
 
-  .bg-image {
-    height: 40vh;
-    background-image: url("../images/club-backgroud.png");
-    background-size: cover;
-    position: relative;
+  .icon {
+    right: 1.5rem;
+    top: 1.5rem;
+    position: absolute;
+  }
 
-    .icon {
-      right: 4vw;
-      top: 2vh;
-      position: absolute;
+  .card {
+    width: 100%;
+    height: 70rem;
+    top: 17em;
+    position: absolute;
+
+    .main * {
+      text-align: left;
     }
 
-    .card {
-      width: 100%;
-      height: 70vh;
-
-      top: 20vh;
-
+    // 여기서부터 메인 시작!
+    .main {
+      height: inherit;
+      text-align: left;
+      padding: 3rem 3rem 4rem;
       background-color: var(--beige);
-      border-radius: 20% 20% 0 0 / 10% 10% 0 0;
-      position: absolute;
+      border-radius: 5em 5em 0 0;
 
-      .main * {
-        text-align: left;
+      .tag {
+        display: inline-block;
+        padding: 0.2rem 0.6rem;
+        margin: 0.5rem 0 0 0.4rem;
+        border: 0;
+        border-radius: 1em;
+        color: var(--white);
+        background-color: var(--light-brown);
       }
 
-      // 여기서부터 메인 시작!
-      .main {
-        text-align: left;
-        padding: 10% 10% 20%;
+      .meeting {
+        display: flex;
+        justify-content: center;
+        align-items: center;
 
-        .tag {
-          display: inline-block;
-          padding: 0.2rem 0.6rem;
-          margin: 0.5rem 0 0 0.4rem;
+        .metting-button:disabled {
+          background-color: var(--medium-grey);
+        }
+        .metting-button {
+          width: 14.5rem;
+          height: 10rem;
+          margin: 0 auto;
+          padding: 1.5rem;
+          border-radius: 2rem;
           border: 0;
-          border-radius: 1em;
-          color: white;
-          background-color: var(--light-orange);
-        }
+          color: var(--white);
+          background-color: var(--very-light-brown);
+          box-shadow: 0 0.4em 0.8em 0 rgba(142, 141, 208, 0.3);
 
-        .meeting {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-
-          .metting-button {
-            width: 15rem;
-            height: 10rem;
-            margin: 2%;
-
-            border-radius: 20px;
-            border: 0;
-
-            color: white;
-            background-color: var(--very-light-brown);
-            box-shadow: 0 0.4em 0.8em 0 rgba(142, 141, 208, 0.3);
-
-            &-head {
-              display: flex;
-              justify-content: space-between;
-              align-items: center;
-
-              &-icon {
-                display: inline-block;
-                color: var(--white);
-                width: 3.5em;
-                height: 3.5em;
-                margin-left: 1.5rem;
-              }
-              &-date {
-                display: inline-block;
-                margin-right: 1.5rem;
-                text-align: right;
-              }
-            }
-            &-body {
-              margin-top: 1rem;
-              text-align: center;
-            }
-          }
-        }
-
-        .books {
-          .books-head {
+          &-head {
             display: flex;
             justify-content: space-between;
             align-items: center;
-          }
-          .books-list {
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
 
-            .book-thumbnail {
-              width: 8em;
-              height: 12em;
-              margin: 2%;
-              border-radius: 1em;
-              box-shadow: 0 3px 3px 0 var(--bg-black), inset 0 0 3px 0 var(--bg-black);
+            &-icon {
+              display: inline-block;
+              color: var(--white);
+              width: 3.3em;
+              height: 3.3em;
             }
+            &-date {
+              display: inline-block;
+              text-align: right;
+            }
+          }
+          &-body {
+            margin-top: 1rem;
+            text-align: center;
+          }
+        }
+      }
+
+      .books {
+        .books-head {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+        }
+        .books-list {
+          display: flex;
+          gap: 1rem;
+          overflow: scroll;
+
+          .book-thumbnail {
+            width: 8em;
+            height: 12em;
+            margin: 2%;
+            border-radius: 1em;
+            box-shadow: 0 3px 3px 0 var(--bg-black), inset 0 0 3px 0 var(--bg-black);
           }
         }
       }
