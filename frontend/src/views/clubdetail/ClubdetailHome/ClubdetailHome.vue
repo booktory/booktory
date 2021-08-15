@@ -50,7 +50,13 @@
                 </div>
               </div>
               <div v-if="clubInfo.title != null" class="meeting-button-body">모임 참여하기</div>
-              <div v-else class="meeting-button-body">모임 개설하기</div>
+              <div
+                v-else
+                class="meeting-button-body"
+                @click="$router.push({ name: 'ClubdetailMeetingCreate' })"
+              >
+                모임 개설하기
+              </div>
             </button>
             <button
               type="button"

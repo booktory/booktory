@@ -15,11 +15,12 @@
           <div class="create-meeting-card m-top-1">
             <div class="create-meeting-schedule">
               <div class="create-meeting-schedule-head">
-                <div class="font-body-3 font-bold">모임 날짜</div>
+                <div class="font-body-3 font-bold">모임 일정</div>
               </div>
               <div class="create-meeting-schedule-body m-top-1">
                 <date-picker
                   v-model="endDate"
+                  valueType="format"
                   type="datetime"
                   placeholder="날짜를 선택하세요"
                   class="date-picker"

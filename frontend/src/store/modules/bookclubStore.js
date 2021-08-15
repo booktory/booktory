@@ -83,7 +83,8 @@ const bookclubStore = {
             timerProgressBar: true,
           });
           console.log(res.data);
-          router.push({ name: "ClubdetailMeeting" });
+          // router.push({ name: "ClubdetailMeeting" });
+          router.go(-1);
         })
         .catch((err) => {
           Swal.fire({
