@@ -1,16 +1,6 @@
 <template>
   <div class="question-list-wrapper">
-    <ClubQuestionItem
-      v-for="(item, index) in questionList"
-      :key="index"
-      :questionId="item.questionId"
-      :questionContents="item.questionContents"
-      :answers="item.answers"
-      :isOpen="item.isOpen"
-      :userId="item.userId"
-      :nickname="item.nickname"
-      :profileImg="item.profileImg"
-    />
+    <ClubQuestionItem v-for="(question, index) in questionList" :key="index" :question="question" />
   </div>
 </template>
 

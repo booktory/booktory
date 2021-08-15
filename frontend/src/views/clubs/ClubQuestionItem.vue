@@ -2,35 +2,39 @@
   <div class="question-item-wrapper">
     <div class="quetion-frame">
       <img
-        class="profile-image"
-        :src="profileImg ? profileImg : 'https://via.placeholder.com/50'"
+        class="profileImg"
+        :src="
+          question.profileImg
+            ? question.profileImg
+            : 'https://booktory.s3.ap-northeast-2.amazonaws.com/static/default/profile.png'
+        "
         alt="프로필 사진"
       />
       <div class="question-info">
         <div class="sub-info">
-          <span class="font-body-5 reply" @click="clickReply">답글 달기</span>
-          <div v-if="!isOpen" class="lock">
+          <span v-if="isLeader" class="font-body-5 reply" @click="clickReply">답글 달기</span>
+          <div v-if="!question.isOpen" class="lock">
             <icon-base :width="'1.4rem'" :height="'1.4rem'" :iconColor="'var(--grey)'"
               ><icon-lock
             /></icon-base>
           </div>
         </div>
-        <span class="font-body-3 nickname">{{ nickname }}</span>
-        <span class="font-body-5">2021-08-11 17:16:15</span>
+        <span class="font-body-3 nickname">{{ question.nickname }}</span>
+        <span class="font-body-5">{{ question.date }}</span>
       </div>
     </div>
-    <div v-if="true">
-      <div class="question-content font-body-4">{{ questionContents }}</div>
-      <ClubQuestionAnswerList :answerList="answers" />
+    <div v-if="question.isOpen || isLeader || question.userId == userId">
+      <div v-html="question.questionContents" class="question-content font-body-4"></div>
+      <ClubQuestionAnswerList :answerList="question.answers" />
     </div>
     <div v-else>
-      <span>비밀글입니다</span>
+      <div class="question-content secret font-body-4">비밀글은 작성자만 확인할 수 있습니다</div>
     </div>
   </div>
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapState } from "vuex";
 import ClubQuestionAnswerList from "@/views/clubs/ClubQuestionAnswerList.vue";
 import IconLock from "@/components/icons/IconLock.vue";
 import Swal from "sweetalert2";
@@ -42,33 +46,19 @@ export default {
     IconLock,
   },
   props: {
-    questionId: {
-      type: Number,
+    question: {
+      type: Object,
     },
-    questionContents: {
-      type: String,
-    },
-    answers: {
-      type: Array,
-    },
-    isOpen: {
-      type: Boolean,
-    },
-    userId: {
-      type: Number,
-    },
-    nickname: {
-      type: String,
-    },
-    profileImg: {
-      type: String,
-    },
+  },
+  computed: {
+    ...mapState(["userId"]),
+    ...mapState("clubStore", ["isLeader"]),
   },
   data() {
     return {
       answerData: {
-        questionId: this.questionId,
-        isOpen: this.isOpen,
+        questionId: this.question.questionId,
+        isOpen: this.question.isOpen,
         contents: "",
       },
     };
@@ -87,7 +77,6 @@ export default {
         });
         if (text) {
           this.answerData.contents = text;
-          console.log(this.answerData);
           this.registerAnswer(this.answerData);
         }
       })();
@@ -111,10 +100,9 @@ export default {
   gap: 0.7rem;
   padding: 0;
 }
-.profile-image {
+.profileImg {
   width: 4rem;
   height: 4rem;
-  border-radius: 50%;
 }
 .question-info {
   position: relative;
@@ -147,5 +135,8 @@ export default {
 .question-content {
   margin: 1rem 0.7rem;
   text-align: justify;
+}
+.secret {
+  color: var(--medium-grey);
 }
 </style>
