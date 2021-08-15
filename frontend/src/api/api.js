@@ -1,5 +1,5 @@
 export default {
-  URL: "http://localhost:8080/api",
+  URL: "https://i5a607.p.ssafy.io/api",
   ROUTES: {
     // accounts
     login: "/users/login",
@@ -50,5 +50,8 @@ export default {
 
     // notification
     registerFCMToken: "/notification",
+
+    //rwm
+    getRwmList: "/rwms",
   },
 };

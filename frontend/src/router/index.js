@@ -209,6 +209,13 @@ const routes = [
     name: "Meeting",
     component: () => import("@/views/meeting/MeetingRoom.vue"),
   },
+
+  //같이 읽기
+  {
+    path: "/rwm",
+    name: "RwmMain",
+    component: () => import("@/views/rwm/RwmMain.vue"),
+  },
 ];
 
 const router = new VueRouter({

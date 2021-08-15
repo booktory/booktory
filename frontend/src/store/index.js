@@ -11,6 +11,7 @@ import clubStore from "@/store/modules/clubStore";
 import searchStore from "@/store/modules/searchStore";
 import boardStore from "@/store/modules/boardStore";
 import bookclubStore from "@/store/modules/bookclubStore";
+import rwmStore from "@/store/modules/rwmStore.js";
 
 import VueCookies from "vue-cookies";
 Vue.use(VueCookies);
@@ -93,6 +94,7 @@ export default new Vuex.Store({
     searchStore,
     boardStore,
     bookclubStore,
+    rwmStore,
     examples,
   },
 });
