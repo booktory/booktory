@@ -1,5 +1,5 @@
 <template>
-  <div class="">
+  <div v-if="club">
     <div class="club-card" @click="selectClub">
       <div class="club-card-img">
         <img
@@ -12,10 +12,10 @@
         />
       </div>
       <div class="club-card-text">
-        <h6>{{ clubName }}</h6>
+        <h6 v-html="clubName"></h6>
         <p><b>클럽장</b> {{ leaderName }}&nbsp;|&nbsp;<b>참가자</b> {{ nowMember }}명</p>
         <div class="club-card-text-genres">
-          <span class="tag" v-for="(genre, idx) in genres" :key="idx">{{ genre }} </span>
+          <span class="tag" v-for="(genre, idx) in genres" :key="idx">{{ genre }}</span>
         </div>
       </div>
     </div>
@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import router from "@/router";
 
 export default {
   name: "ClubSearchBarPageList",
@@ -31,19 +31,26 @@ export default {
     club: {
       type: Object,
     },
+    keyword: {
+      type: String,
+    },
   },
   methods: {
+    // 검색된 클럽 클릭
     selectClub: function () {
-      this.$emit("select-club", this.club);
+      router.push({ name: "ClubSearchBarPageListItem", query: { clubId: this.club.id } });
     },
   },
   computed: {
-    ...mapState("searchStore", ["genreList"]),
     clubImg: function () {
       return this.club.clubImg;
     },
     clubName: function () {
-      return this.club.name;
+      let clubName = this.club.name.replaceAll(
+        this.keyword,
+        "<span style='color: var(--orange);'>" + this.keyword + "</span>"
+      );
+      return clubName;
     },
     leaderName: function () {
       return this.club.nickname;
@@ -61,7 +68,7 @@ export default {
 <style lang="scss" scoped>
 .club-card {
   display: flex;
-  width: 80%;
+  width: 30rem;
   height: 7.5rem;
   margin: 0 auto;
   background-color: var(--very-light-grey);
@@ -75,8 +82,7 @@ export default {
     img {
       width: 5rem;
       height: 7.5rem;
-      border-radius: 1em 0 0 1em;
-      box-shadow: 0 3% 3px 0 var(--bg-black), inset 0 0 3px 0 var(--bg-black);
+      border-radius: 1rem 0 0 1rem;
     }
   }
   &-text {
@@ -89,16 +95,14 @@ export default {
     h6 {
       white-space: nowrap;
       overflow: hidden;
-      text-align: left;
       margin: 0;
       margin-top: 1rem;
     }
     p {
-      text-align: left;
       margin: 0;
       margin-top: 0.5rem;
     }
-    &-genres {
+    * {
       text-align: left;
     }
   }

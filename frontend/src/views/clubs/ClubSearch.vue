@@ -1,11 +1,11 @@
 <template>
   <div class="container">
     <TopHeader />
-    <h4 class="title">클럽찾기</h4>
-    <span class="sub-title">클럽명 또는 도서 분야로 검색하기</span>
+    <h4 class="title">클럽 찾기</h4>
     <ClubSearchBar />
-    <ClubSearchKeyword />
-    <p class="text-link" @click="$router.push({ name: 'ClubCreate' })">클럽 만들기</p>
+    <ClubSearchGenre class="search-list" />
+    <p class="text-right font-body-4">원하는 클럽이 없다면?</p>
+    <h5 class="text-right" @click="$router.push({ name: 'ClubCreate' })">새 클럽 만들기</h5>
     <Navbar :selected="'home'" class="footer" />
   </div>
 </template>
@@ -14,7 +14,7 @@
 import TopHeader from "@/views/TopHeader.vue";
 import Navbar from "@/views/Navbar.vue";
 import ClubSearchBar from "@/views/clubs/ClubSearchBar.vue";
-import ClubSearchKeyword from "@/views/clubs/ClubSearchKeyword.vue";
+import ClubSearchGenre from "@/views/clubs/ClubSearchGenre.vue";
 
 export default {
   name: "ClubSearch",
@@ -22,16 +22,18 @@ export default {
     TopHeader,
     Navbar,
     ClubSearchBar,
-    ClubSearchKeyword,
+    ClubSearchGenre,
   },
 };
 </script>
 
 <style scoped>
-.text-link {
+.search-list {
+  margin-bottom: 2rem;
+}
+.text-right {
   text-align: right;
-  font-size: 1rem;
-  color: var(--grey);
-  margin-right: 10%;
+  margin: 0 4rem 0.3rem 0;
+  color: var(--dark-grey);
 }
 </style>
