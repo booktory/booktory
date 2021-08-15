@@ -1,5 +1,5 @@
 <template>
-  <div v-if="myClubList">
+  <div v-if="myClubList && myClubList.length > 0">
     <ClubListItem
       :clubId="myClubList[index].id"
       :maxLength="myClubList.length"

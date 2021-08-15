@@ -43,7 +43,7 @@
           :id="genre"
           class="font-body-4 club-info-genre"
         >
-          {{ genreList[genre - 1] }}
+          {{ genreList[genre - 1].name }}
         </span>
       </div>
 
@@ -92,7 +92,7 @@
         </button>
       </div>
       <div v-else>
-        <span class="empty-meeting">예정된 모임이 없습니다.</span>
+        <span class="empty-meeting">예정된 모임이 없습니다</span>
       </div>
     </div>
   </div>
@@ -220,7 +220,7 @@ export default {
   border: 0;
   border-radius: 1em;
   color: var(--white);
-  background-color: var(--light-orange);
+  background-color: var(--light-brown);
 }
 
 .bookcard-box {
@@ -258,9 +258,6 @@ export default {
   text-align: left;
 }
 
-.meetingBtn {
-  z-index: 10;
-}
 .meeting {
   margin-top: 2rem;
   display: flex;
