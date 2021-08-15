@@ -25,31 +25,40 @@
           </div>
 
           <div class="meeting m-top-2">
-            <button
-              :disabled="!meetingInfo.isOpen"
-              @click="$router.push({ name: 'Meeting' })"
-              type="button"
-              class="meeting-button"
-            >
-              <div class="meeting-button-head">
-                <div class="meeting-button-head-icon">
-                  <icon-base><icon-video /></icon-base>
-                </div>
-                <div
-                  v-if="clubInfo.title != null"
-                  v-html="convertTime(clubInfo.endDateTime)"
-                  class="meeting-button-head-date"
-                ></div>
-              </div>
-              <h5 v-if="clubInfo.title != null" class="meeting-button-body">모임 입장하기</h5>
-              <h5
-                v-else
-                class="meeting-button-body"
-                @click="$router.push({ name: 'ClubdetailMeetingCreate' })"
+            <div v-if="clubInfo.title != null">
+              <button
+                :disabled="!meetingInfo.isOpen"
+                @click="$router.push({ name: 'Meeting' })"
+                type="button"
+                class="meeting-button"
               >
-                모임 개설하기
-              </h5>
-            </button>
+                <div class="meeting-button-head">
+                  <div class="meeting-button-head-icon">
+                    <icon-base><icon-video /></icon-base>
+                  </div>
+                  <div
+                    v-html="convertTime(clubInfo.endDateTime)"
+                    class="meeting-button-head-date"
+                  ></div>
+                </div>
+                <h5 class="meeting-button-body">모임 입장하기</h5>
+              </button>
+            </div>
+            <div v-else>
+              <button
+                @click="$router.push({ name: 'ClubdetailMeetingCreate' })"
+                type="button"
+                class="meeting-button"
+              >
+                <div class="meeting-button-head">
+                  <div class="meeting-button-head-icon">
+                    <icon-base><icon-video /></icon-base>
+                  </div>
+                  <div class="meeting-button-head-date"></div>
+                </div>
+                <h5 class="meeting-button-body">모임 개설하기</h5>
+              </button>
+            </div>
             <button
               type="button"
               class="meeting-button"
@@ -79,7 +88,7 @@
               >
             </div>
             <div class="books-list m-top-1">
-              <span v-for="(book, idx) in bookClubList" :key="idx">
+              <span v-for="(book, idx) in bookclubList" :key="idx">
                 <img
                   :src="book.bookThumbnail"
                   :title="book.bookTitle"
