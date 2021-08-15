@@ -129,7 +129,7 @@ public class UserService {
             message.setSubject("책토리 회원가입 인증 이메일입니다.");
             URL url = null;
             try {
-                url = new URL("http://localhost:8080/api/users/authentication/" + token);
+                url = new URL("https://i5a607.p.ssafy.io/api/users/authentication/" + token);
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }
@@ -139,7 +139,7 @@ public class UserService {
             message.setSubject("책토리 비밀번호 변경 이메일입니다.");
             URL url = null;
             try {
-                url = new URL("http://localhost:8080/api/users/password/reset/" + token);
+                url = new URL("https://i5a607.p.ssafy.io/api/users/password/reset/" + token);
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }
