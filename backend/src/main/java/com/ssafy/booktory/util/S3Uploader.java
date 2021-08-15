@@ -6,12 +6,16 @@ import com.amazonaws.services.s3.model.PutObjectRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Path;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.Arrays;
@@ -23,7 +27,7 @@ import java.util.UUID;
 @Component
 public class S3Uploader implements Uploader{
 
-    private final static String TEMP_FILE_PATH = "src/main/resources/static/";
+    private final static String TEMP_FILE_PATH = "classpath:";
     private final AmazonS3Client amazonS3Client;
     private final List<String> imageExt = Arrays.asList(".PNG", ".png", ".JPEG", ".jpeg", ".JPG", ".jpg", ".TIFF", ".tiff", ".BMP", ".bmp" , ".GIF", ".gif");
 
@@ -69,6 +73,7 @@ public class S3Uploader implements Uploader{
 
     private File convert(MultipartFile file) throws IOException{
         File convertFile = new File(TEMP_FILE_PATH + file.getOriginalFilename());
+
         if(convertFile.createNewFile()){
             try(FileOutputStream fos = new FileOutputStream(convertFile)){
                 fos.write(file.getBytes());
