@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -85,7 +86,7 @@ public class ClubService {
         LocalDateTime endDateTime = null;
         BookClub bookClub = bookClubRepository.findByClubIdFirstByOrderByEndDatetimeDesc(id);
 
-        if (bookClub != null && LocalDateTime.now().isBefore(bookClub.getEndDatetime())) {
+        if (bookClub != null && ChronoUnit.MINUTES.between(bookClub.getEndDatetime(), LocalDateTime.now()) <= 10) {
             book = bookRepository.findById(bookClub.getBook().getId()).orElseThrow(() -> new NoSuchElementException("존재하는 책이 없습니다."));
             endDateTime = bookClub.getEndDatetime();
         }
