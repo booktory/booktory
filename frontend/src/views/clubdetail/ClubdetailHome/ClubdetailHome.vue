@@ -30,29 +30,39 @@
           </div>
 
           <div class="meeting m-top-2">
-            <button type="button" class="metting-button">
-              <div class="metting-button-head">
-                <div class="metting-button-head-icon">
+            <button type="button" class="meeting-button">
+              <div class="meeting-button-head">
+                <div class="meeting-button-head-icon">
                   <icon-base><icon-video /></icon-base>
                 </div>
-                <div class="metting-button-head-date">
-                  <p>8월 15일</p>
-                  <p>21:00 예정</p>
+
+                <div v-if="clubInfo.title != null" class="meeting-button-head-date">
+                  <p>
+                    {{ new Date(clubInfo.endDateTime).getMonth() + 1 }}월
+                    {{ new Date(clubInfo.endDateTime).getDate() }}일
+                  </p>
+                  <p>
+                    {{ new Date(clubInfo.endDateTime).getHours() }}:{{
+                      new Date(clubInfo.endDateTime).getMinutes()
+                    }}
+                    예정
+                  </p>
                 </div>
               </div>
-              <div class="metting-button-body">모임 참여하기</div>
+              <div v-if="clubInfo.title != null" class="meeting-button-body">모임 참여하기</div>
+              <div v-else class="meeting-button-body">모임 개설하기</div>
             </button>
             <button
               type="button"
-              class="metting-button"
+              class="meeting-button"
               @click="$router.push({ name: 'ClubdetailMetting' })"
             >
-              <div class="metting-button-head">
-                <div class="metting-button-head-icon">
+              <div class="meeting-button-head">
+                <div class="meeting-button-head-icon">
                   <icon-base><icon-bookmark /></icon-base>
                 </div>
               </div>
-              <div class="metting-button-body">일정 확인하기</div>
+              <div class="meeting-button-body">일정 확인하기</div>
             </button>
           </div>
 
@@ -66,11 +76,17 @@
           <div class="books m-top-2">
             <div class="books-head">
               <h5>클럽 서재</h5>
-              <button @click="$router.push({ name: 'ClubdetailBook' })">더 보기</button>
+              <div class="bookcard-info-more">
+                <span class="font-body-4" @click="$router.push({ name: 'ClubdetailBook' })"
+                  >책 목록 더보기</span
+                >
+              </div>
             </div>
             <div class="books-list m-top-1">
-              <span v-for="(book, idx) in books" :key="idx">
-                <img :src="book.thumbnail" alt="" class="book-thumbnail" />
+              <span v-for="(book, idx) in bookclubList" :key="idx">
+                <div v-if="idx < 4">
+                  <img :src="book.bookThumbnail" alt="" class="book-thumbnail" />
+                </div>
               </span>
             </div>
           </div>
@@ -82,7 +98,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapActions, mapState } from "vuex";
 import Navbar from "@/views/clubdetail/Navbar.vue";
 import IconVideo from "@/components/icons/IconVideo.vue";
 import IconBookmark from "@/components/icons/IconBookmark.vue";
@@ -95,11 +111,21 @@ export default {
     IconBookmark,
   },
   computed: {
-    ...mapState("clubStore", ["clubInfo"]),
+    ...mapState("clubStore", ["clubInfo", "clubId"]),
     ...mapState("searchStore", ["genreList"]),
-    books: function () {
-      return this.$store.state.examples.bookclubs[0].bookList;
-    },
+    ...mapState("bookclubStore", ["bookclubList"]),
+  },
+  data() {
+    return {
+      // endDate: this.clubInfo.endDateTime,
+      // clubId: this.$route.param.clubId,
+    };
+  },
+  created() {
+    this.getBookclubList(this.clubId);
+  },
+  methods: {
+    ...mapActions("bookclubStore", ["getBookclubList"]),
   },
 };
 </script>
@@ -160,7 +186,7 @@ export default {
           justify-content: center;
           align-items: center;
 
-          .metting-button {
+          .meeting-button {
             width: 15rem;
             height: 10rem;
             margin: 2%;

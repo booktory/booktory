@@ -31,7 +31,7 @@ export default {
     createBook: "/bookclubs",
     deleteBook: "/bookclubs/",
     createMeeting: "/bookclubs",
-    cancleMeeting: "/bookclubs/",
+    cancelMeeting: "/bookclubs/",
     getBookClubInfo: "/bookclubs/",
     getBookClubList: "/bookclubs/list/",
 
