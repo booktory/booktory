@@ -29,30 +29,38 @@
               :disabled="!meetingInfo.isOpen"
               @click="$router.push({ name: 'Meeting' })"
               type="button"
-              class="metting-button"
+              class="meeting-button"
             >
-              <div class="metting-button-head">
-                <div class="metting-button-head-icon">
+              <div class="meeting-button-head">
+                <div class="meeting-button-head-icon">
                   <icon-base><icon-video /></icon-base>
                 </div>
                 <div
+                  v-if="clubInfo.title != null"
                   v-html="convertTime(clubInfo.endDateTime)"
-                  class="metting-button-head-date"
+                  class="meeting-button-head-date"
                 ></div>
               </div>
-              <h5 class="metting-button-body">모임 입장하기</h5>
+              <h5 v-if="clubInfo.title != null" class="meeting-button-body">모임 입장하기</h5>
+              <h5
+                v-else
+                class="meeting-button-body"
+                @click="$router.push({ name: 'ClubdetailMeetingCreate' })"
+              >
+                모임 개설하기
+              </h5>
             </button>
             <button
               type="button"
-              class="metting-button"
-              @click="$router.push({ name: 'ClubdetailMetting' })"
+              class="meeting-button"
+              @click="$router.push({ name: 'ClubdetailMeeting' })"
             >
-              <div class="metting-button-head">
-                <div class="metting-button-head-icon">
+              <div class="meeting-button-head">
+                <div class="meeting-button-head-icon">
                   <icon-base><icon-bookmark /></icon-base>
                 </div>
               </div>
-              <h5 class="metting-button-body">일정 확인하기</h5>
+              <h5 class="meeting-button-body">일정 확인하기</h5>
             </button>
           </div>
 
@@ -102,11 +110,13 @@ export default {
     IconBookmark,
   },
   computed: {
-    ...mapState("clubStore", ["clubInfo", "meetingInfo", "bookClubList"]),
+    ...mapState("clubStore", ["clubInfo", "meetingInfo", "clubId"]),
     ...mapState("searchStore", ["genreList"]),
+    ...mapState("bookclubStore", ["bookclubList"]),
   },
   methods: {
-    ...mapActions("clubStore", ["findBookClubList"]),
+    ...mapActions("bookclubStore", ["getBookclubList"]),
+    ...mapActions("clubStore", ["findClubInfo"]),
     // 모임 시간 년월일 변환
     convertTime(data) {
       if (!data) return "예정된 모임 없음";
@@ -122,8 +132,12 @@ export default {
       return dateStr;
     },
   },
+  data() {
+    return {};
+  },
   created() {
-    this.findBookClubList();
+    this.findClubInfo(this.clubId);
+    this.getBookclubList(this.clubId);
   },
 };
 </script>
@@ -180,10 +194,10 @@ export default {
         justify-content: center;
         align-items: center;
 
-        .metting-button:disabled {
+        .meeting-button:disabled {
           background-color: var(--medium-grey);
         }
-        .metting-button {
+        .meeting-button {
           width: 14.5rem;
           height: 10rem;
           margin: 0 auto;

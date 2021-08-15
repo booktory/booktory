@@ -13,9 +13,21 @@
     background-size: cover;
     position: relative;
 
+    .icon-cancel {
+      font-size: 0.7rem;
+      right: 2vw;
+      top: 1.8vh;
+      position: absolute;
+    }
+
     .icon {
       right: 4vw;
       top: 2vh;
+      position: absolute;
+    }
+
+    .icon-back {
+      left: 4vw;
       position: absolute;
     }
 
@@ -42,7 +54,8 @@
         }
 
         // next와 pre에서 공통으로 사용되는 카드형식입니다.
-        .next-metting-card {
+        .meeting-card {
+          position: relative;
           width: 100%;
           height: 30%;
           padding: 5%;
@@ -50,16 +63,41 @@
           background-color: var(--white);
           border-radius: 1rem;
           box-shadow: 0 0.4em 0.8em 0 rgba(142, 141, 208, 0.16);
+
+          &-body {
+            margin-top: 1rem;
+          }
+
+          &-footer {
+            margin-top: 0.5rem;
+          }
+
+          &-head-date {
+            font-weight: bold;
+          }
+
+          &-footer {
+            margin-top: 1rem;
+            color: var(--orange);
+
+            &-list {
+              margin-right: 0.5rem;
+            }
+            &-profileImg {
+              width: 3rem;
+              height: 3rem;
+              border-radius: 50%;
+            }
+          }
         }
 
-        .pre-metting-card {
-          width: 100%;
-          height: 30%;
-          padding: 5%;
-          margin-bottom: 5%;
-          background-color: var(--white);
-          border-radius: 1rem;
-          box-shadow: 0 0.4em 0.8em 0 rgba(142, 141, 208, 0.16);
+        .meeting-card-no {
+          text-align: center;
+          padding: 13% 1%;
+        }
+
+        .pre-meeting {
+          margin-top: 3rem;
         }
       }
     }
