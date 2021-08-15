@@ -3,7 +3,7 @@
     <div class="item" @click="$router.push({ name: 'ClubdetailHome' })">
       <p :class="{ orange: selected == 'home' }" class="sub-item font-body-4">클럽 홈</p>
     </div>
-    <div class="item" @click="$router.push({ name: 'ClubdetailMetting' })">
+    <div class="item" @click="$router.push({ name: 'ClubdetailMeeting' })">
       <p :class="{ orange: selected == 'meeting' }" class="sub-item font-body-4">모임 일정</p>
     </div>
     <div class="item" @click="$router.push({ name: 'ClubdetailBoard' })">

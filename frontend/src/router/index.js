@@ -98,13 +98,13 @@ const routes = [
   // 클럽상세 모임일정
   {
     path: "/clubdetail/meeting",
-    name: "ClubdetailMetting",
+    name: "ClubdetailMeeting",
     component: () => import("@/views/clubdetail/ClubdetailMeeting/ClubdetailMeeting.vue"),
   },
   // 클럽상세 모임일정 만들기
   {
     path: "/clubdetail/meeting/create",
-    name: "ClubdetailMettingCreate",
+    name: "ClubdetailMeetingCreate",
     component: () => import("@/views/clubdetail/ClubdetailMeeting/ClubdetailMeetingCreate.vue"),
   },
   // 클럽상세 클럽관리

@@ -90,7 +90,7 @@
               </div>
             </div>
             <div v-else class="font-body-4 reading-card-no">
-              읽을 책이 없어요. 책을 더 추가해 주세요 :)
+              읽을 책이 없어요. <br />책을 더 추가해 주세요 :)
             </div>
           </div>
 
