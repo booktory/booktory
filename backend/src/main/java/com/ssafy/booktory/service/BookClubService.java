@@ -67,7 +67,7 @@ public class BookClubService {
     public List<BookClubListResponseDto> findBookClubList(Long clubId) {
         Club club = clubRepository.findById(clubId)
                 .orElseThrow(() -> new NoSuchElementException("존재하지않는 클럽입니다."));
-        List<BookClub> bookClubs = bookClubRepository.findByClub(club);
+        List<BookClub> bookClubs = bookClubRepository.findByClubOrderByEndDatetimeDesc(club);
         List<BookClubListResponseDto> bookClubListResponseDtoList = new ArrayList<>();
 
         for(BookClub bookClub : bookClubs){
