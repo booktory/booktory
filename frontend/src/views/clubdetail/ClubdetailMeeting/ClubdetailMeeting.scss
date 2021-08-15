@@ -13,10 +13,16 @@
     background-size: cover;
     position: relative;
 
-    .icon {
-      font-size: 0.8rem;
+    .icon-cancel {
+      font-size: 0.7rem;
       right: 2vw;
       top: 1.8vh;
+      position: absolute;
+    }
+
+    .icon {
+      right: 4vw;
+      top: 2vh;
       position: absolute;
     }
 

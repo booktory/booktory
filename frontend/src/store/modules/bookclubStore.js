@@ -1,6 +1,6 @@
 import SERVER from "@/api/api";
 import axios from "axios";
-// import router from "@/router";
+import router from "@/router";
 import Swal from "sweetalert2";
 
 const bookclubStore = {
@@ -48,21 +48,52 @@ const bookclubStore = {
         .then((res) => {
           commit("SET_BOOKCLUB_LIST", res.data);
           let curDate = new Date();
+          let flag = true;
           for (let bookclub of res.data) {
             let endDate = new Date(bookclub.endDateTime);
             if (bookclub.endDateTime == null) {
               nextbooks.push(bookclub);
             } else if (curDate.getTime() <= endDate.getTime()) {
+              flag = false;
               commit("SET_NOWBOOKCLUB", bookclub);
             } else {
               prebooks.push(bookclub);
             }
+          }
+          if (flag) {
+            commit("SET_NOWBOOKCLUB", null);
           }
           commit("SET_NEXTBOOKCLUB_LIST", nextbooks);
           commit("SET_PREBOOKCLUB_LIST", prebooks);
         })
         .catch((err) => {
           console.log(err);
+        });
+    },
+    createMeeting({ dispatch }, bookclubData) {
+      console.log(dispatch);
+      axios
+        .put(SERVER.URL + SERVER.ROUTES.createMeeting, bookclubData)
+        .then((res) => {
+          Swal.fire({
+            icon: "success",
+            title: "모임 등록 완료",
+            showConfirmButton: false,
+            timer: 1000,
+            timerProgressBar: true,
+          });
+          console.log(res.data);
+          router.push({ name: "ClubdetailMeeting" });
+        })
+        .catch((err) => {
+          Swal.fire({
+            icon: "error",
+            title: "모임 등록 실패",
+            text: err.response.data.message,
+            showConfirmButton: false,
+            timer: 1500,
+            timerProgressBar: false,
+          });
         });
     },
     cancelMeeting(bookclubId) {
@@ -77,6 +108,7 @@ const bookclubStore = {
             timer: 1000,
             timerProgressBar: true,
           });
+          router.push({ name: "ClubdetailMeeting" });
         })
         .catch((err) => {
           Swal.fire({

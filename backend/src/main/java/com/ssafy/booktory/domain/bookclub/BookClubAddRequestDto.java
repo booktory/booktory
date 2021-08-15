@@ -23,20 +23,19 @@ public class BookClubAddRequestDto{
     private Long bookId;
     private Long clubId;
 
-    @JsonSerialize(using = LocalDateTimeSerializer.class)
-    @JsonFormat(pattern = "yyyy-MM-dd kk:mm:ss")
-    private LocalDateTime startDateTime;
-
-    @JsonSerialize(using = LocalDateTimeSerializer.class)
-    @JsonFormat(pattern = "yyyy-MM-dd kk:mm:ss")
+//    @JsonSerialize(using = LocalDateTimeSerializer.class)
+//    @JsonFormat(pattern = "yyyy-MM-dd kk:mm:ss")
+//    private LocalDateTime startDateTime;
+//
+//    @JsonSerialize(using = LocalDateTimeSerializer.class)
+//    @JsonFormat(pattern = "yyyy-MM-dd kk:mm:ss")
     private LocalDateTime endDateTime;
 
     @Builder
-    public BookClubAddRequestDto(Long bookId, Long clubId, Long id, LocalDateTime startDateTime, LocalDateTime endDateTime) {
+    public BookClubAddRequestDto(Long bookId, Long clubId, Long id, LocalDateTime endDateTime) {
         this.bookId = bookId;
         this.clubId = clubId;
         this.id = id;
-        this.startDateTime = startDateTime;
         this.endDateTime = endDateTime;
     }
 }

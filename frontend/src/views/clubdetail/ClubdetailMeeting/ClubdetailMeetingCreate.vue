@@ -1,7 +1,10 @@
 <template>
   <div class="clubdetail-container">
     <div class="bg-image">
-      <div class="icon-head" @click="$router.push({ name: 'ClubHome' })">
+      <div class="icon icon-back" @click="$router.go(-1)">
+        <icon-base><icon-arrow-left /></icon-base>
+      </div>
+      <div class="icon" @click="$router.push({ name: 'ClubHome' })">
         <icon-base><icon-x /></icon-base>
       </div>
       <div class="card">
@@ -12,19 +15,19 @@
           <div class="create-meeting-card m-top-1">
             <div class="create-meeting-schedule">
               <div class="create-meeting-schedule-head">
-                <h5>모임 날짜</h5>
+                <div class="font-body-3 font-bold">모임 날짜</div>
               </div>
               <div class="create-meeting-schedule-body m-top-1">
                 <date-picker
-                  v-model="value1"
-                  type="date"
+                  v-model="endDate"
+                  type="datetime"
                   placeholder="날짜를 선택하세요"
                   class="date-picker"
                   required
                 ></date-picker>
               </div>
-              <div class="create-meeting-schedule-head m-top-2">
-                <h5>모임 시간</h5>
+              <!-- <div class="create-meeting-schedule-head m-top-2">
+                <div class="font-body-3 font-bold">모임 시간</div>
               </div>
               <div class="create-meeting-schedule-body m-top-1">
                 <date-picker
@@ -34,20 +37,22 @@
                   class="date-picker"
                   required
                 ></date-picker>
-              </div>
+              </div> -->
             </div>
             <div class="create-meeting-book">
               <div class="create-meeting-book-head m-top-2">
-                <h5>읽을 책 선택하기</h5>
+                <div class="font-body-3 font-bold">읽을 책 선택하기</div>
               </div>
               <div class="create-meeting-book-body m-top-1">
-                <select name="" id="">
-                  <option>1</option>
-                  <option>2</option>
+                <select v-model="selected" name="" id="">
+                  <option disabled selected value="1">책을 선택하세요</option>
+                  <option v-for="(book, idx) in nextbookclubList" :value="book.id" :key="idx">
+                    {{ book.bookTitle }}
+                  </option>
                 </select>
               </div>
             </div>
-            <button class="button-2 adj-center">만들기</button>
+            <button class="button-2 adj-center" @click="clickCreate">만들기</button>
           </div>
         </div>
       </div>
@@ -58,6 +63,7 @@
 
 <script>
 import Navbar from "@/views/clubdetail/Navbar.vue";
+import { mapActions, mapState } from "vuex";
 
 export default {
   name: "ClubdetailMeetingCreate",
@@ -66,9 +72,27 @@ export default {
   },
   data() {
     return {
-      value1: null,
+      selected: 1,
+      endDate: null,
       value2: null,
     };
+  },
+  computed: {
+    ...mapState("clubStore", ["clubInfo", "clubId"]),
+    ...mapState("bookclubStore", ["nextbookclubList"]),
+  },
+  methods: {
+    ...mapActions("bookclubStore", ["createMeeting"]),
+    clickCreate() {
+      // console.log(this.selected);
+      const createParam = {
+        id: this.selected,
+        endDateTime: this.endDate,
+      };
+      // console.log(typeof new Date(this.endDate));
+      // console.log(this.endDate.format("yyyy-MM-dd HH:mm:ss"));
+      this.createMeeting(createParam);
+    },
   },
 };
 </script>
@@ -85,5 +109,12 @@ export default {
 
 .adj-center {
   margin: 0 auto;
+}
+
+.font-bold {
+  font-weight: bold;
+}
+.mx-datepicker {
+  width: 250px;
 }
 </style>

@@ -4,9 +4,9 @@
       <div class="icon icon-back" @click="$router.go(-1)">
         <icon-base><icon-arrow-left /></icon-base>
       </div>
-      <!-- <div class="icon" @click="$router.push({ name: 'ClubHome' })">
+      <div class="icon" @click="$router.push({ name: 'ClubHome' })">
         <icon-base><icon-x /></icon-base>
-      </div> -->
+      </div>
       <div class="card">
         <div class="main">
           <div class="main-head">
@@ -68,7 +68,7 @@
                       {{
                         book.bookTitle.length > 22
                           ? book.bookTitle.substr(0, 22) + "・・・"
-                          : book.booTitle
+                          : book.bookTitle
                       }}
                     </h6>
                   </div>

@@ -4,15 +4,15 @@
       <div class="icon icon-back" @click="$router.go(-1)">
         <icon-base><icon-arrow-left /></icon-base>
       </div>
-      <!-- <div class="icon" @click="$router.push({ name: 'ClubHome' })">
+      <div class="icon" @click="$router.push({ name: 'ClubHome' })">
         <icon-base><icon-x /></icon-base>
-      </div> -->
+      </div>
       <div class="card">
         <div class="main">
           <div class="main-head">
             <h5>다음 모임</h5>
             <span
-              v-if="clubInfo.isLeader"
+              v-if="clubInfo.isLeader && nowbookclub == null"
               class="font-body-4"
               @click="$router.push({ name: 'ClubdetailMeetingCreate' })"
               >모임 만들기</span
@@ -22,7 +22,7 @@
           <div class="next-meeting">
             <div v-if="nowbookclub != null">
               <div class="meeting-card m-top-1">
-                <div class="icon" @click="clickCancel(nowbookclub.id)">
+                <div class="icon icon-cancel" @click="clickCancel(nowbookclub.id)">
                   <icon-base><icon-x /></icon-base>
                 </div>
                 <div class="meeting-card-head">
@@ -152,8 +152,11 @@ export default {
     ...mapState("clubStore", ["clubInfo", "clubId"]),
     ...mapState("bookclubStore", ["nowbookclub", "prebookclubList"]),
   },
+  created() {
+    this.getBookclubList(this.clubId);
+  },
   methods: {
-    ...mapActions("bookclubStore", ["cancelMeeting"]),
+    ...mapActions("bookclubStore", ["cancelMeeting", "getBookclubList"]),
     clickCancel(meetingId) {
       this.cancelMeeting(meetingId);
     },

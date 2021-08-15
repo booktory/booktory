@@ -84,7 +84,7 @@
             </div>
             <div class="books-list m-top-1">
               <span v-for="(book, idx) in bookclubList" :key="idx">
-                <div v-if="idx < 4">
+                <div v-if="idx < 3">
                   <img :src="book.bookThumbnail" alt="" class="book-thumbnail" />
                 </div>
               </span>
@@ -116,16 +116,15 @@ export default {
     ...mapState("bookclubStore", ["bookclubList"]),
   },
   data() {
-    return {
-      // endDate: this.clubInfo.endDateTime,
-      // clubId: this.$route.param.clubId,
-    };
+    return {};
   },
   created() {
+    this.findClubInfo(this.clubId);
     this.getBookclubList(this.clubId);
   },
   methods: {
     ...mapActions("bookclubStore", ["getBookclubList"]),
+    ...mapActions("clubStore", ["findClubInfo"]),
   },
 };
 </script>
