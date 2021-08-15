@@ -4,4 +4,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface BookClubUserRepository extends JpaRepository<BookClubUser, Long> {
     int countBookClubUserByUserId(Long userId);
+
+    boolean existsByBookClubIdAndUserId(Long bookClubId, Long userId);
 }

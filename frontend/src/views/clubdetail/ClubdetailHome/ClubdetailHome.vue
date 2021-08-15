@@ -28,7 +28,7 @@
             <div v-if="clubInfo.title != null">
               <button
                 :disabled="!meetingInfo.isOpen"
-                @click="$router.push({ name: 'Meeting' })"
+                @click="clickMeeting"
                 type="button"
                 class="meeting-button"
               >
@@ -107,6 +107,7 @@
 
 <script>
 import { mapActions, mapState } from "vuex";
+import Swal from "sweetalert2";
 import Navbar from "@/views/clubdetail/Navbar.vue";
 import IconVideo from "@/components/icons/IconVideo.vue";
 import IconBookmark from "@/components/icons/IconBookmark.vue";
@@ -124,8 +125,21 @@ export default {
     ...mapState("bookclubStore", ["bookclubList"]),
   },
   methods: {
-    ...mapActions("bookclubStore", ["getBookclubList"]),
+    ...mapActions("bookclubStore", ["getBookclubList", "attendMeeting"]),
     ...mapActions("clubStore", ["findClubInfo"]),
+    clickMeeting() {
+      Swal.fire({
+        showCancelButton: true,
+        title: "모임 입장",
+        text: "모임에 입장하시겠습니까?",
+        confirmButtonText: "입장하기",
+        cancelButtonText: "취소",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.attendMeeting(this.meetingInfo.bookclubId);
+        }
+      });
+    },
     // 모임 시간 년월일 변환
     convertTime(data) {
       if (!data) return "예정된 모임 없음";

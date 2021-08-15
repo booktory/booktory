@@ -10,6 +10,7 @@ const clubStore = {
     clubInfo: null,
     isPolling: false,
     meetingInfo: {
+      bookclubId: null,
       startTime: "",
       remainTime: "",
       isOpen: false,
@@ -120,6 +121,7 @@ const clubStore = {
           let meetingInfo = null;
           if (res.data.endDateTime) {
             meetingInfo = {
+              bookclubId: res.data.bookClubId,
               startTime: res.data.endDateTime,
               remainTime: "",
               isOpen: false,

@@ -22,7 +22,7 @@
           <div class="next-meeting">
             <div v-if="nowbookclub != null">
               <div class="meeting-card m-top-1">
-                <div class="icon icon-cancel" @click="clickCancel(nowbookclub.id)">
+                <div class="icon icon-cancel" @click="clickCancel">
                   <icon-base><icon-x /></icon-base>
                 </div>
                 <div class="meeting-card-head">
@@ -112,7 +112,7 @@
                   <div class="font-body-4">책을 읽었어요</div>
                 </div>
                 <div class="meeting-card-footer font-body-4">
-                  <p>{{ preMeeting.userList.length }}명 참석</p>
+                  <p class="m-bottom-0-5">{{ preMeeting.userList.length }}명 참석</p>
                   <span
                     class="meeting-card-footer-list"
                     v-for="(user, idx) in preMeeting.userList"
@@ -157,8 +157,8 @@ export default {
   },
   methods: {
     ...mapActions("bookclubStore", ["cancelMeeting", "getBookclubList"]),
-    clickCancel(meetingId) {
-      this.cancelMeeting(meetingId);
+    clickCancel() {
+      this.cancelMeeting(this.nowbookclub.id);
     },
     convertRemainTime(endDateTime) {
       let target = new Date(endDateTime);
@@ -188,5 +188,9 @@ export default {
 
 .m-top-2 {
   margin-top: 2rem;
+}
+
+.m-bottom-0-5 {
+  margin-bottom: 0.5rem;
 }
 </style>
