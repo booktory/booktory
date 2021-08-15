@@ -11,11 +11,11 @@
         <div v-if="alarmList.length != 0">
           <div class="" v-for="(alarm, idx) in alarmList" :key="idx">
             <div class="alarm-contents unread" v-if="alarm.status == 0">
-              <div class="alarm-contents-message">{{ alarm.message }}</div>
+              <div v-html="alarm.message" class="alarm-contents-message"></div>
               <div class="alarm-contents-time">{{ convertTime(alarm.time) }}</div>
             </div>
             <div class="alarm-contents" v-else>
-              <div class="alarm-contents-message">{{ alarm.message }}</div>
+              <div v-html="alarm.message" class="alarm-contents-message"></div>
               <div class="alarm-contents-time">{{ convertTime(alarm.time) }}</div>
             </div>
           </div>
@@ -61,7 +61,7 @@ export default {
       const data = list.val();
       for (let key in data) {
         this.alarmList.unshift({
-          message: data[key].message,
+          message: data[key].message.replaceAll("\n", "<br/>"),
           time: data[key].createDateTime,
           status: data[key].readStatus,
         });
