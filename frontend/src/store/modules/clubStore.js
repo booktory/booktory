@@ -20,6 +20,7 @@ const clubStore = {
     applyList: null,
     joinedList: null,
     questionList: null,
+    bookClubList: null,
     newClubData: null,
   },
   getters: {
@@ -49,6 +50,9 @@ const clubStore = {
     },
     questionList(state) {
       return state.questionList;
+    },
+    bookClubList(state) {
+      return state.bookClubList;
     },
     newClubData(state) {
       return state.newClubData;
@@ -82,6 +86,9 @@ const clubStore = {
     SET_QUESTION_LIST(state, data) {
       state.questionList = data;
     },
+    SET_BOOKCLUB_LIST(state, data) {
+      state.bookClubList = data;
+    },
     SET_NEW_CLUBDATA(state, data) {
       state.newClubData = data;
     },
@@ -108,6 +115,7 @@ const clubStore = {
         .then((res) => {
           commit("SET_CLUBID", clubId);
           commit("SET_CLUB_INFO", res.data);
+          commit("SET_IS_LEADER", res.data.isLeader);
           // 다음 모임 정보 설정
           let meetingInfo = null;
           if (res.data.endDateTime) {
@@ -164,6 +172,17 @@ const clubStore = {
     pollingEnd({ commit }) {
       commit("SET_IS_POLLING", false);
     },
+    // 클럽 모임 목록 확인
+    findBookClubList({ getters, commit }) {
+      axios
+        .get(SERVER.URL + SERVER.ROUTES.getBookClubList + getters.clubId)
+        .then((res) => {
+          commit("SET_BOOKCLUB_LIST", res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
     // 새 클럽 만들 정보 저장
     saveClubData({ commit }, clubData) {
       commit("SET_NEW_CLUBDATA", clubData);
@@ -218,48 +237,55 @@ const clubStore = {
           });
         });
     },
+    // 클럽 가입신청
+    applyToClub({ rootGetters, getters }) {
+      axios
+        .post(SERVER.URL + "/clubs/" + getters.clubId + "/join", rootGetters.config)
+        .then((res) => {
+          console.log(res);
+          Swal.fire({
+            icon: "success",
+            title: "클럽 가입 신청 완료",
+            text: getters.clubInfo.name + "에 가입 신청이 완료되었습니다!",
+            showConfirmButton: false,
+            timer: 1000,
+            timerProgressBar: true,
+          });
+        })
+        .catch((err) => {
+          Swal.fire({
+            icon: "error",
+            title: "클럽 가입 신청 실패",
+            text: err.response.data.message,
+            showConfirmButton: false,
+            timer: 1500,
+            timerProgressBar: false,
+          });
+        });
+    },
     // 클럽 가입신청 수락
-    acceptToClub({ rootGetters, getters, commit }, userClubId) {
+    acceptToClub({ rootGetters, getters, dispatch }, userClubId) {
       axios
         .put(SERVER.URL + "/clubs/" + getters.clubId + "/join/" + userClubId, rootGetters.config)
         .then((res) => {
           console.log(res);
-          this.findApplyList();
-          this.findJoinedList();
+          dispatch("findApplyList");
+          dispatch("findJoinedList");
         })
         .catch((err) => {
           console.log(err);
-          var apply = getters.applyList;
-          var joined = getters.joinedList;
-          for (var i = 0; i < apply.length; i++) {
-            if (apply[i].id == userClubId) {
-              joined.push(apply[i]);
-              apply.splice(i, 1);
-              break;
-            }
-          }
-          commit("SET_APPLY_LIST", apply);
-          commit("SET_JOINED_LIST", joined);
         });
     },
     // 클럽 가입신청 거절
-    rejectJoin({ rootGetters, getters, commit }, userClubId) {
+    rejectJoin({ rootGetters, getters, dispatch }, userClubId) {
       axios
         .delete(SERVER.URL + "/clubs/" + getters.clubId + "/join/" + userClubId, rootGetters.config)
         .then((res) => {
           console.log(res);
-          this.findApplyList();
+          dispatch("findApplyList");
         })
         .catch((err) => {
           console.log(err);
-          var apply = getters.applyList;
-          for (var i = 0; i < apply.length; i++) {
-            if (apply[i].id == userClubId) {
-              apply.splice(i, 1);
-              break;
-            }
-          }
-          commit("SET_APPLY_LIST", apply);
         });
     },
     // 클럽 가입신청 회원 목록
@@ -271,24 +297,6 @@ const clubStore = {
         })
         .catch((err) => {
           console.log(err);
-          let list = [
-            {
-              id: 1,
-              userProfileImg: "",
-              userNickname: "소프트콘",
-            },
-            {
-              id: 2,
-              userProfileImg: "",
-              userNickname: "수염맨의여행을떠나요",
-            },
-            {
-              id: 3,
-              userProfileImg: "",
-              userNickname: "책토리",
-            },
-          ];
-          commit("SET_APPLY_LIST", list);
         });
     },
     // 클럽 가입된 회원 목록
@@ -300,24 +308,6 @@ const clubStore = {
         })
         .catch((err) => {
           console.log(err);
-          let list = [
-            {
-              Id: 4,
-              userProfileImg: "",
-              userNickname: "가입1",
-            },
-            {
-              Id: 5,
-              userProfileImg: "",
-              userNickname: "가입2",
-            },
-            {
-              Id: 6,
-              userProfileImg: "",
-              userNickname: "가입3",
-            },
-          ];
-          commit("SET_JOINED_LIST", list);
         });
     },
     // 클럽 탈퇴
@@ -376,9 +366,9 @@ const clubStore = {
         });
     },
     // 문의게시판 목록 확인
-    findQuestionList({ getters, commit }) {
+    findQuestionList({ commit }, clubId) {
       axios
-        .get(SERVER.URL + SERVER.ROUTES.questions + getters.clubId)
+        .get(SERVER.URL + SERVER.ROUTES.questions + clubId)
         .then((res) => {
           // 문의게시판 목록 설정
           commit("SET_QUESTION_LIST", res.data);
@@ -388,10 +378,10 @@ const clubStore = {
         });
     },
     // 문의게시판 질문 등록
-    registerQuestion({ rootGetters, getters }, questionData) {
+    registerQuestion({ rootGetters }, questionData) {
       axios
         .post(
-          SERVER.URL + SERVER.ROUTES.questions + getters.clubId,
+          SERVER.URL + SERVER.ROUTES.questions + questionData.clubId,
           questionData,
           rootGetters.config
         )
