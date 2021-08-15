@@ -7,11 +7,13 @@
     <button type="button" class="button-2 m-top-10" :disabled="!isSubmit" @click="clickCreate">
       클럽 만들기
     </button>
+    <Navbar :selected="'home'" />
   </div>
 </template>
 
 <script>
 import TopHeader from "@/views/TopHeader.vue";
+import Navbar from "@/views/Navbar.vue";
 import ClubCreateBookBar from "@/views/clubs/ClubCreateBookBar.vue";
 import ClubCreateBookList from "@/views/clubs/ClubCreateBookList.vue";
 import { mapActions } from "vuex";
@@ -20,6 +22,7 @@ export default {
   name: "ClubCreateBook",
   components: {
     TopHeader,
+    Navbar,
     ClubCreateBookBar,
     ClubCreateBookList,
   },
@@ -38,6 +41,7 @@ export default {
   },
   methods: {
     ...mapActions("clubStore", ["createClub"]),
+    ...mapActions("searchStore", ["initBookList"]),
     // 클럽 만들기 버튼 클릭
     clickCreate() {
       if (this.isSubmit) {
@@ -52,6 +56,9 @@ export default {
     checkSelectedBooks() {
       this.isSubmit = this.selectedBooks.length > 0;
     },
+  },
+  created() {
+    this.initBookList();
   },
 };
 </script>

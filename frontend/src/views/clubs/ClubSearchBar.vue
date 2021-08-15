@@ -1,19 +1,27 @@
 <template>
-  <div class="input-div m-top-5">
-    <div>
-      <input
-        type="text"
-        placeholder="검색할 클럽명을 입력해주세요"
-        @click="$router.push({ name: 'ClubSearchBarPage' })"
-      />
+  <div>
+    <div class="input-div">
+      <p class="label font-body-4">클럽명으로 찾기</p>
+      <div>
+        <input
+          type="text"
+          placeholder="검색할 클럽명을 입력해주세요"
+          @click="$router.push({ name: 'ClubSearchBarPage' })"
+        />
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: "ClubSearchBar.vue",
+  name: "ClubSearchBar",
 };
 </script>
 
-<style></style>
+<style scoped>
+.label {
+  font-weight: bold;
+  margin-left: 1rem;
+}
+</style>

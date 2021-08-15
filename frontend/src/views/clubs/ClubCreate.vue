@@ -53,7 +53,7 @@
               :key="index"
               :id="genre"
               class="input-tag"
-              >{{ genreList[genre - 1] }}</span
+              >{{ genreList[genre - 1].name }}</span
             >
           </div>
           <div v-else class="genre-inner-div">
@@ -62,8 +62,8 @@
         </div>
         <!-- 장르 키워드 선택 -->
         <div class="genre-keyword">
-          <span v-for="(name, index) in genreList" :key="index">
-            <span @click="addGenre" :id="index + 1" class="tag">{{ name }}</span>
+          <span v-for="(genre, idx) in genreList" :key="idx">
+            <span @click="addGenre" :id="genre.id" class="tag">{{ genre.name }}</span>
           </span>
         </div>
         <p v-if="error.genres" class="message">{{ error.genres }}</p>
@@ -334,7 +334,7 @@ export default {
 
 .freeRule-div {
   margin-left: -0.5rem;
-  height: 3.4rem;
+  height: inherit;
 }
 #freeRule {
   padding-left: 1.2rem;

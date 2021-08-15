@@ -1,10 +1,10 @@
 <template>
-  <div class="navbar">
+  <div v-if="userNickname" class="navbar">
     <div class="icon left" @click="$router.go(-1)">
       <icon-base><icon-arrow-left /></icon-base>
     </div>
-    <span v-if="userNickname" class="font-body-4 welcome">안녕하세요, {{ userNickname }}님</span>
-    <div v-if="userNickname" class="icon right" @click="$router.push({ name: 'Notification' })">
+    <span class="font-body-4 welcome">안녕하세요, {{ userNickname }}님</span>
+    <div class="icon right" @click="$router.push({ name: 'Notification' })">
       <icon-base :width="'1.6em'" :height="'1.6em'"><icon-bell /></icon-base>
       <div v-if="!alarmRead" class="noti"></div>
     </div>

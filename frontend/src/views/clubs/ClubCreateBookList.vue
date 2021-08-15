@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="bookList && bookList.length != 0">
+    <div class="book-list-wrapper" v-if="bookList && bookList.length != 0">
       <ClubCreateBookListItem
         v-for="(book, idx) in bookList"
         :key="idx"
@@ -60,6 +60,10 @@ export default {
 </script>
 
 <style scoped>
+.book-list-wrapper {
+  max-height: 45rem;
+  overflow: scroll;
+}
 .label {
   font-weight: bold;
   text-align: left;
@@ -67,7 +71,7 @@ export default {
 }
 .empty {
   text-align: left;
-  margin: 2.5rem 0 0 5rem;
+  margin: 0rem 0 0 5rem;
   color: var(--grey);
 }
 </style>

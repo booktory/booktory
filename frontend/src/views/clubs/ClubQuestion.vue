@@ -59,6 +59,7 @@ export default {
     return {
       isLock: false,
       questionData: {
+        clubId: this.$route.query.clubId,
         isOpen: true,
         contents: "",
       },
@@ -68,6 +69,7 @@ export default {
     ...mapActions("clubStore", ["registerQuestion", "findQuestionList"]),
     clickRegister() {
       this.questionData.isOpen = !this.isLock;
+      this.questionData.contents = this.questionData.contents.replaceAll("\n", "<br/>");
       this.registerQuestion(this.questionData).then(() => {
         this.isLock = false;
         this.questionData.isOpen = true;
@@ -76,7 +78,7 @@ export default {
     },
   },
   created() {
-    this.findQuestionList();
+    this.findQuestionList(this.questionData.clubId);
   },
 };
 </script>
@@ -96,7 +98,7 @@ export default {
 }
 .main {
   height: inherit;
-  padding: 3rem 3rem 10rem;
+  padding: 3rem 3rem 0;
   background-color: var(--beige);
   border-radius: 7em 7em 0 0;
 }

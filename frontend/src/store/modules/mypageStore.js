@@ -170,7 +170,7 @@ const mypageStore = {
             timer: 1000,
             timerProgressBar: true,
           });
-          dispatch("logout", null, { root: true });
+          dispatch("logout", { root: true });
         })
         .catch((err) => {
           Swal.fire({
@@ -181,6 +181,29 @@ const mypageStore = {
             timer: 1500,
             timerProgressBar: false,
           });
+        });
+    },
+    // 회원 탈퇴
+    deleteUser({ rootGetters, dispatch }, password) {
+      axios
+        .delete(SERVER.URL + SERVER.ROUTES.deleteUser, password, rootGetters.config)
+        .then((res) => {
+          Swal.fire({
+            icon: "success",
+            title: "회원 탈퇴 완료",
+            html: "회원 탈퇴가 완료 되었습니다.",
+          });
+          console.log(res.data);
+          dispatch("logout", { root: true });
+          router.push({ name: "Login" });
+        })
+        .catch((error) => {
+          Swal.fire({
+            icon: "error",
+            title: "회원 탈퇴 실패",
+            text: "회원 탈퇴에 실패했습니다.",
+          });
+          console.log(error);
         });
     },
     // 대표배지 설정
