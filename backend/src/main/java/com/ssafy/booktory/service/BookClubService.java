@@ -10,6 +10,8 @@ import com.ssafy.booktory.domain.club.Club;
 import com.ssafy.booktory.domain.club.ClubRepository;
 import com.ssafy.booktory.domain.user.User;
 import com.ssafy.booktory.domain.user.UserRepository;
+import com.ssafy.booktory.domain.userbook.UserBook;
+import com.ssafy.booktory.domain.userbook.UserBookRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.config.annotation.AlreadyBuiltException;
 import org.springframework.stereotype.Service;
@@ -29,6 +31,7 @@ public class BookClubService {
     private final ClubRepository clubRepository;
     private final UserRepository userRepository;
     private final BookClubUserRepository bookClubUserRepository;
+    private final UserBookRepository userBookRepository;
     private final NotificationService notificationService;
 
     public BookClub createBookToRead(BookClubCreateRequestDto bookClubCreateRequestDto){
@@ -100,6 +103,12 @@ public class BookClubService {
                     .user(user)
                     .build();
             bookClubUserRepository.save(bookClubUser);
+
+            UserBook userBook = UserBook.builder()
+                    .user(user)
+                    .book(bookClub.getBook())
+                    .build();
+            userBookRepository.save(userBook);
 
             int meetingCnt = bookClubUserRepository.countBookClubUserByUserId(user.getId());
             switch(meetingCnt) {

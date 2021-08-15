@@ -1,9 +1,11 @@
 package com.ssafy.booktory.domain.userbook;
 
 import com.ssafy.booktory.domain.book.Book;
+import com.ssafy.booktory.domain.bookclub.BookClub;
 import com.ssafy.booktory.domain.common.BaseTimeEntity;
 import com.ssafy.booktory.domain.user.User;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -25,5 +27,11 @@ public class UserBook extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "book_id")
     private Book book;
+
+    @Builder
+    public UserBook(User user, Book book) {
+        this.user = user;
+        this.book = book;
+    }
 
 }
