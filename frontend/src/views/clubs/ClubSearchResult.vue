@@ -16,7 +16,13 @@
           <h6>{{ clubName }}</h6>
           <p><b>클럽장</b>{{ leaderName }}&nbsp;|&nbsp;<b>참가자</b> {{ nowMember }}명</p>
           <div class="club-card-text-genres">
-            <span class="tag" v-for="(genre, idx) in genres" :key="idx">{{ genre }} </span>
+            <span
+              :class="{ orange: genreList[genre - 1].isSelect }"
+              class="tag"
+              v-for="(genre, idx) in genres"
+              :key="idx"
+              >{{ genreList[genre - 1].name }}
+            </span>
           </div>
         </div>
       </div>
@@ -26,6 +32,7 @@
 
 <script>
 import router from "@/router";
+import { mapState } from "vuex";
 
 export default {
   name: "ClubSearchResult",
@@ -41,6 +48,7 @@ export default {
     },
   },
   computed: {
+    ...mapState("searchStore", ["genreList"]),
     clubImg: function () {
       return this.club.clubImg;
     },
@@ -111,5 +119,8 @@ export default {
   border-radius: 1em;
   color: var(--white);
   background-color: var(--light-orange);
+}
+.orange {
+  background-color: var(--orange);
 }
 </style>
