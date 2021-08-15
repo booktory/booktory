@@ -97,7 +97,7 @@ const bookclubStore = {
           });
         });
     },
-    cancelMeeting(bookclubId) {
+    cancelMeeting({ commit }, bookclubId) {
       axios
         .patch(SERVER.URL + SERVER.ROUTES.cancelMeeting + bookclubId)
         .then((res) => {
@@ -109,7 +109,7 @@ const bookclubStore = {
             timer: 1000,
             timerProgressBar: true,
           });
-          router.push({ name: "ClubdetailMeeting" });
+          commit("SET_NOWBOOKCLUB", null);
         })
         .catch((err) => {
           Swal.fire({
