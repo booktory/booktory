@@ -122,6 +122,31 @@ const bookclubStore = {
           });
         });
     },
+    deleteBook({ dispatch }, data) {
+      axios
+        .delete(SERVER.URL + SERVER.ROUTES.deleteBook + data.bookclubId)
+        .then((res) => {
+          console.log(res);
+          Swal.fire({
+            icon: "success",
+            title: "책 삭제 완료",
+            showConfirmButton: false,
+            timer: 1000,
+            timerProgressBar: true,
+          });
+          dispatch("getBookclubList", data.clubId);
+        })
+        .catch((err) => {
+          Swal.fire({
+            icon: "error",
+            title: "책 삭제 실패",
+            text: err.response.data.message,
+            showConfirmButton: false,
+            timer: 1500,
+            timerProgressBar: false,
+          });
+        });
+    },
   },
 };
 
