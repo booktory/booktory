@@ -34,6 +34,16 @@
       input:focus {
         outline: none;
       }
+      /* 네이티브 외형 감추기 */
+      select {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        background: url("./down.svg") no-repeat 95% 50%; /* 네이티브 화살표를 커스텀 화살표로 대체 */
+      }
+      select::-ms-expand {
+        display: none;
+      }
 
       /* View */
       /* Mobile */
@@ -84,7 +94,8 @@
       h3,
       h4,
       h5,
-      h6 {
+      h6,
+      h6 * {
         font-weight: normal;
         font-family: "CookieRun-Regular";
       }
@@ -103,7 +114,8 @@
       h5 {
         font-size: 1.6rem;
       }
-      h6 {
+      h6,
+      h6 * {
         font-size: 1.2rem;
       }
 
@@ -159,6 +171,7 @@
         --black: #000000;
         --dark-grey: #555;
         --grey: #8a8894;
+        --medium-grey: #a9a7af;
         --light-grey: #d6d6d9;
         --very-light-grey: #eeeeee;
         --white: #ffffff;
@@ -258,7 +271,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        margin: 2rem auto 0;
+        margin: 1.5rem auto 0;
         padding: 1rem 3rem;
         border-radius: 5em;
         border: 0;
@@ -293,10 +306,16 @@
         border: 1px solid var(--dark-grey);
       }
 
+      .white-bg-orange {
+        background-color: var(--white);
+        color: var(--orange);
+        border: 1px solid var(--orange);
+      }
+
       .light-orange-bg {
         background-color: var(--light-orange);
-        color: var(--dark-grey);
-        /* border: 1px solid var(--dark-grey); */
+        color: var(--white);
+        border: 1px solid var(--light-orange);
       }
       .input-div {
         width: 30rem;
