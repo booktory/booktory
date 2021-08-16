@@ -1,5 +1,5 @@
 export default {
-  URL: "https://i5a607.p.ssafy.io/api",
+  URL: "http://localhost:8080/api",
   ROUTES: {
     // accounts
     login: "/users/login",
@@ -53,5 +53,6 @@ export default {
 
     //rwm
     getRwmList: "/rwms",
+    enterRwmRoom: "/rwms/"
   },
 };

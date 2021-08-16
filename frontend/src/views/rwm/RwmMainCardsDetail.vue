@@ -1,5 +1,5 @@
 <template>
-  <div class="rwm-cards-detail" @click="$router.push({ name: 'RwmEnterance' })">
+  <div class="rwm-cards-detail" @click="clickRwmCard">
     <div class="rwm-img-wrapper">
        <img :src="img" :alt="img" class="rwm-img" />
     </div>
@@ -14,6 +14,9 @@
 </template>
 
 <script>
+
+import router from "@/router";
+
 export default {
   name: "RwmMainCardsDetail",
   components: {},
@@ -37,7 +40,11 @@ export default {
       type: Number,
     }
   },
-  methods: {},
+  methods: {
+    clickRwmCard(){
+      router.push({ name: 'RwmEnterance', query: {id: this.$props.id} })
+    }
+  },
 };
 </script>
 

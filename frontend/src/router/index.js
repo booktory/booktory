@@ -222,6 +222,12 @@ const routes = [
     name: "RwmEnterance",
     component: () => import("@/views/rwm/RwmEnterance.vue"),
   },
+  //같이 읽기 방
+  {
+    path: "/rwm/room",
+    name: "RwmRoom",
+    component: () => import("@/views/rwm/RwmRoom.vue"),
+  },
 ];
 
 const router = new VueRouter({
