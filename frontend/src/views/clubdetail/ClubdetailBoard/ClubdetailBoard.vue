@@ -180,6 +180,8 @@ export default {
       .file-upload {
         float: right;
         margin: 2.5rem 1rem 0 0;
+        display: flex;
+        align-items: center;
       }
       .file-upload > div {
         display: flex;

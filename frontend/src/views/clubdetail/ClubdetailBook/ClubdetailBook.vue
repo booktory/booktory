@@ -9,7 +9,7 @@
             <h5>읽는 중</h5>
             <span
               v-if="clubInfo.isLeader"
-              class="add-btn"
+              class="font-body-4"
               @click="$router.push({ name: 'ClubdetailBookAdd' })"
               >책 추가하기</span
             >
@@ -42,7 +42,7 @@
                 </div>
               </div>
             </div>
-            <div v-else class="font-body-4 reading-card-no">예정된 모임이 없습니다</div>
+            <div v-else class="font-body-4 reading-card-no">읽고 있는 책이 없습니다</div>
           </div>
           <!-- 앞으로 읽을 책 -->
           <div class="reading">
@@ -76,9 +76,7 @@
                 </div>
               </div>
             </div>
-            <div v-else class="font-body-4 reading-card-no">
-              읽을 책이 없습니다<br />책을 더 추가해 주세요 :)
-            </div>
+            <div v-else class="font-body-4 reading-card-no">읽을 책이 없습니다</div>
           </div>
 
           <!-- 읽었어요 -->
@@ -86,13 +84,13 @@
             <h5>읽었어요</h5>
             <div v-if="prebookclubList.length > 0">
               <div v-for="(book, idx) in prebookclubList" :key="idx" class="reading-card m-top-1">
-                <span class="font-body-5 reading-card-date">
-                  {{ $moment(book.endDateTime).format("YYYY년 M월 D일 읽음") }}
-                </span>
                 <div class="reading-card-left">
                   <img :src="book.bookThumbnail" alt="" />
                 </div>
                 <div class="reading-card-right">
+                  <span class="font-body-5 reading-card-date">
+                    {{ $moment(book.endDateTime).format("YYYY년 M월 D일 읽음") }}
+                  </span>
                   <div class="reading-card-head">
                     <h5>{{ book.bookTitle }}</h5>
                   </div>
