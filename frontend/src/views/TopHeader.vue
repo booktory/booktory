@@ -42,10 +42,8 @@ export default {
     },
   },
   created() {
-    this.pollAlarm();
-  },
-  mounted() {
     this.fetchUser();
+    this.pollAlarm();
   },
 };
 </script>

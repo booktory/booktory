@@ -50,14 +50,10 @@ export default new Vuex.Store({
   },
   actions: {
     fetchUser({ commit }) {
-      if (Vue.$cookies.get("auth-token")) {
-        commit("SET_TOKEN", Vue.$cookies.get("auth-token"));
-        commit("SET_USER_EMAIL", localStorage.getItem("userEmail"));
-        commit("SET_USER_NICKNAME", localStorage.getItem("userNickname"));
-        commit("SET_USER_ID", localStorage.getItem("userId"));
-      } else {
-        router.push({ name: "Home" });
-      }
+      commit("SET_TOKEN", Vue.$cookies.get("auth-token"));
+      commit("SET_USER_EMAIL", localStorage.getItem("userEmail"));
+      commit("SET_USER_NICKNAME", localStorage.getItem("userNickname"));
+      commit("SET_USER_ID", localStorage.getItem("userId"));
     },
     // 로그아웃
     logout({ getters, commit }) {
