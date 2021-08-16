@@ -19,7 +19,7 @@ export default {
   components: {},
   name: "TopHeader",
   computed: {
-    ...mapState(["userNickname"]),
+    ...mapState(["userNickname", "userId"]),
     ...mapState("mypageStore", ["alarmRead"]),
   },
   methods: {
@@ -28,7 +28,7 @@ export default {
     pollAlarm() {
       setInterval(() => {
         let chk = true;
-        const usersref = fire.database().ref(`users/${this.userNickname}`).limitToLast(1);
+        const usersref = fire.database().ref(`users/${this.userId}`).limitToLast(1);
         usersref.on("value", (list) => {
           const data = list.val();
           for (let key in data) {
