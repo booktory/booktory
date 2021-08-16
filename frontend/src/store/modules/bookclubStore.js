@@ -163,7 +163,7 @@ const bookclubStore = {
             timer: 1000,
             timerProgressBar: true,
           });
-          dispatch("getBookclubList", data.clubId);
+          dispatch("getBookClubList", data.clubId);
         })
         .catch((err) => {
           Swal.fire({

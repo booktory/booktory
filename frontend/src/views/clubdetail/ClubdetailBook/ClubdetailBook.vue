@@ -49,9 +49,6 @@
             <h5>앞으로 읽을 책</h5>
             <div v-if="nextbookclubList.length > 0">
               <div v-for="(book, idx) in nextbookclubList" :key="idx" class="reading-card m-top-1">
-                <div class="icon icon-delete" @click="clickDeleteBook(book.id)">
-                  <icon-base :iconColor="'var(--light-brown)'"><icon-delete /></icon-base>
-                </div>
                 <div class="reading-card-left">
                   <img :src="book.bookThumbnail" alt="" />
                 </div>
@@ -73,11 +70,14 @@
                         : book.bookPublisher
                     }}&nbsp;|&nbsp;{{ book.bookDate }}
                   </div>
+                  <div class="icon delete-icon" @click="clickDeleteBook(book.id)">
+                    <icon-base :iconColor="'var(--light-brown)'"><icon-delete /></icon-base>
+                  </div>
                 </div>
               </div>
             </div>
             <div v-else class="font-body-4 reading-card-no">
-              읽을 책이 없습니다 <br />책을 더 추가해 주세요 :)
+              읽을 책이 없습니다<br />책을 더 추가해 주세요 :)
             </div>
           </div>
 

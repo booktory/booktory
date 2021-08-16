@@ -120,7 +120,7 @@ export default {
     this.getBookClubList(this.clubId);
   },
   methods: {
-    ...mapActions("bookclubStore", ["cancelMeeting", "getBookclubList"]),
+    ...mapActions("bookclubStore", ["cancelMeeting", "getBookClubList"]),
     clickCancel() {
       this.cancelMeeting(this.nowbookclub.id);
     },
@@ -150,9 +150,5 @@ export default {
 
 .m-top-2 {
   margin-top: 2rem;
-}
-
-.m-bottom-0-5 {
-  margin-bottom: 0.5rem;
 }
 </style>

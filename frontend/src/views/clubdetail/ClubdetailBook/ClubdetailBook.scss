@@ -82,6 +82,11 @@
           white-space: nowrap;
           overflow: hidden;
         }
+        .delete-icon {
+          position: absolute;
+          bottom: 0.6rem;
+          right: 0.6rem;
+        }
       }
 
       .reading-card-date {
