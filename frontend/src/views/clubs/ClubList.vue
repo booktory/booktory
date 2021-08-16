@@ -1,9 +1,9 @@
 <template>
   <div v-if="myClubList && myClubList.length > 0">
     <ClubListItem
-      :clubId="myClubList[index].id"
+      :clubId="myClubList[clubIndex].id"
       :maxLength="myClubList.length"
-      :index="index"
+      :index="clubIndex"
       @click-left="onClickLeft"
       @click-right="onClickRight"
       class="bg-img"
@@ -21,20 +21,15 @@ export default {
     ClubListItem,
   },
   computed: {
-    ...mapState("clubStore", ["myClubList"]),
-  },
-  data: function () {
-    return {
-      index: 0,
-    };
+    ...mapState("clubStore", ["myClubList", "clubIndex"]),
   },
   methods: {
-    ...mapActions("clubStore", ["findClubList"]),
+    ...mapActions("clubStore", ["findClubList", "setClubIndex"]),
     onClickLeft: function () {
-      this.index--;
+      this.setClubIndex(this.clubIndex - 1);
     },
     onClickRight: function () {
-      this.index++;
+      this.setClubIndex(this.clubIndex + 1);
     },
   },
   created() {

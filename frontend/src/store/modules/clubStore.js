@@ -21,8 +21,8 @@ const clubStore = {
     applyList: null,
     joinedList: null,
     questionList: null,
-    bookClubList: null,
     newClubData: null,
+    clubIndex: 0,
   },
   getters: {
     myClubList(state) {
@@ -52,11 +52,11 @@ const clubStore = {
     questionList(state) {
       return state.questionList;
     },
-    bookClubList(state) {
-      return state.bookClubList;
-    },
     newClubData(state) {
       return state.newClubData;
+    },
+    clubIndex(state) {
+      return state.clubIndex;
     },
   },
   mutations: {
@@ -87,11 +87,11 @@ const clubStore = {
     SET_QUESTION_LIST(state, data) {
       state.questionList = data;
     },
-    SET_BOOKCLUB_LIST(state, data) {
-      state.bookClubList = data;
-    },
     SET_NEW_CLUBDATA(state, data) {
       state.newClubData = data;
+    },
+    SET_CLUB_INDEX(state, data) {
+      state.clubIndex = data;
     },
   },
   actions: {
@@ -108,6 +108,10 @@ const clubStore = {
         .catch((err) => {
           console.log(err);
         });
+    },
+    // 보고 있는 클럽 인덱스 저장
+    setClubIndex({ commit }, index) {
+      commit("SET_CLUB_INDEX", index);
     },
     // 해당 클럽 정보 확인
     findClubInfo({ rootGetters, commit, dispatch }, clubId) {
@@ -170,17 +174,6 @@ const clubStore = {
     },
     pollingEnd({ commit }) {
       commit("SET_IS_POLLING", false);
-    },
-    // 클럽 모임 목록 확인
-    findBookClubList({ getters, commit }) {
-      axios
-        .get(SERVER.URL + SERVER.ROUTES.getBookClubList + getters.clubId)
-        .then((res) => {
-          commit("SET_BOOKCLUB_LIST", res.data);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
     },
     // 새 클럽 만들 정보 저장
     saveClubData({ commit }, clubData) {
@@ -381,7 +374,7 @@ const clubStore = {
         });
     },
     // 문의게시판 질문 등록
-    registerQuestion({ rootGetters }, questionData) {
+    registerQuestion({ rootGetters, dispatch }, questionData) {
       axios
         .post(
           SERVER.URL + SERVER.ROUTES.questions + questionData.clubId,
@@ -397,7 +390,7 @@ const clubStore = {
             timer: 1000,
             timerProgressBar: true,
           });
-          router.go(0);
+          dispatch("findQuestionList", questionData.clubId);
         })
         .catch((err) => {
           Swal.fire({
@@ -411,7 +404,7 @@ const clubStore = {
         });
     },
     // 문의게시판 답글 등록
-    registerAnswer({ rootGetters }, questionData) {
+    registerAnswer({ rootGetters, getters, dispatch }, questionData) {
       axios
         .post(
           SERVER.URL + SERVER.ROUTES.questions + questionData.questionId + "/answer",
@@ -427,7 +420,7 @@ const clubStore = {
             timer: 1000,
             timerProgressBar: true,
           });
-          router.go(0);
+          dispatch("findQuestionList", getters.clubId);
         })
         .catch((err) => {
           Swal.fire({
