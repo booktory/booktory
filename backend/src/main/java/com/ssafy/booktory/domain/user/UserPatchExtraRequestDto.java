@@ -18,7 +18,7 @@ public class UserPatchExtraRequestDto {
     private String name;
 
     @JsonSerialize(using = LocalDateSerializer.class)
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
     private LocalDate birth;
     private String profileImg;
     private String phone;

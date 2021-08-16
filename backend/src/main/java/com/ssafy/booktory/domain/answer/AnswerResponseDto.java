@@ -21,7 +21,7 @@ public class AnswerResponseDto {
     private String AnswerContents;
 
     @JsonSerialize(using = LocalDateTimeSerializer.class)
-    @JsonFormat(pattern = "yyyy-MM-dd kk:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd kk:mm:ss", timezone = "Asia/Seoul")
     private LocalDateTime date;
     private Boolean isOpen;
 

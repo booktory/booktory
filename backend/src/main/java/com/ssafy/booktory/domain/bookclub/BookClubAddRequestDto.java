@@ -28,7 +28,7 @@ public class BookClubAddRequestDto{
 //    private LocalDateTime startDateTime;
 //
     @JsonSerialize(using = LocalDateTimeSerializer.class)
-    @JsonFormat(pattern = "yyyy-MM-dd kk:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd kk:mm:ss", timezone = "Asia/Seoul")
     private LocalDateTime endDateTime;
 
     @Builder
