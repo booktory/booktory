@@ -39,4 +39,5 @@ public interface BookClubRepository extends JpaRepository<BookClub, Long> {
             "AND b.user_id = :userId", nativeQuery = true)
     int countBookClubFromDayByUserId(@Param("userId") Long userId);
 
+    Boolean existsByClubIdAndBookId(Long clubId, Long bookId);
 }

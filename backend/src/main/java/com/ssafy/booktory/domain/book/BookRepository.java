@@ -15,6 +15,7 @@ public interface BookRepository extends JpaRepository<Book, Long> {
             "WHEN title LIKE CONCAT(:keyword, '%') THEN 1 " +
             "WHEN title LIKE CONCAT('%', :keyword, '%') THEN 2 " +
             "WHEN title LIKE CONCAT('%', :keyword) THEN 3 " +
-            "ELSE 4 END", nativeQuery = true)
+            "ELSE 4 END " +
+            "LIMIT 0, 100", nativeQuery = true)
     List<Book> findByKeyword(@Param("keyword") String keyword);
 }

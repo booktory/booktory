@@ -34,14 +34,21 @@ public class BookClubService {
     private final UserBookRepository userBookRepository;
     private final NotificationService notificationService;
 
-    public BookClub createBookToRead(BookClubCreateRequestDto bookClubCreateRequestDto){
-        Book book = bookRepository.findById(bookClubCreateRequestDto.getBookId())
-                .orElseThrow(()-> new NoSuchElementException("존재하지 않는 책 입니다."));
+    public void createBookToRead(BookClubCreateRequestDto bookClubCreateRequestDto){
         Club club = clubRepository.findById(bookClubCreateRequestDto.getClubId())
                 .orElseThrow(()-> new NoSuchElementException("존재하지 않는 클럽입니다."));
+        List<BookClub> bookClubs = new ArrayList<>();
 
-        BookClub bookClub = bookClubCreateRequestDto.toEntity(book, club);
-        return bookClubRepository.save(bookClub);
+        bookClubCreateRequestDto.getBooks().forEach(bookId -> {
+            Book book = bookRepository.findById(bookId).orElseThrow(() -> new NoSuchElementException("존재하지 않는 책입니다."));
+            BookClub bookClub = BookClub.builder()
+                    .book(book)
+                    .club(club)
+                    .build();
+            bookClubs.add(bookClub);
+        });
+
+        bookClubs.forEach(bookClubRepository::save);
     }
 
     @Transactional

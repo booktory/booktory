@@ -34,7 +34,7 @@ public class BookClubController {
             @ApiResponse(code = 500, message = "서버 오류")
     })
     public ResponseEntity<String> createBookToRead(@RequestBody BookClubCreateRequestDto bookclubCreateRequestDto) {
-        BookClub bookClub = bookClubService.createBookToRead(bookclubCreateRequestDto);
+        bookClubService.createBookToRead(bookclubCreateRequestDto);
         return ResponseEntity.status(HttpStatus.CREATED).body("success");
     }
 
