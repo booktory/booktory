@@ -1,12 +1,14 @@
 <template>
   <div class="container">
-    <TopHeader />
-    <h4 class="title">클럽 찾기</h4>
-    <ClubSearchBar />
-    <ClubSearchGenre class="search-list" />
-    <p class="text-right font-body-4">원하는 클럽이 없다면?</p>
-    <h5 class="text-right" @click="$router.push({ name: 'ClubCreate' })">새 클럽 만들기</h5>
-    <Navbar :selected="'home'" class="footer" />
+    <div>
+      <TopHeader />
+      <h4 class="title">클럽 찾기</h4>
+      <ClubSearchBar />
+      <ClubSearchGenre class="search-list" />
+      <p class="text-right font-body-4">원하는 클럽이 없다면?</p>
+      <h5 class="text-right" @click="$router.push({ name: 'ClubCreate' })">새 클럽 만들기</h5>
+      <Navbar :selected="'home'" />
+    </div>
   </div>
 </template>
 
@@ -15,6 +17,7 @@ import TopHeader from "@/views/TopHeader.vue";
 import Navbar from "@/views/Navbar.vue";
 import ClubSearchBar from "@/views/clubs/ClubSearchBar.vue";
 import ClubSearchGenre from "@/views/clubs/ClubSearchGenre.vue";
+import { mapActions } from "vuex";
 
 export default {
   name: "ClubSearch",
@@ -23,6 +26,12 @@ export default {
     Navbar,
     ClubSearchBar,
     ClubSearchGenre,
+  },
+  methods: {
+    ...mapActions("searchStore", ["initClubList"]),
+  },
+  created() {
+    this.initClubList();
   },
 };
 </script>
