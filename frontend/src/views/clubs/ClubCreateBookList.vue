@@ -11,7 +11,9 @@
     <div class="empty" v-else>
       <span class="font-body-4">검색된 책이 없습니다</span>
     </div>
-    <p class="label font-body-4">선택한 책 목록</p>
+    <div class="label-div">
+      <p class="label font-body-4">선택한 책 목록</p>
+    </div>
     <div v-if="selectedBooks && selectedBooks.length != 0">
       <ClubCreateBookListSelected
         v-for="(selectedBook, idx) in selectedBooks"
@@ -20,7 +22,7 @@
         @delete-book="onDeleteBook"
       />
     </div>
-    <div class="empty" v-else>
+    <div v-else class="empty">
       <span class="font-body-4">선택한 책이 없습니다</span>
     </div>
   </div>
@@ -60,6 +62,10 @@ export default {
 </script>
 
 <style scoped>
+.label-div {
+  width: 30rem;
+  margin: 2rem auto 2rem;
+}
 .book-list-wrapper {
   max-height: 45rem;
   overflow: scroll;
@@ -67,11 +73,15 @@ export default {
 .label {
   font-weight: bold;
   text-align: left;
-  margin: 3.5rem 0 1.5rem 4.5rem;
+  margin: 3.5rem 0 1.5rem 1rem;
 }
 .empty {
   text-align: left;
-  margin: 0rem 0 0 5rem;
+  margin: 0 auto;
+  width: 30rem;
   color: var(--grey);
+}
+.empty span {
+  margin-left: 1rem;
 }
 </style>

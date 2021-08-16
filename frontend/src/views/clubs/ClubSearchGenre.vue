@@ -56,8 +56,12 @@ export default {
 }
 .empty {
   text-align: left;
-  margin-left: 5rem;
+  margin: 0 auto;
+  width: 30rem;
   color: var(--grey);
+}
+.empty span {
+  margin-left: 1rem;
 }
 .genre-keyword {
   background: transparent;

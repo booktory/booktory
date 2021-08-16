@@ -36,7 +36,7 @@ export default {
     getBookClubList: "/bookclubs/list/",
 
     // board
-    getBoard: "/boards/",
+    findBoardList: "/boards/",
     registerBoard: "/boards/",
     deleteBoard: "/boards/",
 

@@ -12,9 +12,7 @@
           <icon-base :iconColor="'none'"><chevron-left /></icon-base>
         </div>
       </span>
-      <h5>
-        {{ clubInfo.name }}
-      </h5>
+      <h5>{{ clubInfo.name }}</h5>
       <span v-if="index !== maxLength - 1">
         <div class="icon" @click="clickRight">
           <icon-base><icon-chevron-right /></icon-base>
@@ -136,7 +134,7 @@ export default {
   },
   methods: {
     ...mapActions("clubStore", ["findClubInfo", "pollingStart", "pollingEnd"]),
-    ...mapActions("bookclubStore", ["getBookclubList"]),
+    ...mapActions("bookclubStore", ["getBookClubList"]),
     clickLeft: function () {
       this.$emit("click-left");
     },
@@ -165,7 +163,7 @@ export default {
   },
   created() {
     this.findClubInfo(this.clubId);
-    this.getBookclubList(this.clubId);
+    this.getBookClubList(this.clubId);
     this.pollingStart();
   },
   destroyed() {
@@ -187,7 +185,7 @@ export default {
 
 .card-background {
   width: 30rem;
-  min-height: 50vh;
+  min-height: 50%;
   margin: 5% auto;
   padding: 4rem 1rem 5rem;
   border-radius: 10px;

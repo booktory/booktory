@@ -1,14 +1,16 @@
 <template>
   <div class="container bg-img">
-    <TopHeader />
-    <ClubList />
-    <div class="text-right">
-      <span @click="$router.push({ name: 'ClubSearch' })">클럽 찾기</span
-      >&nbsp;&nbsp;|&nbsp;&nbsp;<span @click="$router.push({ name: 'ClubCreate' })"
-        >클럽 만들기</span
-      >
+    <div>
+      <TopHeader />
+      <ClubList />
+      <div class="text-right">
+        <span @click="$router.push({ name: 'ClubSearch' })">클럽 찾기</span
+        >&nbsp;&nbsp;|&nbsp;&nbsp;<span @click="$router.push({ name: 'ClubCreate' })"
+          >클럽 만들기</span
+        >
+      </div>
+      <Navbar :selected="'home'" />
     </div>
-    <Navbar :selected="'home'" />
   </div>
 </template>
 
@@ -37,7 +39,8 @@ export default {
   top: 0;
   left: 0;
   width: 100%;
-  height: 100vh;
+  height: 100%;
+  min-height: 100vh;
   background-image: url("./images/club-backgroud.png");
   background-size: cover;
   opacity: 30%;

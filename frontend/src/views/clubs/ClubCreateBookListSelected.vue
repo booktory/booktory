@@ -1,5 +1,5 @@
 <template>
-  <div class="">
+  <div>
     <div class="club-card">
       <div class="icon delete-icon" @click="deleteBook">
         <icon-base :iconColor="'var(--light-brown)'"><icon-delete /></icon-base>

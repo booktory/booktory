@@ -1,25 +1,31 @@
 <template>
   <div class="container">
-    <div class="navbar meeting-navbar">
-      <div class="icon" @click="leaveSession">
-        <icon-base><icon-arrow-left /></icon-base>
+    <div>
+      <div class="navbar meeting-navbar">
+        <div class="icon" @click="leaveSession">
+          <icon-base><icon-arrow-left /></icon-base>
+        </div>
+        <h5 class="meeting-navbar-title">{{ clubName }}</h5>
+        <div class="icon meeting-navbar-book" @click="showBookInfo">
+          <icon-base><icon-book /></icon-base>
+        </div>
       </div>
-      <h5 class="meeting-navbar-title">{{ clubName }}</h5>
-      <div class="icon meeting-navbar-book" @click="showBookInfo">
-        <icon-base><icon-book /></icon-base>
-      </div>
-    </div>
 
-    <div id="session" v-if="session">
-      <div id="video-container">
-        <user-video class="video-wrapper" :stream-manager="publisher" :isPublisher="isPublisher" />
-        <user-video
-          class="video-wrapper"
-          v-for="sub in subscribers"
-          :key="sub.stream.connection.connectionId"
-          :stream-manager="sub"
-          @click.native="updateMainVideoStreamManager(sub)"
-        />
+      <div id="session" v-if="session">
+        <div id="video-container">
+          <user-video
+            class="video-wrapper"
+            :stream-manager="publisher"
+            :isPublisher="isPublisher"
+          />
+          <user-video
+            class="video-wrapper"
+            v-for="sub in subscribers"
+            :key="sub.stream.connection.connectionId"
+            :stream-manager="sub"
+            @click.native="updateMainVideoStreamManager(sub)"
+          />
+        </div>
       </div>
     </div>
   </div>
