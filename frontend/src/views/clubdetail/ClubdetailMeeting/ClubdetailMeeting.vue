@@ -95,6 +95,7 @@
 import { mapActions, mapState } from "vuex";
 import TopHeader from "@/views/clubdetail/TopHeader.vue";
 import Navbar from "@/views/clubdetail/Navbar.vue";
+import Swal from "sweetalert2";
 var moment = require("moment");
 
 export default {
@@ -113,7 +114,16 @@ export default {
   methods: {
     ...mapActions("bookclubStore", ["cancelMeeting", "getBookClubList"]),
     clickCancel() {
-      this.cancelMeeting(this.nowbookclub.id);
+      Swal.fire({
+        showCancelButton: true,
+        title: "모임을 취소 하시겠습니까?",
+        confirmButtonText: "네, 취소할래요",
+        cancelButtonText: "아니요",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.cancelMeeting(this.nowbookclub.id);
+        }
+      });
     },
     convertRemainTime(endDateTime) {
       let diffSecond = Math.floor(moment(endDateTime).subtract(moment()) / 1000);
@@ -124,8 +134,9 @@ export default {
       let dateStr = "";
       if (diffTimeDay > 0) dateStr += diffTimeDay + "일 ";
       if (diffTimeHour > 0) dateStr += (diffTimeHour % 24) + "시간 ";
-      if (diffTime >= 10) dateStr += (diffTime % 60) + "분 ";
-      dateStr += "후 읽을 예정이에요";
+      if (diffTime >= 10) dateStr += (diffTime % 60) + "분 후 읽을 예정이에요";
+      else dateStr = "지금 함께 읽고 있어요";
+
       return dateStr;
     },
   },
