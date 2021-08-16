@@ -1,41 +1,51 @@
 <template>
-  <div class="container bg-img">
-    <TopHeader />
-    <div class="card">
-      <div class="main">
-        <h4 class="title">문의 게시판</h4>
-        <p class="sub-title-c">클럽에 대해 궁금한 사항들을 물어보세요</p>
-        <div class="question-board">
-          <ClubdetailBoardList v-if="boardList" :boardList="boardList" />
-          <div class="empty" v-else>
-            <span class="font-body-3">작성된 질문이 없습니다</span>
+  <div class="container bg-image">
+    <div>
+      <TopHeader />
+      <div class="card">
+        <div class="main">
+          <h4 class="title">담벼락</h4>
+          <div class="club-board">
+            <ClubdetailBoardList v-if="boardList && boardList.length > 0" :boardList="boardList" />
+            <div class="empty" v-else>
+              <span class="font-body-3">작성된 글이 없습니다</span>
+            </div>
+          </div>
+          <button class="button-3" @click="clickRegister" :disabled="!boardData">등록</button>
+          <div class="file-upload" @click="clickFileUpload">
+            <icon-base :width="'1.4rem'" :height="'1.4rem'" :iconColor="'var(--grey)'"
+              ><icon-file
+            /></icon-base>
+            <span class="font-body-4">&nbsp;파일 첨부</span>
+          </div>
+          <input class="hidden-item" ref="file" id="boardFile" type="file" @change="uploadFile()" />
+          <h5>새로운 글</h5>
+          <div class="new-input">
+            <textarea
+              v-model="boardData.contents"
+              style="font-size: 1.2rem; text-align: justify"
+              class="input-content"
+              type="text"
+              id="content"
+              rows="5"
+              placeholder="내용을 입력해주세요"
+            />
           </div>
         </div>
-        <button class="button-3" @click="clickRegister" :disabled="!boardData">등록</button>
-        <h5>새로운 질문</h5>
-        <div class="question-input">
-          <textarea
-            v-model="boardData.contents"
-            style="font-size: 1.2rem; text-align: justify"
-            class="input-content"
-            type="text"
-            id="content"
-            rows="5"
-            placeholder="질문을 입력해주세요"
-          />
-        </div>
-        <div class="empty-div"></div>
       </div>
+      <Navbar :selected="'board'" />
     </div>
-    <Navbar />
   </div>
 </template>
 
 <script>
 import { mapActions, mapState } from "vuex";
-import TopHeader from "@/views/TopHeader.vue";
-import Navbar from "@/views/Navbar.vue";
+import TopHeader from "@/views/clubdetail/TopHeader.vue";
+import Navbar from "@/views/clubdetail/Navbar.vue";
 import ClubdetailBoardList from "@/views/clubdetail/ClubdetailBoard/ClubdetailBoardList.vue";
+import IconFile from "@/components/icons/IconFile.vue";
+import axios from "axios";
+import SERVER from "@/api/api";
 
 export default {
   name: "ClubdetailBoard",
@@ -43,6 +53,7 @@ export default {
     TopHeader,
     Navbar,
     ClubdetailBoardList,
+    IconFile,
   },
   computed: {
     ...mapState("boardStore", ["boardList"]),
@@ -57,91 +68,129 @@ export default {
     };
   },
   methods: {
-    ...mapActions("boardStore", ["setClubId", "getBoard", "registerBoard"]),
+    ...mapActions("boardStore", ["findBoardList", "registerBoard"]),
+    // 등록 버튼 클릭
     clickRegister() {
-      console.log("register");
+      this.boardData.contents = this.boardData.contents.replaceAll("\n", "<br/>");
       this.registerBoard(this.boardData).then(() => {
         this.boardData.contents = "";
         this.boardData.fileUrl = "";
       });
     },
+    // 파일 첨부 버튼 클릭
+    clickFileUpload() {
+      this.$refs["file"].click();
+    },
+    // 담벼락 파일 업로드
+    uploadFile() {
+      let form = new FormData();
+      let file = this.$refs["file"].files[0];
+      form.append("file", file);
+      axios
+        .post(SERVER.URL + SERVER.ROUTES.uploadBoardFile, form, {
+          headers: { "Content-Type": "multipart/form-data" },
+        })
+        .then(({ data }) => {
+          this.boardData.fileUrl = data;
+        })
+        .catch((err) => console.log(err));
+    },
   },
   created() {
-    this.setClubId(this.clubId), this.getBoard();
+    this.findBoardList(this.clubId);
   },
 };
 </script>
 
-<style scoped>
-.bg-img {
-  height: 100vh;
-  background-image: linear-gradient(to bottom, var(--white) 0%, var(--light-grey) 100%),
-    url("../images/club-backgroud.png");
-  background-blend-mode: multiply;
-  background-size: cover;
-}
-.card {
+<style lang="scss" scoped>
+.bg-image:after {
+  position: absolute;
+  content: "";
+  top: 0;
+  left: 0;
   width: 100%;
-  height: inherit;
-  top: 5em;
+  height: 100%;
+  min-height: 100vh;
+  background-image: url("../images/club-backgroud.png");
+  background-size: cover;
+  opacity: 70%;
+  z-index: -1;
 }
-.main {
-  height: inherit;
-  padding: 3rem 3rem 10rem;
-  background-color: var(--beige);
-  border-radius: 7em 7em 0 0;
-}
-.sub-title-c {
-  font-size: 1.2rem;
-  margin: 0;
-}
-.question-board {
-  width: inherit;
-  min-height: 20rem;
-  margin-top: 2rem;
-  background-color: var(--white);
-  border-radius: 1rem;
-  box-shadow: 0 0.4em 0.8em 0 rgba(142, 141, 208, 0.16);
-}
-.empty {
-  text-align: left;
-  padding: 1.8rem;
-  color: var(--grey);
-}
-h5 {
-  display: flex;
-  margin: 2rem 0 0 1rem;
-}
-.question-input {
-  width: inherit;
-  margin-top: 1rem;
-  background-color: var(--white);
-  border-radius: 1rem;
-  box-shadow: 0 0.4em 0.8em 0 rgba(142, 141, 208, 0.16);
-}
-.input-content {
-  color: var(--dark-grey);
-  width: 90%;
-  padding: 1.3rem 1rem;
-  border: 0;
-  background-color: transparent;
-  text-align: left;
-  font-size: 1.4rem;
-}
-textarea:focus {
-  outline: none;
-}
-.is-open {
-  float: right;
-  margin: 2.3rem 1rem 0 0;
-}
-.is-open > div {
-  display: flex;
-  align-items: center;
-}
-.check {
-  width: 1.2rem;
-  height: 1.2rem;
-  margin-right: 0.5rem;
+.bg-image {
+  position: relative;
+  padding: 0;
+
+  .card {
+    width: inherit;
+    height: inherit;
+    min-height: 90vh;
+    border-radius: 5rem 5rem 0 0;
+    padding-bottom: 5rem;
+    background-color: var(--beige);
+
+    .main * {
+      text-align: left;
+    }
+
+    // 여기서부터 메인 시작!
+    .main {
+      height: 100%;
+      padding: 3rem 3rem 0;
+
+      .title {
+        text-align: center;
+      }
+      .club-board {
+        width: inherit;
+        min-height: 20rem;
+        margin-top: 2rem;
+        background-color: var(--white);
+        border-radius: 1rem;
+        box-shadow: 0 0.4em 0.8em 0 rgba(142, 141, 208, 0.16);
+      }
+      .empty {
+        text-align: left;
+        padding: 1.8rem;
+        color: var(--grey);
+      }
+      h5 {
+        display: flex;
+        margin: 2rem 0 0 1rem;
+      }
+      .new-input {
+        width: inherit;
+        margin-top: 1rem;
+        background-color: var(--white);
+        border-radius: 1rem;
+        box-shadow: 0 0.4em 0.8em 0 rgba(142, 141, 208, 0.16);
+        text-align: center;
+      }
+      .input-content {
+        color: var(--dark-grey);
+        width: 90%;
+        padding: 1.3rem 1rem;
+        border: 0;
+        background-color: transparent;
+        text-align: left;
+        font-size: 1.4rem;
+      }
+      textarea:focus {
+        outline: none;
+      }
+      .file-upload {
+        float: right;
+        margin: 2.5rem 1rem 0 0;
+      }
+      .file-upload > div {
+        display: flex;
+        align-items: center;
+      }
+      .check {
+        width: 1.2rem;
+        height: 1.2rem;
+        margin-right: 0.5rem;
+      }
+    }
+  }
 }
 </style>

@@ -1,71 +1,76 @@
 <template>
   <div v-if="clubInfo" class="container bg-img">
-    <TopHeader />
-    <h5 class="header">
-      {{ clubInfo.name }}
-    </h5>
-
-    <!-- 바디1 => 클럽 정보 -->
-    <div class="card-background club-info">
-      <h4 class="club-info-title">{{ clubInfo.name }}</h4>
-      <div class="font-body-4 club-info-user">
-        <b>클럽장</b> {{ clubInfo.leaderName }}&nbsp;|&nbsp;<b>참가자</b> {{ clubInfo.nowMember }}명
+    <div>
+      <TopHeader />
+      <div class="header">
+        <h5>{{ clubInfo.name }}</h5>
       </div>
-      <div>
-        <div class="font-body-3 club-info-text">
-          {{ clubInfo.info }}
+
+      <!-- 바디1 => 클럽 정보 -->
+      <div class="card-background club-info">
+        <h4 class="club-info-title">{{ clubInfo.name }}</h4>
+        <div class="font-body-4 club-info-user">
+          <b>클럽장</b> {{ clubInfo.leaderName }}&nbsp;|&nbsp;<b>참가자</b>
+          {{ clubInfo.nowMember }}명
         </div>
-        <span
-          v-for="(genre, idx) in clubInfo.genres"
-          :key="idx"
-          :id="genre"
-          class="font-body-4 club-info-genre"
-        >
-          {{ genreList[genre - 1].name }}
-        </span>
-      </div>
+        <div>
+          <div class="font-body-3 club-info-text">
+            {{ clubInfo.info }}
+          </div>
+          <span
+            v-for="(genre, idx) in clubInfo.genres"
+            :key="idx"
+            :id="genre"
+            class="font-body-4 club-info-genre"
+          >
+            {{ genreList[genre - 1].name }}
+          </span>
+        </div>
 
-      <div v-if="clubInfo.endDateTime">
-        <!-- 바디2 => 책 정보 -->
-        <div class="bookcard-background">
-          <div class="bookcard-box">
-            <img :src="clubInfo.thumbnail" alt="bookThumbnail" class="bookcard-image" />
-            <div class="bookcard-info">
-              <div class="bookcard-info-more">
-                <span class="font-body-4">책 목록 더보기</span>
-              </div>
-              <span class="bookcard-info-now font-body-5">읽고 있는 책</span>
-              <h5 class="bookcard-info-title">
-                {{
-                  clubInfo.title.length > 30
-                    ? clubInfo.title.substr(0, 30) + "・・・"
-                    : clubInfo.title
-                }}
-              </h5>
-              <div class="bookcard-info-subtitle font-body-4">
-                {{
-                  clubInfo.author.length > 8
-                    ? clubInfo.author.substr(0, 8) + "・・・"
-                    : clubInfo.author
-                }}&nbsp;|&nbsp;{{
-                  clubInfo.publisher.length > 8
-                    ? clubInfo.publisher.substr(0, 8) + "・・・"
-                    : clubInfo.publisher
-                }}
+        <div v-if="clubInfo.endDateTime">
+          <!-- 바디2 => 책 정보 -->
+          <div class="bookcard-background">
+            <div class="bookcard-box">
+              <img :src="clubInfo.thumbnail" alt="bookThumbnail" class="bookcard-image" />
+              <div class="bookcard-info">
+                <div class="bookcard-info-more">
+                  <span @click="$router.push({ name: 'ClubdetailBook' })" class="font-body-4"
+                    >책 목록 더보기</span
+                  >
+                </div>
+                <span class="bookcard-info-now font-body-5">읽고 있는 책</span>
+                <h5 class="bookcard-info-title">
+                  {{
+                    clubInfo.title.length > 30
+                      ? clubInfo.title.substr(0, 30) + "・・・"
+                      : clubInfo.title
+                  }}
+                </h5>
+                <div class="bookcard-info-subtitle font-body-4">
+                  {{
+                    clubInfo.author.length > 8
+                      ? clubInfo.author.substr(0, 8) + "・・・"
+                      : clubInfo.author
+                  }}&nbsp;|&nbsp;{{
+                    clubInfo.publisher.length > 8
+                      ? clubInfo.publisher.substr(0, 8) + "・・・"
+                      : clubInfo.publisher
+                  }}
+                </div>
               </div>
             </div>
           </div>
         </div>
+        <div v-else>
+          <span class="empty-meeting">읽고 있는 책이 없습니다</span>
+        </div>
+        <button type="button" class="button-2 white-bg m-top-5" @click="clickQuestion">
+          문의 게시판
+        </button>
+        <button type="button" class="button-2" @click="clickApply">가입 신청</button>
       </div>
-      <div v-else>
-        <span class="empty-meeting">읽고 있는 책이 없습니다</span>
-      </div>
-      <button type="button" class="button-2 white-bg m-top-5" @click="clickQuestion">
-        문의 게시판
-      </button>
-      <button type="button" class="button-2" @click="clickApply">가입 신청</button>
+      <Navbar :selected="'home'" />
     </div>
-    <Navbar :selected="'home'" />
   </div>
 </template>
 <script>
@@ -124,7 +129,8 @@ export default {
   top: 0;
   left: 0;
   width: 100%;
-  height: 100vh;
+  height: 100%;
+  min-height: 100vh;
   background-image: url("./images/club-backgroud.png");
   background-size: cover;
   opacity: 30%;
@@ -134,10 +140,14 @@ export default {
 .header {
   margin: 0 2em;
 }
+h5 {
+  display: inline-block;
+  margin: 0.7rem;
+}
 
 .card-background {
   width: 30rem;
-  min-height: 50vh;
+  min-height: 50%;
   margin: 5% auto;
   padding: 4rem 1rem 5rem;
   border-radius: 10px;

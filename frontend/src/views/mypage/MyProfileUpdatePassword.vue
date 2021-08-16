@@ -1,71 +1,74 @@
 <template>
   <div class="container">
-    <TopHeader :nickname="'책토리'" />
-    <h4 class="title">비밀번호 변경</h4>
-    <div class="m-top-10">
-      <div class="input-div">
-        <label for="current_password">기존 비밀번호</label>
-        <div>
-          <input
-            v-model="passwordData.current_password"
-            v-bind:class="{
-              error: error.current_password,
-              complete: !error.current_password && passwordData.current_password.length !== 0,
-            }"
-            type="password"
-            id="current_password"
-            maxlength="16"
-            placeholder="기존 비밀번호를 입력해주세요"
-            required
-          />
+    <div>
+      <TopHeader :nickname="'책토리'" />
+      <h4 class="title">비밀번호 변경</h4>
+      <div class="m-top-10">
+        <div class="input-div">
+          <label for="current_password">기존 비밀번호</label>
+          <div>
+            <input
+              v-model="passwordData.current_password"
+              v-bind:class="{
+                error: error.current_password,
+                complete: !error.current_password && passwordData.current_password.length !== 0,
+              }"
+              type="password"
+              id="current_password"
+              maxlength="16"
+              placeholder="기존 비밀번호를 입력해주세요"
+              required
+            />
+          </div>
+          <p v-if="error.current_password" class="message">{{ error.current_password }}</p>
         </div>
-        <p v-if="error.current_password" class="message">{{ error.current_password }}</p>
-      </div>
-      <div class="input-div">
-        <label for="new_password">신규 비밀번호</label>
-        <div>
-          <input
-            v-model="passwordData.new_password"
-            v-bind:class="{
-              error: error.new_password,
-              complete: !error.new_password && passwordData.new_password.length !== 0,
-            }"
-            type="password"
-            id="new_password"
-            maxlength="16"
-            placeholder="새로운 비밀번호를 입력해주세요"
-            required
-          />
+        <div class="input-div">
+          <label for="new_password">신규 비밀번호</label>
+          <div>
+            <input
+              v-model="passwordData.new_password"
+              v-bind:class="{
+                error: error.new_password,
+                complete: !error.new_password && passwordData.new_password.length !== 0,
+              }"
+              type="password"
+              id="new_password"
+              maxlength="16"
+              placeholder="새로운 비밀번호를 입력해주세요"
+              required
+            />
+          </div>
+          <p v-if="error.new_password" class="message">{{ error.new_password }}</p>
         </div>
-        <p v-if="error.new_password" class="message">{{ error.new_password }}</p>
-      </div>
-      <div class="input-div">
-        <label for="new_passwordConfirm">신규 비밀번호 확인</label>
-        <div>
-          <input
-            v-model="passwordData.new_passwordConfirm"
-            v-bind:class="{
-              error: error.new_passwordConfirm,
-              complete: !error.new_passwordConfirm && passwordData.new_passwordConfirm.length !== 0,
-            }"
-            type="password"
-            id="new_passwordConfirm"
-            placeholder="새로운 비밀번호를 한 번 더 입력해주세요"
-            @keyup.enter="clickUpdatePassword"
-          />
+        <div class="input-div">
+          <label for="new_passwordConfirm">신규 비밀번호 확인</label>
+          <div>
+            <input
+              v-model="passwordData.new_passwordConfirm"
+              v-bind:class="{
+                error: error.new_passwordConfirm,
+                complete:
+                  !error.new_passwordConfirm && passwordData.new_passwordConfirm.length !== 0,
+              }"
+              type="password"
+              id="new_passwordConfirm"
+              placeholder="새로운 비밀번호를 한 번 더 입력해주세요"
+              @keyup.enter="clickUpdatePassword"
+            />
+          </div>
+          <p v-if="error.new_passwordConfirm" class="message">{{ error.new_passwordConfirm }}</p>
         </div>
-        <p v-if="error.new_passwordConfirm" class="message">{{ error.new_passwordConfirm }}</p>
       </div>
+      <button
+        type="button"
+        class="button-2 m-top-10"
+        :disabled="!isSubmit"
+        @click="clickUpdatePassword"
+      >
+        변경하기
+      </button>
+      <Navbar :selected="'mypage'" class="footer" />
     </div>
-    <button
-      type="button"
-      class="button-2 m-top-10"
-      :disabled="!isSubmit"
-      @click="clickUpdatePassword"
-    >
-      변경하기
-    </button>
-    <Navbar :selected="'mypage'" class="footer" />
   </div>
 </template>
 

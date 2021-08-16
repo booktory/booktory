@@ -1,25 +1,37 @@
 <template>
-  <div class="">
-    <ClubdetailBookAddListItem
-      v-for="(book, idx) in books"
-      :key="idx"
-      :book="book"
-      @select-book="onSelectBook"
-    />
-    <label>선택한 책 목록</label>
-
-    <ClubdetailBookAddListSelected
-      v-for="(selectedBook, idx) in selectedBooks"
-      :key="'selected' + idx"
-      :selectedBook="selectedBook"
-      @delete-book="onDeleteBook"
-    />
+  <div>
+    <div class="book-list-wrapper" v-if="bookList && bookList.length != 0">
+      <ClubdetailBookAddListItem
+        v-for="(book, idx) in bookList"
+        :key="idx"
+        :book="book"
+        @select-book="onSelectBook"
+      />
+    </div>
+    <div class="empty" v-else>
+      <span class="font-body-4">검색된 책이 없습니다</span>
+    </div>
+    <div class="label-div">
+      <p class="label font-body-4">선택한 책 목록</p>
+    </div>
+    <div v-if="selectedBooks && selectedBooks.length != 0">
+      <ClubdetailBookAddListSelected
+        v-for="(selectedBook, idx) in selectedBooks"
+        :key="'selected' + idx"
+        :selectedBook="selectedBook"
+        @delete-book="onDeleteBook"
+      />
+    </div>
+    <div v-else class="empty">
+      <span class="font-body-4">선택한 책이 없습니다</span>
+    </div>
   </div>
 </template>
 
 <script>
 import ClubdetailBookAddListItem from "@/views/clubdetail/ClubdetailBook/ClubdetailBookAddListItem.vue";
 import ClubdetailBookAddListSelected from "@/views/clubdetail/ClubdetailBook/ClubdetailBookAddListSelected.vue";
+import { mapState } from "vuex";
 
 export default {
   name: "ClubdetailBookAddList",
@@ -27,20 +39,19 @@ export default {
     ClubdetailBookAddListItem,
     ClubdetailBookAddListSelected,
   },
+  computed: {
+    ...mapState("searchStore", ["bookList"]),
+  },
   props: {
-    books: {
+    selectedBooks: {
       type: Array,
     },
   },
-  data: function () {
-    return {
-      selectedBooks: [],
-    };
-  },
   methods: {
     onSelectBook: function (book) {
-      console.log(book);
-      this.selectedBooks.push(book);
+      if (this.selectedBooks.indexOf(book) < 0) {
+        this.selectedBooks.push(book);
+      }
     },
     onDeleteBook: function (book) {
       const index = this.selectedBooks.indexOf(book);
@@ -51,20 +62,26 @@ export default {
 </script>
 
 <style scoped>
-label {
+.label-div {
+  width: 30rem;
+  margin: 2rem auto 2rem;
+}
+.book-list-wrapper {
+  max-height: 45rem;
+  overflow: scroll;
+}
+.label {
+  font-weight: bold;
   text-align: left;
-  display: block;
-  margin: 5.5% 0 1.5% 14%;
-  font-size: 1.2rem;
-  font-weight: 500;
+  margin: 3.5rem 0 1.5rem 1rem;
+}
+.empty {
+  text-align: left;
+  margin: 0 auto;
+  width: 30rem;
   color: var(--grey);
 }
-
-.m-top-1 {
-  margin-top: 1rem;
-}
-
-.m-top-2 {
-  margin-top: 2rem;
+.empty span {
+  margin-left: 1rem;
 }
 </style>

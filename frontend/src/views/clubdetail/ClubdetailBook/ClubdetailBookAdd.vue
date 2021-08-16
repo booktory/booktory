@@ -1,59 +1,81 @@
 <template>
-  <div class="clubdetail-container">
-    <div class="bg-image">
-      <div class="icon" @click="$router.push({ name: 'ClubHome' })">
-        <icon-base><icon-x /></icon-base>
-      </div>
+  <div class="container bg-image">
+    <div>
+      <TopHeader />
       <div class="card">
         <div class="main">
           <h4 class="title">읽을 책 추가</h4>
-          <ClubdetailBookAddBar @input-keyword="onInputBookname" class="m-top-2" />
-          <ClubdetailBookAddList :books="books" class="m-top-2" />
+          <ClubdetailBookAddBar />
+          <ClubdetailBookAddList :selectedBooks="selectedBooks" />
+          <button type="button" class="button-2 m-top-10" :disabled="!isSubmit" @click="clickAdd">
+            추가하기
+          </button>
         </div>
       </div>
+      <Navbar selected="'home'" />
     </div>
-    <Navbar class="footer" />
   </div>
 </template>
 
 <script>
+import TopHeader from "@/views/clubdetail/TopHeader.vue";
 import Navbar from "@/views/clubdetail/Navbar.vue";
 import ClubdetailBookAddBar from "@/views/clubdetail/ClubdetailBook/ClubdetailBookAddBar.vue";
 import ClubdetailBookAddList from "@/views/clubdetail/ClubdetailBook/ClubdetailBookAddList.vue";
+import { mapActions, mapState } from "vuex";
 
 export default {
   name: "ClubdetailBookAdd",
   components: {
+    TopHeader,
     Navbar,
     ClubdetailBookAddBar,
     ClubdetailBookAddList,
   },
+  computed: {
+    ...mapState("clubStore", ["clubId"]),
+  },
   data: function () {
     return {
-      bookName: "",
+      selectedBooks: [],
+      isSubmit: false,
     };
   },
-  methods: {
-    onInputBookname: function (bookName) {
-      console.log(bookName);
-      this.bookName = bookName;
+  watch: {
+    selectedBooks: {
+      handler() {
+        this.checkSelectedBooks();
+      },
     },
   },
-  computed: {
-    books: function () {
-      return this.$store.state.examples.bookclubs[0].bookList;
+  methods: {
+    ...mapActions("bookclubStore", ["createBook"]),
+    ...mapActions("searchStore", ["initBookList"]),
+    // 추가하기 버튼 클릭
+    clickAdd() {
+      if (this.isSubmit) {
+        let books = [];
+        for (var i = 0; i < this.selectedBooks.length; i++) {
+          books.push(this.selectedBooks[i].id);
+        }
+        let bookclubData = {
+          bookId: books[0],
+          clubId: this.clubId,
+        };
+        this.createBook(bookclubData);
+      }
     },
+    // 선택한 책 있으면 추가하기 버튼 활성화
+    checkSelectedBooks() {
+      this.isSubmit = this.selectedBooks.length > 0;
+    },
+  },
+  created() {
+    this.initBookList();
   },
 };
 </script>
 
 <style lang="scss" scoped>
 @import "./ClubdetailBookAdd.scss";
-.m-top-1 {
-  margin-top: 1rem;
-}
-
-.m-top-2 {
-  margin-top: 2rem;
-}
 </style>

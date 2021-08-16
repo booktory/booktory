@@ -55,6 +55,15 @@ const searchStore = {
     initBookList({ commit }) {
       commit("SET_BOOK_LIST", null);
     },
+    // 검색된 클럽 목록 초기화
+    initClubList({ getters, commit }) {
+      let genreList = getters.genreList;
+      for (var i = 0; i < genreList.length; i++) {
+        genreList[i].isSelect = false;
+      }
+      commit("SET_GENRE_LIST", genreList);
+      commit("SET_CLUB_LIST", null);
+    },
     // 키워드로 책 검색
     searchBookByKeyword({ commit }, keyword) {
       axios

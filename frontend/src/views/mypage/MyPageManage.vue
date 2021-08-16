@@ -1,8 +1,10 @@
 <template>
   <div class="container">
-    <TopHeader :nickname="'책토리'" />
-    <MyPageManageMenu />
-    <Navbar :selected="'mypage'" class="footer" />
+    <div>
+      <TopHeader :nickname="'책토리'" />
+      <MyPageManageMenu />
+      <Navbar :selected="'mypage'" class="footer" />
+    </div>
   </div>
 </template>
 

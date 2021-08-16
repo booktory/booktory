@@ -1,26 +1,36 @@
 <template>
   <div class="container">
-    <div class="top-box">
-      <input
-        v-model="keyword"
-        type="text"
-        placeholder="검색할 클럽명을 입력해주세요"
-        class="absolute-box font-body-3"
-        @keyup.enter="clickSearch"
-      />
-      <div class="icon top-icon" @click="$router.go(-1)">
-        <icon-base><icon-arrow-left /></icon-base>
+    <div>
+      <div class="navbar">
+        <div class="icon left" @click="$router.go(-1)">
+          <icon-base><icon-arrow-left /></icon-base>
+        </div>
+        <div class="center">
+          <input
+            v-model="keyword"
+            type="text"
+            placeholder="검색할 클럽명을 입력해주세요"
+            maxlength="10"
+            class="font-body-3"
+            @keyup.enter="clickSearch"
+          />
+        </div>
+        <div class="icon right" @click="clickSearch">
+          <icon-base :iconColor="'var(--light-brown)'"><icon-search /></icon-base>
+        </div>
       </div>
-    </div>
-    <div class="club-search-result">
-      <label>검색된 클럽 목록</label>
-      <ClubSearchBarPageList
-        v-for="(club, idx) in clubList"
-        :key="idx"
-        :club="club"
-        :keyword="keyword"
-        class="page-item"
-      />
+      <div v-if="clubList && clubList.length > 0" class="club-search-result">
+        <ClubSearchBarPageList
+          v-for="(club, idx) in clubList"
+          :key="idx"
+          :club="club"
+          :keyword="keyword"
+          class="page-item"
+        />
+      </div>
+      <div v-else class="empty club-search-result">
+        <span class="font-body-4">검색된 클럽이 없습니다</span>
+      </div>
     </div>
   </div>
 </template>
@@ -28,11 +38,13 @@
 <script>
 import { mapActions, mapState } from "vuex";
 import ClubSearchBarPageList from "@/views/clubs/ClubSearchBarPageList.vue";
+import IconSearch from "@/components/icons/IconSearch.vue";
 
 export default {
   name: "ClubSearchBarPage",
   components: {
     ClubSearchBarPageList,
+    IconSearch,
   },
   computed: {
     ...mapState("searchStore", ["clubList"]),
@@ -43,64 +55,48 @@ export default {
     };
   },
   methods: {
-    ...mapActions("searchStore", ["searchClubByName"]),
+    ...mapActions("searchStore", ["searchClubByName", "initClubList"]),
     ...mapActions("clubStore", ["findClubInfo"]),
     clickSearch() {
       this.searchClubByName(this.keyword);
     },
   },
+  created() {
+    this.initClubList();
+  },
 };
 </script>
 
 <style lang="scss" scoped>
-@mixin clearfix() {
-  &::after {
-    content: "";
-    display: block;
-    clear: both;
-  }
-}
+.navbar {
+  background-color: var(--white);
 
-.top-box {
-  width: 100%;
-  position: relative;
-  margin: 0;
-  @include clearfix();
-
-  .absolute-box {
-    position: absolute;
-    margin: 0;
-    top: 0;
-    left: 0;
-  }
-  .top-icon {
-    position: absolute;
-    margin: 0;
-    top: 1.5rem;
-    left: 1.5rem;
-  }
-
-  input {
-    position: absolute;
+  .center {
+    justify-self: left;
     width: 100%;
-    height: 3rem;
-    padding: 7.5% 5% 7.5% 20%;
+  }
+  input {
+    width: inherit;
+    padding: 1rem 1.7rem;
     text-align: left;
     border: 0;
-    background-color: var(--white);
-    box-sizing: border-box;
+    background-color: transparent;
+  }
+  .right {
+    justify-self: left;
+    align-items: center;
+    display: flex;
+    position: relative;
   }
 }
 .club-search-result {
-  padding-top: 20%;
+  padding-top: 2rem;
+}
 
-  label {
-    text-align: left;
-    display: block;
-    margin: 0 0 1.5% 14%;
-    font-size: 1.2rem;
-    font-weight: 500;
-    color: var(--grey);
-  }
+.empty {
+  text-align: left;
+  margin: 0 auto;
+  width: 30rem;
+  color: var(--grey);
 }
 </style>

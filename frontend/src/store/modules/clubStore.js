@@ -2,6 +2,7 @@ import SERVER from "@/api/api";
 import axios from "axios";
 import router from "@/router";
 import Swal from "sweetalert2";
+var moment = require("moment");
 
 const clubStore = {
   namespaced: true,
@@ -21,8 +22,8 @@ const clubStore = {
     applyList: null,
     joinedList: null,
     questionList: null,
-    bookClubList: null,
     newClubData: null,
+    clubIndex: 0,
   },
   getters: {
     myClubList(state) {
@@ -52,11 +53,11 @@ const clubStore = {
     questionList(state) {
       return state.questionList;
     },
-    bookClubList(state) {
-      return state.bookClubList;
-    },
     newClubData(state) {
       return state.newClubData;
+    },
+    clubIndex(state) {
+      return state.clubIndex;
     },
   },
   mutations: {
@@ -87,11 +88,11 @@ const clubStore = {
     SET_QUESTION_LIST(state, data) {
       state.questionList = data;
     },
-    SET_BOOKCLUB_LIST(state, data) {
-      state.bookClubList = data;
-    },
     SET_NEW_CLUBDATA(state, data) {
       state.newClubData = data;
+    },
+    SET_CLUB_INDEX(state, data) {
+      state.clubIndex = data;
     },
   },
   actions: {
@@ -108,6 +109,10 @@ const clubStore = {
         .catch((err) => {
           console.log(err);
         });
+    },
+    // 보고 있는 클럽 인덱스 저장
+    setClubIndex({ commit }, index) {
+      commit("SET_CLUB_INDEX", index);
     },
     // 해당 클럽 정보 확인
     findClubInfo({ rootGetters, commit, dispatch }, clubId) {
@@ -140,9 +145,7 @@ const clubStore = {
       let meetingInfo = getters.meetingInfo;
       // 다음 모임이 있으면 남은 시간 계산
       if (meetingInfo && meetingInfo.isCalc) {
-        let target = new Date(meetingInfo.startTime);
-        let curr = new Date();
-        let diffSecond = Math.floor((target.getTime() - curr.getTime()) / 1000);
+        let diffSecond = Math.floor(moment(meetingInfo.startTime).subtract(moment()) / 1000);
         let diffTime = Math.floor(diffSecond / 60);
         let diffTimeHour = Math.floor(diffTime / 60);
         let diffTimeDay = Math.floor(diffTimeHour / 24);
@@ -150,10 +153,10 @@ const clubStore = {
         let dateStr = "모임까지 ";
         if (diffTimeDay > 0) dateStr += diffTimeDay + "일 ";
         if (diffTimeHour > 0) dateStr += (diffTimeHour % 24) + "시간 ";
-        if (diffTime > 10) dateStr += (diffTime % 60) + "분 ";
+        if (diffTime >= 10) dateStr += (diffTime % 60) + "분 ";
         if (diffSecond > 0) dateStr += (diffSecond % 60) + "초 ";
         meetingInfo.remainTime = dateStr + "남았습니다.";
-        if (diffTime <= 10) {
+        if (diffTime < 10) {
           meetingInfo.isOpen = true;
           meetingInfo.remainTime = "곧 모임이 시작됩니다.";
         }
@@ -173,17 +176,6 @@ const clubStore = {
     },
     pollingEnd({ commit }) {
       commit("SET_IS_POLLING", false);
-    },
-    // 클럽 모임 목록 확인
-    findBookClubList({ getters, commit }) {
-      axios
-        .get(SERVER.URL + SERVER.ROUTES.getBookClubList + getters.clubId)
-        .then((res) => {
-          commit("SET_BOOKCLUB_LIST", res.data);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
     },
     // 새 클럽 만들 정보 저장
     saveClubData({ commit }, clubData) {
@@ -242,7 +234,7 @@ const clubStore = {
     // 클럽 가입신청
     applyToClub({ rootGetters, getters }) {
       axios
-        .post(SERVER.URL + "/clubs/" + getters.clubId + "/join", rootGetters.config)
+        .post(SERVER.URL + "/clubs/" + getters.clubId + "/join", null, rootGetters.config)
         .then((res) => {
           console.log(res);
           Swal.fire({
@@ -268,7 +260,11 @@ const clubStore = {
     // 클럽 가입신청 수락
     acceptToClub({ rootGetters, getters, dispatch }, userClubId) {
       axios
-        .put(SERVER.URL + "/clubs/" + getters.clubId + "/join/" + userClubId, rootGetters.config)
+        .put(
+          SERVER.URL + "/clubs/" + getters.clubId + "/join/" + userClubId,
+          null,
+          rootGetters.config
+        )
         .then((res) => {
           console.log(res);
           dispatch("findApplyList");
@@ -380,7 +376,7 @@ const clubStore = {
         });
     },
     // 문의게시판 질문 등록
-    registerQuestion({ rootGetters }, questionData) {
+    registerQuestion({ rootGetters, dispatch }, questionData) {
       axios
         .post(
           SERVER.URL + SERVER.ROUTES.questions + questionData.clubId,
@@ -396,7 +392,7 @@ const clubStore = {
             timer: 1000,
             timerProgressBar: true,
           });
-          router.go(0);
+          dispatch("findQuestionList", questionData.clubId);
         })
         .catch((err) => {
           Swal.fire({
@@ -410,7 +406,7 @@ const clubStore = {
         });
     },
     // 문의게시판 답글 등록
-    registerAnswer({ rootGetters }, questionData) {
+    registerAnswer({ rootGetters, getters, dispatch }, questionData) {
       axios
         .post(
           SERVER.URL + SERVER.ROUTES.questions + questionData.questionId + "/answer",
@@ -426,7 +422,7 @@ const clubStore = {
             timer: 1000,
             timerProgressBar: true,
           });
-          router.go(0);
+          dispatch("findQuestionList", getters.clubId);
         })
         .catch((err) => {
           Swal.fire({

@@ -1,89 +1,91 @@
 <template>
   <div class="container m-top">
-    <h4 class="title">추가정보 입력</h4>
-    <div class="m-top-5">
-      <div class="profile-img-div">
-        <input
-          class="hidden-item"
-          ref="image"
-          id="profileImg"
-          type="file"
-          accept="image/*"
-          @change="uploadImage()"
-        />
-        <div class="icon profile-btn" @click="clickProfileImg">
-          <icon-base><icon-camera /></icon-base>
+    <div>
+      <h4 class="title">추가정보 입력</h4>
+      <div class="m-top-5">
+        <div class="profile-img-div">
+          <input
+            class="hidden-item"
+            ref="image"
+            id="profileImg"
+            type="file"
+            accept="image/*"
+            @change="uploadImage()"
+          />
+          <div class="icon profile-btn" @click="clickProfileImg">
+            <icon-base><icon-camera /></icon-base>
+          </div>
+          <img
+            class="profile-img"
+            :src="
+              extraData.profileImg
+                ? extraData.profileImg
+                : 'https://booktory.s3.ap-northeast-2.amazonaws.com/static/default/profile.png'
+            "
+            alt="Profile Image"
+          />
         </div>
-        <img
-          class="profile-img"
-          :src="
-            extraData.profileImg
-              ? extraData.profileImg
-              : 'https://booktory.s3.ap-northeast-2.amazonaws.com/static/default/profile.png'
-          "
-          alt="Profile Image"
-        />
       </div>
-    </div>
-    <div class="input-div">
-      <label for="name">이름</label>
-      <div>
-        <input
-          v-model="extraData.name"
+      <div class="input-div">
+        <label for="name">이름</label>
+        <div>
+          <input
+            v-model="extraData.name"
+            v-bind:class="{
+              error: error.name,
+              complete: !error.name,
+            }"
+            type="text"
+            id="name"
+            maxlength="20"
+            placeholder="이름을 입력해주세요"
+            autocapitalize="none"
+            autocorrect="none"
+            required
+          />
+        </div>
+        <p v-if="error.name" class="message">{{ error.name }}</p>
+      </div>
+      <div class="input-div">
+        <label for="birth">생년월일</label>
+        <date-picker
+          id="birth"
+          v-model="extraData.birth"
           v-bind:class="{
-            error: error.name,
-            complete: !error.name,
+            error: error.birth,
+            complete: !error.birth,
           }"
-          type="text"
-          id="name"
-          maxlength="20"
-          placeholder="이름을 입력해주세요"
-          autocapitalize="none"
-          autocorrect="none"
+          value-type="format"
+          placeholder="생년월일을 선택해주세요"
+          :default-value="defaultDate"
+          :disabled-date="disabledAfterTodayAndBefore100Year"
+          :clearable="false"
           required
-        />
+        ></date-picker>
+        <p v-if="error.birth" class="message">{{ error.birth }}</p>
       </div>
-      <p v-if="error.name" class="message">{{ error.name }}</p>
-    </div>
-    <div class="input-div">
-      <label for="birth">생년월일</label>
-      <date-picker
-        id="birth"
-        v-model="extraData.birth"
-        v-bind:class="{
-          error: error.birth,
-          complete: !error.birth,
-        }"
-        value-type="format"
-        placeholder="생년월일을 선택해주세요"
-        :default-value="defaultDate"
-        :disabled-date="disabledAfterTodayAndBefore100Year"
-        :clearable="false"
-        required
-      ></date-picker>
-      <p v-if="error.birth" class="message">{{ error.birth }}</p>
-    </div>
-    <div class="input-div">
-      <label for="phone">전화번호</label>
-      <div>
-        <input
-          v-model="extraData.phone"
-          v-bind:class="{
-            error: error.phone,
-            complete: !error.phone,
-          }"
-          type="tel"
-          id="phone"
-          maxlength="11"
-          placeholder="전화번호를 입력해주세요"
-          required
-          @keyup.enter="clickExtraInfo"
-        />
+      <div class="input-div">
+        <label for="phone">전화번호</label>
+        <div>
+          <input
+            v-model="extraData.phone"
+            v-bind:class="{
+              error: error.phone,
+              complete: !error.phone,
+            }"
+            type="tel"
+            id="phone"
+            maxlength="11"
+            placeholder="전화번호를 입력해주세요"
+            required
+            @keyup.enter="clickExtraInfo"
+          />
+        </div>
+        <p v-if="error.phone" class="message">{{ error.phone }}</p>
       </div>
-      <p v-if="error.phone" class="message">{{ error.phone }}</p>
+      <button type="button" class="button-2 white-bg m-top-10" @click="clickSkip">넘어가기</button>
+      <button type="button" class="button-2" @click="clickExtraInfo">추가정보 입력</button>
     </div>
-    <button type="button" class="button-2 white-bg m-top-10" @click="clickSkip">넘어가기</button>
-    <button type="button" class="button-2" @click="clickExtraInfo">추가정보 입력</button>
   </div>
 </template>
 

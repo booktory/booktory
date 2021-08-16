@@ -21,6 +21,12 @@ const routes = [
     name: "Register",
     component: () => import("@/views/accounts/Register.vue"),
   },
+  // 회원가입 메일 발송 완료
+  {
+    path: "/register/email",
+    name: "RegisterEmail",
+    component: () => import("@/views/accounts/RegisterEmail.vue"),
+  },
   // 회원가입 추가 정보
   {
     path: "/register/extrainfo",
@@ -119,12 +125,6 @@ const routes = [
     name: "ClubdetailManageUpdate",
     component: () => import("@/views/clubdetail/ClubdetailManage/ClubdetailManageUpdate.vue"),
   },
-  // 클럽상세 클럽관리 - 읽을 책 추가
-  {
-    path: "/clubdetail/manage/create",
-    name: "ClubdetailManageCreate",
-    component: () => import("@/views/clubdetail/ClubdetailManage/ClubdetailManageCreate.vue"),
-  },
   // 클럽상세 클럽관리 - 가입신청 관리
   {
     path: "/clubdetail/manage/user",
@@ -139,7 +139,7 @@ const routes = [
     component: () => import("@/views/clubdetail/ClubdetailBook/ClubdetailBook.vue"),
   },
 
-  // 클럽상세 책 추가
+  // 클럽상세 읽을 책 추가
   {
     path: "/clubdetail/book/add",
     name: "ClubdetailBookAdd",

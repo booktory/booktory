@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <div class="container">
+  <div class="container">
+    <div>
       <TopHeader />
       <h4 class="title">클럽 만들기</h4>
       <div class="input-div">
@@ -160,8 +160,8 @@
       <button type="button" class="button-2 m-top-10" :disabled="!isSubmit" @click="clickNext">
         다음
       </button>
+      <Navbar :selected="'home'" />
     </div>
-    <Navbar :selected="'home'" />
   </div>
 </template>
 

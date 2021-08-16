@@ -1,91 +1,93 @@
 <template>
   <div class="container">
-    <div class="navbar">
-      <div class="icon" @click="$router.go(-1)">
-        <icon-base><icon-arrow-left /></icon-base>
+    <div>
+      <div class="navbar">
+        <div class="icon" @click="$router.go(-1)">
+          <icon-base><icon-arrow-left /></icon-base>
+        </div>
       </div>
-    </div>
-    <h4 class="title">회원가입</h4>
-    <div class="input-div m-top-5">
-      <label for="nickname">닉네임</label>
-      <div>
-        <input
-          v-model="registerData.nickname"
-          v-bind:class="{
-            error: error.nickname,
-            complete: !error.nickname && registerData.nickname.length !== 0,
-          }"
-          type="text"
-          id="nickname"
-          maxlength="10"
-          placeholder="닉네임을 입력해주세요"
-          autocapitalize="none"
-          autocorrect="none"
-          required
-        />
+      <h4 class="title">회원가입</h4>
+      <div class="input-div m-top-5">
+        <label for="nickname">닉네임</label>
+        <div>
+          <input
+            v-model="registerData.nickname"
+            v-bind:class="{
+              error: error.nickname,
+              complete: !error.nickname && registerData.nickname.length !== 0,
+            }"
+            type="text"
+            id="nickname"
+            maxlength="10"
+            placeholder="닉네임을 입력해주세요"
+            autocapitalize="none"
+            autocorrect="none"
+            required
+          />
+        </div>
+        <p v-if="error.nickname" class="message">{{ error.nickname }}</p>
       </div>
-      <p v-if="error.nickname" class="message">{{ error.nickname }}</p>
-    </div>
-    <div class="input-div">
-      <label for="email">이메일</label>
-      <div>
-        <input
-          v-model="registerData.email"
-          v-bind:class="{
-            error: error.email,
-            complete: !error.email && registerData.email.length !== 0,
-          }"
-          type="email"
-          id="email"
-          placeholder="이메일을 입력해주세요"
-          autocapitalize="none"
-          autocorrect="none"
-          required
-        />
+      <div class="input-div">
+        <label for="email">이메일</label>
+        <div>
+          <input
+            v-model="registerData.email"
+            v-bind:class="{
+              error: error.email,
+              complete: !error.email && registerData.email.length !== 0,
+            }"
+            type="email"
+            id="email"
+            placeholder="이메일을 입력해주세요"
+            autocapitalize="none"
+            autocorrect="none"
+            required
+          />
+        </div>
+        <p v-if="error.email" class="message">{{ error.email }}</p>
       </div>
-      <p v-if="error.email" class="message">{{ error.email }}</p>
-    </div>
-    <div class="input-div">
-      <label for="password">비밀번호</label>
-      <div>
-        <input
-          v-model="registerData.password"
-          v-bind:class="{
-            error: error.password,
-            complete: !error.password && registerData.password.length !== 0,
-          }"
-          type="password"
-          id="password"
-          maxlength="16"
-          placeholder="비밀번호를 입력해주세요"
-          required
-        />
+      <div class="input-div">
+        <label for="password">비밀번호</label>
+        <div>
+          <input
+            v-model="registerData.password"
+            v-bind:class="{
+              error: error.password,
+              complete: !error.password && registerData.password.length !== 0,
+            }"
+            type="password"
+            id="password"
+            maxlength="16"
+            placeholder="비밀번호를 입력해주세요"
+            required
+          />
+        </div>
+        <p v-if="error.password" class="message">{{ error.password }}</p>
       </div>
-      <p v-if="error.password" class="message">{{ error.password }}</p>
-    </div>
-    <div class="input-div">
-      <label for="passwordConfirm">비밀번호 확인</label>
-      <div>
-        <input
-          v-model="registerData.passwordConfirm"
-          v-bind:class="{
-            error: error.passwordConfirm,
-            complete: !error.passwordConfirm && registerData.passwordConfirm.length !== 0,
-          }"
-          type="password"
-          id="passwordConfirm"
-          maxlength="16"
-          placeholder="비밀번호를 한 번 더 입력해주세요"
-          required
-          @keyup.enter="clickRegister"
-        />
+      <div class="input-div">
+        <label for="passwordConfirm">비밀번호 확인</label>
+        <div>
+          <input
+            v-model="registerData.passwordConfirm"
+            v-bind:class="{
+              error: error.passwordConfirm,
+              complete: !error.passwordConfirm && registerData.passwordConfirm.length !== 0,
+            }"
+            type="password"
+            id="passwordConfirm"
+            maxlength="16"
+            placeholder="비밀번호를 한 번 더 입력해주세요"
+            required
+            @keyup.enter="clickRegister"
+          />
+        </div>
+        <p v-if="error.passwordConfirm" class="message">{{ error.passwordConfirm }}</p>
       </div>
-      <p v-if="error.passwordConfirm" class="message">{{ error.passwordConfirm }}</p>
+      <button type="button" class="button-2 m-top-10" :disabled="!isSubmit" @click="clickRegister">
+        회원가입
+      </button>
+      <p class="text-link" @click="$router.push({ name: 'BooktoryTos' })">이용약관 보기</p>
     </div>
-    <button type="button" class="button-2 m-top-10" :disabled="!isSubmit" @click="clickRegister">
-      회원가입
-    </button>
-    <p class="text-link" @click="$router.push({ name: 'BooktoryTos' })">이용약관 보기</p>
   </div>
 </template>
 
