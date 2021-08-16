@@ -12,7 +12,7 @@
           </button>
         </div>
       </div>
-      <Navbar selected="'home'" />
+      <Navbar :selected="'home'" />
     </div>
   </div>
 </template>

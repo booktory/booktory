@@ -115,7 +115,7 @@
           </div>
         </div>
       </div>
-      <Navbar selected="'home'" />
+      <Navbar :selected="'home'" />
     </div>
   </div>
 </template>
@@ -123,8 +123,9 @@
 <script>
 import TopHeader from "@/views/clubdetail/TopHeader.vue";
 import Navbar from "@/views/clubdetail/Navbar.vue";
-import { mapActions, mapState } from "vuex";
 import IconDelete from "@/components/icons/IconDelete.vue";
+import Swal from "sweetalert2";
+import { mapActions, mapState } from "vuex";
 
 export default {
   name: "ClubdetailBook",
@@ -145,11 +146,20 @@ export default {
   methods: {
     ...mapActions("bookclubStore", ["getBookClubList", "deleteBook"]),
     clickDeleteBook(id) {
-      const params = {
-        bookclubId: id,
-        clubId: this.clubId,
-      };
-      this.deleteBook(params);
+      Swal.fire({
+        showCancelButton: true,
+        title: "읽을 책을 삭제 하시겠습니까?",
+        confirmButtonText: "네, 삭제할래요",
+        cancelButtonText: "아니요",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          const params = {
+            bookclubId: id,
+            clubId: this.clubId,
+          };
+          this.deleteBook(params);
+        }
+      });
     },
   },
   created() {
