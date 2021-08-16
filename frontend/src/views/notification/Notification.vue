@@ -30,7 +30,7 @@
             <p class="alarm-button-no">더 이상 알림이 존재하지 않습니다.</p>
           </div>
           <div v-else-if="alarmList.length >= page * 5">
-            <button type="button" class="alarm-button" @click="getMoreAlarm">
+            <button type="button" class="alarm-button p-b-1" @click="getMoreAlarm">
               더 많은 알림 보기
             </button>
           </div>
@@ -49,7 +49,7 @@ export default {
   name: "Notification",
   components: {},
   computed: {
-    ...mapState(["userNickname"]),
+    ...mapState(["userId"]),
   },
   data() {
     return {
@@ -59,7 +59,7 @@ export default {
   },
   created() {
     this.alarmList = [];
-    const usersref = fire.database().ref(`users/${this.userNickname}`).limitToLast(5);
+    const usersref = fire.database().ref(`users/${this.userId}`).limitToLast(5);
     usersref.on("value", (list) => {
       const data = list.val();
       for (let key in data) {
@@ -75,12 +75,12 @@ export default {
     updateReadStatus() {
       fire
         .database()
-        .ref(`users/${this.userNickname}`)
+        .ref(`users/${this.userId}`)
         .on("value", (list) => {
           const data = list.val();
           for (let key in data) {
             if (data[key].readStatus === 0) {
-              fire.database().ref(`users/${this.userNickname}/${key}`).update({
+              fire.database().ref(`users/${this.userId}/${key}`).update({
                 readStatus: 1,
               });
             }
@@ -93,7 +93,7 @@ export default {
       this.page += 1;
       const usersref = fire
         .database()
-        .ref(`users/${this.userNickname}`)
+        .ref(`users/${this.userId}`)
         .limitToLast(5 * this.page);
 
       usersref.on("value", (list) => {
@@ -131,7 +131,6 @@ export default {
 .alarm-wrapper {
   margin: 5% 7%;
   width: 86%;
-  padding: 1%;
   border-radius: 1rem;
   box-shadow: 0 0.4em 0.8em 0 rgb(142 141 208 / 16%);
   background-color: var(--white);
@@ -180,5 +179,9 @@ export default {
 
 .alarm-button-no {
   padding: 2.5% 4%;
+}
+
+.p-b-1 {
+  padding-bottom: 1rem;
 }
 </style>

@@ -5,14 +5,10 @@
         <div class="icon" @click="leaveSession">
           <icon-base><icon-arrow-left /></icon-base>
         </div>
-        <h5 class="meeting-navbar-title">{{ clubName }}</h5>
+        <h5 class="meeting-navbar-title">{{ this.clubInfo.name }}</h5>
         <div class="icon meeting-navbar-book" @click="showBookInfo">
           <icon-base><icon-book /></icon-base>
         </div>
-      </div>
-      <h5 class="meeting-navbar-title">{{ this.clubInfo.name }}</h5>
-      <div class="icon meeting-navbar-book" @click="showBookInfo">
-        <icon-base><icon-book /></icon-base>
       </div>
     </div>
 
