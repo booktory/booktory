@@ -25,7 +25,6 @@
 
     .main * {
       text-align: left;
-      margin: 0;
     }
 
     // 여기서부터 메인 시작!
@@ -37,23 +36,17 @@
         text-align: center;
       }
 
+      h3,
+      h5 {
+        margin: 0;
+      }
+
       .main-head {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        position: relative;
-
-        .add-btn {
-          font-size: 1.2rem;
-          position: absolute;
-          top: 0;
-          right: 0;
-        }
       }
 
-      h5 {
-        margin-bottom: 1rem;
-      }
       // now, next, pre에서 공통으로 사용되는 카드형식입니다.
       .reading {
         margin-top: 3rem;
@@ -61,6 +54,8 @@
 
       .reading-card-head {
         margin-bottom: 1rem;
+        white-space: nowrap;
+        overflow: hidden;
       }
 
       .reading-card {
@@ -75,25 +70,33 @@
         border-radius: 1rem;
         box-shadow: 0 0.4em 0.8em 0 rgba(142, 141, 208, 0.16);
 
+        &-head {
+          margin-bottom: 0.2rem;
+        }
         &-left {
           margin-right: 1.2rem;
         }
         &-right {
+          display: flex;
+          flex-direction: column;
+          gap: 0.2rem;
           white-space: nowrap;
           overflow: hidden;
+        }
+        .delete-icon {
+          position: absolute;
+          bottom: 0.6rem;
+          right: 0.6rem;
         }
       }
 
       .reading-card-date {
-        position: absolute;
-        bottom: 0.8rem;
-        right: 0.9rem;
         color: var(--orange);
         font-weight: bold;
       }
 
       .reading-card-no {
-        margin: 2rem 0 3rem 1rem;
+        margin: 1.5rem 0 0 1rem;
       }
     }
   }

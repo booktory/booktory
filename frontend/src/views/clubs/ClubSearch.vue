@@ -17,7 +17,6 @@ import TopHeader from "@/views/TopHeader.vue";
 import Navbar from "@/views/Navbar.vue";
 import ClubSearchBar from "@/views/clubs/ClubSearchBar.vue";
 import ClubSearchGenre from "@/views/clubs/ClubSearchGenre.vue";
-import { mapActions } from "vuex";
 
 export default {
   name: "ClubSearch",
@@ -26,12 +25,6 @@ export default {
     Navbar,
     ClubSearchBar,
     ClubSearchGenre,
-  },
-  methods: {
-    ...mapActions("searchStore", ["initClubList"]),
-  },
-  created() {
-    this.initClubList();
   },
 };
 </script>

@@ -11,6 +11,7 @@ const bookclubStore = {
     nowbookclub: null,
     nextbookclubList: null,
     prebookclubList: null,
+    clubId: null,
   },
   getters: {
     bookclubList(state) {
@@ -24,6 +25,9 @@ const bookclubStore = {
     },
     prebookclubList(state) {
       return state.prebookclubList;
+    },
+    clubId(state) {
+      return state.clubId;
     },
   },
   mutations: {
@@ -39,6 +43,9 @@ const bookclubStore = {
     SET_PREBOOKCLUB_LIST(state, data) {
       state.prebookclubList = data;
     },
+    SET_CLUB_ID(state, data) {
+      state.clubId = data;
+    },
   },
   actions: {
     // 모임/읽을 책 목록 확인
@@ -49,6 +56,7 @@ const bookclubStore = {
         .get(SERVER.URL + SERVER.ROUTES.getBookClubList + clubId)
         .then((res) => {
           commit("SET_BOOKCLUB_LIST", res.data);
+          commit("SET_CLUB_ID", clubId);
           let flag = true;
           for (let bookclub of res.data) {
             if (bookclub.endDateTime == null) {
@@ -111,7 +119,6 @@ const bookclubStore = {
             timerProgressBar: true,
           });
           console.log(res.data);
-          // router.push({ name: "ClubdetailMeeting" });
           router.go(-1);
         })
         .catch((err) => {
@@ -126,7 +133,7 @@ const bookclubStore = {
         });
     },
     // 모임 취소
-    cancelMeeting({ commit }, bookclubId) {
+    cancelMeeting({ dispatch, getters, commit }, bookclubId) {
       axios
         .patch(SERVER.URL + SERVER.ROUTES.cancelMeeting + bookclubId)
         .then((res) => {
@@ -139,6 +146,7 @@ const bookclubStore = {
             timerProgressBar: true,
           });
           commit("SET_NOWBOOKCLUB", null);
+          dispatch("getBookClubList", getters.clubId);
         })
         .catch((err) => {
           Swal.fire({
@@ -163,7 +171,7 @@ const bookclubStore = {
             timer: 1000,
             timerProgressBar: true,
           });
-          dispatch("getBookclubList", data.clubId);
+          dispatch("getBookClubList", data.clubId);
         })
         .catch((err) => {
           Swal.fire({

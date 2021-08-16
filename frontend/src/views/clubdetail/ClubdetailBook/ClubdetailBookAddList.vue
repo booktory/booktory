@@ -31,7 +31,8 @@
 <script>
 import ClubdetailBookAddListItem from "@/views/clubdetail/ClubdetailBook/ClubdetailBookAddListItem.vue";
 import ClubdetailBookAddListSelected from "@/views/clubdetail/ClubdetailBook/ClubdetailBookAddListSelected.vue";
-import { mapState } from "vuex";
+import Swal from "sweetalert2";
+import { mapState, mapActions } from "vuex";
 
 export default {
   name: "ClubdetailBookAddList",
@@ -41,6 +42,7 @@ export default {
   },
   computed: {
     ...mapState("searchStore", ["bookList"]),
+    ...mapState("clubStore", ["isRegisterBook"]),
   },
   props: {
     selectedBooks: {
@@ -48,9 +50,29 @@ export default {
     },
   },
   methods: {
-    onSelectBook: function (book) {
+    ...mapActions("clubStore", ["checkRegisterBook"]),
+    onSelectBook: async function (book) {
+      await this.checkRegisterBook(book.id);
       if (this.selectedBooks.indexOf(book) < 0) {
-        this.selectedBooks.push(book);
+        if (this.isRegisterBook) {
+          Swal.fire({
+            icon: "error",
+            title: "클럽에 이미 등록된 책입니다",
+            showConfirmButton: false,
+            timer: 1500,
+            timerProgressBar: false,
+          });
+        } else {
+          this.selectedBooks.push(book);
+        }
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "이미 선택된 책입니다",
+          showConfirmButton: false,
+          timer: 1500,
+          timerProgressBar: false,
+        });
       }
     },
     onDeleteBook: function (book) {

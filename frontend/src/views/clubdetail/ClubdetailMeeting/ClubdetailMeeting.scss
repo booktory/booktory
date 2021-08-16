@@ -55,9 +55,20 @@
         background-color: var(--white);
         border-radius: 1rem;
         box-shadow: 0 0.4em 0.8em 0 rgba(142, 141, 208, 0.16);
+        display: flex;
+        flex-direction: column;
+        gap: 0.3rem;
+
+        .icon-cancel {
+          font-size: 0.7rem;
+          right: 1rem;
+          top: 1rem;
+          position: absolute;
+        }
 
         &-body {
-          margin-top: 0.6rem;
+          white-space: nowrap;
+          overflow: hidden;
 
           h5 {
             display: inline;
@@ -65,16 +76,19 @@
         }
 
         &-head-date {
-          font-size: 1.2rem;
+          font-size: 1.1rem;
         }
 
         &-footer {
-          margin-top: 0.8rem;
           color: var(--orange);
           font-weight: bold;
+          margin-top: 0.3rem;
 
           &-list {
-            margin-right: 0.5rem;
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+            margin-top: 0.6rem;
           }
 
           &-profileImg {
@@ -87,8 +101,7 @@
       }
 
       .meeting-card-no {
-        text-align: center;
-        padding: 13% 1%;
+        margin: 1.5rem 0 0 1rem;
       }
 
       .pre-meeting {
