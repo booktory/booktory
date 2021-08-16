@@ -4,8 +4,8 @@
       <TopHeader />
       <ClubList />
       <div class="text-right">
-        <span @click="$router.push({ name: 'ClubSearch' })">클럽 찾기</span
-        >&nbsp;&nbsp;|&nbsp;&nbsp;<span @click="$router.push({ name: 'ClubCreate' })"
+        <span @click="clickSearch">클럽 찾기</span>&nbsp;&nbsp;|&nbsp;&nbsp;<span
+          @click="$router.push({ name: 'ClubCreate' })"
           >클럽 만들기</span
         >
       </div>
@@ -18,6 +18,8 @@
 import ClubList from "@/views/clubs/ClubList.vue";
 import Navbar from "@/views/Navbar.vue";
 import TopHeader from "@/views/TopHeader.vue";
+import router from "@/router";
+import { mapActions } from "vuex";
 
 export default {
   name: "ClubHome",
@@ -25,6 +27,13 @@ export default {
     ClubList,
     Navbar,
     TopHeader,
+  },
+  methods: {
+    ...mapActions("searchStore", ["initClubList"]),
+    clickSearch() {
+      this.initClubList();
+      router.push({ name: "ClubSearch" });
+    },
   },
 };
 </script>

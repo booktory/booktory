@@ -16,7 +16,7 @@
           />
         </div>
         <div class="icon right" @click="clickSearch">
-          <icon-base :iconColor="'var(--light-brown)'"><icon-search /></icon-base>
+          <icon-base><icon-search /></icon-base>
         </div>
       </div>
       <div v-if="clubList && clubList.length > 0" class="club-search-result">
@@ -60,9 +60,6 @@ export default {
     clickSearch() {
       this.searchClubByName(this.keyword);
     },
-  },
-  created() {
-    this.initClubList();
   },
 };
 </script>
