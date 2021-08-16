@@ -70,7 +70,11 @@
                         : book.bookPublisher
                     }}&nbsp;|&nbsp;{{ book.bookDate }}
                   </div>
-                  <div class="icon delete-icon" @click="clickDeleteBook(book.id)">
+                  <div
+                    v-if="clubInfo.isLeader"
+                    class="icon delete-icon"
+                    @click="clickDeleteBook(book.id)"
+                  >
                     <icon-base :iconColor="'var(--light-brown)'"><icon-delete /></icon-base>
                   </div>
                 </div>
