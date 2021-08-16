@@ -42,8 +42,10 @@ export default {
     },
   },
   created() {
-    this.fetchUser();
     this.pollAlarm();
+  },
+  mounted() {
+    this.fetchUser();
   },
 };
 </script>

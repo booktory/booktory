@@ -41,7 +41,7 @@ export default {
 
 <style scoped>
 .logo {
-  opacity: 40%;
+  opacity: 0.4;
   width: 60%;
   margin: 2rem 0 -2rem;
   object-fit: contain;

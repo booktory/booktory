@@ -43,7 +43,7 @@ export default {
   min-height: 100vh;
   background-image: url("./images/club-backgroud.png");
   background-size: cover;
-  opacity: 30%;
+  opacity: 0.3;
   z-index: -1;
 }
 .text-right {

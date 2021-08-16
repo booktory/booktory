@@ -102,7 +102,7 @@ export default {
   min-height: 100vh;
   background-image: url("./images/club-backgroud.png");
   background-size: cover;
-  opacity: 70%;
+  opacity: 0.7;
   z-index: -1;
 }
 .card {
