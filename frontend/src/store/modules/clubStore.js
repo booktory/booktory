@@ -156,11 +156,11 @@ const clubStore = {
         if (diffTime >= 10) dateStr += (diffTime % 60) + "분 ";
         if (diffSecond > 0) dateStr += (diffSecond % 60) + "초 ";
         meetingInfo.remainTime = dateStr + "남았습니다.";
-        if (diffTime < 10) {
+        if (diffTime < 10 && diffTime >= 0) {
           meetingInfo.isOpen = true;
           meetingInfo.remainTime = "곧 모임이 시작됩니다.";
         }
-        if (diffSecond <= 0) {
+        if (diffSecond <= 0 && diffTime >= -60) {
           meetingInfo.remainTime = "모임이 시작되었습니다.";
           meetingInfo.isCalc = false;
         }
