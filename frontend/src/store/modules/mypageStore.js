@@ -108,12 +108,15 @@ const mypageStore = {
         .then((res) => {
           // 회원 정보 설정
           commit("SET_USERINFO", res.data);
-          // 배지 목록 가져오기
+          // 배지 목록 가져와서 초기화
           let badgeList = getters.badgeList;
+          for (var i = 0; i < badgeList.length; i++) {
+            badgeList[i].state = false;
+            badgeList[i].isMain = false;
+          }
           // 나의 배지 목록 설정
-          for (var i = 0; i < res.data.badgeList.length; i++) {
+          for (i = 0; i < res.data.badgeList.length; i++) {
             badgeList[res.data.badgeList[i]].state = true;
-            badgeList[res.data.badgeList[i]].isMain = false;
           }
           commit("SET_BADGELIST", badgeList);
           // 대표 배지 설정
