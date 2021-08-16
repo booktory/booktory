@@ -1,12 +1,7 @@
 <template>
-  <div class="clubdetail-container">
-    <div class="bg-image">
-      <div class="icon icon-back" @click="$router.go(-1)">
-        <icon-base><icon-arrow-left /></icon-base>
-      </div>
-      <div class="icon" @click="$router.push({ name: 'ClubHome' })">
-        <icon-base><icon-x /></icon-base>
-      </div>
+  <div class="container bg-image">
+    <div>
+      <TopHeader />
       <div class="card">
         <div class="main">
           <div class="main-head">
@@ -18,27 +13,19 @@
                 <div class="font-body-3 font-bold">모임 일정</div>
               </div>
               <div class="create-meeting-schedule-body m-top-1">
-                <date-picker
-                  v-model="endDate"
-                  valueType="format"
-                  type="datetime"
-                  placeholder="날짜를 선택하세요"
-                  class="date-picker"
-                  required
-                ></date-picker>
+                <div class="input-div">
+                  <date-picker
+                    v-model="endDate"
+                    valueType="format"
+                    type="datetime"
+                    placeholder="날짜를 선택하세요"
+                    class="date-picker"
+                    :disabled-date="disabledAfterTodayAndBefore100Year"
+                    :clearable="false"
+                    required
+                  ></date-picker>
+                </div>
               </div>
-              <!-- <div class="create-meeting-schedule-head m-top-2">
-                <div class="font-body-3 font-bold">모임 시간</div>
-              </div>
-              <div class="create-meeting-schedule-body m-top-1">
-                <date-picker
-                  v-model="value2"
-                  type="time"
-                  placeholder="시간을 선택하세요"
-                  class="date-picker"
-                  required
-                ></date-picker>
-              </div> -->
             </div>
             <div class="create-meeting-book">
               <div class="create-meeting-book-head m-top-2">
@@ -57,18 +44,20 @@
           </div>
         </div>
       </div>
+      <Navbar selected="'meeting'" />
     </div>
-    <Navbar class="footer" />
   </div>
 </template>
 
 <script>
+import TopHeader from "@/views/clubdetail/TopHeader.vue";
 import Navbar from "@/views/clubdetail/Navbar.vue";
 import { mapActions, mapState } from "vuex";
 
 export default {
   name: "ClubdetailMeetingCreate",
   components: {
+    TopHeader,
     Navbar,
   },
   data() {
@@ -100,15 +89,12 @@ export default {
 .m-top-1 {
   margin-top: 1rem;
 }
-
 .m-top-2 {
   margin-top: 2rem;
 }
-
 .adj-center {
   margin: 0 auto;
 }
-
 .font-bold {
   font-weight: bold;
 }

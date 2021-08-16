@@ -1,19 +1,15 @@
 <template>
-  <div class="clubdetail-container">
-    <div class="bg-image">
-      <div class="icon icon-back" @click="$router.go(-1)">
-        <icon-base><icon-arrow-left /></icon-base>
-      </div>
-      <div class="icon" @click="$router.push({ name: 'ClubHome' })">
-        <icon-base><icon-x /></icon-base>
-      </div>
+  <div class="container bg-image">
+    <div>
+      <TopHeader />
       <div class="card">
         <div class="main">
+          <h4 class="title">클럽 서재</h4>
           <div class="main-head">
             <h5>읽는 중</h5>
             <span
               v-if="clubInfo.isLeader"
-              class="font-body-4"
+              class="add-btn"
               @click="$router.push({ name: 'ClubdetailBookAdd' })"
               >책 추가하기</span
             >
@@ -27,13 +23,7 @@
                 </div>
                 <div class="reading-card-right">
                   <div class="reading-card-head">
-                    <h6>
-                      {{
-                        nowbookclub.bookTitle.length > 22
-                          ? nowbookclub.bookTitle.substr(0, 22) + "・・・"
-                          : nowbookclub.bookTitle
-                      }}
-                    </h6>
+                    <h5>{{ nowbookclub.bookTitle }}</h5>
                   </div>
                   <div class="reading-card-body font-body-4">
                     {{
@@ -52,7 +42,7 @@
                 </div>
               </div>
             </div>
-            <div v-else class="font-body-4 reading-card-no">예정된 모임이 없어요 :)</div>
+            <div v-else class="font-body-4 reading-card-no">예정된 모임이 없습니다</div>
           </div>
           <!-- 앞으로 읽을 책 -->
           <div class="reading">
@@ -64,13 +54,7 @@
                 </div>
                 <div class="reading-card-right">
                   <div class="reading-card-head">
-                    <h6>
-                      {{
-                        book.bookTitle.length > 22
-                          ? book.bookTitle.substr(0, 22) + "・・・"
-                          : book.bookTitle
-                      }}
-                    </h6>
+                    <h5>{{ book.bookTitle }}</h5>
                   </div>
                   <div class="reading-card-body font-body-4">
                     {{
@@ -90,7 +74,7 @@
               </div>
             </div>
             <div v-else class="font-body-4 reading-card-no">
-              읽을 책이 없어요. <br />책을 더 추가해 주세요 :)
+              읽을 책이 없습니다 <br />책을 더 추가해 주세요 :)
             </div>
           </div>
 
@@ -99,21 +83,15 @@
             <h5>읽었어요</h5>
             <div v-if="prebookclubList.length > 0">
               <div v-for="(book, idx) in prebookclubList" :key="idx" class="reading-card m-top-1">
-                <span class="font-body-6 reading-card-date">
-                  {{ $moment(book.endDateTime).format("YYYY년 M월 D일에 읽었어요") }}
+                <span class="font-body-5 reading-card-date">
+                  {{ $moment(book.endDateTime).format("YYYY년 M월 D일 읽음") }}
                 </span>
                 <div class="reading-card-left">
                   <img :src="book.bookThumbnail" alt="" />
                 </div>
                 <div class="reading-card-right">
                   <div class="reading-card-head">
-                    <h6>
-                      {{
-                        book.bookTitle.length > 22
-                          ? book.bookTitle.substr(0, 22) + "・・・"
-                          : book.bookTitle
-                      }}
-                    </h6>
+                    <h5>{{ book.bookTitle }}</h5>
                   </div>
                   <div class="reading-card-body font-body-4">
                     {{
@@ -132,32 +110,40 @@
                 </div>
               </div>
             </div>
-            <div v-else class="font-body-4 reading-card-no">아직 읽은 책이 없어요 :)</div>
+            <div v-else class="font-body-4 reading-card-no">아직 읽은 책이 없습니다</div>
           </div>
         </div>
       </div>
+      <Navbar selected="'home'" />
     </div>
-    <Navbar class="footer" />
   </div>
 </template>
 
 <script>
+import TopHeader from "@/views/clubdetail/TopHeader.vue";
 import Navbar from "@/views/clubdetail/Navbar.vue";
-import { mapState } from "vuex";
+import { mapActions, mapState } from "vuex";
 
 export default {
   name: "ClubdetailBook",
   components: {
+    TopHeader,
     Navbar,
   },
   computed: {
-    ...mapState("clubStore", ["clubInfo"]),
+    ...mapState("clubStore", ["clubInfo", "clubId"]),
     ...mapState("bookclubStore", [
       "bookclubList",
       "nowbookclub",
       "nextbookclubList",
       "prebookclubList",
     ]),
+  },
+  methods: {
+    ...mapActions("bookclubStore", ["getBookClubList"]),
+  },
+  created() {
+    this.getBookClubList(this.clubId);
   },
 };
 </script>
@@ -167,7 +153,6 @@ export default {
 .m-top-1 {
   margin-top: 1rem;
 }
-
 .m-top-2 {
   margin-top: 2rem;
 }

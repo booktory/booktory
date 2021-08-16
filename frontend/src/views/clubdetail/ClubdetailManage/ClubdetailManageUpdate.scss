@@ -1,232 +1,185 @@
-* {
-  margin: 0;
+.bg-image:after {
+  position: absolute;
+  content: "";
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  min-height: 100vh;
+  background-image: url("../images/club-backgroud.png");
+  background-size: cover;
+  opacity: 70%;
+  z-index: -1;
+}
+.bg-image {
+  position: relative;
   padding: 0;
-  box-sizing: border-box;
-}
 
-h4 {
-  font-size: 2rem;
-}
+  .card {
+    width: inherit;
+    height: inherit;
+    min-height: 90vh;
+    border-radius: 5rem 5rem 0 0;
+    padding-bottom: 5rem;
+    background-color: var(--beige);
 
-.font-body-3 {
-  font-size: 1.4rem;
-}
+    .main * {
+      text-align: left;
+    }
 
-.clubdetail-container {
-  width: 100vw;
+    // 여기서부터 메인 시작!
+    .main {
+      height: 100%;
+      padding: 3rem 3rem 0;
 
-  .bg-image {
-    height: 20vh;
-    background-image: url("../images/club-backgroud.png");
-    background-size: cover;
-    position: relative;
-
-    .card {
-      width: 100%;
-      height: 77rem;
-      top: 5em;
-
-      // background-color: var(--beige);
-      // border-radius: 20% 20% 0 0 / 10% 10% 0 0;
-      position: absolute;
-
-      .main * {
-        text-align: left;
+      .title {
+        text-align: center;
       }
 
-      // 여기서부터 메인 시작!
-      .main {
-        height: 100%;
+      // label
+      .label {
         text-align: left;
-        padding: 10% 10% 20%;
-        background-color: var(--beige);
-        border-radius: 7em 7em 0 0;
+        display: block;
+        margin: 0 0 1rem 1.6rem;
+        font-size: 1.2rem;
+        color: var(--grey);
+      }
 
-        .title {
-          text-align: center;
-        }
+      .input-div input {
+        width: 100%;
+      }
 
-        // label
-        .label {
-          text-align: left;
-          display: block;
-          margin: 0 0 1rem 1.6rem;
-          font-size: 1.2rem;
-          color: var(--grey);
-        }
+      // genre
+      .genre-keyword {
+        background: transparent;
+        box-shadow: none;
+        margin: 1.5rem auto 0;
+        text-align: center;
 
-        .input-div input {
-          width: 100%;
-        }
-
-        // genre
-        .genre-keyword {
-          background: transparent;
-          box-shadow: none;
-          margin: 1.5rem auto 0;
-          text-align: center;
-
-          .tag {
-            display: inline-block;
-            padding: 0.2rem 0.6rem;
-            border: 0;
-            border-radius: 1em;
-            color: var(--white);
-            background-color: var(--light-orange);
-          }
-
-          span {
-            margin: 0 0.2rem 0.3rem;
-          }
-        }
-        .genre-inner-div {
-          padding: 0.85rem 0;
-          margin-left: 1rem;
-
-          .input-tag {
-            font-size: 1.1rem;
-            display: inline-block;
-            padding: 0.2rem 0.5rem;
-            border: 0;
-            border-radius: 1em;
-            color: var(--white);
-            background-color: var(--orange);
-            margin: 0 0.2rem;
-          }
-
-          .placeholder {
-            font-size: 1.4rem;
-            color: var(--light-grey);
-            margin-left: 0.7rem;
-          }
-        }
-
-        // rules
-        .rules * {
-          text-align: left;
-        }
-        .rules {
+        .tag {
           display: inline-block;
-          width: 30rem;
-          margin: 0 auto;
-
-          .label {
-            margin-bottom: 0.2em;
-
-            div {
-              width: 93%;
-              margin-left: 0.4em;
-            }
-          }
-          .input-div {
-            margin: 0;
-            width: 100%;
-            display: flex;
-            justify-content: flex-start;
-            align-items: center;
-            span {
-              margin-right: 1em;
-            }
-          }
-          .freeRule-div {
-            margin-left: -0.5rem;
-            height: 3.4rem;
-
-            #freeRule {
-              padding-left: 1.2rem;
-            }
-          }
-        }
-
-        // select
-        select {
-          width: 3em;
-          margin: 1% 2% 2%;
-          padding: 0.6rem 0 0.6rem 0.7rem;
-          font-size: 1.4rem;
-          color: var(--grey);
+          padding: 0.2rem 0.6rem;
           border: 0;
-          border-radius: 2em;
-          background-color: var(--white);
-          box-shadow: 0 0.4em 0.8em 0 rgba(142, 141, 208, 0.16);
+          border-radius: 1em;
+          color: var(--white);
+          background-color: var(--light-orange);
         }
 
-        // checkbox
-        #checkbox {
-          width: 1.8rem;
-          height: 1.8rem;
-          transition: all linear 0.3s;
+        span {
+          margin: 0 0.2rem 0.3rem;
+        }
+      }
+      .genre-inner-div {
+        padding: 0.85rem 0;
+        margin-left: 1rem;
+
+        .input-tag {
+          font-size: 1.1rem;
           display: inline-block;
-          margin-right: 0.7em;
+          padding: 0.2rem 0.5rem;
+          border: 0;
+          border-radius: 1em;
+          color: var(--white);
+          background-color: var(--orange);
+          margin: 0 0.2rem;
         }
 
-        // max-member
-        .two-input {
-          width: 30em;
-          display: flex;
-          margin: 2rem auto 0;
+        .placeholder {
+          font-size: 1.4rem;
+          color: var(--light-grey);
+          margin-left: 0.7rem;
+        }
+      }
 
-          .max-member {
-            text-align: left;
-            width: 100%;
+      // rules
+      .rules * {
+        text-align: left;
+      }
+      .rules {
+        display: inline-block;
+        width: 30rem;
+        margin: 0 auto;
 
-            #v-model-select > select {
-              margin: 0 0 0 2rem;
-            }
+        .label {
+          margin-bottom: 0.2em;
+
+          div {
+            width: 93%;
+            margin-left: 0.4em;
           }
-          // is-open
-          .is-open {
+        }
+        .input-div {
+          margin: 0;
+          width: 100%;
+          display: flex;
+          justify-content: flex-start;
+          align-items: center;
+          span {
+            margin-right: 1em;
+          }
+        }
+        .freeRule-div {
+          margin-left: -0.5rem;
+          height: 3.4rem;
+
+          #freeRule {
+            padding-left: 1.2rem;
+          }
+        }
+      }
+
+      // select
+      select {
+        width: 3em;
+        margin: 1% 2% 2%;
+        padding: 0.6rem 0 0.6rem 0.7rem;
+        font-size: 1.4rem;
+        color: var(--grey);
+        border: 0;
+        border-radius: 2em;
+        background-color: var(--white);
+        box-shadow: 0 0.4em 0.8em 0 rgba(142, 141, 208, 0.16);
+      }
+
+      // checkbox
+      #checkbox {
+        width: 1.8rem;
+        height: 1.8rem;
+        transition: all linear 0.3s;
+        display: inline-block;
+        margin-right: 0.7em;
+      }
+
+      // max-member
+      .two-input {
+        width: 30em;
+        display: flex;
+        margin: 2rem auto 0;
+
+        .max-member {
+          text-align: left;
+          width: 100%;
+
+          #v-model-select > select {
+            margin: 0 0 0 2rem;
+          }
+        }
+        // is-open
+        .is-open {
+          text-align: left;
+          width: 100%;
+
+          div {
             text-align: left;
-            width: 100%;
+            display: flex;
+            align-items: center;
+          }
 
-            div {
-              text-align: left;
-              display: flex;
-              align-items: center;
-            }
-
-            .wrap {
-              margin: 1.4rem 0 0 1.6rem;
-            }
+          .wrap {
+            margin: 1.4rem 0 0 1.6rem;
           }
         }
       }
     }
   }
-}
-.button-2 {
-  font-size: 1.6rem;
-  margin: 4rem auto 0;
-  padding: 1rem 3rem;
-}
-
-@media (min-width: 768px) {
-  * {
-    font-size: 2.2vw;
-  }
-  .clubdetail-container {
-    width: 70vw;
-  }
-  body {
-    background-image: url("../images/club-backgroud.png");
-    background-size: cover;
-  }
-}
-@media (min-width: 1024px) {
-  * {
-    font-size: 18px;
-  }
-  .clubdetail-container {
-    width: 60vw;
-    max-width: 768px;
-  }
-}
-
-.footer {
-  width: 100%;
-  height: 5em;
-  left: 0;
-  bottom: 0;
-  position: fixed;
-  text-align: center;
 }
