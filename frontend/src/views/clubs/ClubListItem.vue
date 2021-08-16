@@ -99,6 +99,7 @@
 <script>
 import { mapActions, mapState } from "vuex";
 import router from "@/router";
+import Swal from "sweetalert2";
 var moment = require("moment");
 
 export default {
@@ -134,7 +135,7 @@ export default {
   },
   methods: {
     ...mapActions("clubStore", ["findClubInfo", "pollingStart", "pollingEnd"]),
-    ...mapActions("bookclubStore", ["getBookClubList"]),
+    ...mapActions("bookclubStore", ["getBookClubList", "attendMeeting"]),
     clickLeft: function () {
       this.$emit("click-left");
     },
@@ -152,7 +153,18 @@ export default {
     // 모임 입장하기 버튼 클릭
     clickMeeting(event) {
       event.stopPropagation();
-      router.push({ name: "Meeting" });
+      Swal.fire({
+        showCancelButton: true,
+        title: "모임 입장",
+        text: "모임에 입장하시겠습니까?",
+        confirmButtonText: "입장하기",
+        cancelButtonText: "취소",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.attendMeeting(this.meetingInfo.bookclubId);
+        }
+      });
+      // router.push({ name: "Meeting" });
     },
     // 모임 시간 년월일 변환
     convertTime(data) {

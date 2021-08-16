@@ -41,6 +41,7 @@ public class ClubFindResponseDto {
     private String author;
     private String publisher;
     private String thumbnail;
+    private Long bookClubId;
 
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonFormat(pattern = "yyyy-MM-dd kk:mm")
@@ -64,7 +65,7 @@ public class ClubFindResponseDto {
             this.genres.add(clubGenre.getGenre().getId());
     }
 
-    public ClubFindResponseDto(Club club, int nowMember, Long userId, Book book, LocalDateTime endDateTime){
+    public ClubFindResponseDto(Club club, int nowMember, Long userId, Book book, LocalDateTime endDateTime, Long bookClubId){
         this.id = club.getId();
         this.isLeader = (userId.equals(club.getUser().getId()));
         this.name = club.getName();
@@ -85,5 +86,6 @@ public class ClubFindResponseDto {
         this.publisher = book.getPublisher();
         this.thumbnail = book.getThumbnail();
         this.endDateTime = endDateTime;
+        this.bookClubId = bookClubId;
     }
 }

@@ -16,6 +16,8 @@ public interface BookClubRepository extends JpaRepository<BookClub, Long> {
     Optional<BookClub> findByBookAndClub(Book book, Club club);
     List<BookClub> findByClub(Club club);
 
+    List<BookClub> findByClubOrderByEndDatetimeDesc(Club club);
+
     @Query(value = "SELECT * FROM book_club WHERE club_id = :clubId AND end_datetime IS NOT NULL ORDER BY end_datetime DESC LIMIT 0, 1", nativeQuery = true)
     BookClub findByClubIdFirstByOrderByEndDatetimeDesc(Long clubId);
 

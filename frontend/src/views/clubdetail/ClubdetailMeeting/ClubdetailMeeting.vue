@@ -17,7 +17,7 @@
           <div class="next-meeting">
             <div v-if="nowbookclub != null">
               <div class="meeting-card m-top-1">
-                <div class="icon icon-cancel" @click="clickCancel(nowbookclub.id)">
+                <div class="icon icon-cancel" @click="clickCancel">
                   <icon-base><icon-x /></icon-base>
                 </div>
                 <div class="meeting-card-head">
@@ -120,9 +120,9 @@ export default {
     this.getBookClubList(this.clubId);
   },
   methods: {
-    ...mapActions("bookclubStore", ["cancelMeeting", "getBookClubList"]),
-    clickCancel(meetingId) {
-      this.cancelMeeting(meetingId);
+    ...mapActions("bookclubStore", ["cancelMeeting", "getBookclubList"]),
+    clickCancel() {
+      this.cancelMeeting(this.nowbookclub.id);
     },
     convertRemainTime(endDateTime) {
       let diffSecond = Math.floor(moment(endDateTime).subtract(moment()) / 1000);
@@ -150,5 +150,9 @@ export default {
 
 .m-top-2 {
   margin-top: 2rem;
+}
+
+.m-bottom-0-5 {
+  margin-bottom: 0.5rem;
 }
 </style>

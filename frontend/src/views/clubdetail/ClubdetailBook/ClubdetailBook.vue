@@ -49,6 +49,9 @@
             <h5>앞으로 읽을 책</h5>
             <div v-if="nextbookclubList.length > 0">
               <div v-for="(book, idx) in nextbookclubList" :key="idx" class="reading-card m-top-1">
+                <div class="icon icon-delete" @click="clickDeleteBook(book.id)">
+                  <icon-base :iconColor="'var(--light-brown)'"><icon-delete /></icon-base>
+                </div>
                 <div class="reading-card-left">
                   <img :src="book.bookThumbnail" alt="" />
                 </div>
@@ -123,12 +126,14 @@
 import TopHeader from "@/views/clubdetail/TopHeader.vue";
 import Navbar from "@/views/clubdetail/Navbar.vue";
 import { mapActions, mapState } from "vuex";
+import IconDelete from "@/components/icons/IconDelete.vue";
 
 export default {
   name: "ClubdetailBook",
   components: {
     TopHeader,
     Navbar,
+    IconDelete,
   },
   computed: {
     ...mapState("clubStore", ["clubInfo", "clubId"]),
@@ -140,7 +145,14 @@ export default {
     ]),
   },
   methods: {
-    ...mapActions("bookclubStore", ["getBookClubList"]),
+    ...mapActions("bookclubStore", ["getBookClubList", "deleteBook"]),
+    clickDeleteBook(id) {
+      const params = {
+        bookclubId: id,
+        clubId: this.clubId,
+      };
+      this.deleteBook(params);
+    },
   },
   created() {
     this.getBookClubList(this.clubId);
