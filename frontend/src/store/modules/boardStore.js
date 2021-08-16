@@ -1,6 +1,5 @@
 import SERVER from "@/api/api";
 import axios from "axios";
-import router from "@/router";
 import Swal from "sweetalert2";
 
 const boardStore = {
@@ -26,13 +25,11 @@ const boardStore = {
     },
   },
   actions: {
-    setClubId({ commit }, culbId) {
-      commit("SET_CLUBID", culbId);
-    },
     // 게시판 목록 확인
-    getBoard({ getters, commit }) {
+    findBoardList({ commit }, clubId) {
+      commit("SET_CLUBID", clubId);
       axios
-        .get(SERVER.URL + SERVER.ROUTES.getBoard + getters.clubId)
+        .get(SERVER.URL + SERVER.ROUTES.findBoardList + clubId)
         .then((res) => {
           commit("SET_BOARD_LIST", res.data);
         })
@@ -41,7 +38,7 @@ const boardStore = {
         });
     },
     // 게시판 게시글 등록
-    registerBoard({ rootGetters, getters }, boardData) {
+    registerBoard({ rootGetters, getters, dispatch }, boardData) {
       axios
         .post(
           SERVER.URL + SERVER.ROUTES.registerBoard + getters.clubId,
@@ -57,7 +54,7 @@ const boardStore = {
             timer: 1000,
             timerProgressBar: true,
           });
-          router.go(0);
+          dispatch("findBoardList", getters.clubId);
         })
         .catch((err) => {
           Swal.fire({
