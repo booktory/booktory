@@ -41,7 +41,8 @@ const bookclubStore = {
     },
   },
   actions: {
-    getBookclubList({ commit }, clubId) {
+    // 모임/읽을 책 목록 확인
+    getBookClubList({ commit }, clubId) {
       let nextbooks = [];
       let prebooks = [];
       axios
@@ -69,6 +70,34 @@ const bookclubStore = {
           console.log(err);
         });
     },
+    // 읽을 책 등록
+    createBook({ dispatch }, bookclubData) {
+      console.log(dispatch);
+      axios
+        .post(SERVER.URL + SERVER.ROUTES.createBook, bookclubData)
+        .then((res) => {
+          Swal.fire({
+            icon: "success",
+            title: "읽을 책 등록 완료",
+            showConfirmButton: false,
+            timer: 1000,
+            timerProgressBar: true,
+          });
+          console.log(res.data);
+          router.go(-1);
+        })
+        .catch((err) => {
+          Swal.fire({
+            icon: "error",
+            title: "읽을 책 등록 실패",
+            text: err.response.data.message,
+            showConfirmButton: false,
+            timer: 1500,
+            timerProgressBar: false,
+          });
+        });
+    },
+    // 모임 등록
     createMeeting({ dispatch }, bookclubData) {
       console.log(dispatch);
       axios
@@ -96,6 +125,7 @@ const bookclubStore = {
           });
         });
     },
+    // 모임 취소
     cancelMeeting(bookclubId) {
       axios
         .patch(SERVER.URL + SERVER.ROUTES.cancelMeeting + bookclubId)
