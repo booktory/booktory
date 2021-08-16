@@ -1,13 +1,14 @@
 <template>
   <div class="user-div">
-    <img
-      :src="
-        profileImg
-          ? profileImg
-          : 'https://booktory.s3.ap-northeast-2.amazonaws.com/static/default/profile.png'
-      "
-      class="profileImg"
-    />
+    <div class="profileImg">
+      <img
+        :src="
+          profileImg
+            ? profileImg
+            : 'https://booktory.s3.ap-northeast-2.amazonaws.com/static/default/profile.png'
+        "
+      />
+    </div>
     <span class="font-body-4">{{ nickname }}</span>
     <div class="btn-div" v-if="isApply">
       <button @click="clickAccept">수락</button>

@@ -1,15 +1,16 @@
 <template>
   <div class="question-item-wrapper">
     <div class="quetion-frame">
-      <img
-        class="profileImg"
-        :src="
-          question.profileImg
-            ? question.profileImg
-            : 'https://booktory.s3.ap-northeast-2.amazonaws.com/static/default/profile.png'
-        "
-        alt="프로필 사진"
-      />
+      <div class="profileImg">
+        <img
+          :src="
+            question.profileImg
+              ? question.profileImg
+              : 'https://booktory.s3.ap-northeast-2.amazonaws.com/static/default/profile.png'
+          "
+          alt="프로필 사진"
+        />
+      </div>
       <div class="question-info">
         <div class="sub-info">
           <span v-if="isLeader" class="font-body-5 reply" @click="clickReply">답글 달기</span>
@@ -102,6 +103,9 @@ export default {
 }
 .profileImg {
   width: 4rem;
+  height: 4rem;
+}
+.profileImg img {
   height: 4rem;
 }
 .question-info {
