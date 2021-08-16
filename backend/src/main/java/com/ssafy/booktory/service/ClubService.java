@@ -50,6 +50,10 @@ public class ClubService {
             throw new IllegalArgumentException("이미 존재하는 클럽명입니다.");
         }
 
+        if (userClubRepository.findAllByUserAndState(user, UserClubState.ACCEPT).size() == 3) {
+            throw new IllegalArgumentException("클럽은 3개까지 가입 가능합니다.");
+        }
+
         Club club = clubSaveRequestDto.toEntity(user);
         Club savedClub = clubRepository.save(club);
 
@@ -144,8 +148,12 @@ public class ClubService {
         User user = userRepository.findById(userId)
                 .orElseThrow(()->new NoSuchElementException("존재하지 않는 회원입니다."));
         if(userClubRepository.countByUserAndClub(user, club) != 0){
-            throw new IllegalStateException("이미 처리된 요청입니다.");
+            throw new IllegalStateException("이미 가입 신청한 클럽입니다.");
         }
+        if (userClubRepository.findAllByUserAndState(user, UserClubState.ACCEPT).size() == 3) {
+            throw new IllegalArgumentException("클럽은 3개까지 가입 가능합니다.");
+        }
+        
         UserClub userClub = UserClub.builder()
                 .user(user)
                 .club(club)
@@ -167,7 +175,7 @@ public class ClubService {
         if(!leaderId.equals(userClub.getClub().getUser().getId()))
             throw new IllegalStateException("클럽장만 가입을 승인할 수 있습니다.");
         if(userClub.getState() == UserClubState.ACCEPT)
-            throw new IllegalStateException("이미 처리된 요청입니다.");
+            throw new IllegalStateException("이미 가입 수락된 클럽입니다.");
         if(!isAccept) {
             userClubRepository.delete(userClub);
             notificationService.makeNotification("reject", userClub.getClub(), userClub.getUser());
