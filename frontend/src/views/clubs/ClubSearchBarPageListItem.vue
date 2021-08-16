@@ -8,6 +8,11 @@
 
       <!-- 바디1 => 클럽 정보 -->
       <div class="card-background club-info">
+        <div class="share">
+          <p class="icon" @click="clickShare">
+            <icon-base><icon-share /></icon-base>
+          </p>
+        </div>
         <h4 class="club-info-title">{{ clubInfo.name }}</h4>
         <div class="font-body-4 club-info-user">
           <b>클럽장</b> {{ clubInfo.leaderName }}&nbsp;|&nbsp;<b>참가자</b>
@@ -79,12 +84,14 @@ import router from "@/router";
 import Swal from "sweetalert2";
 import TopHeader from "@/views/TopHeader.vue";
 import Navbar from "@/views/Navbar.vue";
+import IconShare from "@/components/icons/IconShare.vue";
 
 export default {
   name: "ClubSearchBarPageListItem",
   components: {
     TopHeader,
     Navbar,
+    IconShare,
   },
   computed: {
     ...mapState("clubStore", ["clubInfo", "meetingInfo"]),
@@ -97,9 +104,41 @@ export default {
   },
   methods: {
     ...mapActions("clubStore", ["findClubInfo", "applyToClub"]),
+    // 공유하기 버튼
+    clickShare() {
+      Swal.fire({
+        showCancelButton: true,
+        title: "클럽 공유하기",
+        text: "아래의 URL을 복사해서 클럽을 공유해주세요!",
+        input: "text",
+        inputValue: "https://i5a607.p.ssafy.io/club/search/barpage/item?clubId=" + this.clubId,
+        confirmButtonText: "복사하기",
+        cancelButtonText: "취소",
+        preConfirm: (url) => {
+          const shareUrl = document.createElement("textarea");
+          document.body.appendChild(shareUrl);
+          shareUrl.value = `${url}`;
+          shareUrl.select();
+          document.execCommand("copy");
+          document.body.removeChild(shareUrl);
+        },
+      }).then((result) => {
+        if (result.isConfirmed) {
+          Swal.fire({
+            icon: "success",
+            title: "URL이 복사되었어요",
+            showConfirmButton: false,
+            timer: 1000,
+            timerProgressBar: true,
+          });
+        }
+      });
+    },
+    // 문의게시판 버튼
     clickQuestion() {
       router.push({ name: "ClubQuestion", query: { clubId: this.clubId } });
     },
+    // 가입 신청 버튼
     clickApply() {
       Swal.fire({
         showCancelButton: true,
@@ -162,7 +201,14 @@ h5 {
   background-color: var(--very-light-grey);
   border-radius: 1em;
 }
-
+.club-info {
+  position: relative;
+}
+.share {
+  position: absolute;
+  top: 0.8rem;
+  right: 1.7rem;
+}
 .club-info-title {
   margin-top: 0;
   margin-bottom: 1rem;
