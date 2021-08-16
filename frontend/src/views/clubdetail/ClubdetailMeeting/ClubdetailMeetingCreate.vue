@@ -4,47 +4,39 @@
       <TopHeader />
       <div class="card">
         <div class="main">
-          <div class="main-head">
-            <h4 class="title">모임 생성</h4>
-          </div>
-          <div class="create-meeting-card m-top-1">
-            <div class="create-meeting-schedule">
-              <div class="create-meeting-schedule-head">
-                <div class="font-body-3 font-bold">모임 일정</div>
-              </div>
-              <div class="create-meeting-schedule-body m-top-1">
-                <div class="input-div">
-                  <date-picker
-                    v-model="endDate"
-                    valueType="format"
-                    type="datetime"
-                    placeholder="날짜를 선택하세요"
-                    class="date-picker"
-                    :disabled-date="disabledAfterTodayAndBefore100Year"
-                    :clearable="false"
-                    required
-                  ></date-picker>
-                </div>
-              </div>
+          <h4 class="title">모임 생성</h4>
+          <div class="create-meeting-schedule">
+            <div class="input-div">
+              <p class="label font-body-4">모임 일정 선택</p>
+              <date-picker
+                v-model="meetingData.endDateTime"
+                id="endDate"
+                class="date-picker"
+                placeholder="날짜와 시간을 선택하세요"
+                type="datetime"
+                valueType="format"
+                :disabled-date="notBeforeToday"
+                :disabled-time="notBeforeTodayCurrTime"
+                :clearable="false"
+                required
+              ></date-picker>
             </div>
-            <div class="create-meeting-book">
-              <div class="create-meeting-book-head m-top-2">
-                <div class="font-body-3 font-bold">읽을 책 선택하기</div>
-              </div>
-              <div class="create-meeting-book-body m-top-1">
-                <select v-model="selected" name="" id="">
-                  <option disabled selected value="1">책을 선택하세요</option>
-                  <option v-for="(book, idx) in nextbookclubList" :value="book.id" :key="idx">
-                    {{ book.bookTitle }}
-                  </option>
-                </select>
-              </div>
-            </div>
-            <button class="button-2 adj-center" @click="clickCreate">만들기</button>
           </div>
+          <div class="create-meeting-book">
+            <div class="input-div">
+              <p class="label font-body-4">읽을 책 선택</p>
+              <select v-model="meetingData.id">
+                <option disabled selected value="0">읽을 책을 선택하세요</option>
+                <option v-for="(book, idx) in nextbookclubList" :value="book.id" :key="idx">
+                  {{ book.bookTitle }}
+                </option>
+              </select>
+            </div>
+          </div>
+          <button type="button" class="button-2 m-top-10" @click="clickCreate">생성하기</button>
         </div>
       </div>
-      <Navbar selected="'meeting'" />
+      <Navbar :selected="'meeting'" />
     </div>
   </div>
 </template>
@@ -62,9 +54,10 @@ export default {
   },
   data() {
     return {
-      selected: 1,
-      endDate: null,
-      value2: null,
+      meetingData: {
+        id: 0,
+        endDateTime: null,
+      },
     };
   },
   computed: {
@@ -73,12 +66,16 @@ export default {
   },
   methods: {
     ...mapActions("bookclubStore", ["createMeeting"]),
+    // 생성하기 버튼 클릭
     clickCreate() {
-      const createParam = {
-        id: this.selected,
-        endDateTime: this.endDate,
-      };
-      this.createMeeting(createParam);
+      this.createMeeting(this.meetingData);
+    },
+    // 모임 일정 선택 제한
+    notBeforeToday(date) {
+      return date < new Date(new Date().setHours(0, 0, 0, 0));
+    },
+    notBeforeTodayCurrTime(date) {
+      return date < new Date(new Date().setHours(new Date().getHours() + 1, 0, 0, 0));
     },
   },
 };
