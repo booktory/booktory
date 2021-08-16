@@ -9,7 +9,7 @@
             <h5>읽는 중</h5>
             <span
               v-if="clubInfo.isLeader"
-              class="add-btn"
+              class="font-body-4"
               @click="$router.push({ name: 'ClubdetailBookAdd' })"
               >책 추가하기</span
             >
@@ -42,16 +42,13 @@
                 </div>
               </div>
             </div>
-            <div v-else class="font-body-4 reading-card-no">예정된 모임이 없습니다</div>
+            <div v-else class="font-body-4 reading-card-no">읽고 있는 책이 없습니다</div>
           </div>
           <!-- 앞으로 읽을 책 -->
           <div class="reading">
             <h5>앞으로 읽을 책</h5>
             <div v-if="nextbookclubList.length > 0">
               <div v-for="(book, idx) in nextbookclubList" :key="idx" class="reading-card m-top-1">
-                <div class="icon icon-delete" @click="clickDeleteBook(book.id)">
-                  <icon-base :iconColor="'var(--light-brown)'"><icon-delete /></icon-base>
-                </div>
                 <div class="reading-card-left">
                   <img :src="book.bookThumbnail" alt="" />
                 </div>
@@ -73,12 +70,13 @@
                         : book.bookPublisher
                     }}&nbsp;|&nbsp;{{ book.bookDate }}
                   </div>
+                  <div class="icon delete-icon" @click="clickDeleteBook(book.id)">
+                    <icon-base :iconColor="'var(--light-brown)'"><icon-delete /></icon-base>
+                  </div>
                 </div>
               </div>
             </div>
-            <div v-else class="font-body-4 reading-card-no">
-              읽을 책이 없습니다 <br />책을 더 추가해 주세요 :)
-            </div>
+            <div v-else class="font-body-4 reading-card-no">읽을 책이 없습니다</div>
           </div>
 
           <!-- 읽었어요 -->
@@ -86,13 +84,13 @@
             <h5>읽었어요</h5>
             <div v-if="prebookclubList.length > 0">
               <div v-for="(book, idx) in prebookclubList" :key="idx" class="reading-card m-top-1">
-                <span class="font-body-5 reading-card-date">
-                  {{ $moment(book.endDateTime).format("YYYY년 M월 D일 읽음") }}
-                </span>
                 <div class="reading-card-left">
                   <img :src="book.bookThumbnail" alt="" />
                 </div>
                 <div class="reading-card-right">
+                  <span class="font-body-5 reading-card-date">
+                    {{ $moment(book.endDateTime).format("YYYY년 M월 D일 읽음") }}
+                  </span>
                   <div class="reading-card-head">
                     <h5>{{ book.bookTitle }}</h5>
                   </div>
@@ -117,7 +115,7 @@
           </div>
         </div>
       </div>
-      <Navbar selected="'home'" />
+      <Navbar :selected="'home'" />
     </div>
   </div>
 </template>
@@ -125,8 +123,9 @@
 <script>
 import TopHeader from "@/views/clubdetail/TopHeader.vue";
 import Navbar from "@/views/clubdetail/Navbar.vue";
-import { mapActions, mapState } from "vuex";
 import IconDelete from "@/components/icons/IconDelete.vue";
+import Swal from "sweetalert2";
+import { mapActions, mapState } from "vuex";
 
 export default {
   name: "ClubdetailBook",
@@ -147,11 +146,20 @@ export default {
   methods: {
     ...mapActions("bookclubStore", ["getBookClubList", "deleteBook"]),
     clickDeleteBook(id) {
-      const params = {
-        bookclubId: id,
-        clubId: this.clubId,
-      };
-      this.deleteBook(params);
+      Swal.fire({
+        showCancelButton: true,
+        title: "읽을 책을 삭제 하시겠습니까?",
+        confirmButtonText: "네, 삭제할래요",
+        cancelButtonText: "아니요",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          const params = {
+            bookclubId: id,
+            clubId: this.clubId,
+          };
+          this.deleteBook(params);
+        }
+      });
     },
   },
   created() {

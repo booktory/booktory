@@ -24,6 +24,7 @@ const clubStore = {
     questionList: null,
     newClubData: null,
     clubIndex: 0,
+    isRegisterBook: null,
   },
   getters: {
     myClubList(state) {
@@ -59,6 +60,9 @@ const clubStore = {
     clubIndex(state) {
       return state.clubIndex;
     },
+    isRegisterBook(state) {
+      return state.isRegisterBook;
+    },
   },
   mutations: {
     SET_MYCLUB_LIST(state, data) {
@@ -93,6 +97,9 @@ const clubStore = {
     },
     SET_CLUB_INDEX(state, data) {
       state.clubIndex = data;
+    },
+    SET_IS_REGISTER_BOOK(state, data) {
+      state.isRegisterBook = data;
     },
   },
   actions: {
@@ -138,6 +145,17 @@ const clubStore = {
         })
         .catch((err) => {
           console.log(err);
+        });
+    },
+    // 클럽에 이미 등록된 책인지 확인
+    async checkRegisterBook({ getters, commit }, bookId) {
+      await axios
+        .get(SERVER.URL + "/clubs/" + getters.clubId + "/books/" + bookId)
+        .then((res) => {
+          commit("SET_IS_REGISTER_BOOK", res.data);
+        })
+        .catch((err) => {
+          console.log(err.response.data);
         });
     },
     // 다음 모임까지 남은 시간 계산

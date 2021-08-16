@@ -3,7 +3,15 @@
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1, minimum-scale=1"
+    />
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <meta
+      content="minimum-scale=1.0, width=device-width, maximum-scale=1, user-scalable=no"
+      name="viewport"
+    />
     <link rel="icon" href="<%= BASE_URL %>favicon.ico" />
     <title><%= htmlWebpackPlugin.options.title %></title>
     <style>
@@ -22,6 +30,8 @@
         padding: 0;
         margin: 0;
         height: 100vh;
+        max-width: 100%;
+        overflow-x: hidden;
       }
 
       a {
@@ -40,7 +50,7 @@
         -webkit-appearance: none;
         -moz-appearance: none;
         appearance: none;
-        background: url("./down.svg") no-repeat 90% 50%; /* 네이티브 화살표를 커스텀 화살표로 대체 */
+        background: url("./down.svg") no-repeat 95% 50%; /* 네이티브 화살표를 커스텀 화살표로 대체 */
       }
       select::-ms-expand {
         display: none;
@@ -107,7 +117,7 @@
         font-size: 4.8rem;
       }
       h3 {
-        font-size: 3.2rem;
+        font-size: 2.8rem;
       }
       h4 {
         font-size: 2rem;
@@ -192,7 +202,7 @@
       .navbar {
         /* width: 100vw; */
         display: grid;
-        grid-template-columns: 11% 78% 11%;
+        grid-template-columns: 1fr 7fr 1fr;
         height: 5.5rem;
         align-items: center;
         justify-items: right;
@@ -200,7 +210,7 @@
 
       .title {
         margin-top: 0;
-        margin-bottom: 2.5%;
+        margin-bottom: 1rem;
       }
 
       .sub-title {
@@ -367,21 +377,21 @@
       }
 
       #birth input,
-      .date-picker input {
+      #endDate input {
         height: 100%;
         line-height: 1.6rem;
       }
 
       #birth svg,
-      .date-picker svg {
+      #endDate svg {
         width: 1.6em;
         height: 1.6em;
       }
 
       #birth i,
-      .date-picker i {
+      #endDate i {
         right: 1.4rem;
-        top: 1.6rem;
+        top: 1.7rem;
       }
 
       .text-link {

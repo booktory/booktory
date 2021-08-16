@@ -23,28 +23,24 @@
                 <div class="meeting-card-head">
                   <div class="meeting-card-head-date">
                     {{ $moment(nowbookclub.endDateTime).format("YYYY년 M월 D일 ")
-                    }}<span>{{
+                    }}{{
                       $moment(nowbookclub.endDateTime).format(
                         $moment(nowbookclub.endDateTime).format("A") == "AM"
                           ? "오전 h시 mm분"
                           : "오후 h시 mm분"
                       )
-                    }}</span>
+                    }}
                   </div>
                 </div>
                 <div class="meeting-card-body">
                   <h5>{{ nowbookclub.bookTitle }}</h5>
-                  <span class="font-body-4"> 책을 함께 읽을 예정이에요</span>
                 </div>
                 <div class="meeting-card-footer font-body-4">
                   {{ convertRemainTime(nowbookclub.endDateTime) }}
                 </div>
               </div>
             </div>
-            <div v-else class="font-body-4 meeting-card-no">
-              예정된 모임이 없습니다<br />
-              새로운 모임을 개설해 주세요 :)
-            </div>
+            <div v-else class="font-body-4 meeting-card-no">예정된 모임이 없습니다</div>
           </div>
           <div class="pre-meeting">
             <h5>지난 모임</h5>
@@ -57,29 +53,24 @@
                 <div class="meeting-card-head">
                   <div class="meeting-card-head-date">
                     {{ $moment(preMeeting.endDateTime).format("YYYY년 M월 D일") }}
-                    <span
-                      >{{
-                        $moment(preMeeting.endDateTime).format(
-                          $moment(preMeeting.endDateTime).format("A") == "AM"
-                            ? "오전 h시 mm분"
-                            : "오후 h시 mm분"
-                        )
-                      }}
-                    </span>
+                    {{
+                      $moment(preMeeting.endDateTime).format(
+                        $moment(preMeeting.endDateTime).format("A") == "AM"
+                          ? "오전 h시 mm분"
+                          : "오후 h시 mm분"
+                      )
+                    }}
                   </div>
                 </div>
                 <div class="meeting-card-body">
                   <h5>{{ preMeeting.bookTitle }}</h5>
-                  <span class="font-body-4"> 책을 함께 읽었어요</span>
                 </div>
-                <div class="meeting-card-footer font-body-4">
-                  <div>{{ preMeeting.userList.length }}명 참석</div>
-                  <span
-                    class="meeting-card-footer-list"
-                    v-for="(user, idx) in preMeeting.userList"
-                    :key="idx"
-                  >
+                <div v-if="preMeeting.userList.length > 0" class="meeting-card-footer font-body-4">
+                  <div>{{ preMeeting.userList.length }}명이 책을 함께 읽었어요</div>
+                  <div class="meeting-card-footer-list">
                     <img
+                      v-for="(user, idx) in preMeeting.userList"
+                      :key="idx"
                       :src="
                         user.profileImg
                           ? user.profileImg
@@ -87,7 +78,7 @@
                       "
                       class="meeting-card-footer-profileImg"
                     />
-                  </span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -104,6 +95,7 @@
 import { mapActions, mapState } from "vuex";
 import TopHeader from "@/views/clubdetail/TopHeader.vue";
 import Navbar from "@/views/clubdetail/Navbar.vue";
+import Swal from "sweetalert2";
 var moment = require("moment");
 
 export default {
@@ -122,7 +114,16 @@ export default {
   methods: {
     ...mapActions("bookclubStore", ["cancelMeeting", "getBookClubList"]),
     clickCancel() {
-      this.cancelMeeting(this.nowbookclub.id);
+      Swal.fire({
+        showCancelButton: true,
+        title: "모임을 취소 하시겠습니까?",
+        confirmButtonText: "네, 취소할래요",
+        cancelButtonText: "아니요",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.cancelMeeting(this.nowbookclub.id);
+        }
+      });
     },
     convertRemainTime(endDateTime) {
       let diffSecond = Math.floor(moment(endDateTime).subtract(moment()) / 1000);
@@ -130,11 +131,11 @@ export default {
       let diffTimeHour = Math.floor(diffTime / 60);
       let diffTimeDay = Math.floor(diffTimeHour / 24);
 
-      let dateStr = "모임 시작 ";
+      let dateStr = "";
       if (diffTimeDay > 0) dateStr += diffTimeDay + "일 ";
       if (diffTimeHour > 0) dateStr += (diffTimeHour % 24) + "시간 ";
-      if (diffTime >= 10) dateStr += (diffTime % 60) + "분 ";
-      dateStr += "전";
+      if (diffTime >= 10) dateStr += (diffTime % 60) + "분 후 읽을 예정이에요";
+      else dateStr = "지금 함께 읽고 있어요";
 
       return dateStr;
     },
@@ -150,9 +151,5 @@ export default {
 
 .m-top-2 {
   margin-top: 2rem;
-}
-
-.m-bottom-0-5 {
-  margin-bottom: 0.5rem;
 }
 </style>

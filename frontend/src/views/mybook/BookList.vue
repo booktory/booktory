@@ -1,6 +1,6 @@
 <template>
   <div>
-    <p class="label font-body-3">읽은 책 ({{ bookListSize }})</p>
+    <p class="label font-body-3">읽은 책 ({{ bookList.length }})</p>
     <div class="book-list-wrapper">
       <BookItem
         v-for="(item, index) in bookList"
@@ -26,11 +26,6 @@ export default {
     bookList: {
       type: Array,
     },
-  },
-  data() {
-    return {
-      bookListSize: this.bookList.length,
-    };
   },
 };
 </script>
