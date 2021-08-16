@@ -32,11 +32,11 @@ public class BookClubListResponseDto {
     private LocalDate bookDate;
 
     @JsonSerialize(using = LocalDateTimeSerializer.class)
-    @JsonFormat(pattern = "yyyy-MM-dd kk:mm")
+    @JsonFormat(pattern = "yyyy-MM-dd kk:mm", timezone = "Asia/Seoul")
     private LocalDateTime startDateTime;
 
     @JsonSerialize(using = LocalDateTimeSerializer.class)
-    @JsonFormat(pattern = "yyyy-MM-dd kk:mm")
+    @JsonFormat(pattern = "yyyy-MM-dd kk:mm", timezone = "Asia/Seoul")
     private LocalDateTime endDateTime;
     private List<BookClubParticipantDto> userList = new ArrayList<>();
 
