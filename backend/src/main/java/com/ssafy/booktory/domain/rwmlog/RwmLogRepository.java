@@ -12,5 +12,6 @@ public interface RwmLogRepository extends JpaRepository<RwmLog, Long> {
     List<RwmLog> findAllByRwm(Rwm rwm);
     int countByRwm(Rwm rwm);
     Optional<RwmLog> findByUserAndRwm(User user, Rwm rwm);
+    int countByUserAndRwm(User user, Rwm rwm);
 
 }
