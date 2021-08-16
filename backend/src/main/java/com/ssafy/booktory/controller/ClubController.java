@@ -164,4 +164,10 @@ public class ClubController {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body("success");
     }
 
+    @GetMapping("/{id}/books/{bookId}")
+    @ApiOperation(value = "책 등록 여부 판단", notes = "클럽 내 책을 추가할 때 이미 등록된 책인지 판단한다.")
+    public ResponseEntity<Boolean> isSelectedBook(@PathVariable Long id, @PathVariable Long bookId) {
+        return ResponseEntity.status(HttpStatus.OK).body(clubService.isSelectedBook(id, bookId));
+    }
+
 }

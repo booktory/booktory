@@ -261,5 +261,7 @@ public class ClubService {
         return userClubRepository.findAllByClubAndState(club, UserClubState.ACCEPT).size();
     }
 
-
+    public Boolean isSelectedBook(Long id, Long bookId) {
+        return bookClubRepository.existsByClubIdAndBookId(id, bookId);
+    }
 }
