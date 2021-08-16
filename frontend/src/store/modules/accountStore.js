@@ -91,6 +91,11 @@ const accountStore = {
     },
     saveFcmToken({ dispatch }, email) {
       console.log(dispatch);
+      const agt = navigator.userAgent.toLowerCase();
+      if (agt.indexOf("safari") != -1 || agt.indexOf("iphone")) {
+        return;
+      }
+
       let message = fire.messaging();
       message.getToken().then((fcmtoken) => {
         // console.log(fcmtoken);
