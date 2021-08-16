@@ -153,7 +153,7 @@ public class ClubService {
         if (userClubRepository.findAllByUserAndState(user, UserClubState.ACCEPT).size() == 3) {
             throw new IllegalArgumentException("클럽은 3개까지 가입 가능합니다.");
         }
-        
+
         UserClub userClub = UserClub.builder()
                 .user(user)
                 .club(club)

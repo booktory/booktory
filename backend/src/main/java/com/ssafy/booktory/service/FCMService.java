@@ -40,13 +40,13 @@ public class FCMService {
         logger.info("Sent Message : " + notificationResponse);
     }
 
-    public void setFirebaseRealTimeDB(NotificationRequestDto notificationRequestDto, String nickname) {
+    public void setFirebaseRealTimeDB(NotificationRequestDto notificationRequestDto, Long userId) {
         ZonedDateTime nowSeoul = ZonedDateTime.now(ZoneId.of("Asia/Seoul"));
         LocalDateTime curDate = nowSeoul.toLocalDateTime();
         String formattedDate = curDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference ref = database.getReference().child("users").child(nickname);
+        DatabaseReference ref = database.getReference().child("users").child(String.valueOf(userId));
         DatabaseReference newRef = ref.push();
         newRef.setValueAsync(new FirebaseNotification(0, notificationRequestDto.getMessage(), formattedDate));
     }
