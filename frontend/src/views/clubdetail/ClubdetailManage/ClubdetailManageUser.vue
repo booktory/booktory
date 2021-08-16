@@ -1,6 +1,6 @@
 <template>
-  <div class="clubdetail-container">
-    <div class="bg-image">
+  <div class="container bg-image">
+    <div>
       <TopHeader />
       <div class="card">
         <div class="main">
@@ -19,8 +19,8 @@
           <ClubdetailManageUserList class="user-list" :userList="joinedList" :state="'accept'" />
         </div>
       </div>
+      <Navbar :selected="'manage'" />
     </div>
-    <Navbar :selected="'manage'" class="footer" />
   </div>
 </template>
 
@@ -53,10 +53,4 @@ export default {
 
 <style lang="scss" scoped>
 @import "./ClubdetailManageUser.scss";
-.user-list {
-  margin: 1rem 0 3rem 0.6rem;
-}
-.empty {
-  padding: 0.7rem 0.4rem;
-}
 </style>

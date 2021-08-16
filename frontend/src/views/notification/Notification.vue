@@ -1,37 +1,39 @@
 <template>
   <div class="container">
-    <div class="navbar">
-      <div class="icon" @click="updateReadStatus">
-        <icon-base><icon-arrow-left /></icon-base>
+    <div>
+      <div class="navbar">
+        <div class="icon" @click="updateReadStatus">
+          <icon-base><icon-arrow-left /></icon-base>
+        </div>
       </div>
-    </div>
-    <h4 class="title">알림</h4>
-    <div class="alarm-wrapper">
-      <div class="alarm-list">
-        <div v-if="alarmList.length != 0">
-          <div class="" v-for="(alarm, idx) in alarmList" :key="idx">
-            <div class="alarm-contents unread" v-if="alarm.status == 0">
-              <div v-html="alarm.message" class="alarm-contents-message"></div>
-              <div class="alarm-contents-time">{{ convertTime(alarm.time) }}</div>
-            </div>
-            <div class="alarm-contents" v-else>
-              <div v-html="alarm.message" class="alarm-contents-message"></div>
-              <div class="alarm-contents-time">{{ convertTime(alarm.time) }}</div>
+      <h4 class="title">알림</h4>
+      <div class="alarm-wrapper">
+        <div class="alarm-list">
+          <div v-if="alarmList.length != 0">
+            <div class="" v-for="(alarm, idx) in alarmList" :key="idx">
+              <div class="alarm-contents unread" v-if="alarm.status == 0">
+                <div v-html="alarm.message" class="alarm-contents-message"></div>
+                <div class="alarm-contents-time">{{ convertTime(alarm.time) }}</div>
+              </div>
+              <div class="alarm-contents" v-else>
+                <div v-html="alarm.message" class="alarm-contents-message"></div>
+                <div class="alarm-contents-time">{{ convertTime(alarm.time) }}</div>
+              </div>
             </div>
           </div>
-        </div>
-        <div v-else>
-          <div class="alarm-contents-no">
-            <p>받은 알림이 없습니다.</p>
+          <div v-else>
+            <div class="alarm-contents-no">
+              <p>받은 알림이 없습니다.</p>
+            </div>
           </div>
-        </div>
-        <div v-if="alarmList.length < page * 5 && alarmList.length > 0">
-          <p class="alarm-button-no">더 이상 알림이 존재하지 않습니다.</p>
-        </div>
-        <div v-else-if="alarmList.length >= page * 5">
-          <button type="button" class="alarm-button" @click="getMoreAlarm">
-            더 많은 알림 보기
-          </button>
+          <div v-if="alarmList.length < page * 5 && alarmList.length > 0">
+            <p class="alarm-button-no">더 이상 알림이 존재하지 않습니다.</p>
+          </div>
+          <div v-else-if="alarmList.length >= page * 5">
+            <button type="button" class="alarm-button" @click="getMoreAlarm">
+              더 많은 알림 보기
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -41,6 +43,7 @@
 import { mapState } from "vuex";
 import fire from "@/firebase.js";
 import router from "@/router";
+var moment = require("moment");
 
 export default {
   name: "Notification",
@@ -109,9 +112,7 @@ export default {
       });
     },
     convertTime(time) {
-      let curTime = new Date();
-      let alarmTime = new Date(time);
-      let diffTime = Math.floor((curTime.getTime() - alarmTime.getTime()) / 1000 / 60);
+      let diffTime = Math.floor(moment().subtract(moment(time)) / 1000 / 60);
       if (diffTime < 1) return "방금 전";
       if (diffTime < 60) return `${diffTime}분 전`;
 

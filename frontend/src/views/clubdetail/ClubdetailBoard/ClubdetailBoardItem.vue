@@ -1,43 +1,47 @@
 <template>
-  <div class="question-item-wrapper">
-    <div class="quetion-frame">
+  <div class="board-item-wrapper">
+    <div class="board-frame">
       <img
-        class="profile-image"
-        :src="profileImg ? profileImg : 'https://via.placeholder.com/50'"
+        class="profileImg"
+        :src="
+          board.profileImg
+            ? board.profileImg
+            : 'https://booktory.s3.ap-northeast-2.amazonaws.com/static/default/profile.png'
+        "
         alt="프로필 사진"
       />
-      <div class="question-info">
-        <span class="font-body-3 nickname">{{ nickname }}</span>
-        <span class="font-body-5">2021-08-11 17:16:15</span>
+      <div class="board-info">
+        <div v-if="board.fileUrl" class="sub-info">
+          <div @click="clickFile" class="file">
+            <icon-base :width="'1.6rem'" :height="'1.6rem'" :iconColor="'var(--grey)'"
+              ><icon-file
+            /></icon-base>
+          </div>
+        </div>
+        <span class="font-body-3 nickname">{{ board.nickname }}</span>
+        <span class="font-body-5">{{ board.date }}</span>
       </div>
     </div>
+    <div v-html="board.contents" class="board-content font-body-4"></div>
   </div>
 </template>
 
 <script>
+import IconFile from "@/components/icons/IconFile.vue";
+
 export default {
   name: "ClubdetailBoardItem",
+  components: {
+    IconFile,
+  },
   props: {
-    boardId: {
-      type: Number,
+    board: {
+      type: Object,
     },
-    contents: {
-      type: String,
-    },
-    date: {
-      type: Date,
-    },
-    fileUrl: {
-      type: String,
-    },
-    userId: {
-      type: Number,
-    },
-    nickname: {
-      type: String,
-    },
-    profileImg: {
-      type: String,
+  },
+  methods: {
+    clickFile() {
+      window.open(this.board.fileUrl);
     },
   },
 };
@@ -47,10 +51,10 @@ export default {
 * {
   text-align: left;
 }
-.question-item-wrapper {
+.board-item-wrapper {
   padding: 0;
 }
-.quetion-frame {
+.board-frame {
   display: grid;
   grid-template-columns: 1fr 5fr;
   justify-content: center;
@@ -58,12 +62,11 @@ export default {
   gap: 0.7rem;
   padding: 0;
 }
-.profile-image {
+.profileImg {
   width: 4rem;
   height: 4rem;
-  border-radius: 50%;
 }
-.question-info {
+.board-info {
   position: relative;
   display: grid;
   grid-template-rows: 3fr 2fr;
@@ -76,22 +79,18 @@ export default {
   position: absolute;
   top: 0;
   right: 0;
-  margin: 0.2rem 0.5rem;
+  margin: 0.5rem 0.2rem;
 }
-.lock {
+.file {
   float: right;
   margin: -0.2rem 0.5rem 0 0;
   padding: 0;
-}
-.reply {
-  float: right;
-  color: var(--grey);
 }
 .nickname {
   font-weight: bold;
   color: var(--orange);
 }
-.question-content {
+.board-content {
   margin: 1rem 0.7rem;
   text-align: justify;
 }

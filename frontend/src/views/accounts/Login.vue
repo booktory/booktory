@@ -1,62 +1,64 @@
 <template>
   <div class="container">
-    <div class="navbar">
-      <div class="icon" @click="$router.go(-1)">
-        <icon-base><icon-arrow-left /></icon-base>
+    <div>
+      <div class="navbar">
+        <div class="icon" @click="$router.go(-1)">
+          <icon-base><icon-arrow-left /></icon-base>
+        </div>
       </div>
-    </div>
-    <h4 class="title">로그인</h4>
-    <div class="input-div m-top-5">
-      <label for="email">이메일</label>
-      <div>
-        <input
-          v-model="loginData.email"
-          v-bind:class="{
-            error: error.email,
-            complete: !error.email && loginData.email.length !== 0,
-          }"
-          type="email"
-          id="email"
-          placeholder="이메일을 입력해주세요"
-          autocapitalize="none"
-          autocorrect="none"
-          required
-        />
+      <h4 class="title">로그인</h4>
+      <div class="input-div m-top-5">
+        <label for="email">이메일</label>
+        <div>
+          <input
+            v-model="loginData.email"
+            v-bind:class="{
+              error: error.email,
+              complete: !error.email && loginData.email.length !== 0,
+            }"
+            type="email"
+            id="email"
+            placeholder="이메일을 입력해주세요"
+            autocapitalize="none"
+            autocorrect="none"
+            required
+          />
+        </div>
+        <p v-if="error.email" class="message">{{ error.email }}</p>
       </div>
-      <p v-if="error.email" class="message">{{ error.email }}</p>
-    </div>
-    <div class="input-div">
-      <label for="password">비밀번호</label>
-      <div>
-        <input
-          v-model="loginData.password"
-          v-bind:class="{
-            error: error.password,
-            complete: !error.password && loginData.password.length !== 0,
-          }"
-          type="password"
-          id="password"
-          maxlength="16"
-          placeholder="비밀번호를 입력해주세요"
-          required
-          @keyup.enter="clickLogin"
-        />
+      <div class="input-div">
+        <label for="password">비밀번호</label>
+        <div>
+          <input
+            v-model="loginData.password"
+            v-bind:class="{
+              error: error.password,
+              complete: !error.password && loginData.password.length !== 0,
+            }"
+            type="password"
+            id="password"
+            maxlength="16"
+            placeholder="비밀번호를 입력해주세요"
+            required
+            @keyup.enter="clickLogin"
+          />
+        </div>
+        <p v-if="error.password" class="message">{{ error.password }}</p>
       </div>
-      <p v-if="error.password" class="message">{{ error.password }}</p>
-    </div>
-    <button type="button" class="button-2 m-top-10" :disabled="!isSubmit" @click="clickLogin">
-      로그인
-    </button>
-    <router-link to="password">
-      <p class="text-link">비밀번호 찾기</p>
-    </router-link>
-    <div class="social-login">
-      <img src="@/assets/icons/google.svg" @click="googleLogin" />
-      <img src="@/assets/icons/kakao.svg" @click="kakaoLogin" />
-    </div>
-    <div class="text-div">
-      <p class="font-body-3">아직 회원이 아니신가요?</p>
-      <h5 class="register-btn" @click="$router.push({ name: 'Register' })">회원가입하기</h5>
+      <button type="button" class="button-2 m-top-10" :disabled="!isSubmit" @click="clickLogin">
+        로그인
+      </button>
+      <router-link to="password">
+        <p class="text-link">비밀번호 찾기</p>
+      </router-link>
+      <div class="social-login">
+        <img src="@/assets/icons/google.svg" @click="googleLogin" />
+        <img src="@/assets/icons/kakao.svg" @click="kakaoLogin" />
+      </div>
+      <div class="text-div">
+        <p class="font-body-3">아직 회원이 아니신가요?</p>
+        <h5 class="register-btn" @click="$router.push({ name: 'Register' })">회원가입하기</h5>
+      </div>
     </div>
   </div>
 </template>

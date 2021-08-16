@@ -1,6 +1,6 @@
 <template>
-  <div class="clubdetail-container">
-    <div class="bg-image">
+  <div class="container bg-image">
+    <div>
       <TopHeader />
       <div class="card">
         <div v-if="clubInfo" class="main">
@@ -160,11 +160,11 @@
               </div>
             </div>
           </div>
-          <button type="button" class="button-2" @click="clickUpdate">수정하기</button>
+          <button type="button" class="button-2 m-top-10" @click="clickUpdate">수정하기</button>
         </div>
       </div>
+      <Navbar :selected="'manage'" />
     </div>
-    <Navbar :selected="'manage'" class="footer" />
   </div>
 </template>
 

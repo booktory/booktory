@@ -1,6 +1,9 @@
 <template>
-  <div class="">
-    <div class="club-card" @click="deleteBook">
+  <div>
+    <div class="club-card">
+      <div class="icon delete-icon" @click="deleteBook">
+        <icon-base :iconColor="'var(--light-brown)'"><icon-delete /></icon-base>
+      </div>
       <div class="club-card-img">
         <img :src="bookImg" alt="club image" />
       </div>
@@ -14,8 +17,13 @@
 </template>
 
 <script>
+import IconDelete from "@/components/icons/IconDelete.vue";
+
 export default {
   name: "ClubdetailBookAddListSelected",
+  components: {
+    IconDelete,
+  },
   props: {
     selectedBook: {
       type: [String, Object],
@@ -23,11 +31,13 @@ export default {
   },
   methods: {
     deleteBook: function () {
-      console.log(this.selectedBook);
       this.$emit("delete-book", this.selectedBook);
     },
   },
   computed: {
+    bookId: function () {
+      return this.selectedBook.id;
+    },
     bookImg: function () {
       return this.selectedBook.thumbnail;
     },
@@ -52,36 +62,45 @@ export default {
 
 <style lang="scss" scoped>
 .club-card {
+  position: relative;
   display: flex;
   justify-content: center;
-  align-items: flex-start;
-  margin: 1rem auto 0;
-  width: 90%;
+  margin: 0 auto;
+  width: 95%;
   height: 7rem;
 
   background-color: var(--very-light-grey);
   border-radius: 1rem;
   margin-bottom: 1rem;
 
+  .delete-icon {
+    position: absolute;
+    bottom: 0.6rem;
+    right: 0.6rem;
+    z-index: 10;
+  }
+
   &-img {
-    width: 30%;
+    width: 5rem;
     height: 100%;
-    text-align: center;
-    // background-color: var(--beige);
 
     img {
       width: 5rem;
       height: 7rem;
-      border-radius: 1em;
+      border-radius: 1em 0 0 1em;
       box-shadow: 0 3% 3px 0 var(--bg-black), inset 0 0 3px 0 var(--bg-black);
     }
   }
   &-text {
-    width: 70%;
+    width: 100%;
     text-align: left;
-    margin-left: 1rem;
+    margin-left: 1.2rem;
+    position: relative;
+    overflow: hidden;
 
     h6 {
+      white-space: nowrap;
+      overflow: hidden;
       text-align: left;
       margin: 0;
       margin-top: 1rem;

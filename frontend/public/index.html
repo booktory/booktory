@@ -21,6 +21,7 @@
         justify-content: center;
         padding: 0;
         margin: 0;
+        height: 100vh;
       }
 
       a {
@@ -39,7 +40,7 @@
         -webkit-appearance: none;
         -moz-appearance: none;
         appearance: none;
-        background: url("./down.svg") no-repeat 95% 50%; /* 네이티브 화살표를 커스텀 화살표로 대체 */
+        background: url("./down.svg") no-repeat 90% 50%; /* 네이티브 화살표를 커스텀 화살표로 대체 */
       }
       select::-ms-expand {
         display: none;
@@ -49,25 +50,25 @@
       /* Mobile */
       .container {
         width: 100vw;
-        margin-bottom: 20vh;
+        padding-bottom: 7rem;
       }
       /* Tablet */
       @media (min-width: 768px) {
         * {
-          font-size: 2.2vw;
+          font-size: 1.8vw;
         }
-        .container {
-          width: 70vw;
+        .container > div {
+          width: 45rem;
+          margin: 0 auto;
         }
       }
       /* Desktop */
       @media (min-width: 1024px) {
         * {
-          font-size: 18px;
+          font-size: 1.2vw;
         }
-        .container {
-          width: 60vw;
-          max-width: 768px;
+        .container > div {
+          width: 40rem;
         }
       }
 
@@ -167,7 +168,7 @@
         --brown: #904402;
 
         /* Text */
-        --bg-black: rgba(0, 0, 0, 0.2);
+        --bg-black: rgba(0, 0, 0, 0.16);
         --black: #000000;
         --dark-grey: #555;
         --grey: #8a8894;
@@ -192,18 +193,9 @@
         /* width: 100vw; */
         display: grid;
         grid-template-columns: 11% 78% 11%;
-        height: 5.5em;
+        height: 5.5rem;
         align-items: center;
         justify-items: right;
-      }
-
-      .footer {
-        width: 100%;
-        height: 5.2rem;
-        left: 0;
-        bottom: 0;
-        position: fixed;
-        text-align: center;
       }
 
       .title {
@@ -374,17 +366,20 @@
         text-align: left;
       }
 
-      #birth input {
+      #birth input,
+      .date-picker input {
         height: 100%;
         line-height: 1.6rem;
       }
 
-      #birth svg {
+      #birth svg,
+      .date-picker svg {
         width: 1.6em;
         height: 1.6em;
       }
 
-      #birth i {
+      #birth i,
+      .date-picker i {
         right: 1.4rem;
         top: 1.6rem;
       }

@@ -1,13 +1,11 @@
 <template>
-  <div class="clubdetail-container">
-    <div class="bg-image">
-      <div class="icon" @click="$router.push({ name: 'ClubHome' })">
-        <icon-base><icon-x /></icon-base>
-      </div>
+  <div class="container bg-image">
+    <div>
+      <TopHeader />
       <div class="card">
         <div class="main">
           <h4 class="title">클럽 관리</h4>
-          <div v-if="true" class="menu-wrapper">
+          <div v-if="isLeader" class="menu-wrapper">
             <div class="menu-item" @click="$router.push({ name: 'ClubdetailManageUpdate' })">
               <div class="icon">
                 <icon-base><icon-edit /></icon-base>
@@ -49,14 +47,14 @@
           </div>
         </div>
       </div>
+      <Navbar :selected="'manage'" />
     </div>
-    <Navbar class="footer" :selected="'manage'" />
   </div>
 </template>
 
 <script>
 import { mapState, mapActions } from "vuex";
-
+import TopHeader from "@/views/clubdetail/TopHeader.vue";
 import Navbar from "@/views/clubdetail/Navbar.vue";
 import IconEdit from "@/components/icons/IconEdit.vue";
 import IconMessage from "@/components/icons/IconMessage.vue";
@@ -70,6 +68,7 @@ import router from "@/router";
 export default {
   name: "ClubdetailManage",
   components: {
+    TopHeader,
     Navbar,
     IconEdit,
     IconMessage,

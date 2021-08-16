@@ -1,39 +1,43 @@
 <template>
   <div class="container">
-    <div class="navbar">
-      <div class="icon" @click="$router.go(-1)">
-        <icon-base><icon-arrow-left /></icon-base>
+    <div>
+      <div class="navbar">
+        <div class="icon" @click="$router.go(-1)">
+          <icon-base><icon-arrow-left /></icon-base>
+        </div>
       </div>
-    </div>
-    <h4 class="title">비밀번호 찾기</h4>
-    <div class="input-div m-top-5">
-      <label for="user_email">이메일</label>
-      <div>
-        <input
-          v-model="email"
-          v-bind:class="{
-            error: error.email,
-            complete: !error.email && email.length !== 0,
-          }"
-          type="email"
-          id="email"
-          placeholder="가입하신 이메일을 입력해주세요"
-          autocapitalize="none"
-          autocorrect="none"
-          required
-          @keyup.enter="clickFindPassword"
-        />
+      <h4 class="title">비밀번호 찾기</h4>
+      <p class="sub-title">가입하신 이메일을 입력해주세요</p>
+      <img class="logo" src="@/assets/images/find_page.png" alt="비밀번호 찾기" />
+      <div class="input-div">
+        <label for="user_email">이메일</label>
+        <div>
+          <input
+            v-model="email"
+            v-bind:class="{
+              error: error.email,
+              complete: !error.email && email.length !== 0,
+            }"
+            type="email"
+            id="email"
+            placeholder="이메일을 입력해주세요"
+            autocapitalize="none"
+            autocorrect="none"
+            required
+            @keyup.enter="clickFindPassword"
+          />
+        </div>
+        <p v-if="error.email" class="message">{{ error.email }}</p>
       </div>
-      <p v-if="error.email" class="message">{{ error.email }}</p>
+      <button
+        type="button"
+        class="button-2 m-top-10"
+        :disabled="!isSubmit"
+        @click="clickFindPassword"
+      >
+        비밀번호 찾기
+      </button>
     </div>
-    <button
-      type="button"
-      class="button-2 m-top-10"
-      :disabled="!isSubmit"
-      @click="clickFindPassword"
-    >
-      비밀번호 찾기
-    </button>
   </div>
 </template>
 
@@ -90,4 +94,10 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.logo {
+  width: 50%;
+  margin: 2rem 0 -2rem;
+  object-fit: contain;
+}
+</style>

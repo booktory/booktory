@@ -1,14 +1,6 @@
 <template>
   <div class="answer-list-wrapper">
-    <ClubQuestionAnswerItem
-      v-for="(item, index) in answerList"
-      :key="index"
-      :answerContents="item.answerContents"
-      :isOpen="item.isOpen"
-      :userId="item.userId"
-      :nickname="item.nickname"
-      :profileImg="item.profileImg"
-    />
+    <ClubQuestionAnswerItem v-for="(answer, index) in answerList" :key="index" :answer="answer" />
   </div>
 </template>
 
@@ -31,7 +23,7 @@ export default {
 
 <style scoped>
 .answer-list-wrapper {
-  margin: 0.2rem 0 0.3rem 3rem;
+  margin: 0.2rem 0 0.3rem 1rem;
   width: inherit;
 }
 </style>

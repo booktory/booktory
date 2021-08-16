@@ -1,13 +1,15 @@
 <template>
   <div class="container">
-    <TopHeader />
-    <h4 class="title">읽을 책 추가</h4>
-    <ClubCreateBookBar />
-    <ClubCreateBookList :selectedBooks="selectedBooks" />
-    <button type="button" class="button-2 m-top-10" :disabled="!isSubmit" @click="clickCreate">
-      클럽 만들기
-    </button>
-    <Navbar :selected="'home'" />
+    <div>
+      <TopHeader />
+      <h4 class="title">읽을 책 추가</h4>
+      <ClubCreateBookBar />
+      <ClubCreateBookList :selectedBooks="selectedBooks" />
+      <button type="button" class="button-2 m-top-10" :disabled="!isSubmit" @click="clickCreate">
+        클럽 만들기
+      </button>
+      <Navbar :selected="'home'" />
+    </div>
   </div>
 </template>
 

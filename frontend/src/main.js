@@ -21,6 +21,8 @@ Vue.component("icon-x", IconX);
 import DatePicker from "vue2-datepicker";
 import "vue2-datepicker/index.css";
 Vue.use(DatePicker);
+// vue-moment
+Vue.use(require("vue-moment"));
 
 Vue.config.productionTip = false;
 

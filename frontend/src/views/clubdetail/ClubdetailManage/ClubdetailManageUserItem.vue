@@ -73,6 +73,7 @@ export default {
   grid-template-columns: 21% 45% 34%;
   align-items: center;
   margin-bottom: 0.6rem;
+  justify-items: start;
 }
 .btn-div {
   justify-self: right;

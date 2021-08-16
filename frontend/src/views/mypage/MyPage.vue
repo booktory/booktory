@@ -1,15 +1,17 @@
 <template>
   <div class="container">
-    <TopHeader />
-    <MyProfile
-      v-if="userInfo"
-      :mainBadge="mainBadge"
-      :nickname="userInfo.nickname"
-      :email="userInfo.email"
-      :profileImg="userInfo.profileImg"
-    />
-    <BadgeList :badgeList="badgeList" />
-    <Navbar :selected="'mypage'" class="footer" />
+    <div>
+      <TopHeader />
+      <MyProfile
+        v-if="userInfo"
+        :mainBadge="mainBadge"
+        :nickname="userInfo.nickname"
+        :email="userInfo.email"
+        :profileImg="userInfo.profileImg"
+      />
+      <BadgeList :badgeList="badgeList" />
+      <Navbar :selected="'mypage'" class="footer" />
+    </div>
   </div>
 </template>
 

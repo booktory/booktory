@@ -43,6 +43,7 @@ const accountStore = {
             html: "회원가입 인증 메일을 보내드렸어요.<br>이메일을 확인해주세요!",
           });
           console.log(commit);
+          router.push({ name: "RegisterEmail", params: { email: info.data.email } });
         })
         .catch((err) => {
           Swal.fire({

@@ -1,16 +1,6 @@
 <template>
-  <div class="question-list-wrapper">
-    <ClubdetailBoardItem
-      v-for="(item, index) in boardList"
-      :key="index"
-      :boardId="item.boardId"
-      :contents="item.contents"
-      :date="item.date"
-      :fileUrl="item.fileUrl"
-      :userId="item.userId"
-      :nickname="item.nickname"
-      :profileImg="item.profileImg"
-    />
+  <div class="board-list-wrapper">
+    <ClubdetailBoardItem v-for="(board, index) in boardList" :key="index" :board="board" />
   </div>
 </template>
 
@@ -32,7 +22,7 @@ export default {
 </script>
 
 <style scoped>
-.question-list-wrapper {
+.board-list-wrapper {
   padding: 1.8rem 1.6rem 1.4rem;
   width: inherit;
 }

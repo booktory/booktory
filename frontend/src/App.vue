@@ -5,16 +5,9 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
-
 export default {
   name: "App",
-  methods: {
-    ...mapActions(["fetchUser"]),
-  },
-  created() {
-    this.fetchUser();
-  },
+  methods: {},
 };
 </script>
 <style scoped>

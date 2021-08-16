@@ -1,41 +1,45 @@
 <template>
   <div class="container bg-img">
-    <TopHeader />
-    <div class="card">
-      <div class="main">
-        <h4 class="title">문의 게시판</h4>
-        <p class="sub-title-c">클럽에 대해 궁금한 사항들을 물어보세요</p>
-        <div class="question-board">
-          <ClubQuestionList v-if="questionList" :questionList="questionList" />
-          <div class="empty" v-else>
-            <span class="font-body-3">작성된 질문이 없습니다</span>
+    <div>
+      <TopHeader />
+      <div class="card">
+        <div class="main">
+          <h4 class="title">문의 게시판</h4>
+          <p class="sub-title-c">클럽에 대해 궁금한 사항들을 물어보세요</p>
+          <div class="question-board">
+            <ClubQuestionList
+              v-if="questionList && questionList.length > 0"
+              :questionList="questionList"
+            />
+            <div class="empty" v-else>
+              <span class="font-body-3">작성된 질문이 없습니다</span>
+            </div>
+          </div>
+          <button class="button-3" @click="clickRegister" :disabled="!questionData.contents">
+            등록
+          </button>
+          <div class="is-open">
+            <div>
+              <input class="check" type="checkbox" id="checkbox" v-model="isLock" />
+              <span class="font-body-4">비밀글</span>
+            </div>
+          </div>
+          <h5>새로운 질문</h5>
+          <div class="question-input">
+            <textarea
+              v-model="questionData.contents"
+              style="font-size: 1.2rem; text-align: justify"
+              class="input-content"
+              type="text"
+              id="content"
+              rows="5"
+              placeholder="질문을 입력해주세요"
+            />
           </div>
         </div>
-        <button class="button-3" @click="clickRegister" :disabled="!questionData.contents">
-          등록
-        </button>
-        <div class="is-open">
-          <div>
-            <input class="check" type="checkbox" id="checkbox" v-model="isLock" />
-            <span class="font-body-4">비밀글</span>
-          </div>
-        </div>
-        <h5>새로운 질문</h5>
-        <div class="question-input">
-          <textarea
-            v-model="questionData.contents"
-            style="font-size: 1.2rem; text-align: justify"
-            class="input-content"
-            type="text"
-            id="content"
-            rows="5"
-            placeholder="질문을 입력해주세요"
-          />
-        </div>
-        <div class="empty-div"></div>
       </div>
+      <Navbar :selected="'home'" />
     </div>
-    <Navbar class="footer" />
   </div>
 </template>
 
@@ -85,22 +89,34 @@ export default {
 
 <style scoped>
 .bg-img {
-  height: 100vh;
-  background-image: linear-gradient(to bottom, var(--white) 0%, var(--light-grey) 100%),
-    url("./images/club-backgroud.png");
-  background-blend-mode: multiply;
+  position: relative;
+  padding: 0;
+}
+.bg-img:after {
+  position: absolute;
+  content: "";
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  min-height: 100vh;
+  background-image: url("./images/club-backgroud.png");
   background-size: cover;
+  opacity: 70%;
+  z-index: -1;
 }
 .card {
-  width: 100%;
+  width: inherit;
   height: inherit;
-  top: 5em;
+  min-height: 100vh;
+  border-radius: 5rem 5rem 0 0;
+  padding-bottom: 5rem;
+  background-color: var(--beige);
 }
 .main {
-  height: inherit;
+  height: 100%;
+  min-height: 100vh;
   padding: 3rem 3rem 0;
-  background-color: var(--beige);
-  border-radius: 7em 7em 0 0;
 }
 .sub-title-c {
   font-size: 1.2rem;
