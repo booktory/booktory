@@ -92,7 +92,7 @@ const accountStore = {
     saveFcmToken({ dispatch }, email) {
       console.log(dispatch);
       const agt = navigator.userAgent.toLowerCase();
-      if (agt.indexOf("safari") != -1 || agt.indexOf("iphone")) {
+      if (agt.indexOf("safari") != -1 || agt.indexOf("iphone") != -1) {
         return;
       }
 
