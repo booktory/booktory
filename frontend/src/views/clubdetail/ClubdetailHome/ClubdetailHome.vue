@@ -108,11 +108,8 @@
 
 <script>
 import { mapActions, mapState } from "vuex";
-<<<<<<< frontend/src/views/clubdetail/ClubdetailHome/ClubdetailHome.vue
 import TopHeader from "@/views/clubdetail/TopHeader.vue";
-=======
 import Swal from "sweetalert2";
->>>>>>> frontend/src/views/clubdetail/ClubdetailHome/ClubdetailHome.vue
 import Navbar from "@/views/clubdetail/Navbar.vue";
 import IconVideo from "@/components/icons/IconVideo.vue";
 import IconBookmark from "@/components/icons/IconBookmark.vue";
@@ -132,11 +129,7 @@ export default {
     ...mapState("bookclubStore", ["bookclubList"]),
   },
   methods: {
-<<<<<<< frontend/src/views/clubdetail/ClubdetailHome/ClubdetailHome.vue
-    ...mapActions("clubStore", ["findClubInfo"]),
-    ...mapActions("bookclubStore", ["getBookClubList"]),
-=======
-    ...mapActions("bookclubStore", ["getBookclubList", "attendMeeting"]),
+    ...mapActions("bookclubStore", ["getBookClubList", "attendMeeting"]),
     ...mapActions("clubStore", ["findClubInfo"]),
     clickMeeting() {
       Swal.fire({
@@ -151,7 +144,6 @@ export default {
         }
       });
     },
->>>>>>> frontend/src/views/clubdetail/ClubdetailHome/ClubdetailHome.vue
     // 모임 시간 년월일 변환
     convertTime(data) {
       let ampm = moment(data).format("A") == "AM" ? "오전" : "오후";
