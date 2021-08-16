@@ -113,6 +113,7 @@ const mypageStore = {
           // 나의 배지 목록 설정
           for (var i = 0; i < res.data.badgeList.length; i++) {
             badgeList[res.data.badgeList[i]].state = true;
+            badgeList[res.data.badgeList[i]].isMain = false;
           }
           commit("SET_BADGELIST", badgeList);
           // 대표 배지 설정
@@ -207,7 +208,7 @@ const mypageStore = {
         });
     },
     // 대표배지 설정
-    changeMainBadge({ getters }, badgeId) {
+    changeMainBadge({ getters, dispatch }, badgeId) {
       axios
         .patch(SERVER.URL + "/users/" + getters.userInfo.id + "/main-badge/" + badgeId)
         .then((res) => {
@@ -219,7 +220,7 @@ const mypageStore = {
             timerProgressBar: true,
           });
           console.log(res.data);
-          router.go(0);
+          dispatch("findUserInfo");
         })
         .catch((err) => {
           Swal.fire({
