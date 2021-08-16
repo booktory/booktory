@@ -59,7 +59,7 @@ export default {
           books.push(this.selectedBooks[i].id);
         }
         let bookclubData = {
-          bookId: books[0],
+          books: books,
           clubId: this.clubId,
         };
         this.createBook(bookclubData);
