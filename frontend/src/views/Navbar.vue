@@ -7,7 +7,7 @@
             ><icon-home
           /></icon-base>
         </p>
-        <p :class="{ orange: selected == 'home' }" class="sub-item font-body-5">홈</p>
+        <span :class="{ orange: selected == 'home' }" class="sub-item font-body-5">홈</span>
       </div>
       <div class="item">
         <p class="sub-item icon">
@@ -15,7 +15,7 @@
             ><icon-rwm
           /></icon-base>
         </p>
-        <p :class="{ orange: selected == 'rwm' }" class="sub-item font-body-5">같이읽기</p>
+        <span :class="{ orange: selected == 'rwm' }" class="sub-item font-body-5">같이읽기</span>
       </div>
       <div class="item" @click="$router.push({ name: 'MyBook' })">
         <p class="sub-item icon">
@@ -23,7 +23,7 @@
             ><icon-mybook
           /></icon-base>
         </p>
-        <p :class="{ orange: selected == 'mybook' }" class="sub-item font-body-5">내 서재</p>
+        <span :class="{ orange: selected == 'mybook' }" class="sub-item font-body-5">내 서재</span>
       </div>
       <div class="item" @click="$router.push({ name: 'MyPage' })">
         <p class="sub-item icon">
@@ -31,7 +31,9 @@
             ><icon-mypage
           /></icon-base>
         </p>
-        <p :class="{ orange: selected == 'mypage' }" class="sub-item font-body-5">마이페이지</p>
+        <span :class="{ orange: selected == 'mypage' }" class="sub-item font-body-5"
+          >마이페이지</span
+        >
       </div>
     </div>
   </div>
@@ -75,10 +77,8 @@ export default {
       // Here we determine whether we need to show or hide the navbar
       this.showNavbar = currentScrollPosition < this.lastScrollPosition;
       if (this.showNavbar) {
-        console.log("scroll up");
         fixedNavbar.classList.remove("show");
       } else {
-        console.log("scroll down");
         fixedNavbar.classList.add("show");
       }
       // Set the current scroll position as the last scroll position
@@ -101,11 +101,12 @@ export default {
   align-items: center;
 }
 
-.sub-item {
-  margin: auto;
-  padding-top: 0.5em;
+.item {
+  margin-top: 0.7rem;
 }
-
+.sub-item {
+  margin: 0.3rem auto;
+}
 .orange {
   color: var(--orange);
   font-weight: bold;
@@ -113,13 +114,15 @@ export default {
 
 .footer {
   width: 100%;
+  height: 5.7rem;
   left: 0;
   bottom: 0;
   position: fixed;
   text-align: center;
   transition: bottom 0.8s ease;
+  z-index: 10;
 }
 .show {
-  bottom: -5em;
+  bottom: -5.7em;
 }
 </style>
