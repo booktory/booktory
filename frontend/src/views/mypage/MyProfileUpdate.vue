@@ -168,6 +168,7 @@ export default {
         });
       }
     },
+    // 프로필 사진 버튼 클릭
     clickProfileBtn() {
       Swal.fire({
         html: "<h5 style='margin: 0;'>프로필 사진 설정</h5>",
@@ -185,7 +186,6 @@ export default {
         }
       });
     },
-    // 프로필 사진 버튼 클릭
     clickProfileImg() {
       this.$refs["image"].click();
     },

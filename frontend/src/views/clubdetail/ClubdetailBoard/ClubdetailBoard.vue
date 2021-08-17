@@ -11,8 +11,14 @@
               <span class="font-body-3">작성된 글이 없습니다</span>
             </div>
           </div>
-          <button class="button-3" @click="clickRegister" :disabled="!boardData">등록</button>
-          <div class="file-upload" @click="clickFileUpload">
+          <button
+            class="button-3"
+            @click="clickRegister"
+            :disabled="boardData.contents.trim() == ''"
+          >
+            등록
+          </button>
+          <div class="file-upload" @click="clickFileBtn">
             <icon-base :width="'1.4rem'" :height="'1.4rem'" :iconColor="'var(--grey)'"
               ><icon-file
             /></icon-base>
@@ -46,6 +52,7 @@ import ClubdetailBoardList from "@/views/clubdetail/ClubdetailBoard/ClubdetailBo
 import IconFile from "@/components/icons/IconFile.vue";
 import axios from "axios";
 import SERVER from "@/api/api";
+import Swal from "sweetalert2";
 
 export default {
   name: "ClubdetailBoard",
@@ -79,6 +86,24 @@ export default {
       });
     },
     // 파일 첨부 버튼 클릭
+    clickFileBtn() {
+      Swal.fire({
+        html: "<h5 style='margin: 0;'>파일 첨부하기</h5>",
+        confirmButtonText: "파일 업로드",
+        showDenyButton: true,
+        denyButtonColor: "var(--light-brown)",
+        denyButtonText: "첨부한 파일 삭제",
+        showCancelButton: true,
+        cancelButtonText: "취소",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.clickFileUpload();
+        } else if (result.isDenied) {
+          this.boardData.fileUrl = "";
+          this.fileName = "";
+        }
+      });
+    },
     clickFileUpload() {
       this.$refs["file"].click();
     },
