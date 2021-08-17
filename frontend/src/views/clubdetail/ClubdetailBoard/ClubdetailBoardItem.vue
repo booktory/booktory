@@ -19,7 +19,7 @@
           </div>
         </div>
         <span class="font-body-3 nickname">{{ board.nickname }}</span>
-        <span class="font-body-5">{{ board.date }}</span>
+        <span class="font-body-5">{{ convertTime(board.date) }}</span>
       </div>
     </div>
     <div v-html="board.contents" class="board-content font-body-4"></div>
@@ -28,6 +28,9 @@
 
 <script>
 import IconFile from "@/components/icons/IconFile.vue";
+var moment = require("moment");
+require("moment-timezone");
+moment.tz.setDefault("Asia/Seoul");
 
 export default {
   name: "ClubdetailBoardItem",
@@ -42,6 +45,12 @@ export default {
   methods: {
     clickFile() {
       window.open(this.board.fileUrl);
+    },
+    // 등록 시간 년월일 변환
+    convertTime(data) {
+      let ampm = moment(data).format("A") == "AM" ? "오전" : "오후";
+      let dateStr = moment(data).format("YYYY년 M월 D일 " + ampm + " h시 mm분");
+      return dateStr;
     },
   },
 };

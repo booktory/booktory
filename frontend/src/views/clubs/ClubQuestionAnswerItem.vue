@@ -15,7 +15,7 @@
       />
       <div class="answer-info">
         <span class="font-body-4 nickname">{{ answer.nickname }}</span>
-        <span class="font-body-5">{{ answer.date }}</span>
+        <span class="font-body-5">{{ converTime(answer.date) }}</span>
       </div>
     </div>
     <p class="answer-content font-body-4">{{ answer.answerContents }}</p>
@@ -24,6 +24,9 @@
 
 <script>
 import IconAnswer from "@/components/icons/IconAnswer.vue";
+var moment = require("moment");
+require("moment-timezone");
+moment.tz.setDefault("Asia/Seoul");
 
 export default {
   name: "ClubQuestionAnswerItem",
@@ -35,7 +38,14 @@ export default {
       type: Object,
     },
   },
-  methods: {},
+  methods: {
+    // 등록 시간 년월일 변환
+    convertTime(data) {
+      let ampm = moment(data).format("A") == "AM" ? "오전" : "오후";
+      let dateStr = moment(data).format("YYYY년 M월 D일 " + ampm + " h시 mm분");
+      return dateStr;
+    },
+  },
 };
 </script>
 
