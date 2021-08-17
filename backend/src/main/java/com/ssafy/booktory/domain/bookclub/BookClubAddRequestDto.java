@@ -10,6 +10,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.OneToMany;
 import java.time.LocalDate;
@@ -26,7 +27,6 @@ public class BookClubAddRequestDto{
 //    @JsonSerialize(using = LocalDateTimeSerializer.class)
 //    @JsonFormat(pattern = "yyyy-MM-dd kk:mm:ss")
 //    private LocalDateTime startDateTime;
-//
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonFormat(pattern = "yyyy-MM-dd kk:mm:ss", timezone = "Asia/Seoul")
     private LocalDateTime endDateTime;
