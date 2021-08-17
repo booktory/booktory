@@ -16,7 +16,7 @@
             <icon-base :width="'1.4rem'" :height="'1.4rem'" :iconColor="'var(--grey)'"
               ><icon-file
             /></icon-base>
-            <span class="font-body-4">&nbsp;파일 첨부</span>
+            <span class="font-body-4">{{ fileName }}</span>
           </div>
           <input class="hidden-item" ref="file" id="boardFile" type="file" @change="uploadFile()" />
           <h5>새로운 글</h5>
@@ -65,6 +65,7 @@ export default {
         contents: "",
         fileUrl: "",
       },
+      fileName: "",
     };
   },
   methods: {
@@ -92,6 +93,10 @@ export default {
         })
         .then(({ data }) => {
           this.boardData.fileUrl = data;
+          let name = file.name.substring(0, file.name.indexOf("."));
+          let format = file.name.substring(file.name.indexOf("."));
+          if (name.length > 15) name = name.substring(0, 15) + "・・・";
+          this.fileName = name + format;
         })
         .catch((err) => console.log(err));
     },
@@ -181,6 +186,7 @@ export default {
         margin: 2.5rem 1rem 0 0;
         display: flex;
         align-items: center;
+        gap: 0.5rem;
       }
       .file-upload > div {
         display: flex;
