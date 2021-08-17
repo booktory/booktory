@@ -36,6 +36,6 @@ public class BookClubAddRequestDto{
         this.bookId = bookId;
         this.clubId = clubId;
         this.id = id;
-        this.endDateTime = endDateTime;
+        this.endDateTime = endDateTime.minusHours(9L);
     }
 }

@@ -94,10 +94,18 @@ public class ClubService {
         LocalDateTime endDateTime = null;
 
         BookClub bookClub = bookClubRepository.findByClubIdFirstByOrderByEndDatetimeDesc(id);
-        
-        if (bookClub != null && ChronoUnit.MINUTES.between(bookClub.getEndDatetime(), LocalDateTime.now()) <= 60) {
+
+//        if (bookClub != null) {
+//            ZonedDateTime ztol = ZonedDateTime.of(bookClub.getEndDatetime(), ZoneId.of("Asia/Seoul"));
+//            if (ChronoUnit.MINUTES.between(ztol.toLocalDateTime(), LocalDateTime.now()) <= 60) {
+//                book = bookRepository.findById(bookClub.getBook().getId()).orElseThrow(() -> new NoSuchElementException("존재하는 책이 없습니다."));
+//                endDateTime = bookClub.getEndDatetime();
+//                bookClubId = bookClub.getId();
+//            }
+//        }
+        if (bookClub != null && ChronoUnit.MINUTES.between(bookClub.getEndDatetime().minusHours(9L), LocalDateTime.now()) <= 60) {
             book = bookRepository.findById(bookClub.getBook().getId()).orElseThrow(() -> new NoSuchElementException("존재하는 책이 없습니다."));
-            endDateTime = bookClub.getEndDatetime();
+            endDateTime = bookClub.getEndDatetime().minusHours(9L);
             bookClubId = bookClub.getId();
         }
 
