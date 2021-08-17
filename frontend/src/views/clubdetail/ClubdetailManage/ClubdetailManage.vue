@@ -1,5 +1,5 @@
 <template>
-  <div class="container bg-image">
+  <div class="container bg-img">
     <div>
       <TopHeader />
       <div class="card">
@@ -78,7 +78,7 @@ export default {
     IconLogout,
   },
   computed: {
-    ...mapState("clubStore", ["clubId", "isLeader"]),
+    ...mapState("clubStore", ["clubId", "isLeader", "clubImage"]),
   },
   methods: {
     ...mapActions("clubStore", ["deleteClub", "deleteClubUser"]),
@@ -114,6 +114,14 @@ export default {
         }
       });
     },
+    // 배경 이미지 설정
+    setBackgroundImage() {
+      document.getElementsByClassName("bg-img")[0].style.backgroundImage =
+        "var(--clubdetail-bg-" + this.clubImage + ")";
+    },
+  },
+  async mounted() {
+    await this.setBackgroundImage();
   },
 };
 </script>

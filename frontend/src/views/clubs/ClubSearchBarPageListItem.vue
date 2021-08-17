@@ -94,7 +94,7 @@ export default {
     IconShare,
   },
   computed: {
-    ...mapState("clubStore", ["clubInfo", "meetingInfo"]),
+    ...mapState("clubStore", ["clubInfo", "meetingInfo", "clubImage"]),
     ...mapState("searchStore", ["genreList"]),
   },
   data() {
@@ -151,28 +151,27 @@ export default {
         }
       });
     },
+    // 배경 이미지 설정
+    setBackgroundImage() {
+      document.getElementsByClassName("bg-img")[0].style.backgroundImage =
+        "var(--background-" + this.clubImage + ")";
+    },
   },
   created() {
     this.findClubInfo(this.clubId);
+  },
+  async updated() {
+    await this.setBackgroundImage();
   },
 };
 </script>
 
 <style scoped>
 .bg-img {
-  position: relative;
-}
-.bg-img:after {
-  position: absolute;
-  content: "";
-  top: 0;
-  left: 0;
-  width: 100%;
+  width: 100vw;
   height: 100%;
   min-height: 100vh;
-  background-image: url("./images/club-backgroud.png");
   background-size: cover;
-  opacity: 0.3;
   z-index: -1;
 }
 

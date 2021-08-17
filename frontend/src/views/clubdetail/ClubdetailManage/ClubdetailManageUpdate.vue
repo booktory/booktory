@@ -1,5 +1,5 @@
 <template>
-  <div class="container bg-image">
+  <div class="container bg-img">
     <div>
       <TopHeader />
       <div class="card">
@@ -182,7 +182,7 @@ export default {
   },
   computed: {
     ...mapState("searchStore", ["genreList"]),
-    ...mapState("clubStore", ["clubInfo"]),
+    ...mapState("clubStore", ["clubInfo", "clubImage"]),
   },
   data() {
     return {
@@ -273,9 +273,17 @@ export default {
         this.isSubmit = false;
       }
     },
+    // 배경 이미지 설정
+    setBackgroundImage() {
+      document.getElementsByClassName("bg-img")[0].style.backgroundImage =
+        "var(--clubdetail-bg-" + this.clubImage + ")";
+    },
   },
   created() {
     this.findClubInfo();
+  },
+  async mounted() {
+    await this.setBackgroundImage();
   },
 };
 </script>

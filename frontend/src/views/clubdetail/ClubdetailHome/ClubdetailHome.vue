@@ -1,5 +1,5 @@
 <template>
-  <div class="container bg-image">
+  <div class="container bg-img">
     <div>
       <TopHeader :noBack="true" />
       <div v-if="clubInfo">
@@ -143,7 +143,7 @@ export default {
     IconShare,
   },
   computed: {
-    ...mapState("clubStore", ["clubInfo", "meetingInfo", "clubId", "isLeader"]),
+    ...mapState("clubStore", ["clubInfo", "meetingInfo", "clubId", "isLeader", "clubImage"]),
     ...mapState("searchStore", ["genreList"]),
     ...mapState("bookclubStore", ["bookclubList"]),
   },
@@ -200,6 +200,11 @@ export default {
       let dateStr = moment(data).format("YY년 M월 D일<br>" + ampm + " h시 mm분");
       return dateStr;
     },
+    // 배경 이미지 설정
+    setBackgroundImage() {
+      document.getElementsByClassName("bg-img")[0].style.backgroundImage =
+        "var(--clubdetail-bg-" + this.clubImage + ")";
+    },
   },
   data() {
     return {};
@@ -208,25 +213,19 @@ export default {
     this.findClubInfo(this.clubId);
     this.getBookClubList(this.clubId);
   },
+  async mounted() {
+    await this.setBackgroundImage();
+  },
 };
 </script>
 
 <style lang="scss" scoped>
-.bg-image:after {
-  position: absolute;
-  content: "";
-  top: 0;
-  left: 0;
-  width: 100%;
+.bg-img {
+  width: 100vw;
   height: 100%;
   min-height: 100vh;
-  background-image: url("../images/club-backgroud.png");
-  background-size: cover;
-  opacity: 0.7;
+  background-size: contain;
   z-index: -1;
-}
-.bg-image {
-  position: relative;
   padding: 0;
 
   .card {

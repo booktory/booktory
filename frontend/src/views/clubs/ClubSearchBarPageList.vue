@@ -4,9 +4,9 @@
       <div class="club-card-img">
         <img
           :src="
-            clubImg
-              ? clubImg
-              : 'https://booktory.s3.ap-northeast-2.amazonaws.com/static/default/club.png'
+            'https://booktory.s3.ap-northeast-2.amazonaws.com/static/default/clubthum-' +
+            clubImg +
+            '.jpg'
           "
           alt="클럽이미지"
         />

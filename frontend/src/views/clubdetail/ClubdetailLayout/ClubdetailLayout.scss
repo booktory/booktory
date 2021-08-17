@@ -7,10 +7,10 @@
 .clubdetail-container {
   width: 100vw;
 
-  .bg-image {
+  .bg-img {
     height: 20vh;
-    background-image: url("../images/club-backgroud.png");
-    background-size: cover;
+    background-image: url("../images/background5.jpg");
+    background-size: contain;
     position: relative;
 
     .icon {

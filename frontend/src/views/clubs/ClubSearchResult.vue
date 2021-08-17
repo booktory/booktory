@@ -3,14 +3,16 @@
     <div v-if="club">
       <div class="club-card" @click="selectClub">
         <div class="club-card-img">
-          <img
-            :src="
-              clubImg
-                ? clubImg
-                : 'https://booktory.s3.ap-northeast-2.amazonaws.com/static/default/club.png'
-            "
-            alt="클럽이미지"
-          />
+          <div class="club-card-img-div">
+            <img
+              :src="
+                'https://booktory.s3.ap-northeast-2.amazonaws.com/static/default/clubthum-' +
+                clubImg +
+                '.jpg'
+              "
+              alt="클럽이미지"
+            />
+          </div>
         </div>
         <div class="club-card-text">
           <h6>{{ clubName }}</h6>
@@ -50,7 +52,7 @@ export default {
   computed: {
     ...mapState("searchStore", ["genreList"]),
     clubImg: function () {
-      return this.club.clubImg;
+      return this.club.img;
     },
     clubName: function () {
       return this.club.name;
@@ -82,10 +84,23 @@ export default {
     width: 5rem;
     height: 100%;
 
-    img {
+    &-div {
       width: 5rem;
       height: 7.5rem;
       border-radius: 1rem 0 0 1rem;
+      overflow: hidden;
+      position: relative;
+
+      img {
+        min-width: 100%;
+        height: 7.5rem;
+        margin: auto;
+        position: absolute;
+        left: -100%;
+        right: -100%;
+        top: -100%;
+        bottom: -100%;
+      }
     }
   }
   &-text {

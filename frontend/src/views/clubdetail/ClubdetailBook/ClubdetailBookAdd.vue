@@ -1,5 +1,5 @@
 <template>
-  <div class="container bg-image">
+  <div class="container bg-img">
     <div>
       <TopHeader />
       <div class="card">
@@ -33,7 +33,7 @@ export default {
     ClubdetailBookAddList,
   },
   computed: {
-    ...mapState("clubStore", ["clubId"]),
+    ...mapState("clubStore", ["clubId", "clubImage"]),
   },
   data: function () {
     return {
@@ -69,9 +69,17 @@ export default {
     checkSelectedBooks() {
       this.isSubmit = this.selectedBooks.length > 0;
     },
+    // 배경 이미지 설정
+    setBackgroundImage() {
+      document.getElementsByClassName("bg-img")[0].style.backgroundImage =
+        "var(--clubdetail-bg-" + this.clubImage + ")";
+    },
   },
   created() {
     this.initBookList();
+  },
+  async mounted() {
+    await this.setBackgroundImage();
   },
 };
 </script>

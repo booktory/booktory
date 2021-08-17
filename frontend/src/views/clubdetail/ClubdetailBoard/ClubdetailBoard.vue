@@ -1,5 +1,5 @@
 <template>
-  <div class="container bg-image">
+  <div class="container bg-img">
     <div>
       <TopHeader />
       <div class="card">
@@ -57,7 +57,7 @@ export default {
   },
   computed: {
     ...mapState("boardStore", ["boardList"]),
-    ...mapState("clubStore", ["clubId"]),
+    ...mapState("clubStore", ["clubId", "clubImage"]),
   },
   data() {
     return {
@@ -95,29 +95,28 @@ export default {
         })
         .catch((err) => console.log(err));
     },
+    // 배경 이미지 설정
+    setBackgroundImage() {
+      document.getElementsByClassName("bg-img")[0].style.backgroundImage =
+        "var(--clubdetail-bg-" + this.clubImage + ")";
+    },
   },
   created() {
     this.findBoardList(this.clubId);
+  },
+  async mounted() {
+    await this.setBackgroundImage();
   },
 };
 </script>
 
 <style lang="scss" scoped>
-.bg-image:after {
-  position: absolute;
-  content: "";
-  top: 0;
-  left: 0;
-  width: 100%;
+.bg-img {
+  width: 100vw;
   height: 100%;
   min-height: 100vh;
-  background-image: url("../images/club-backgroud.png");
-  background-size: cover;
-  opacity: 0.7;
+  background-size: contain;
   z-index: -1;
-}
-.bg-image {
-  position: relative;
   padding: 0;
 
   .card {

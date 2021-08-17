@@ -1,5 +1,5 @@
 <template>
-  <div class="container bg-image">
+  <div class="container bg-img">
     <div>
       <TopHeader />
       <div class="card">
@@ -39,14 +39,22 @@ export default {
     ClubdetailManageUserList,
   },
   computed: {
-    ...mapState("clubStore", ["applyList", "joinedList"]),
+    ...mapState("clubStore", ["applyList", "joinedList", "clubImage"]),
   },
   methods: {
     ...mapActions("clubStore", ["findApplyList", "findJoinedList"]),
+    // 배경 이미지 설정
+    setBackgroundImage() {
+      document.getElementsByClassName("bg-img")[0].style.backgroundImage =
+        "var(--clubdetail-bg-" + this.clubImage + ")";
+    },
   },
   created() {
     this.findApplyList();
     this.findJoinedList();
+  },
+  async mounted() {
+    await this.setBackgroundImage();
   },
 };
 </script>
