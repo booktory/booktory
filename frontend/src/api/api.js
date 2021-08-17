@@ -53,6 +53,8 @@ export default {
 
     //rwm
     getRwmList: "/rwms",
-    enterRwmRoom: "/rwms/"
+    enterRwmRoom: "/rwms/",
+    exitRwmRoom: "/rwms/",
+    getRwmParticipant: "/rwms/",
   },
 };

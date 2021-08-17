@@ -1,33 +1,53 @@
 <template>
   <div class="container">
-    <TopHeader />
-    <h4 class="title">Read With Me</h4>
-    <span class="">YOUTUBE API!!!!</span>
+    <RwmRoomHeader />
+    <div class="rwm-api-wrapper">
+        YOUTUBE API!!!!
+
+
+    </div>
+    <button class="button-2" @click="clickExitRwmRoom">나가기</button>
     <Navbar :selected="'rwm'" class="footer" />
   </div>
 </template>
 
 <script>
-import TopHeader from "@/views/TopHeader.vue";
+import RwmRoomHeader from "@/views/rwm/RwmRoomHeader.vue";
 import Navbar from "@/views/Navbar.vue";
-// import { mapActions, mapState } from "vuex";
+import { mapActions } from "vuex";
 
 export default {
   name: "RwmMain",
   components: {
-    TopHeader,
+    RwmRoomHeader,
     Navbar,
   },
   computed: {
-    // ...mapState("rwmStore", ["rwmList"]),
   },
   methods: {
-    // ...mapActions("rwmStore", ["findRwmList"]),
+    ...mapActions("rwmStore", ["exitRwmRoom"]),
+    clickExitRwmRoom(){
+      this.exitRwmRoom(this.$route.query.id);
+    },  
   },
   created() {
-    // this.findRwmList();
   },
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.rwm-api-wrapper {
+  width: 70vw;
+  height: 60vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: baseline;
+  margin: 2rem auto;
+  padding: 3rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px 0 rgba(142, 141, 208, 0.16);
+  background-color: var(--white);
+}
+
+</style>
