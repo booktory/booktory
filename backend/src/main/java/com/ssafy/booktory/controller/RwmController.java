@@ -1,5 +1,6 @@
 package com.ssafy.booktory.controller;
 
+import com.ssafy.booktory.domain.rwm.RwmBookName;
 import com.ssafy.booktory.domain.rwm.RwmListResponseDto;
 import com.ssafy.booktory.domain.rwm.RwmParticipantResponseDto;
 import com.ssafy.booktory.domain.rwmlog.RwmLog;
@@ -39,16 +40,16 @@ public class RwmController {
         return ResponseEntity.status(HttpStatus.OK).body(rwmService.getParticipant(id));
     }
 
-    @PostMapping("/{id}")
+    @PostMapping(value = "/{id}", produces="application/json;charset=UTF-8")
     @ApiOperation(value = "RWM방 입장", notes = "토큰에 저장된 사용자가 rwm방에 입자한다. (rwmLog 기록)")
     @ApiImplicitParams({@ApiImplicitParam(name = "jwt", value = "JWT Token", required = true, dataType = "string", paramType = "header")})
-    public ResponseEntity<String> enterTheRwmRoom(@ApiIgnore final Authentication authentication, @PathVariable Long id, @RequestBody String bookName){
+    public ResponseEntity<String> enterTheRwmRoom(@ApiIgnore final Authentication authentication, @PathVariable Long id, @RequestBody RwmBookName rwmBookName){
         if (authentication == null || !authentication.isAuthenticated()) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
         Long userId = ((User)authentication.getPrincipal()).getId();
 
-        rwmService.enterTheRoom(userId, id, bookName);
+        rwmService.enterTheRoom(userId, id, rwmBookName);
         return ResponseEntity.status(HttpStatus.CREATED).body("success");
     }
 

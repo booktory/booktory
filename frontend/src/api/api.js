@@ -51,5 +51,11 @@ export default {
 
     // notification
     registerFCMToken: "/notification",
+
+    //rwm
+    getRwmList: "/rwms",
+    enterRwmRoom: "/rwms/",
+    exitRwmRoom: "/rwms/",
+    getRwmParticipant: "/rwms/",
   },
 };
