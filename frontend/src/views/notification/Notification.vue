@@ -1,11 +1,7 @@
 <template>
   <div class="container">
     <div>
-      <div class="navbar">
-        <div class="icon" @click="updateReadStatus">
-          <icon-base><icon-arrow-left /></icon-base>
-        </div>
-      </div>
+      <TopHeader />
       <h4 class="title">알림</h4>
       <div class="alarm-wrapper">
         <div class="alarm-list">
@@ -41,13 +37,15 @@
 </template>
 <script>
 import { mapState } from "vuex";
+import TopHeader from "@/views/TopHeader.vue";
 import fire from "@/firebase.js";
-import router from "@/router";
 var moment = require("moment");
 
 export default {
   name: "Notification",
-  components: {},
+  components: {
+    TopHeader,
+  },
   computed: {
     ...mapState(["userId"]),
   },
@@ -86,7 +84,6 @@ export default {
             }
           }
         });
-      router.go(-1);
     },
     getMoreAlarm() {
       let prev = this.page;
@@ -124,6 +121,9 @@ export default {
 
       return `${Math.floor(diffTimeDay / 365)}년 전`;
     },
+  },
+  destroyed() {
+    this.updateReadStatus();
   },
 };
 </script>
