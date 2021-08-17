@@ -15,7 +15,7 @@
       />
       <div class="answer-info">
         <span class="font-body-4 nickname">{{ answer.nickname }}</span>
-        <span class="font-body-5">{{ converTime(answer.date) }}</span>
+        <span class="font-body-5">{{ convertTime(answer.date) }}</span>
       </div>
     </div>
     <p class="answer-content font-body-4">{{ answer.answerContents }}</p>
