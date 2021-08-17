@@ -250,6 +250,25 @@ const routes = [
     component: () => import("@/views/meeting/MeetingRoom.vue"),
     beforeEnter: requireAuth(),
   },
+
+  //같이 읽기
+  {
+    path: "/rwm",
+    name: "RwmMain",
+    component: () => import("@/views/rwm/RwmMain.vue"),
+  },
+  //같이 읽기 입장
+  {
+    path: "/rwm/enterance",
+    name: "RwmEnterance",
+    component: () => import("@/views/rwm/RwmEnterance.vue"),
+  },
+  //같이 읽기 방
+  {
+    path: "/rwm/room",
+    name: "RwmRoom",
+    component: () => import("@/views/rwm/RwmRoom.vue"),
+  },
 ];
 
 const router = new VueRouter({
