@@ -63,8 +63,11 @@ export default {
     ...mapState("clubStore", ["clubInfo", "meetingInfo"]),
   },
   created() {
+    this.mySessionId = `Session${this.meetingInfo.bookclubId}`;
+    // this.joinSession();
+  },
+  mounted() {
     this.joinSession();
-    this.mySessionId = "Session" + this.meetingInfo.bookclubId;
   },
   methods: {
     showBookInfo() {
@@ -74,7 +77,7 @@ export default {
         <div class="bookcard-box" style="display: flex;flex-direction: row;justify-content: flex-start;align-items: flex-start;gap: 10px;">
           <img src="` +
           this.clubInfo.thumbnail +
-          `" alt="bookThumbnail" class="bookcard-image" 
+          `" alt="bookThumbnail" class="bookcard-image"
           style="width: 8rem;height: 12rem;border-radius: 1rem;box-shadow: 0 3px 3px 0 var(--bg-black), inset 0 0 3px 0 var(--bg-black);"/>
           <div class="bookcard-info" style="display: flex;flex-direction: column;justify-content: flex-start;align-items: flex-start;margin-top:1rem;">
             <span class="bookcard-info-now font-body-4">읽고 있는 책</span>
@@ -126,6 +129,7 @@ export default {
       // 'getToken' method is simulating what your server-side should do.
       // 'token' parameter should be retrieved and returned by your own backend
       this.getToken(this.mySessionId).then((token) => {
+        // console.log("token : " + token);
         this.session
           .connect(token, { clientData: this.userNickname })
           .then(() => {
@@ -136,7 +140,7 @@ export default {
               videoSource: undefined, // The source of video. If undefined default webcam
               publishAudio: true, // Whether you want to start publishing with your audio unmuted or not
               publishVideo: true, // Whether you want to start publishing with your video enabled or not
-              resolution: "480x640", // The resolution of your video
+              resolution: "640x480", // The resolution of your video
               frameRate: 30, // The frame rate of your video
               insertMode: "APPEND", // How the video is inserted in the target element 'video-container'
               mirror: true, // Whether to mirror your local video or not
