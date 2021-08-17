@@ -21,7 +21,7 @@
           </div>
         </div>
         <span class="font-body-3 nickname">{{ question.nickname }}</span>
-        <span class="font-body-5">{{ question.date }}</span>
+        <span class="font-body-5">{{ convertTime(question.date) }}</span>
       </div>
     </div>
     <div v-if="question.isOpen || isLeader || question.userId == userId">
@@ -39,6 +39,9 @@ import { mapActions, mapState } from "vuex";
 import ClubQuestionAnswerList from "@/views/clubs/ClubQuestionAnswerList.vue";
 import IconLock from "@/components/icons/IconLock.vue";
 import Swal from "sweetalert2";
+var moment = require("moment");
+require("moment-timezone");
+moment.tz.setDefault("Asia/Seoul");
 
 export default {
   name: "ClubQuestionItem",
@@ -81,6 +84,12 @@ export default {
           this.registerAnswer(this.answerData);
         }
       })();
+    },
+    // 등록 시간 년월일 변환
+    convertTime(data) {
+      let ampm = moment(data).format("A") == "AM" ? "오전" : "오후";
+      let dateStr = moment(data).format("YYYY년 M월 D일 " + ampm + " h시 mm분");
+      return dateStr;
     },
   },
 };

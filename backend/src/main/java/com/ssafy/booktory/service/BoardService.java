@@ -55,7 +55,7 @@ public class BoardService {
                         board.getUser().getNickname(),
                         board.getUser().getProfileImg(),
                         board.getContents(),
-                        board.getCreatedDate(),
+                        board.getCreatedDate().plusHours(9L),
                         board.getFileUrl()
                 ))
                 .collect(Collectors.toList());
