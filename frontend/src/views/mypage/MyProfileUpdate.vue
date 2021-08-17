@@ -161,7 +161,7 @@ export default {
         this.updateUserInfo(this.userInfo);
       } else {
         Swal.fire({
-          icon: "error",
+          icon: "warning",
           html: "유효하지 않은 값은 넣을 수 없어요!<br>입력한 값을 다시 확인해주세요.",
           showConfirmButton: false,
           timer: 1500,

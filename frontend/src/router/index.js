@@ -10,7 +10,7 @@ const requireAuth = () => (to, from, next) => {
     return next();
   }
   Swal.fire({
-    icon: "error",
+    icon: "warning",
     title: "로그인이 필요한 페이지입니다",
     showConfirmButton: false,
     timer: 2000,
