@@ -18,6 +18,7 @@
 <script>
 import { mapActions } from "vuex";
 import IconSearch from "@/components/icons/IconSearch.vue";
+import Swal from "sweetalert2";
 
 export default {
   name: "ClubCreateBookBar",
@@ -33,7 +34,15 @@ export default {
   methods: {
     ...mapActions("searchStore", ["searchBookByKeyword"]),
     clickSearch() {
-      this.searchBookByKeyword(this.keyword);
+      this.keyword = this.keyword.trim();
+      if (this.keyword.length > 0) {
+        this.searchBookByKeyword(this.keyword);
+      } else {
+        Swal.fire({
+          icon: "warning",
+          title: "검색어를 입력해주세요",
+        });
+      }
     },
   },
 };
