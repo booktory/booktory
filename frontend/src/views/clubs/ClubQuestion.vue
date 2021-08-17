@@ -57,7 +57,7 @@ export default {
     ClubQuestionList,
   },
   computed: {
-    ...mapState("clubStore", ["questionList"]),
+    ...mapState("clubStore", ["questionList", "clubImage"]),
   },
   data() {
     return {
@@ -80,30 +80,29 @@ export default {
         this.questionData.contents = "";
       });
     },
+    // 배경 이미지 설정
+    setBackgroundImage() {
+      document.getElementsByClassName("bg-img")[0].style.backgroundImage =
+        "var(--clubdetail-bg-" + this.clubImage + ")";
+    },
   },
   created() {
     this.findQuestionList(this.questionData.clubId);
+  },
+  async mounted() {
+    await this.setBackgroundImage();
   },
 };
 </script>
 
 <style scoped>
 .bg-img {
-  position: relative;
-  padding: 0;
-}
-.bg-img:after {
-  position: absolute;
-  content: "";
-  top: 0;
-  left: 0;
-  width: 100%;
+  width: 100vw;
   height: 100%;
   min-height: 100vh;
-  background-image: url("./images/club-backgroud.png");
-  background-size: cover;
-  opacity: 0.7;
+  background-size: contain;
   z-index: -1;
+  padding: 0;
 }
 .card {
   width: inherit;

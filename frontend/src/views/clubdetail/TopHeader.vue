@@ -1,13 +1,13 @@
 <template>
   <div class="navbar">
     <div>
-      <div v-if="yesBack" class="icon left" @click="$router.go(-1)">
-        <icon-base><icon-arrow-left /></icon-base>
+      <div v-if="yesBack" class="icon left shadow" @click="$router.go(-1)">
+        <icon-base :iconColor="'var(--white)'"><icon-arrow-left /></icon-base>
       </div>
     </div>
     <div></div>
-    <div class="icon right" @click="$router.push({ name: 'ClubHome' })">
-      <icon-base><icon-x /></icon-base>
+    <div class="icon right shadow" @click="$router.push({ name: 'ClubHome' })">
+      <icon-base :iconColor="'var(--white)'"><icon-x /></icon-base>
     </div>
   </div>
 </template>
@@ -31,5 +31,8 @@ export default {
 <style scoped>
 .right {
   justify-self: left;
+}
+.shadow {
+  filter: drop-shadow(0.1rem 0.1rem 7px black);
 }
 </style>

@@ -3,7 +3,6 @@ import Vuex from "vuex";
 
 Vue.use(Vuex);
 
-import examples from "./modules/examples.js";
 import accountStore from "@/store/modules/accountStore";
 import mypageStore from "@/store/modules/mypageStore";
 import mybookStore from "@/store/modules/mybookStore";
@@ -91,6 +90,5 @@ export default new Vuex.Store({
     boardStore,
     bookclubStore,
     rwmStore,
-    examples,
   },
 });

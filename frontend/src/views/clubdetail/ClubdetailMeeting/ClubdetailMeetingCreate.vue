@@ -1,5 +1,5 @@
 <template>
-  <div class="container bg-image">
+  <div class="container bg-img">
     <div>
       <TopHeader />
       <div class="card">
@@ -61,7 +61,7 @@ export default {
     };
   },
   computed: {
-    ...mapState("clubStore", ["clubInfo", "clubId"]),
+    ...mapState("clubStore", ["clubInfo", "clubId", "clubImage"]),
     ...mapState("bookclubStore", ["nextbookclubList"]),
   },
   methods: {
@@ -77,6 +77,14 @@ export default {
     notBeforeTodayCurrTime(date) {
       return date < new Date(new Date().setHours(new Date().getHours() + 1, 0, 0, 0));
     },
+    // 배경 이미지 설정
+    setBackgroundImage() {
+      document.getElementsByClassName("bg-img")[0].style.backgroundImage =
+        "var(--clubdetail-bg-" + this.clubImage + ")";
+    },
+  },
+  async mounted() {
+    await this.setBackgroundImage();
   },
 };
 </script>

@@ -157,6 +157,57 @@
           </div>
         </div>
       </div>
+      <!-- 클럽 대표사진 설정 -->
+      <div class="input-div">
+        <label for="img">클럽 대표사진</label>
+        <span class="radio-wrapper">
+          <div class="radio-wrapper-item">
+            <input type="radio" v-model="clubData.img" value="1" checked />
+            <div class="img-div">
+              <img
+                src="https://booktory.s3.ap-northeast-2.amazonaws.com/static/default/clubthum-1.jpg"
+                alt=""
+              />
+            </div>
+          </div>
+          <div class="radio-wrapper-item">
+            <input type="radio" v-model="clubData.img" value="2" />
+            <div class="img-div">
+              <img
+                src="https://booktory.s3.ap-northeast-2.amazonaws.com/static/default/clubthum-2.jpg"
+                alt=""
+              />
+            </div>
+          </div>
+          <div class="radio-wrapper-item">
+            <input type="radio" v-model="clubData.img" value="3" />
+            <div class="img-div">
+              <img
+                src="https://booktory.s3.ap-northeast-2.amazonaws.com/static/default/clubthum-3.jpg"
+                alt=""
+              />
+            </div>
+          </div>
+          <div class="radio-wrapper-item">
+            <input type="radio" v-model="clubData.img" value="4" />
+            <div class="img-div">
+              <img
+                src="https://booktory.s3.ap-northeast-2.amazonaws.com/static/default/clubthum-4.jpg"
+                alt=""
+              />
+            </div>
+          </div>
+          <div class="radio-wrapper-item">
+            <input type="radio" v-model="clubData.img" value="5" />
+            <div class="img-div">
+              <img
+                src="https://booktory.s3.ap-northeast-2.amazonaws.com/static/default/clubthum-5.jpg"
+                alt=""
+              />
+            </div>
+          </div>
+        </span>
+      </div>
       <button type="button" class="button-2 m-top-10" :disabled="!isSubmit" @click="clickNext">
         다음
       </button>
@@ -184,7 +235,7 @@ export default {
     return {
       clubData: {
         name: "",
-        img: "",
+        img: "1",
         info: "",
         maxMember: 8,
         isOpen: true,
@@ -386,7 +437,7 @@ select {
 .two-input {
   width: 30em;
   display: flex;
-  margin: 2em auto 0;
+  margin: 2.5rem auto;
 }
 
 .two-input .max-member {
@@ -418,5 +469,30 @@ select {
   transition: all linear 0.3s;
   display: inline-block;
   margin-right: 0.7em;
+}
+
+.radio-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+  gap: 0.8rem;
+
+  &-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+
+    .img-div {
+      width: 5rem;
+      height: 100%;
+
+      img {
+        width: 5rem;
+        height: 7.5rem;
+        border-radius: 1rem;
+      }
+    }
+  }
 }
 </style>

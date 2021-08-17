@@ -1,5 +1,5 @@
 <template>
-  <div class="container bg-image">
+  <div class="container bg-img">
     <div>
       <TopHeader />
       <div class="card">
@@ -139,7 +139,7 @@ export default {
     IconDelete,
   },
   computed: {
-    ...mapState("clubStore", ["clubInfo", "clubId"]),
+    ...mapState("clubStore", ["clubInfo", "clubId", "clubImage"]),
     ...mapState("bookclubStore", [
       "bookclubList",
       "nowbookclub",
@@ -165,9 +165,17 @@ export default {
         }
       });
     },
+    // 배경 이미지 설정
+    setBackgroundImage() {
+      document.getElementsByClassName("bg-img")[0].style.backgroundImage =
+        "var(--clubdetail-bg-" + this.clubImage + ")";
+    },
   },
   created() {
     this.getBookClubList(this.clubId);
+  },
+  async mounted() {
+    await this.setBackgroundImage();
   },
 };
 </script>

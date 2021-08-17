@@ -6,7 +6,6 @@
       :index="clubIndex"
       @click-left="onClickLeft"
       @click-right="onClickRight"
-      class="bg-img"
     />
   </div>
 </template>

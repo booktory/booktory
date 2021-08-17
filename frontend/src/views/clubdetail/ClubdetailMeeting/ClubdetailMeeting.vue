@@ -1,5 +1,5 @@
 <template>
-  <div class="container bg-image">
+  <div class="container bg-img">
     <div>
       <TopHeader />
       <div class="card">
@@ -108,11 +108,8 @@ export default {
     Navbar,
   },
   computed: {
-    ...mapState("clubStore", ["clubInfo", "clubId"]),
+    ...mapState("clubStore", ["clubInfo", "clubId", "clubImage"]),
     ...mapState("bookclubStore", ["nowbookclub", "prebookclubList"]),
-  },
-  created() {
-    this.getBookClubList(this.clubId);
   },
   methods: {
     ...mapActions("bookclubStore", ["cancelMeeting", "getBookClubList"]),
@@ -142,6 +139,17 @@ export default {
 
       return dateStr;
     },
+    // 배경 이미지 설정
+    setBackgroundImage() {
+      document.getElementsByClassName("bg-img")[0].style.backgroundImage =
+        "var(--clubdetail-bg-" + this.clubImage + ")";
+    },
+  },
+  created() {
+    this.getBookClubList(this.clubId);
+  },
+  async mounted() {
+    await this.setBackgroundImage();
   },
 };
 </script>

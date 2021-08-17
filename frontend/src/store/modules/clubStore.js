@@ -25,6 +25,7 @@ const clubStore = {
     newClubData: null,
     clubIndex: 0,
     isRegisterBook: null,
+    clubImage: null,
   },
   getters: {
     myClubList(state) {
@@ -62,6 +63,9 @@ const clubStore = {
     },
     isRegisterBook(state) {
       return state.isRegisterBook;
+    },
+    clubImage(state) {
+      return state.clubImage;
     },
   },
   mutations: {
@@ -101,6 +105,9 @@ const clubStore = {
     SET_IS_REGISTER_BOOK(state, data) {
       state.isRegisterBook = data;
     },
+    SET_CLUB_IMAGE(state, data) {
+      state.clubImage = data;
+    },
   },
   actions: {
     // 내 클럽 정보 확인
@@ -129,6 +136,7 @@ const clubStore = {
           commit("SET_CLUBID", clubId);
           commit("SET_CLUB_INFO", res.data);
           commit("SET_IS_LEADER", res.data.isLeader);
+          commit("SET_CLUB_IMAGE", res.data.img);
           // 다음 모임 정보 설정
           let meetingInfo = null;
           // console.log(res.data.endDateTime);

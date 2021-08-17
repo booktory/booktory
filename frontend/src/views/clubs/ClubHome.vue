@@ -19,7 +19,7 @@ import ClubList from "@/views/clubs/ClubList.vue";
 import Navbar from "@/views/Navbar.vue";
 import TopHeader from "@/views/TopHeader.vue";
 import router from "@/router";
-import { mapActions } from "vuex";
+import { mapActions, mapState } from "vuex";
 
 export default {
   name: "ClubHome",
@@ -28,31 +28,40 @@ export default {
     Navbar,
     TopHeader,
   },
+  computed: {
+    ...mapState("clubStore", ["clubImage"]),
+  },
+  watch: {
+    clubImage: {
+      handler() {
+        this.setBackgroundImage();
+      },
+    },
+  },
   methods: {
     ...mapActions("searchStore", ["initClubList"]),
     clickSearch() {
       this.initClubList();
       router.push({ name: "ClubSearch" });
     },
+    // 배경 이미지 설정
+    setBackgroundImage() {
+      document.getElementsByClassName("bg-img")[0].style.backgroundImage =
+        "var(--background-" + this.clubImage + ")";
+    },
+  },
+  async mounted() {
+    await this.setBackgroundImage();
   },
 };
 </script>
 
 <style scoped>
 .bg-img {
-  position: relative;
-}
-.bg-img:after {
-  position: absolute;
-  content: "";
-  top: 0;
-  left: 0;
-  width: 100%;
+  width: 100vw;
   height: 100%;
   min-height: 100vh;
-  background-image: url("./images/club-backgroud.png");
   background-size: cover;
-  opacity: 0.3;
   z-index: -1;
 }
 .text-right {

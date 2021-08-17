@@ -1,6 +1,6 @@
 <template>
   <div class="clubdetail-container">
-    <div class="bg-image">
+    <div class="bg-img">
       <div class="icon" @click="$router.push({ name: 'ClubHome' })">
         <icon-base><icon-x /></icon-base>
       </div>
