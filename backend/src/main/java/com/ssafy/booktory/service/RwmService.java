@@ -37,6 +37,13 @@ public class RwmService {
         return rwmList;
     }
 
+    public RwmRoomResponseDto getRoomInfo(Long id) {
+        Rwm rwm = rwmRepository.findById(id)
+                .orElseThrow(()->new NoSuchElementException("존재하지 않는 방 입니다."));
+        int userCount = rwmLogRepository.countByRwm(rwm);
+        return new RwmRoomResponseDto(rwm, userCount);
+    }
+
     @Transactional
     public RwmParticipantResponseDto getParticipant(Long id) {
         Rwm rwm = rwmRepository.findById(id)
@@ -83,5 +90,6 @@ public class RwmService {
     private Date dateTimeToDate(LocalDateTime time) {
         return Date.from(time.atZone(ZoneId.systemDefault()).toInstant());
     }
+
 
 }
