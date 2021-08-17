@@ -131,6 +131,7 @@ const clubStore = {
           commit("SET_IS_LEADER", res.data.isLeader);
           // 다음 모임 정보 설정
           let meetingInfo = null;
+          // console.log(res.data.endDateTime);
           if (res.data.endDateTime) {
             meetingInfo = {
               bookclubId: res.data.bookClubId,
@@ -140,6 +141,7 @@ const clubStore = {
               isCalc: true,
             };
           }
+
           commit("SET_MEETING_INFO", meetingInfo);
           dispatch("calcRemainTime");
         })
@@ -163,7 +165,10 @@ const clubStore = {
       let meetingInfo = getters.meetingInfo;
       // 다음 모임이 있으면 남은 시간 계산
       if (meetingInfo && meetingInfo.isCalc) {
-        let diffSecond = Math.floor(moment(meetingInfo.startTime).subtract(moment()) / 1000);
+        // console.log(meetingInfo.isOpen);
+        let diffSecond = Math.floor(
+          moment(meetingInfo.startTime).add(9, "h").subtract(moment()) / 1000
+        );
         let diffTime = Math.floor(diffSecond / 60);
         let diffTimeHour = Math.floor(diffTime / 60);
         let diffTimeDay = Math.floor(diffTimeHour / 24);
@@ -174,11 +179,11 @@ const clubStore = {
         if (diffTime >= 10) dateStr += (diffTime % 60) + "분 ";
         if (diffSecond > 0) dateStr += (diffSecond % 60) + "초 ";
         meetingInfo.remainTime = dateStr + "남았습니다.";
-        if (diffTime < 10 && diffTime >= 0) {
+        if (diffTime < 10) {
           meetingInfo.isOpen = true;
           meetingInfo.remainTime = "곧 모임이 시작됩니다.";
         }
-        if (diffSecond <= 0 && diffTime >= -60) {
+        if (diffSecond <= 0) {
           meetingInfo.remainTime = "모임이 시작되었습니다.";
           meetingInfo.isCalc = false;
         }

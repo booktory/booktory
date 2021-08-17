@@ -168,8 +168,10 @@ export default {
     },
     // 모임 시간 년월일 변환
     convertTime(data) {
-      let ampm = moment(data).format("A") == "AM" ? "오전" : "오후";
-      let dateStr = moment(data).format("YYYY년 M월 D일 " + ampm + " h시 mm분");
+      let ampm = moment(data).add(9, "h").format("A") == "AM" ? "오전" : "오후";
+      let dateStr = moment(data)
+        .add(9, "h")
+        .format("YYYY년 M월 D일 " + ampm + " h시 mm분");
       return dateStr;
     },
   },
