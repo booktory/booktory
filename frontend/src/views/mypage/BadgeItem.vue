@@ -60,7 +60,7 @@ export default {
         if (result.isDenied) {
           if (this.badge.isMain) {
             Swal.fire({
-              icon: "error",
+              icon: "warning",
               text: "현재 설정된 대표 배지입니다",
             });
           } else {

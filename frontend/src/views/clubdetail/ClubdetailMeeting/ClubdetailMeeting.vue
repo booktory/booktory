@@ -17,7 +17,7 @@
           <div class="next-meeting">
             <div v-if="nowbookclub != null">
               <div class="meeting-card m-top-1">
-                <div class="icon icon-cancel" @click="clickCancel">
+                <div v-if="clubInfo.isLeader" class="icon icon-cancel" @click="clickCancel">
                   <icon-base><icon-x /></icon-base>
                 </div>
                 <div class="meeting-card-head">
@@ -68,16 +68,19 @@
                 <div v-if="preMeeting.userList.length > 0" class="meeting-card-footer font-body-4">
                   <div>{{ preMeeting.userList.length }}명이 책을 함께 읽었어요</div>
                   <div class="meeting-card-footer-list">
-                    <img
+                    <div
+                      class="meeting-card-footer-profileImg"
                       v-for="(user, idx) in preMeeting.userList"
                       :key="idx"
-                      :src="
-                        user.profileImg
-                          ? user.profileImg
-                          : 'https://booktory.s3.ap-northeast-2.amazonaws.com/static/default/profile.png'
-                      "
-                      class="meeting-card-footer-profileImg"
-                    />
+                    >
+                      <img
+                        :src="
+                          user.profileImg
+                            ? user.profileImg
+                            : 'https://booktory.s3.ap-northeast-2.amazonaws.com/static/default/profile.png'
+                        "
+                      />
+                    </div>
                   </div>
                 </div>
               </div>

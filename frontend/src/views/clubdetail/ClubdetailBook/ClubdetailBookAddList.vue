@@ -56,7 +56,7 @@ export default {
       if (this.selectedBooks.indexOf(book) < 0) {
         if (this.isRegisterBook) {
           Swal.fire({
-            icon: "error",
+            icon: "warning",
             title: "클럽에 이미 등록된 책입니다",
             showConfirmButton: false,
             timer: 1500,
@@ -67,7 +67,7 @@ export default {
         }
       } else {
         Swal.fire({
-          icon: "error",
+          icon: "warning",
           title: "이미 선택된 책입니다",
           showConfirmButton: false,
           timer: 1500,

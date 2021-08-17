@@ -7,15 +7,16 @@
       </div>
     </div>
     <div class="user-info">
-      <img
-        class="profile-image"
-        :src="
-          profileImg
-            ? profileImg
-            : 'https://booktory.s3.ap-northeast-2.amazonaws.com/static/default/profile.png'
-        "
-        alt="profile-image"
-      />
+      <div class="profile-image">
+        <img
+          :src="
+            profileImg
+              ? profileImg
+              : 'https://booktory.s3.ap-northeast-2.amazonaws.com/static/default/profile.png'
+          "
+          alt="profile-image"
+        />
+      </div>
       <div class="info-frame">
         <span v-if="mainBadge" class="font-body-4 main-badge">{{ mainBadge }}</span>
         <h5>{{ nickname }}</h5>
@@ -86,7 +87,19 @@ export default {
   width: 6em;
   height: 6em;
   border-radius: 10em;
+  overflow: hidden;
+  position: relative;
   background-color: var(--very-light-orange);
+}
+.profile-image img {
+  min-width: 100%;
+  height: 6rem;
+  margin: auto;
+  position: absolute;
+  left: -100%;
+  right: -100%;
+  top: -100%;
+  bottom: -100%;
 }
 .info-frame {
   display: flex;

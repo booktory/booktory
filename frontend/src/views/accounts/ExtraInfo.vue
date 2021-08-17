@@ -15,15 +15,16 @@
           <div class="icon profile-btn" @click="clickProfileImg">
             <icon-base><icon-camera /></icon-base>
           </div>
-          <img
-            class="profile-img"
-            :src="
-              extraData.profileImg
-                ? extraData.profileImg
-                : 'https://booktory.s3.ap-northeast-2.amazonaws.com/static/default/profile.png'
-            "
-            alt="Profile Image"
-          />
+          <div class="profile-img">
+            <img
+              :src="
+                extraData.profileImg
+                  ? extraData.profileImg
+                  : 'https://booktory.s3.ap-northeast-2.amazonaws.com/static/default/profile.png'
+              "
+              alt="Profile Image"
+            />
+          </div>
         </div>
       </div>
       <div class="input-div">

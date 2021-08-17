@@ -39,6 +39,7 @@
 import { mapActions, mapState } from "vuex";
 import ClubSearchBarPageList from "@/views/clubs/ClubSearchBarPageList.vue";
 import IconSearch from "@/components/icons/IconSearch.vue";
+import Swal from "sweetalert2";
 
 export default {
   name: "ClubSearchBarPage",
@@ -58,7 +59,15 @@ export default {
     ...mapActions("searchStore", ["searchClubByName", "initClubList"]),
     ...mapActions("clubStore", ["findClubInfo"]),
     clickSearch() {
-      this.searchClubByName(this.keyword);
+      this.keyword = this.keyword.trim();
+      if (this.keyword.length > 0) {
+        this.searchClubByName(this.keyword);
+      } else {
+        Swal.fire({
+          icon: "warning",
+          title: "검색어를 입력해주세요",
+        });
+      }
     },
   },
 };

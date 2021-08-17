@@ -92,7 +92,9 @@
               <h5>운영규칙</h5>
               <p class="font-body-3">•&nbsp;&nbsp;한 달에 {{ clubInfo.volumeRule }}권을 읽어요</p>
               <p class="font-body-3">•&nbsp;&nbsp;{{ clubInfo.weekRule }}주에 1번 만나요</p>
-              <p v-if="clubInfo.freeRule" class="font-body-3 m-top-1">• {{ clubInfo.freeRule }}</p>
+              <p v-if="clubInfo.freeRule" class="font-body-3 m-top-1">
+                •&nbsp;&nbsp;{{ clubInfo.freeRule }}
+              </p>
             </div>
 
             <div class="books m-top-2">

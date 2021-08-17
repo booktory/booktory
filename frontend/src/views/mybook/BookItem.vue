@@ -1,13 +1,15 @@
 <template>
   <div class="book-item-wrapper">
     <div class="book-thumbnail-wrapper">
-      <img :src="thumbnail" :alt="title" :title="title" class="book-thumbnail" />
+      <img :src="thumbnail" :alt="title" :title="title" class="book-thumbnail" @click="clickBook" />
     </div>
     <div v-if="index % 4 == 0" class="book-bottom"></div>
   </div>
 </template>
 
 <script>
+import Swal from "sweetalert2";
+
 export default {
   name: "BookItem",
   components: {},
@@ -25,7 +27,16 @@ export default {
       type: String,
     },
   },
-  methods: {},
+  methods: {
+    clickBook() {
+      Swal.fire({
+        title: this.title,
+        imageUrl: this.thumbnail,
+        html: "<div></div>",
+        showConfirmButton: false,
+      });
+    },
+  },
 };
 </script>
 
