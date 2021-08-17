@@ -16,6 +16,8 @@ import IconChevronRight from "@/components/icons/IconChevronRight.vue";
 Vue.component("icon-chevron-right", IconChevronRight);
 import IconX from "@/components/icons/IconX.vue";
 Vue.component("icon-x", IconX);
+import IconUsers from "@/components/icons/IconUsers.vue";
+Vue.component("icon-users", IconUsers);
 
 // Plugins
 import DatePicker from "vue2-datepicker";

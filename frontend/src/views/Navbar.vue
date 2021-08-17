@@ -10,7 +10,7 @@
         <span :class="{ orange: selected == 'home' }" class="sub-item font-body-5">홈</span>
       </div>
       <div class="item">
-        <p class="sub-item icon">
+        <p class="sub-item icon" @click="$router.push({ name: 'RwmMain' })">
           <icon-base :iconColor="selected == 'rwm' ? 'var(--orange)' : 'var(--grey)'"
             ><icon-rwm
           /></icon-base>

@@ -1,10 +1,7 @@
 package com.ssafy.booktory.service;
 
 
-import com.ssafy.booktory.domain.rwm.Rwm;
-import com.ssafy.booktory.domain.rwm.RwmListResponseDto;
-import com.ssafy.booktory.domain.rwm.RwmParticipantResponseDto;
-import com.ssafy.booktory.domain.rwm.RwmRepository;
+import com.ssafy.booktory.domain.rwm.*;
 import com.ssafy.booktory.domain.rwmlog.RwmLog;
 import com.ssafy.booktory.domain.rwmlog.RwmLogRepository;
 import com.ssafy.booktory.domain.user.User;
@@ -49,15 +46,20 @@ public class RwmService {
         return new RwmParticipantResponseDto(rwm.getName(), rwmLogs);
     }
 
-    public RwmLog enterTheRoom(Long userId, Long rwmId, String bookName) {
+    public RwmLog enterTheRoom(Long userId, Long rwmId, RwmBookName rwmBookName) {
         User user = userRepository.findById(userId)
                 .orElseThrow(()-> new NoSuchElementException("사용자 정보가 존재하지 않습니다."));
         Rwm rwm = rwmRepository.findById(rwmId)
                 .orElseThrow(()-> new NoSuchElementException("존재하지 않는 rwm방 입니다."));
+        if(rwmLogRepository.countByUserAndRwm(user, rwm) != 0){
+            RwmLog rwmLog = rwmLogRepository.findByUserAndRwm(user, rwm)
+                    .orElseThrow(()-> new NoSuchElementException("처리중에 오류가 발생하였습니다. 다시 시도해주세요."));
+            rwmLogRepository.delete(rwmLog);
+        }
         RwmLog rwmLog = RwmLog.builder()
                 .user(user)
                 .rwm(rwm)
-                .bookName(bookName)
+                .bookName(rwmBookName.getTitle())
                 .build();
         return rwmLogRepository.save(rwmLog);
     }
