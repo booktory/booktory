@@ -1,15 +1,16 @@
 <template>
   <div class="board-item-wrapper">
     <div class="board-frame">
-      <img
-        class="profileImg"
-        :src="
-          board.profileImg
-            ? board.profileImg
-            : 'https://booktory.s3.ap-northeast-2.amazonaws.com/static/default/profile.png'
-        "
-        alt="프로필 사진"
-      />
+      <div class="profileImg">
+        <img
+          :src="
+            board.profileImg
+              ? board.profileImg
+              : 'https://booktory.s3.ap-northeast-2.amazonaws.com/static/default/profile.png'
+          "
+          alt="프로필 사진"
+        />
+      </div>
       <div class="board-info">
         <div v-if="board.fileUrl" class="sub-info">
           <div @click="clickFile" class="file">

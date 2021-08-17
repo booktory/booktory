@@ -4,15 +4,16 @@
       <div class="icon left" @click="$router.go(-1)">
         <icon-base :iconColor="'var(--grey)'" :width="'1.6rem'"><icon-answer /></icon-base>
       </div>
-      <img
-        class="profileImg"
-        :src="
-          answer.profileImg
-            ? answer.profileImg
-            : 'https://booktory.s3.ap-northeast-2.amazonaws.com/static/default/profile.png'
-        "
-        alt="프로필 사진"
-      />
+      <div class="profileImg">
+        <img
+          :src="
+            answer.profileImg
+              ? answer.profileImg
+              : 'https://booktory.s3.ap-northeast-2.amazonaws.com/static/default/profile.png'
+          "
+          alt="프로필 사진"
+        />
+      </div>
       <div class="answer-info">
         <span class="font-body-4 nickname">{{ answer.nickname }}</span>
         <span class="font-body-5">{{ answer.date }}</span>
@@ -58,6 +59,9 @@ export default {
   width: 3.5rem;
   height: 3.5rem;
 }
+.profileImg img {
+  height: 3.5rem;
+}
 .answer-info {
   position: relative;
   display: grid;
@@ -72,7 +76,7 @@ export default {
   color: var(--orange);
 }
 .answer-content {
-  margin: 1rem 0.7rem;
+  margin: 1rem 0 1rem 3rem;
   text-align: justify;
 }
 </style>

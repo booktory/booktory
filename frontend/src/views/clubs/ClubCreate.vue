@@ -234,7 +234,7 @@ export default {
           this.clubData.genres.push(event.target.id);
         } else {
           Swal.fire({
-            icon: "error",
+            icon: "warning",
             title: "최대 5개까지 선택 가능해요",
             showConfirmButton: false,
             timer: 2000,
