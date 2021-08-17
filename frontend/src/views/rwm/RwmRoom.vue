@@ -2,9 +2,14 @@
   <div class="container">
     <RwmRoomHeader />
     <div class="rwm-api-wrapper">
-        YOUTUBE API!!!!
+      <div v-if="this.rwmRoomInfo">
+        <img :src= "this.rwmRoomInfo.img" alt="rwm thumbnail" width="80%"/>
+        <h5 class="">{{this.rwmRoomInfo.name}}</h5>
+        <p class="">{{this.rwmRoomInfo.userCount}}명이 참여하고 있어요</p>
+        <p class="">{{this.rwmRoomInfo.info}}</p>      
+      </div>
 
-
+      <RwmRoomYoutube/>
     </div>
     <button class="button-2" @click="clickExitRwmRoom">나가기</button>
     <Navbar :selected="'rwm'" class="footer" />
@@ -13,24 +18,28 @@
 
 <script>
 import RwmRoomHeader from "@/views/rwm/RwmRoomHeader.vue";
+import RwmRoomYoutube from "@/views/rwm/RwmRoomYoutube.vue";
 import Navbar from "@/views/Navbar.vue";
-import { mapActions } from "vuex";
+import { mapActions, mapState } from "vuex";
 
 export default {
   name: "RwmMain",
   components: {
     RwmRoomHeader,
+    RwmRoomYoutube,
     Navbar,
   },
   computed: {
+    ...mapState("rwmStore", ["rwmRoomInfo"]),
   },
   methods: {
-    ...mapActions("rwmStore", ["exitRwmRoom"]),
+    ...mapActions("rwmStore", ["exitRwmRoom", "findRwmRoomInfo"]),
     clickExitRwmRoom(){
       this.exitRwmRoom(this.$route.query.id);
     },  
   },
   created() {
+    this.findRwmRoomInfo(this.$route.query.id);
   },
 };
 </script>

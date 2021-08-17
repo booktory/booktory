@@ -7,10 +7,14 @@ import Swal from "sweetalert2";
 const rwmStore = {
   namespaced: true,
   state: {
+    rwmRoomInfo: null,
     rwmList: null,
     rwmParticipant: null,
   },
   getters: {
+    rwmRoomInfo(state) {
+      return state.rwmRoomInfo;
+    },
     rwmList(state) {
       return state.rwmList;
     },
@@ -19,6 +23,9 @@ const rwmStore = {
     }
   },
   mutations: {
+    SET_RWMROOMINFO(state, data) {
+      state.rwmRoomInfo = data;
+    },
     SET_RWMLIST(state, data) {
       state.rwmList = data;
     },
@@ -27,6 +34,17 @@ const rwmStore = {
     },
   },
   actions: {
+    findRwmRoomInfo({ commit }, rwmId) {
+      axios
+        .get(SERVER.URL + SERVER.ROUTES.getRwmRoomInfo + rwmId)
+        .then((res) => {
+          commit("SET_RWMROOMINFO", res.data);
+          console.log(res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+    },
     findRwmList({ commit }) {
       axios
         .get(SERVER.URL + SERVER.ROUTES.getRwmList)
@@ -39,8 +57,9 @@ const rwmStore = {
     },
     findRwmParticipant({ commit }, rwmId) {
       axios
-        .get(SERVER.URL + SERVER.ROUTES.getRwmParticipant + rwmId)
+        .get(SERVER.URL + SERVER.ROUTES.getRwmParticipant + rwmId + "/users")
         .then((res) => {
+          console.log(res.data);
           commit("SET_PARTICIPANTLIST", res.data);
           let swalHtml = `<div style="display:flex; flex-direction: column; justify-content:flex-start; align-items:flex-start;">`;
           for (var participant of res.data.userList) {
@@ -66,13 +85,6 @@ const rwmStore = {
         .catch((err) => {
           console.log(err);
         });
-      
-      console.log("store");
-      console.log(this.state.rwmParticipant);
-      
-      
-
-      
     },
     enterRwmRoom({ rootGetters }, rwmEnterData) {
       let rwmBookTitle = {
