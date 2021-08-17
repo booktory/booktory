@@ -103,5 +103,6 @@ export default {
 .board-content {
   margin: 1rem 0.7rem;
   text-align: justify;
+  word-wrap: break-word;
 }
 </style>
