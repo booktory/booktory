@@ -8,7 +8,7 @@
         <div v-if="this.rwmRoomInfo">
           <img class="rwm-image" :src="this.rwmRoomInfo.img" :alt="this.rwmRoomInfo.name" />
         </div>
-        <RwmRoomYoutube v-if="this.rwmRoomInfo" :apiLink="this.rwmRoomInfo.apiLink" />
+      <RwmRoomYoutube v-if="this.rwmRoomInfo" :rwmPlayList="this.rwmPlayList[(this.$route.query.id)*1]" :imgUrl="this.rwmRoomInfo.img" />
       </div>
       <div></div>
       <button class="button-2 m-top-5" @click="clickExitRwmRoom">나가기</button>
@@ -37,7 +37,7 @@ export default {
     };
   },
   computed: {
-    ...mapState("rwmStore", ["rwmRoomInfo"]),
+    ...mapState("rwmStore", ["rwmRoomInfo", "rwmPlayList"]),
   },
   methods: {
     ...mapActions("rwmStore", ["exitRwmRoom", "findRwmRoomInfo"]),
