@@ -7,7 +7,7 @@
           <label for="password">신규 비밀번호</label>
           <div>
             <input
-              v-model="passwordData.password"
+              v-model.trim="passwordData.password"
               v-bind:class="{
                 error: error.password,
                 complete: !error.password && passwordData.password.length !== 0,
@@ -25,7 +25,7 @@
           <label for="passwordConfirm">신규 비밀번호 확인</label>
           <div>
             <input
-              v-model="passwordData.passwordConfirm"
+              v-model.trim="passwordData.passwordConfirm"
               v-bind:class="{
                 error: error.passwordConfirm,
                 complete: !error.passwordConfirm && passwordData.passwordConfirm.length !== 0,

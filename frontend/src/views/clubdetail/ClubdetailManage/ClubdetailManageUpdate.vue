@@ -9,7 +9,7 @@
             <label for="name">클럽 이름</label>
             <div>
               <input
-                v-model="clubInfo.name"
+                v-model.trim="clubInfo.name"
                 v-bind:class="{
                   error: error.name,
                   complete: !error.name && clubInfo.name.length !== 0,
@@ -29,7 +29,7 @@
             <label for="info">클럽 소개</label>
             <div>
               <input
-                v-model="clubInfo.info"
+                v-model.trim="clubInfo.info"
                 v-bind:class="{
                   error: error.info,
                   complete: !error.info && clubInfo.info.length !== 0,
@@ -121,7 +121,7 @@
               <span class="font-body-3">• </span>
               <div class="freeRule-div">
                 <input
-                  v-model="clubInfo.freeRule"
+                  v-model.trim="clubInfo.freeRule"
                   type="text"
                   id="freeRule"
                   placeholder="만나서 독서토론을 진행해요"
@@ -160,7 +160,58 @@
               </div>
             </div>
           </div>
-          <button type="button" class="button-2 m-top-10" @click="clickUpdate">수정하기</button>
+          <!-- 클럽 대표사진 설정 -->
+          <div class="input-div">
+            <label for="img">클럽 대표사진</label>
+            <span class="radio-wrapper">
+              <div class="radio-wrapper-item">
+                <input type="radio" v-model="clubInfo.img" value="1" checked />
+                <div class="img-div">
+                  <img
+                    src="https://booktory.s3.ap-northeast-2.amazonaws.com/static/default/clubthum-1.jpg"
+                    alt=""
+                  />
+                </div>
+              </div>
+              <div class="radio-wrapper-item">
+                <input type="radio" v-model="clubInfo.img" value="2" />
+                <div class="img-div">
+                  <img
+                    src="https://booktory.s3.ap-northeast-2.amazonaws.com/static/default/clubthum-2.jpg"
+                    alt=""
+                  />
+                </div>
+              </div>
+              <div class="radio-wrapper-item">
+                <input type="radio" v-model="clubInfo.img" value="3" />
+                <div class="img-div">
+                  <img
+                    src="https://booktory.s3.ap-northeast-2.amazonaws.com/static/default/clubthum-3.jpg"
+                    alt=""
+                  />
+                </div>
+              </div>
+              <div class="radio-wrapper-item">
+                <input type="radio" v-model="clubInfo.img" value="4" />
+                <div class="img-div">
+                  <img
+                    src="https://booktory.s3.ap-northeast-2.amazonaws.com/static/default/clubthum-4.jpg"
+                    alt=""
+                  />
+                </div>
+              </div>
+              <div class="radio-wrapper-item">
+                <input type="radio" v-model="clubInfo.img" value="5" />
+                <div class="img-div">
+                  <img
+                    src="https://booktory.s3.ap-northeast-2.amazonaws.com/static/default/clubthum-5.jpg"
+                    alt=""
+                  />
+                </div>
+              </div>
+            </span>
+          </div>
+          <button type="button" class="button-2 update-btn" @click="clickUpdate">수정하기</button>
         </div>
       </div>
       <Navbar :selected="'manage'" />
@@ -182,7 +233,7 @@ export default {
   },
   computed: {
     ...mapState("searchStore", ["genreList"]),
-    ...mapState("clubStore", ["clubInfo", "clubImage"]),
+    ...mapState("clubStore", ["clubInfo", "clubImage", "clubId"]),
   },
   data() {
     return {
@@ -280,7 +331,7 @@ export default {
     },
   },
   created() {
-    this.findClubInfo();
+    this.findClubInfo(this.clubId);
   },
   async mounted() {
     await this.setBackgroundImage();

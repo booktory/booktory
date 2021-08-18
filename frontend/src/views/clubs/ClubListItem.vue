@@ -54,7 +54,7 @@
               <div class="bookcard-info-more">
                 <span class="font-body-4" @click="clickBookList">책 목록 더보기</span>
               </div>
-              <span class="bookcard-info-now font-body-5">읽고 있는 책</span>
+              <span class="bookcard-info-now font-body-4">읽고 있는 책</span>
               <h5 class="bookcard-info-title">
                 {{
                   clubInfo.title.length > 30
@@ -62,7 +62,7 @@
                     : clubInfo.title
                 }}
               </h5>
-              <div class="bookcard-info-subtitle font-body-4">
+              <div class="bookcard-info-subtitle font-body-5">
                 {{
                   clubInfo.author.length > 8
                     ? clubInfo.author.substr(0, 8) + "・・・"
@@ -155,8 +155,7 @@ export default {
       event.stopPropagation();
       Swal.fire({
         showCancelButton: true,
-        title: "모임 입장",
-        text: "모임에 입장하시겠습니까?",
+        title: "모임에 입장하시겠습니까?",
         confirmButtonText: "입장하기",
         cancelButtonText: "취소",
       }).then((result) => {

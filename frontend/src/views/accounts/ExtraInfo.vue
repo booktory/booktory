@@ -31,7 +31,7 @@
         <label for="name">이름</label>
         <div>
           <input
-            v-model="extraData.name"
+            v-model.trim="extraData.name"
             v-bind:class="{
               error: error.name,
               complete: !error.name,
@@ -69,7 +69,7 @@
         <label for="phone">전화번호</label>
         <div>
           <input
-            v-model="extraData.phone"
+            v-model.trim="extraData.phone"
             v-bind:class="{
               error: error.phone,
               complete: !error.phone,

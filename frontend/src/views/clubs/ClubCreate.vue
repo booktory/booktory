@@ -7,7 +7,7 @@
         <label for="name">클럽 이름</label>
         <div>
           <input
-            v-model="clubData.name"
+            v-model.trim="clubData.name"
             v-bind:class="{
               error: error.name,
               complete: !error.name && clubData.name.length !== 0,
@@ -27,7 +27,7 @@
         <label for="info">클럽 소개</label>
         <div>
           <input
-            v-model="clubData.info"
+            v-model.trim="clubData.info"
             v-bind:class="{
               error: error.info,
               complete: !error.info && clubData.info.length !== 0,
@@ -118,7 +118,7 @@
           <span class="font-body-3">• </span>
           <div class="freeRule-div">
             <input
-              v-model="clubData.freeRule"
+              v-model.trim="clubData.freeRule"
               type="text"
               id="freeRule"
               placeholder="만나서 독서토론을 진행해요"

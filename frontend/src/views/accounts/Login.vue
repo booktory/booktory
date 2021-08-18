@@ -30,7 +30,7 @@
         <label for="password">비밀번호</label>
         <div>
           <input
-            v-model="loginData.password"
+            v-model.trim="loginData.password"
             v-bind:class="{
               error: error.password,
               complete: !error.password && loginData.password.length !== 0,

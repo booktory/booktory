@@ -11,7 +11,7 @@
         <label for="nickname">닉네임</label>
         <div>
           <input
-            v-model="registerData.nickname"
+            v-model.trim="registerData.nickname"
             v-bind:class="{
               error: error.nickname,
               complete: !error.nickname && registerData.nickname.length !== 0,
@@ -50,7 +50,7 @@
         <label for="password">비밀번호</label>
         <div>
           <input
-            v-model="registerData.password"
+            v-model.trim="registerData.password"
             v-bind:class="{
               error: error.password,
               complete: !error.password && registerData.password.length !== 0,
@@ -68,7 +68,7 @@
         <label for="passwordConfirm">비밀번호 확인</label>
         <div>
           <input
-            v-model="registerData.passwordConfirm"
+            v-model.trim="registerData.passwordConfirm"
             v-bind:class="{
               error: error.passwordConfirm,
               complete: !error.passwordConfirm && registerData.passwordConfirm.length !== 0,
