@@ -196,7 +196,13 @@ public class UserService {
     public List<BookByUserResponseDto> getReadBooks(Long userId) {
         List<UserBook> books = userBookRepository.findByUserId(userId);
         return books.stream()
-                .map(book -> new BookByUserResponseDto(book.getBook().getId(), book.getBook().getTitle(), book.getBook().getThumbnail()))
+                .map(book -> new BookByUserResponseDto(
+                        book.getBook().getId(),
+                        book.getBook().getTitle(),
+                        book.getBook().getAuthor(),
+                        book.getBook().getPublisher(),
+                        book.getBook().getDate(),
+                        book.getBook().getThumbnail()))
                 .collect(Collectors.toList());
     }
 }
