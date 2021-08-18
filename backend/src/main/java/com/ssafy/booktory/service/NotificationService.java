@@ -49,7 +49,7 @@ public class NotificationService {
                 notificationRequestDto = NotificationRequestDto.builder()
                         .toUserFCMToken(token)
                         .title("클럽 가입 신청이 들어왔어요 :)")
-                        .message(user.getNickname() + "님이 " + club.getName() + " 클럽에 가입을 신청했어요 :)")
+                        .message(user.getNickname() + "님이 <b>" + club.getName() + "</b> 클럽에 가입을 신청했어요 :)")
                         .build();
                 saveNotification(notificationRequestDto, club.getUser().getId());
                 break;
@@ -58,7 +58,7 @@ public class NotificationService {
                 notificationRequestDto = NotificationRequestDto.builder()
                         .toUserFCMToken(token)
                         .title("가입 신청이 승인되었어요 :)")
-                        .message(club.getName() + " 클럽에 가입되었어요 :)")
+                        .message("<b>" + club.getName() + "</b> 클럽에 가입되었어요 :)")
                         .build();
                 saveNotification(notificationRequestDto, user.getId());
                 break;
@@ -67,7 +67,7 @@ public class NotificationService {
                 notificationRequestDto = NotificationRequestDto.builder()
                         .toUserFCMToken(token)
                         .title("가입 신청이 거절되었어요 :(")
-                        .message(club.getName() + " 클럽의 가입 신청이 거절되었어요 :(")
+                        .message("<b>" + club.getName() + "</b> 클럽의 가입 신청이 거절되었어요 :(")
                         .build();
                 saveNotification(notificationRequestDto, user.getId());
                 break;
@@ -76,7 +76,7 @@ public class NotificationService {
                 notificationRequestDto = NotificationRequestDto.builder()
                         .toUserFCMToken(token)
                         .title("클럽 가입 문의가 들어왔어요 :)")
-                        .message(user.getNickname() + "님이 " + club.getName() + " 클럽에 문의를 남겼어요 :)")
+                        .message(user.getNickname() + "님이 <b>" + club.getName() + "</b> 클럽에 문의를 남겼어요 :)")
                         .build();
                 saveNotification(notificationRequestDto, club.getUser().getId());
                 break;
@@ -85,7 +85,7 @@ public class NotificationService {
                 notificationRequestDto = NotificationRequestDto.builder()
                         .toUserFCMToken(token)
                         .title("문의에 대한 답변이 달렸어요 :)")
-                        .message(club.getName() + " 클럽 문의에 대한 답변이 달렸어요 :)")
+                        .message("<b>" + club.getName() + "</b> 클럽 문의에 대한 답변이 달렸어요 :)")
                         .build();
                 saveNotification(notificationRequestDto, user.getId());
                 break;
@@ -111,7 +111,7 @@ public class NotificationService {
                         NotificationRequestDto notificationRequestDto = NotificationRequestDto.builder()
                                 .toUserFCMToken(token)
                                 .title("새로운 모임이 생성됐어요 :)")
-                                .message(club.getName() + " 클럽에 새로운 모임이 생성됐어요." + "\n" + "스케줄을 확인해 주세요 :)")
+                                .message("<b>" + club.getName() + "</b> 클럽에 새로운 모임이 생성됐어요.<br>스케줄을 확인해 주세요 :)")
                                 .build();
                         saveNotification(notificationRequestDto, member.getUser().getId());
                         if (token != null) {
@@ -127,7 +127,7 @@ public class NotificationService {
                         NotificationRequestDto notificationRequestDto = NotificationRequestDto.builder()
                                 .toUserFCMToken(token)
                                 .title("모임이 취소됐어요 :(")
-                                .message(club.getName() + " 클럽에 예정됐던 모임이 취소됐어요." + "\n" + "스케줄을 확인해 주세요 :)")
+                                .message("<b>" + club.getName() + "</b> 클럽에 예정됐던 모임이 취소됐어요.<br>스케줄을 확인해 주세요 :)")
                                 .build();
                         saveNotification(notificationRequestDto, member.getUser().getId());
                         if (token != null) {
@@ -152,7 +152,7 @@ public class NotificationService {
         notificationRequestDto = NotificationRequestDto.builder()
                 .toUserFCMToken(token)
                 .title("새로운 배지를 획득했어요 :)")
-                .message("'" + badgeName[badgeId] + "' 배지를 새로 획득했어요." + "\n" + "마이페이지에서 확인해 보세요 :)")
+                .message("<b>" + badgeName[badgeId] + "</b> 배지를 새로 획득했어요.<br>마이페이지에서 확인해 보세요 :)")
                 .build();
 
         saveNotification(notificationRequestDto, user.getId());

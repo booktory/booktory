@@ -10,12 +10,11 @@ import com.ssafy.booktory.domain.clubgenre.ClubGenreRepository;
 import com.ssafy.booktory.domain.common.UserClubState;
 import com.ssafy.booktory.domain.userclub.UserClubRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -32,15 +31,17 @@ public class SearchService {
 
     @Transactional
     public List<ClubBySearchResponseDto> searchClub(String keyword, String genre) {
+//        Sort sort = new Sort(Sort.DEFAULT_DIRECTION.ASC, )
         if (genre != null) {
             List<String> searchGenres = new ArrayList<>(Arrays.asList(genre.split("\\+")));
             if (keyword != null) {
-                clubGenreList = clubGenreRepository.findClubsByKeywordAndGenres(keyword, searchGenres);
+                clubGenreList = clubGenreRepository.findClubsByKeywordAndGenresOrderByClubAsc(keyword, searchGenres);
             } else {
-                clubGenreList = clubGenreRepository.findClubsByGenres(searchGenres);
+                clubGenreList = clubGenreRepository.findClubsByGenresOrderByClubAsc(searchGenres);
             }
             clubList = new ArrayList<>(clubGenreList.stream()
                     .collect(Collectors.groupingBy(ClubGenre::getClub)).keySet());
+            Collections.sort(clubList, (c1, c2) -> c1.getId().compareTo(c2.getId()));
         } else {
             clubList = clubRepository.findByNameContains(keyword);
         }
