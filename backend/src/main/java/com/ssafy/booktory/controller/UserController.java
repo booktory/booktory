@@ -2,7 +2,7 @@ package com.ssafy.booktory.controller;
 
 import com.ssafy.booktory.domain.user.*;
 import com.ssafy.booktory.domain.book.BookByUserResponseDto;
-import com.ssafy.booktory.domain.userbook.UserBookCommentRequestDto;
+import com.ssafy.booktory.domain.userbook.UserBookMemoRequestDto;
 import com.ssafy.booktory.service.NotificationService;
 import com.ssafy.booktory.service.UserService;
 import com.ssafy.booktory.util.JwtTokenProvider;
@@ -13,15 +13,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.view.RedirectView;
 import springfox.documentation.annotations.ApiIgnore;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.NoSuchElementException;
 
 @Api(value = "User API")
 @CrossOrigin(origins = "*")
@@ -200,26 +197,26 @@ public class UserController {
     @ApiOperation(value = "내가 읽은 책에 대해 코멘트 달기", notes = "내 서재에 있는 책을 눌렀을 때 코멘트를 달게 한다.")
     @ApiImplicitParams({@ApiImplicitParam(name = "jwt", value = "JWT Token", required = true, dataType = "string", paramType = "header")})
     @PutMapping("/books")
-    public ResponseEntity<String> registerBookComment(@ApiIgnore final Authentication authentication,
-                                                      @RequestBody UserBookCommentRequestDto userBookCommentRequestDto) {
+    public ResponseEntity<String> registerBookMemo(@ApiIgnore final Authentication authentication,
+                                                      @RequestBody UserBookMemoRequestDto userBookMemoRequestDto) {
         if (authentication == null || !authentication.isAuthenticated()) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
         User user = ((User)authentication.getPrincipal());
-        userService.registerComment(user.getId(), userBookCommentRequestDto);
+        userService.registerMemo(user.getId(), userBookMemoRequestDto);
         return ResponseEntity.status(HttpStatus.OK).body("success");
     }
 
     @ApiOperation(value = "내가 읽은 책에 대한 코멘트 취소", notes = "내 서재에 있는 책을 눌렀을 때 등록된 코멘트를 취소한다.")
     @ApiImplicitParams({@ApiImplicitParam(name = "jwt", value = "JWT Token", required = true, dataType = "string", paramType = "header")})
     @PatchMapping("/books/{id}")
-    public ResponseEntity<String> cancelBookComment(@ApiIgnore final Authentication authentication,
+    public ResponseEntity<String> cancelBookMemo(@ApiIgnore final Authentication authentication,
                                                       @PathVariable Long id) {
         if (authentication == null || !authentication.isAuthenticated()) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
         User user = ((User)authentication.getPrincipal());
-        userService.cancelComment(user.getId(), id);
+        userService.cancelMemo(user.getId(), id);
         return ResponseEntity.status(HttpStatus.OK).body("success");
     }
 }

@@ -214,6 +214,28 @@ const bookclubStore = {
           });
         });
     },
+    leaveMeeting({ rootGetters }, bookclubId) {
+      axios
+        .put(
+          SERVER.URL + SERVER.ROUTES.leaveMeeting + bookclubId + "/user",
+          null,
+          rootGetters.config
+        )
+        .then((res) => {
+          console.log(res);
+          router.go(-1);
+        })
+        .catch((err) => {
+          Swal.fire({
+            icon: "error",
+            title: "모임 퇴장 실패",
+            text: err.response.data.message,
+            showConfirmButton: false,
+            timer: 1500,
+            timerProgressBar: false,
+          });
+        });
+    },
   },
 };
 
