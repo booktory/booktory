@@ -1,7 +1,7 @@
 <template>
   <div class="container bg-img">
     <div>
-      <TopHeader :noBack="true" />
+      <TopHeader :isHome="true" />
       <div v-if="clubInfo">
         <div class="card">
           <div class="main">
