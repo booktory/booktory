@@ -11,7 +11,6 @@
         </div>
       </div>
     </div>
-
     <div id="session" v-if="session">
       <div id="video-container">
         <user-video class="video-wrapper" :stream-manager="publisher" :isPublisher="isPublisher" />
@@ -42,12 +41,10 @@ const OPENVIDU_SERVER_SECRET = "MY_SECRET";
 
 export default {
   name: "App",
-
   components: {
     UserVideo,
     IconBook,
   },
-
   data() {
     return {
       OV: undefined,
@@ -72,27 +69,60 @@ export default {
   methods: {
     showBookInfo() {
       Swal.fire({
-        html:
-          `<div class="bookcard-background" style="width: 100%;margin: 5% auto;background-color: #f3f3f3;border-radius: 10px;">
-        <div class="bookcard-box" style="display: flex;flex-direction: row;justify-content: flex-start;align-items: flex-start;gap: 10px;">
-          <img src="` +
-          this.clubInfo.thumbnail +
-          `" alt="bookThumbnail" class="bookcard-image"
-          style="width: 8rem;height: 12rem;border-radius: 1rem;box-shadow: 0 3px 3px 0 var(--bg-black), inset 0 0 3px 0 var(--bg-black);"/>
-          <div class="bookcard-info" style="display: flex;flex-direction: column;justify-content: flex-start;align-items: flex-start;margin-top:1rem;">
-            <span class="bookcard-info-now font-body-4">읽고 있는 책</span>
-            <div class="bookcard-info-title font-body-2" style="font-weight:bold;margin-top:0.5rem;margin-bottom:0.8rem">` +
-          this.clubInfo.title +
-          `</div>
-            <div class="bookcard-info-subtitle font-body-4" style="margin-left: 0.2rem;margin-bottom: 0.5rem;margin-top:1.5rem">` +
-          this.clubInfo.author +
-          `</div>
-            <div class="bookcard-info-subtitle font-body-5" style="margin-left: 0.2rem;margin-bottom: 0.5rem;">` +
-          this.clubInfo.publisher +
-          `</div>
+        html: `
+        <div
+          style="
+            width: auto;
+            padding: 1rem 0 0.4rem;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            gap: 1.6rem;
+          "
+        >
+          <img
+            src="${this.clubInfo.thumbnail}"
+            alt="bookThumbnail"
+            style="
+              width: 7rem;
+              height: 10rem;
+              border-radius: 1rem;
+              box-shadow: 0 0.2rem 0.4rem 0 var(--bg-black);
+            "
+          />
+          <div
+            style="
+              display: flex;
+              flex-direction: column;
+              justify-content: center;
+              align-items: flex-start;
+            "
+          >
+            <span class="font-body-4" style="color: var(--grey)">읽고 있는 책</span>
+            <h5 
+              class="title" 
+              style="
+                margin: 0.7rem 0 0.8rem;
+                text-align: left;
+                ">${
+                  this.clubInfo.title.length > 25
+                    ? this.clubInfo.title.substring(0, 25) + "・・・"
+                    : this.clubInfo.title
+                }</h5>
+            <span class="font-body-5">${
+              this.clubInfo.author.length > 9
+                ? this.clubInfo.author.substr(0, 9) + "・・・"
+                : this.clubInfo.author
+            }&nbsp;|&nbsp;${
+          this.clubInfo.publisher.length > 9
+            ? this.clubInfo.publisher.substr(0, 9) + "・・・"
+            : this.clubInfo.publisher
+        }
+            </span>
           </div>
-        </div>`,
-        cancelButtonText: "닫기",
+        </div>
+        `,
+        showConfirmButton: false,
       });
     },
     joinSession() {
@@ -165,8 +195,7 @@ export default {
       // --- Leave the session by calling 'disconnect' method over the Session object ---
       Swal.fire({
         showCancelButton: true,
-        title: "미팅 퇴장",
-        text: "미팅을 나가시겠습니까?",
+        title: "모임에서 나가시겠습니까?",
         confirmButtonText: "네, 나갈래요",
         cancelButtonText: "취소",
       }).then((result) => {
@@ -268,7 +297,7 @@ export default {
 </script>
 <style scoped>
 .meeting-navbar {
-  background-color: var(--light-orange);
+  background-color: var(--medium-orange);
 }
 
 .meeting-navbar-title {
@@ -282,13 +311,5 @@ export default {
 
 .video-wrapper {
   position: relative;
-}
-
-.bookcard-background {
-  width: 100%;
-  margin: 5% auto;
-  padding-bottom: 20px;
-  background-color: #f3f3f3;
-  border-radius: 10px;
 }
 </style>

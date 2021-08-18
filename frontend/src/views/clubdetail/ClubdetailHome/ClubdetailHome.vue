@@ -186,8 +186,7 @@ export default {
     clickMeeting() {
       Swal.fire({
         showCancelButton: true,
-        title: "모임 입장",
-        text: "모임에 입장하시겠습니까?",
+        title: "모임에 입장하시겠습니까?",
         confirmButtonText: "입장하기",
         cancelButtonText: "취소",
       }).then((result) => {
