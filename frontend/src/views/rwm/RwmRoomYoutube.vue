@@ -27,6 +27,7 @@ export default {
       plyingTime : 0,
       nowSong: [],
       songNum: 0,
+      playlistInterval: "",
     };
   },
   props:{
@@ -83,7 +84,10 @@ export default {
   mounted(){
     this.playVideo();
     this.getNowSongArray();
-    setInterval(this.getTime, 1000);
+    this.playlistInterval = setInterval(this.getTime, 1000);
+  },
+  destroyed(){
+    clearInterval(this.playlistInterval);
   }
 };
 </script>
