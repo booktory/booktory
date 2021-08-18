@@ -283,7 +283,8 @@ h5 {
 .empty-meeting {
   display: inline-block;
   margin-top: 4rem;
-  font-size: 1.4rem;
+  font-size: 1.3rem;
   color: var(--grey);
+  white-space: nowrap;
 }
 </style>

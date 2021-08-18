@@ -103,7 +103,6 @@ export default {
           </div>
         </div>
         <div
-          v-if="false"
           style='
             width: auto;
             padding: 1.5rem 1.2rem;
@@ -134,6 +133,11 @@ export default {
               showCancelButton: true,
               confirmButtonText: "등록",
               cancelButtonText: "취소",
+              inputValidator: (text) => {
+                if (text.length > 400) {
+                  return "메모는 400자까지 작성 가능해요";
+                }
+              },
             });
             if (text) {
               let memoData = {
