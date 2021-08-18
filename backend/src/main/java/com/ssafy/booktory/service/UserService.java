@@ -4,7 +4,7 @@ import com.ssafy.booktory.domain.book.Book;
 import com.ssafy.booktory.domain.book.BookRepository;
 import com.ssafy.booktory.domain.user.*;
 import com.ssafy.booktory.domain.userbook.UserBook;
-import com.ssafy.booktory.domain.userbook.UserBookCommentRequestDto;
+import com.ssafy.booktory.domain.userbook.UserBookMemoRequestDto;
 import com.ssafy.booktory.domain.userbook.UserBookRepository;
 import com.ssafy.booktory.domain.book.BookByUserResponseDto;
 import com.ssafy.booktory.util.JwtTokenProvider;
@@ -206,21 +206,23 @@ public class UserService {
                         book.getBook().getAuthor(),
                         book.getBook().getPublisher(),
                         book.getBook().getDate(),
-                        book.getBook().getThumbnail()))
+                        book.getBook().getThumbnail(),
+                        book.getCreatedDate().toLocalDate(),
+                        book.getMemo()))
                 .collect(Collectors.toList());
     }
 
-    public void registerComment(Long userId, UserBookCommentRequestDto userBookCommentRequestDto) {
-        Book book = bookRepository.findById(userBookCommentRequestDto.getBookId()).orElseThrow(() -> new NoSuchElementException("존재하지 않는 책입니다."));
-        UserBook userBook = userBookRepository.findByUserIdAndBookId(userId, userBookCommentRequestDto.getBookId());
-        userBook.setComment(userBookCommentRequestDto.getComment());
+    public void registerMemo(Long userId, UserBookMemoRequestDto userBookMemoRequestDto) {
+        Book book = bookRepository.findById(userBookMemoRequestDto.getBookId()).orElseThrow(() -> new NoSuchElementException("존재하지 않는 책입니다."));
+        UserBook userBook = userBookRepository.findByUserIdAndBookId(userId, userBookMemoRequestDto.getBookId());
+        userBook.setMemo(userBookMemoRequestDto.getMemo());
         userBookRepository.save(userBook);
     }
 
-    public void cancelComment(Long userId, Long bookId) {
+    public void cancelMemo(Long userId, Long bookId) {
         Book book = bookRepository.findById(bookId).orElseThrow(() -> new NoSuchElementException("존재하지 않는 책입니다."));
         UserBook userBook = userBookRepository.findByUserIdAndBookId(userId, book.getId());
-        userBook.setComment(null);
+        userBook.setMemo(null);
         userBookRepository.save(userBook);
     }
 }

@@ -26,10 +26,10 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapActions } from "vuex";
 import axios from "axios";
 import Swal from "sweetalert2";
-import router from "@/router";
+// import router from "@/router";
 import { OpenVidu } from "openvidu-browser";
 import IconBook from "@/components/icons/IconBook.vue";
 import UserVideo from "@/views/meeting/UserVideo";
@@ -67,6 +67,7 @@ export default {
     this.joinSession();
   },
   methods: {
+    ...mapActions("bookclubStore", ["leaveMeeting"]),
     showBookInfo() {
       Swal.fire({
         html: `
@@ -208,7 +209,8 @@ export default {
           this.subscribers = [];
           this.OV = undefined;
 
-          router.go(-1);
+          this.leaveMeeting(this.meetingInfo.bookclubId);
+          // router.go(-1);
           window.removeEventListener("beforeunload", this.leaveSession);
         }
       });
