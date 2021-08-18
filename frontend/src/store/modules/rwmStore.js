@@ -912,15 +912,32 @@ const rwmStore = {
           console.log(err);
         });
     },
-    findRwmParticipant({ commit }, rwmId) {
+    findRwmParticipant({ rootGetters, commit }, rwmId) {
       axios
         .get(SERVER.URL + SERVER.ROUTES.getRwmParticipant + rwmId + "/users")
         .then((res) => {
           console.log(res.data);
-          commit("SET_PARTICIPANTLIST", res.data);
-          let swalHtml = `<div style="margin-bottom: 0.5rem; display:flex; gap: 0.6rem; flex-direction: column; justify-content:flex-start; align-items:flex-start;">`;
-          for (var participant of res.data.userList) {
-            swalHtml += `
+          let flag = false;
+          for (var i = 0; i < res.data.userList.length; i++) {
+            if (rootGetters.userId == res.data.userList[i].userId) {
+              flag = true;
+              break;
+            }
+          }
+          if (!flag) {
+            Swal.fire({
+              icon: "warning",
+              title: "정상적인 접근이 아닙니다",
+              showConfirmButton: false,
+              timer: 2000,
+              timerProgressBar: false,
+            });
+            router.push({ name: "RwmMain" });
+          } else {
+            commit("SET_PARTICIPANTLIST", res.data);
+            let swalHtml = `<div style="margin-bottom: 0.5rem; display:flex; gap: 0.6rem; flex-direction: column; justify-content:flex-start; align-items:flex-start;">`;
+            for (var participant of res.data.userList) {
+              swalHtml += `
                         <div style="display: flex; gap: 1.2rem; justify-content: flex-start; align-items: center;">
                           <img class="profileImg" src=
                         ${
@@ -936,14 +953,15 @@ const rwmStore = {
                           </div>
                         </div>
                         `;
+            }
+            swalHtml += `</div>`;
+            Swal.fire({
+              showCancelButton: false,
+              showConfirmButton: false,
+              title: "참가자 (" + res.data.userList.length + ")",
+              html: swalHtml,
+            });
           }
-          swalHtml += `</div>`;
-          Swal.fire({
-            showCancelButton: false,
-            showConfirmButton: false,
-            title: "참가자 (" + res.data.userList.length + ")",
-            html: swalHtml,
-          });
         })
         .catch((err) => {
           console.log(err);

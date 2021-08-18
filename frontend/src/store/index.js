@@ -29,6 +29,9 @@ export default new Vuex.Store({
   },
   getters: {
     config: (state) => ({ headers: { jwt: state.authToken } }),
+    userId(state) {
+      return state.userId;
+    },
   },
   mutations: {
     SET_TOKEN(state, data) {
