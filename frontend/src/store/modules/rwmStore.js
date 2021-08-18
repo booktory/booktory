@@ -12,6 +12,11 @@ const rwmStore = {
     rwmParticipant: null,
     rwmPlayList: [
       {
+        rwmId: 0,
+        videoId:"",
+        timeStamp: [],
+      },
+      {
         rwmId: 1,
         videoId:"JkTM9Q5DfgI",
         timeStamp: [
