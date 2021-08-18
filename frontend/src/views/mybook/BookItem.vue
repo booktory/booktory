@@ -29,6 +29,15 @@ export default {
       type: Object,
     },
   },
+  watch: {
+    book() {
+      if (!this.book.memo || this.book.memo == "") {
+        this.memoHtml = "justify-content: center; color: var(--grey);'>작성된 코멘트가 없습니다";
+      } else {
+        this.memoHtml = "text-align: justify;'>" + this.book.memo;
+      }
+    },
+  },
   data() {
     return {
       memoHtml: "",
@@ -108,15 +117,17 @@ export default {
             ${this.memoHtml}
           </div>
         `,
-        confirmButtonText: this.book.memo == "" ? "새로운 메모 작성" : "메모 수정",
-        showDenyButton: this.book.memo == "" ? false : true,
+        confirmButtonText:
+          !this.book.memo || this.book.memo == "" ? "새로운 메모 작성" : "메모 수정",
+        showDenyButton: !this.book.memo || this.book.memo == "" ? false : true,
         denyButtonText: "메모 삭제",
       }).then((result) => {
         if (result.isConfirmed) {
           // 새로운 메모 작성 or 메모 수정
           (async () => {
             const { value: text } = await Swal.fire({
-              inputLabel: this.book.memo == "" ? "새로운 메모 작성" : "작성된 메모 수정",
+              inputLabel:
+                !this.book.memo || this.book.memo == "" ? "새로운 메모 작성" : "작성된 메모 수정",
               input: "textarea",
               inputValue: this.book.memo,
               inputPlaceholder: "내용을 입력해주세요",
