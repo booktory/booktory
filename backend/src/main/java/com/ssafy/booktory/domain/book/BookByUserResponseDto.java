@@ -24,4 +24,8 @@ public class BookByUserResponseDto {
     private LocalDate date;
     private String thumbnail;
 
+    @JsonSerialize(using = LocalDateSerializer.class)
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private LocalDate readDate;
+    private String memo;
 }
