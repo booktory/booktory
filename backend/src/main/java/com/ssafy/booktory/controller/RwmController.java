@@ -3,6 +3,7 @@ package com.ssafy.booktory.controller;
 import com.ssafy.booktory.domain.rwm.RwmBookName;
 import com.ssafy.booktory.domain.rwm.RwmListResponseDto;
 import com.ssafy.booktory.domain.rwm.RwmParticipantResponseDto;
+import com.ssafy.booktory.domain.rwm.RwmRoomResponseDto;
 import com.ssafy.booktory.domain.rwmlog.RwmLog;
 import com.ssafy.booktory.domain.user.User;
 import com.ssafy.booktory.service.RwmService;
@@ -34,10 +35,16 @@ public class RwmController {
         return ResponseEntity.status(HttpStatus.OK).body(rwmService.getRwmList());
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{id}/users")
     @ApiOperation(value = "RWM 방 참가자 목록 조회", notes = "입력된 id에 해당하는 방의 참가자 목록을 조회한다.")
     public ResponseEntity<RwmParticipantResponseDto> getParticipant(@PathVariable Long id){
         return ResponseEntity.status(HttpStatus.OK).body(rwmService.getParticipant(id));
+    }
+
+    @GetMapping("/{id}")
+    @ApiOperation(value = "RWM 방 정보 조회", notes = "입력된 id에 해당하는 방의 정보를 조회한다.")
+    public ResponseEntity<RwmRoomResponseDto> getRoomInfo(@PathVariable Long id){
+        return ResponseEntity.status(HttpStatus.OK).body(rwmService.getRoomInfo(id));
     }
 
     @PostMapping(value = "/{id}", produces="application/json;charset=UTF-8")

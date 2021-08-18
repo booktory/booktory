@@ -53,6 +53,7 @@ export default {
     registerFCMToken: "/notification",
 
     //rwm
+    getRwmRoomInfo: "/rwms/",
     getRwmList: "/rwms",
     enterRwmRoom: "/rwms/",
     exitRwmRoom: "/rwms/",
