@@ -1,15 +1,10 @@
 <template>
-  <div class="rwm-header-wrapper">
-    <div class="icon rwm-header-item" @click="clickExitRwmRoom">
+  <div class="navbar rwm-header-wrapper">
+    <div class="icon rwm-header-item" @click="$router.go(-2)">
       <icon-base><icon-arrow-left /></icon-base>
     </div>
-    <h4 class="title rwm-header-item">Read With Me</h4>
-
-    <!-- <div v-if="rwmParticipant">
-      {{rwmParticipant}}
-    </div> -->
-
-    <div class="icon rwm-header-item" @click="viewParticipant">
+    <h4 class="title rwm-header-title">Read With Me</h4>
+    <div class="icon rwm-header-btn" @click="viewParticipant">
       <icon-base><icon-users /></icon-base>
     </div>
   </div>
@@ -23,11 +18,8 @@ export default {
   name: "RwmRoomHeader",
   computed: {},
   methods: {
-    ...mapActions("rwmStore", ["exitRwmRoom", "findRwmParticipant"]),
-
-    clickExitRwmRoom() {
-      this.exitRwmRoom(this.$route.query.id);
-    },
+    ...mapActions("rwmStore", ["findRwmParticipant"]),
+    // 참여자 목록
     viewParticipant() {
       this.findRwmParticipant(this.$route.query.id);
     },
@@ -38,12 +30,13 @@ export default {
 
 <style scoped>
 .rwm-header-wrapper {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  background-color: #fdcc97;
+  background-color: var(--medium-orange);
 }
-.rwm-header-item {
-  margin: 1.8rem;
+.rwm-header-title {
+  margin: 0;
+  justify-self: center;
+}
+.rwm-header-btn {
+  justify-self: left;
 }
 </style>

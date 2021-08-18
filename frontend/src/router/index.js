@@ -19,6 +19,13 @@ const requireAuth = () => (to, from, next) => {
   next("/");
 };
 
+const originalPush = VueRouter.prototype.push;
+VueRouter.prototype.push = function push(location) {
+  return originalPush.call(this, location).catch((err) => {
+    if (err.name !== "NavigationDuplicated") throw err;
+  });
+};
+
 const routes = [
   {
     path: "/",
@@ -256,18 +263,21 @@ const routes = [
     path: "/rwm",
     name: "RwmMain",
     component: () => import("@/views/rwm/RwmMain.vue"),
+    beforeEnter: requireAuth(),
   },
   //같이 읽기 입장
   {
     path: "/rwm/enterance",
     name: "RwmEnterance",
     component: () => import("@/views/rwm/RwmEnterance.vue"),
+    beforeEnter: requireAuth(),
   },
   //같이 읽기 방
   {
     path: "/rwm/room",
     name: "RwmRoom",
     component: () => import("@/views/rwm/RwmRoom.vue"),
+    beforeEnter: requireAuth(),
   },
 ];
 
