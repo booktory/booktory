@@ -2,14 +2,13 @@
   <div class="container">
     <RwmRoomHeader />
     <div class="rwm-api-wrapper">
-      <RwmRoomYoutube v-if="this.rwmRoomInfo" :apiLink = "this.rwmRoomInfo.apiLink"/>
+      <RwmRoomYoutube v-if="this.rwmRoomInfo" :apiLink="this.rwmRoomInfo.apiLink" />
       <div v-if="this.rwmRoomInfo">
         <!-- <img :src= "this.rwmRoomInfo.img" alt="rwm thumbnail" width="80%"/> -->
-        <h5 class="">{{this.rwmRoomInfo.name}}</h5>
-        <p class="">{{this.rwmRoomInfo.userCount}}명이 참여하고 있어요</p>
-        <p class="">{{this.rwmRoomInfo.info}}</p>      
+        <h5 class="">{{ this.rwmRoomInfo.name }}</h5>
+        <p class="">{{ this.rwmRoomInfo.userCount }}명이 참여하고 있어요</p>
+        <p class="">{{ this.rwmRoomInfo.info }}</p>
       </div>
-
     </div>
     <button class="button-2" @click="clickExitRwmRoom">나가기</button>
     <Navbar :selected="'rwm'" class="footer" />
@@ -34,14 +33,13 @@ export default {
   },
   methods: {
     ...mapActions("rwmStore", ["exitRwmRoom", "findRwmRoomInfo"]),
-    clickExitRwmRoom(){
+    clickExitRwmRoom() {
       this.exitRwmRoom(this.$route.query.id);
-    },  
+    },
   },
   created() {
     this.findRwmRoomInfo(this.$route.query.id);
   },
-  created() {},
 };
 </script>
 
