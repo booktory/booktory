@@ -18,6 +18,8 @@ export default {
 
     // mybook
     getReadBooks: "/users/books",
+    registerBookMemo: "/users/books",
+    cancelBookMemo: "/users/books/",
 
     // clubs
     createClub: "/clubs",
