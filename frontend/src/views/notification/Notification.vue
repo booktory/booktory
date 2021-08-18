@@ -160,11 +160,12 @@ export default {
   justify-content: center;
   align-items: center;
   margin: 1.5rem auto;
-  padding: 0.8rem 1.8rem;
+  padding: 0.8rem 2.6rem;
   border-radius: 2em;
   border: 0;
   background-color: var(--orange);
   color: var(--white);
+  white-space: nowrap;
 }
 .alarm-button-no {
   margin: 2.4rem auto;
