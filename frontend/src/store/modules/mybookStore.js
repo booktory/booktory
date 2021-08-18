@@ -30,7 +30,7 @@ const mybookStore = {
         });
     },
     // 읽은 책에 코멘트 달기
-    registerBookMemo({ rootGetters }, memoData) {
+    registerBookMemo({ dispatch, rootGetters }, memoData) {
       axios
         .put(SERVER.URL + SERVER.ROUTES.registerBookMemo, memoData, rootGetters.config)
         .then((res) => {
@@ -42,6 +42,7 @@ const mybookStore = {
             timerProgressBar: true,
           });
           console.log(res.data);
+          dispatch("findBookList");
         })
         .catch((err) => {
           Swal.fire({
@@ -55,7 +56,7 @@ const mybookStore = {
         });
     },
     // 읽은 책에 작성한 코멘트 삭제
-    cancelBookMemo({ rootGetters }, bookId) {
+    cancelBookMemo({ dispatch, rootGetters }, bookId) {
       axios
         .patch(SERVER.URL + SERVER.ROUTES.cancelBookMemo + bookId, null, rootGetters.config)
         .then((res) => {
@@ -67,6 +68,7 @@ const mybookStore = {
             timerProgressBar: true,
           });
           console.log(res.data);
+          dispatch("findBookList");
         })
         .catch((err) => {
           Swal.fire({
