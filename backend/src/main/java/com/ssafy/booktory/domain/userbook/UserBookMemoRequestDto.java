@@ -8,9 +8,9 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class UserBookCommentRequestDto {
+public class UserBookMemoRequestDto {
 
     private Long bookId;
-    private String comment;
+    private String memo;
 
 }
