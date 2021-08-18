@@ -1,7 +1,10 @@
 package com.ssafy.booktory.service;
 
+import com.ssafy.booktory.domain.book.Book;
+import com.ssafy.booktory.domain.book.BookRepository;
 import com.ssafy.booktory.domain.user.*;
 import com.ssafy.booktory.domain.userbook.UserBook;
+import com.ssafy.booktory.domain.userbook.UserBookCommentRequestDto;
 import com.ssafy.booktory.domain.userbook.UserBookRepository;
 import com.ssafy.booktory.domain.book.BookByUserResponseDto;
 import com.ssafy.booktory.util.JwtTokenProvider;
@@ -28,6 +31,7 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final UserBookRepository userBookRepository;
+    private final BookRepository bookRepository;
     private final PasswordEncoder passwordEncoder;
     private final JavaMailSender mailSender;
     private final JwtTokenProvider jwtTokenProvider;
@@ -204,5 +208,19 @@ public class UserService {
                         book.getBook().getDate(),
                         book.getBook().getThumbnail()))
                 .collect(Collectors.toList());
+    }
+
+    public void registerComment(Long userId, UserBookCommentRequestDto userBookCommentRequestDto) {
+        Book book = bookRepository.findById(userBookCommentRequestDto.getBookId()).orElseThrow(() -> new NoSuchElementException("존재하지 않는 책입니다."));
+        UserBook userBook = userBookRepository.findByUserIdAndBookId(userId, userBookCommentRequestDto.getBookId());
+        userBook.setComment(userBookCommentRequestDto.getComment());
+        userBookRepository.save(userBook);
+    }
+
+    public void cancelComment(Long userId, Long bookId) {
+        Book book = bookRepository.findById(bookId).orElseThrow(() -> new NoSuchElementException("존재하지 않는 책입니다."));
+        UserBook userBook = userBookRepository.findByUserIdAndBookId(userId, book.getId());
+        userBook.setComment(null);
+        userBookRepository.save(userBook);
     }
 }

@@ -2,6 +2,7 @@ package com.ssafy.booktory.controller;
 
 import com.ssafy.booktory.domain.user.*;
 import com.ssafy.booktory.domain.book.BookByUserResponseDto;
+import com.ssafy.booktory.domain.userbook.UserBookCommentRequestDto;
 import com.ssafy.booktory.service.NotificationService;
 import com.ssafy.booktory.service.UserService;
 import com.ssafy.booktory.util.JwtTokenProvider;
@@ -196,4 +197,29 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body("success");
     }
 
+    @ApiOperation(value = "내가 읽은 책에 대해 코멘트 달기", notes = "내 서재에 있는 책을 눌렀을 때 코멘트를 달게 한다.")
+    @ApiImplicitParams({@ApiImplicitParam(name = "jwt", value = "JWT Token", required = true, dataType = "string", paramType = "header")})
+    @PutMapping("/books")
+    public ResponseEntity<String> registerBookComment(@ApiIgnore final Authentication authentication,
+                                                      @RequestBody UserBookCommentRequestDto userBookCommentRequestDto) {
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+        User user = ((User)authentication.getPrincipal());
+        userService.registerComment(user.getId(), userBookCommentRequestDto);
+        return ResponseEntity.status(HttpStatus.OK).body("success");
+    }
+
+    @ApiOperation(value = "내가 읽은 책에 대한 코멘트 취소", notes = "내 서재에 있는 책을 눌렀을 때 등록된 코멘트를 취소한다.")
+    @ApiImplicitParams({@ApiImplicitParam(name = "jwt", value = "JWT Token", required = true, dataType = "string", paramType = "header")})
+    @PatchMapping("/books/{id}")
+    public ResponseEntity<String> cancelBookComment(@ApiIgnore final Authentication authentication,
+                                                      @PathVariable Long id) {
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+        User user = ((User)authentication.getPrincipal());
+        userService.cancelComment(user.getId(), id);
+        return ResponseEntity.status(HttpStatus.OK).body("success");
+    }
 }
