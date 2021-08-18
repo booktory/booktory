@@ -5,10 +5,7 @@
       <h5 class="rwm-title">{{ this.rwmRoomInfo.name }}</h5>
       <p class="rwm-title-sub">{{ this.rwmRoomInfo.info }}</p>
       <div class="rwm-api-wrapper">
-        <div v-if="this.rwmRoomInfo">
-          <img class="rwm-image" :src="this.rwmRoomInfo.img" :alt="this.rwmRoomInfo.name" />
-        </div>
-      <RwmRoomYoutube v-if="this.rwmRoomInfo" :rwmPlayList="this.rwmPlayList[(this.$route.query.id)*1]" :imgUrl="this.rwmRoomInfo.img" />
+        <RwmRoomYoutube v-if="this.rwmRoomInfo" :rwmPlayList="this.rwmPlayList[(this.$route.query.id)*1]" :imgUrl="this.rwmRoomInfo.img" />
       </div>
       <div></div>
       <button class="button-2 m-top-5" @click="clickExitRwmRoom">나가기</button>
@@ -76,8 +73,5 @@ export default {
   justify-content: flex-start;
   align-items: center;
 }
-.rwm-image {
-  width: 29rem;
-  border-radius: 1rem;
-}
+
 </style>

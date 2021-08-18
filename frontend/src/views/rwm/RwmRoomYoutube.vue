@@ -4,7 +4,7 @@
     <!-- youtube화면은 곧 사라질 예정 -->
     책토리는 <b>bugs::essential;</b>채널과 함께합니다.<br> 음악이 재생되지 않을때에는 이미지를 클릭해주세요.    
     <youtube :video-id="this.rwmPlayList.videoId" :player-vars="playerVars" ref="youtube" @playing="playing" @ready="playVideo" @cued="playVideo" height="0" width="0" ></youtube>
-    <img :src="this.imgUrl" alt="rwm thumbnail" @click="playVideo" class="rwm-img"/>
+    <img :src="this.imgUrl" alt="rwm thumbnail" @click="playVideo" class="rwm-image"/>
     <RwmRoomPlayList v-if="this.rwmPlayList" :rwmPlayList="this.rwmPlayList.timeStamp" :songNum="this.songNum" />
   </div>
 </template>
@@ -44,7 +44,6 @@ export default {
   },
   methods: {
     playVideo() {
-      console.log("play video func");
       this.player.playVideo()
     },
     playing() {
@@ -57,8 +56,6 @@ export default {
     },
     getNowSongArray(){
       let cnt = 0;
-      console.log("nowsong");
-      console.log(this.rwmPlayList.timeStamp);
       for(let i = 0 ; i < this.rwmPlayList.timeStamp.length; ++i){
         let tmp = this.rwmPlayList.timeStamp[i].startTime;
         for(let j = this.nowSong.length; j < tmp; ++j){
@@ -70,12 +67,10 @@ export default {
     async getTime() {
       let res = await this.player.getCurrentTime();
       this.getState();
-      console.log("now song");
       res = parseInt(res);
       if(res >= this.nowSong.length) this.songNum = this.nowSong[this.nowSong.length-1];
       else this.songNum = this.nowSong[parseInt(res)]-1;
       
-      console.log(this.rwmPlayList.timeStamp[this.songNum]);
     },
     async getState(){
       const res = await this.player.getPlayerState();
@@ -86,7 +81,6 @@ export default {
     }
   },
   mounted(){
-    console.log("mounted");
     this.playVideo();
     this.getNowSongArray();
     setInterval(this.getTime, 1000);
@@ -96,8 +90,9 @@ export default {
 
 
 <style scoped>
-.rwm-img{
-  width: 80vw;
+.rwm-image {
+  width: 29rem;
+  border-radius: 1rem;
 }
 .youtube-wrapper{
   width: 80vw;
