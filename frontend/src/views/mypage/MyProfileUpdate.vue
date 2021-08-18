@@ -32,7 +32,7 @@
         <label for="nickname">닉네임</label>
         <div>
           <input
-            v-model="userInfo.nickname"
+            v-model.trim="userInfo.nickname"
             v-bind:class="{
               error: error.nickname,
               complete: !error.nickname && userInfo.nickname.length !== 0,
@@ -52,7 +52,7 @@
         <label for="name">이름</label>
         <div>
           <input
-            v-model="userInfo.name"
+            v-model.trim="userInfo.name"
             v-bind:class="{
               error: error.name,
               complete: !error.name,
@@ -89,7 +89,7 @@
         <label for="phone">전화번호</label>
         <div>
           <input
-            v-model="userInfo.phone"
+            v-model.trim="userInfo.phone"
             v-bind:class="{
               error: error.phone,
               complete: !error.phone,

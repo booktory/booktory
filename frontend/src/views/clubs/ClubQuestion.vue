@@ -27,7 +27,7 @@
           <h5>새로운 질문</h5>
           <div class="question-input">
             <textarea
-              v-model="questionData.contents"
+              v-model.trim="questionData.contents"
               style="font-size: 1.2rem; text-align: justify"
               class="input-content"
               type="text"

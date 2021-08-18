@@ -26,15 +26,16 @@ export default {
 
 <style scoped>
 .label {
+  width: 30rem;
   font-weight: bold;
   text-align: left;
-  margin: 5% 0 3% 12%;
+  margin: 2rem auto 0.5rem;
 }
 .badge-list-wrapper {
-  width: auto;
+  width: 30rem;
   display: grid;
   grid-template-columns: repeat(3, auto);
   gap: 2%;
-  margin: 0 10.7% 0;
+  margin: 0 auto 3rem;
 }
 </style>

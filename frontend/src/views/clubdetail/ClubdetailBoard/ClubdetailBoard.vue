@@ -11,11 +11,7 @@
               <span class="font-body-3">작성된 글이 없습니다</span>
             </div>
           </div>
-          <button
-            class="button-3"
-            @click="clickRegister"
-            :disabled="boardData.contents.trim() == ''"
-          >
+          <button class="button-3" @click="clickRegister" :disabled="boardData.contents == ''">
             등록
           </button>
           <div class="file-upload" @click="clickFileBtn">
@@ -28,7 +24,7 @@
           <h5>새로운 글</h5>
           <div class="new-input">
             <textarea
-              v-model="boardData.contents"
+              v-model.trim="boardData.contents"
               style="font-size: 1.2rem; text-align: justify"
               class="input-content"
               type="text"

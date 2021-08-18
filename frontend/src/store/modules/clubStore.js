@@ -237,7 +237,7 @@ const clubStore = {
         });
     },
     // 클럽 정보 수정
-    updateClub({ rootGetters, getters }, clubData) {
+    updateClub({ rootGetters, getters, commit }, clubData) {
       axios
         .patch(SERVER.URL + SERVER.ROUTES.updateClub + getters.clubId, clubData, rootGetters.config)
         .then((res) => {
@@ -249,6 +249,7 @@ const clubStore = {
             timerProgressBar: true,
           });
           console.log(res.data);
+          commit("SET_CLUB_IMAGE", clubData.img);
           router.push({ name: "ClubdetailManage" });
         })
         .catch((err) => {

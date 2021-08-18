@@ -7,7 +7,7 @@
       <div class="input-div m-top-10">
         <div>
           <input
-            v-model="rwmEnter.bookTitle"
+            v-model.trim="rwmEnter.bookTitle"
             type="text"
             id="title"
             placeholder="책 이름을 입력해주세요"
@@ -44,7 +44,6 @@ export default {
   methods: {
     ...mapActions("rwmStore", ["enterRwmRoom"]),
     clickRwmEnter() {
-      this.rwmEnter.bookTitle = this.rwmEnter.bookTitle.trim();
       if (this.rwmEnter.bookTitle.length > 0) {
         this.enterRwmRoom(this.rwmEnter);
       } else {
