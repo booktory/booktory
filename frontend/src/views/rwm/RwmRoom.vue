@@ -1,11 +1,7 @@
 <template>
   <div class="container">
     <RwmRoomHeader />
-    <div class="rwm-api-wrapper">
-        YOUTUBE API!!!!
-
-
-    </div>
+    <div class="rwm-api-wrapper">YOUTUBE API!!!!</div>
     <button class="button-2" @click="clickExitRwmRoom">나가기</button>
     <Navbar :selected="'rwm'" class="footer" />
   </div>
@@ -22,16 +18,14 @@ export default {
     RwmRoomHeader,
     Navbar,
   },
-  computed: {
-  },
+  computed: {},
   methods: {
     ...mapActions("rwmStore", ["exitRwmRoom"]),
-    clickExitRwmRoom(){
+    clickExitRwmRoom() {
       this.exitRwmRoom(this.$route.query.id);
-    },  
+    },
   },
-  created() {
-  },
+  created() {},
 };
 </script>
 
@@ -49,5 +43,4 @@ export default {
   box-shadow: 0 4px 8px 0 rgba(142, 141, 208, 0.16);
   background-color: var(--white);
 }
-
 </style>

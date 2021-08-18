@@ -148,6 +148,7 @@ export default {
 .question-content {
   margin: 1rem 0.7rem;
   text-align: justify;
+  word-wrap: break-word;
 }
 .secret {
   color: var(--medium-grey);

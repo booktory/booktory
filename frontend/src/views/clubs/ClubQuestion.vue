@@ -83,7 +83,7 @@ export default {
     // 배경 이미지 설정
     setBackgroundImage() {
       document.getElementsByClassName("bg-img")[0].style.backgroundImage =
-        "var(--clubdetail-bg-" + this.clubImage + ")";
+        "var(--background-" + this.clubImage + ")";
     },
   },
   created() {

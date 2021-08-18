@@ -200,10 +200,10 @@ export default {
 .card-background {
   width: 30rem;
   min-height: 50%;
-  margin: 5% auto;
+  margin: 1.8rem auto;
   padding: 4rem 1rem 5rem;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px 4px rgba(161, 160, 228, 0.16);
+  border-radius: 1rem;
+  box-shadow: 0 0.4rem 0.8rem 0.4rem rgba(161, 160, 228, 0.16);
   background-color: var(--white);
 }
 
