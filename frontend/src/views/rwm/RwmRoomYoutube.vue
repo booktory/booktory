@@ -1,14 +1,12 @@
 <template>
   <div class="youtube-wrapper">
     <!-- <iframe width="90%" :src="apiLink" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>   -->
-
+    <!-- youtube화면은 곧 사라질 예정 -->
+    책토리는 <b>bugs::essential</b>채널과 함께합니다.<br> 음악이 재생되지 않을때에는 이미지를 클릭해주세요.    
     <youtube :video-id="this.youtube_parser(this.apiLink)" :player-vars="playerVars" ref="youtube" @playing="playing" class="youtube-player" height="0" width="0"></youtube>
     <img :src="this.imgUrl" alt="rwm thumbnail" @click="playVideo" class="rwm-img"/>
-    <!-- <button @click="playVideo">play</button> -->
-    
   </div>
 </template>
-
 <script>
 import Vue from 'vue'
 import VueYoutube from 'vue-youtube'
@@ -23,17 +21,17 @@ export default {
     playerVars: {
       type: Object,
       playerVars: {
-        autoplay: 0
+        autoplay: 0,
       }
     }
   },
   methods: {
     async playVideo() {
-      await this.player.playVideo()
+      await this.player.playVideo();
       // Do something after the playVideo command
     },
     playing() {
-      console.log(' we are watching!!!')
+      console.log('video start');
     },
     youtube_parser(url){
       var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
@@ -43,7 +41,7 @@ export default {
   },
   computed: {
     player () {
-      return this.$refs.youtube.player
+      return this.$refs.youtube.player;
     }
   },
   created(){
@@ -54,7 +52,7 @@ export default {
     console.log("mounted");
     setTimeout(() => {
       console.log('1seconds');
-      this.playVideo()
+      this.playVideo();
     }, 1000);
   }
 };
