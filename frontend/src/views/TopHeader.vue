@@ -1,7 +1,9 @@
 <template>
   <div v-if="userNickname" class="navbar">
-    <div class="icon left" @click="$router.go(-1)">
-      <icon-base><icon-arrow-left /></icon-base>
+    <div>
+      <div v-if="yesBack" class="icon left" @click="$router.go(-1)">
+        <icon-base><icon-arrow-left /></icon-base>
+      </div>
     </div>
     <span class="font-body-4 welcome">안녕하세요, {{ userNickname }}님</span>
     <div class="icon right" @click="$router.push({ name: 'Notification' })">
@@ -18,6 +20,16 @@ import fire from "@/firebase.js";
 export default {
   components: {},
   name: "TopHeader",
+  data() {
+    return {
+      yesBack: this.isHome ? false : true,
+    };
+  },
+  props: {
+    isHome: {
+      type: Boolean,
+    },
+  },
   computed: {
     ...mapState(["userNickname", "userId"]),
     ...mapState("mypageStore", ["alarmRead"]),

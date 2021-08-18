@@ -17,11 +17,11 @@ export default {
   name: "TopHeader",
   data() {
     return {
-      yesBack: this.noBack ? false : true,
+      yesBack: this.isHome ? false : true,
     };
   },
   props: {
-    noBack: {
+    isHome: {
       type: Boolean,
     },
   },
