@@ -126,7 +126,7 @@ export default {
   padding: 0;
   overflow: hidden;
   border-radius: 1rem;
-  box-shadow: 0 0.4rem 0.8rem 0.4rem rgb(161, 160, 228, 0.16);
+  box-shadow: 0 0.3rem 0.6rem 0.3rem rgb(161, 160, 228, 0.12);
   background-color: var(--white);
 }
 .alarm-list {

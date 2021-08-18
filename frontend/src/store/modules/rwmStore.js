@@ -3,7 +3,6 @@ import axios from "axios";
 import router from "@/router";
 import Swal from "sweetalert2";
 
-
 const rwmStore = {
   namespaced: true,
   state: {
@@ -20,7 +19,7 @@ const rwmStore = {
     },
     rwmParticipant(state) {
       return state.rwmParticipant;
-    }
+    },
   },
   mutations: {
     SET_RWMROOMINFO(state, data) {
@@ -43,7 +42,7 @@ const rwmStore = {
         })
         .catch((err) => {
           console.log(err);
-        })
+        });
     },
     findRwmList({ commit }) {
       axios
@@ -61,24 +60,30 @@ const rwmStore = {
         .then((res) => {
           console.log(res.data);
           commit("SET_PARTICIPANTLIST", res.data);
-          let swalHtml = `<div style="display:flex; flex-direction: column; justify-content:flex-start; align-items:flex-start;">`;
+          let swalHtml = `<div style="margin-bottom: 0.5rem; display:flex; gap: 0.6rem; flex-direction: column; justify-content:flex-start; align-items:flex-start;">`;
           for (var participant of res.data.userList) {
             swalHtml += `
-                        <div style="margin: 0.3rem; display:flex; justify-content:flex-start; align-items:center;">
-                          <img src="` + participant.profileImg + `" style="display: inline-block; width: 4em; height: 4em; border-radius: 10em;"/>
-                          <div style="margin-left: 1rem; display:flex; flex-direction: column; justify-content:flex-start; align-items:flex-start;">
-                            <div><b>` + participant.userNickName + `</b></div>
-                            <div> ` + participant.bookName + ` 읽는중 </div>
+                        <div style="display: flex; gap: 1.2rem; justify-content: flex-start; align-items: center;">
+                          <img class="profileImg" src=
+                        ${
+                          participant.profileImg && participant.profileImg != ""
+                            ? participant.profileImg
+                            : "https://booktory.s3.ap-northeast-2.amazonaws.com/static/default/profile.png"
+                        } style="display: inline-block; width: 4rem; height: 4rem; border-radius: 50%;"/>
+                          <div style="display:flex; gap: 0.3rem; flex-direction: column; align-items:flex-start;">
+                            <div style="font-size: 1.2rem; font-weight: bold;">${
+                              participant.userNickName
+                            }</div>
+                            <div>${participant.bookName} 읽는 중 </div>
                           </div>
                         </div>
-                        `
+                        `;
           }
           swalHtml += `</div>`;
           Swal.fire({
             showCancelButton: false,
-            showCloseButton: true,
             showConfirmButton: false,
-            title: "참가자("+res.data.userList.length+")",
+            title: "참가자 (" + res.data.userList.length + ")",
             html: swalHtml,
           });
         })
@@ -91,28 +96,31 @@ const rwmStore = {
         title: rwmEnterData.bookTitle,
       };
       axios
-        .post(SERVER.URL + SERVER.ROUTES.enterRwmRoom + rwmEnterData.id, rwmBookTitle, rootGetters.config)
+        .post(
+          SERVER.URL + SERVER.ROUTES.enterRwmRoom + rwmEnterData.id,
+          rwmBookTitle,
+          rootGetters.config
+        )
         .then((res) => {
           console.log(res.data);
-          router.push({ name: "RwmRoom" , query: {id: rwmEnterData.id} });
+          router.push({ name: "RwmRoom", query: { id: rwmEnterData.id } });
         })
         .catch((err) => {
           console.log(err);
         });
     },
     exitRwmRoom({ rootGetters }, rwmId) {
-
       axios
         .delete(SERVER.URL + SERVER.ROUTES.exitRwmRoom + rwmId, rootGetters.config)
         .then((res) => {
           console.log(res.data);
-          router.push({ name: 'RwmMain' });
+          router.push({ name: "RwmMain" });
         })
         .catch((err) => {
           console.log(err);
         });
     },
-  }
+  },
 };
 
 export default rwmStore;

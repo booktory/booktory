@@ -1,7 +1,7 @@
 <template>
   <div class="container bg-img">
     <div>
-      <TopHeader />
+      <TopHeader :isHome="true" />
       <ClubList />
       <div class="text-right">
         <span @click="clickSearch">클럽 찾기</span>&nbsp;&nbsp;|&nbsp;&nbsp;<span
