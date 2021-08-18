@@ -2,14 +2,7 @@
   <div>
     <p class="label font-body-3">읽은 책 ({{ bookList.length }})</p>
     <div class="book-list-wrapper">
-      <BookItem
-        v-for="(item, index) in bookList"
-        :key="index"
-        :index="index"
-        :id="item.id"
-        :thumbnail="item.thumbnail"
-        :title="item.title"
-      />
+      <BookItem v-for="(book, index) in bookList" :key="index" :index="index" :book="book" />
     </div>
   </div>
 </template>
