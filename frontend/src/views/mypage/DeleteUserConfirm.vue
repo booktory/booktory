@@ -8,7 +8,7 @@
         <label for="password">비밀번호</label>
         <div>
           <input
-            v-model="password"
+            v-model.trim="password"
             v-bind:class="{
               error: error.password,
               complete: !error.password && password.length !== 0,
@@ -68,7 +68,6 @@ export default {
     },
     // 비밀번호 유효성 검사
     checkPasswordForm() {
-      this.password = this.password.trim();
       if (this.password.length > 0 && this.password.length < 8) {
         this.error.password = "비밀번호가 너무 짧아요! 8자 이상 입력해주세요";
       } else if (this.password.length > 16) {

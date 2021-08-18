@@ -7,7 +7,7 @@
         </div>
         <div class="center">
           <input
-            v-model="keyword"
+            v-model.trim="keyword"
             type="text"
             placeholder="검색할 클럽명을 입력해주세요"
             maxlength="10"
@@ -59,7 +59,6 @@ export default {
     ...mapActions("searchStore", ["searchClubByName", "initClubList"]),
     ...mapActions("clubStore", ["findClubInfo"]),
     clickSearch() {
-      this.keyword = this.keyword.trim();
       if (this.keyword.length > 0) {
         this.searchClubByName(this.keyword);
       } else {

@@ -6,7 +6,7 @@
         <icon-base :iconColor="'var(--grey)'"><icon-search /></icon-base>
       </div>
       <input
-        v-model="keyword"
+        v-model.trim="keyword"
         type="text"
         placeholder="검색어를 입력해주세요"
         @keyup.enter="clickSearch"
@@ -34,7 +34,6 @@ export default {
   methods: {
     ...mapActions("searchStore", ["searchBookByKeyword"]),
     clickSearch() {
-      this.keyword = this.keyword.trim();
       if (this.keyword.length > 0) {
         this.searchBookByKeyword(this.keyword);
       } else {
