@@ -20,6 +20,7 @@
     "vue-google-oauth2": "^1.5.8",
     "vue-moment": "^4.1.0",
     "vue-router": "^3.2.0",
+    "vue-youtube": "^1.4.0",
     "vue2-datepicker": "^3.9.1",
     "vuex": "^3.6.2"
   },

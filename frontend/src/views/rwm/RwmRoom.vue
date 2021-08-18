@@ -2,7 +2,7 @@
   <div class="container">
     <RwmRoomHeader />
     <div class="rwm-api-wrapper">
-      <RwmRoomYoutube v-if="this.rwmRoomInfo" :apiLink="this.rwmRoomInfo.apiLink" />
+      <RwmRoomYoutube v-if="this.rwmRoomInfo" :apiLink="this.rwmRoomInfo.apiLink" :imgUrl="this.rwmRoomInfo.img"/>
       <div v-if="this.rwmRoomInfo">
         <!-- <img :src= "this.rwmRoomInfo.img" alt="rwm thumbnail" width="80%"/> -->
         <h5 class="">{{ this.rwmRoomInfo.name }}</h5>
