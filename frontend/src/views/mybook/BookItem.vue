@@ -31,7 +31,7 @@ export default {
   },
   data() {
     return {
-      memoStyle: "",
+      memoHtml: "",
     };
   },
   methods: {
@@ -149,7 +149,7 @@ export default {
     },
   },
   mounted() {
-    if (this.book.memo == "") {
+    if (!this.book.memo || this.book.memo == "") {
       this.memoHtml = "justify-content: center; color: var(--grey);'>작성된 코멘트가 없습니다";
     } else {
       this.memoHtml = "text-align: justify;'>" + this.book.memo;
