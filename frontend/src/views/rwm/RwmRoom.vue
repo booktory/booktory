@@ -40,13 +40,14 @@ export default {
     ...mapState("rwmStore", ["rwmRoomInfo"]),
   },
   methods: {
-    ...mapActions("rwmStore", ["exitRwmRoom", "findRwmRoomInfo"]),
+    ...mapActions("rwmStore", ["exitRwmRoom", "findRwmRoomInfo", "findRwmParticipant"]),
     clickExitRwmRoom() {
       router.go(-2);
     },
   },
   created() {
     this.findRwmRoomInfo(this.$route.query.id);
+    this.findRwmParticipant(this.$route.query.id);
   },
   destroyed() {
     this.exitRwmRoom(this.rwmId);
