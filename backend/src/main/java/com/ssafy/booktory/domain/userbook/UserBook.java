@@ -28,10 +28,16 @@ public class UserBook extends BaseTimeEntity {
     @JoinColumn(name = "book_id")
     private Book book;
 
+    private String comment;
+
     @Builder
     public UserBook(User user, Book book) {
         this.user = user;
         this.book = book;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 
 }
