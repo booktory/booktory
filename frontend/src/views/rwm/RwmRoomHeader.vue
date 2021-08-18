@@ -8,7 +8,7 @@
     <!-- <div v-if="rwmParticipant">
       {{rwmParticipant}}
     </div> -->
-    
+
     <div class="icon rwm-header-item" @click="viewParticipant">
       <icon-base><icon-users /></icon-base>
     </div>
@@ -19,34 +19,31 @@
 import { mapActions } from "vuex";
 
 export default {
-  components: { 
-  },
+  components: {},
   name: "RwmRoomHeader",
-  computed: {
-  },
+  computed: {},
   methods: {
     ...mapActions("rwmStore", ["exitRwmRoom", "findRwmParticipant"]),
 
-    clickExitRwmRoom(){
+    clickExitRwmRoom() {
       this.exitRwmRoom(this.$route.query.id);
     },
-    viewParticipant(){
+    viewParticipant() {
       this.findRwmParticipant(this.$route.query.id);
     },
   },
-  created() {
-  },
+  created() {},
 };
 </script>
 
 <style scoped>
-.rwm-header-wrapper{
+.rwm-header-wrapper {
   display: flex;
-  justify-content:space-between;
+  justify-content: space-between;
   align-items: baseline;
   background-color: #fdcc97;
 }
-.rwm-header-item{
+.rwm-header-item {
   margin: 1.8rem;
 }
 </style>

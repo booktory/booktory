@@ -1,10 +1,14 @@
 <template>
   <div class="container">
-    <TopHeader />
-    <h4 class="title">Read With Me</h4>
-    <span class="">모두가 함께 모여 책을 읽는 모임 장소입니다.<br>마음에 드는 방을 선택해서 입장하세요.</span>
-    <RwmMainCards v-if="rwmList" :rwmList="rwmList" />
-    <Navbar :selected="'rwm'" class="footer" />
+    <div>
+      <TopHeader />
+      <h4 class="title">Read With Me</h4>
+      <p class="sub-title-c">
+        모두가 함께 모여 책을 읽는 공간입니다 :)<br />마음에 드는 방을 골라서 입장하세요
+      </p>
+      <RwmMainCards v-if="rwmList" :rwmList="rwmList" />
+      <Navbar :selected="'rwm'" />
+    </div>
   </div>
 </template>
 
@@ -33,4 +37,9 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.sub-title-c {
+  font-size: 1.1rem;
+  margin-bottom: 1.8rem;
+}
+</style>

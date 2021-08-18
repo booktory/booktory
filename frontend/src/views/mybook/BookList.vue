@@ -34,13 +34,14 @@ export default {
 .label {
   font-weight: bold;
   text-align: left;
-  margin: 5% 0 1.5% 12%;
+  width: 30rem;
+  margin: 2rem auto 0;
 }
 .book-list-wrapper {
-  width: auto;
+  width: 28rem;
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 2%;
-  margin: 0 9% 20rem;
+  grid-template-columns: repeat(4, auto);
+  gap: 0.5rem;
+  margin: 0 auto 5rem;
 }
 </style>

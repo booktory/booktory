@@ -35,7 +35,7 @@ const mypageStore = {
       {
         state: false,
         name: "독서에 미친 자",
-        content: "모임에 100번 이상 참여해요.",
+        content: "모임에 200번 이상 참여해요.",
         isMain: false,
       },
       {

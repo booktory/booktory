@@ -47,7 +47,7 @@ export default {
   computed: {
     ...mapState("searchStore", ["genreList"]),
     clubImg: function () {
-      return this.club.clubImg;
+      return this.club.img;
     },
     clubName: function () {
       let clubName = this.club.name.replaceAll(

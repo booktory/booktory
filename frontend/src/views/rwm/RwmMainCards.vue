@@ -1,16 +1,15 @@
 <template>
   <div class="rwm-cards-wrapper">
     <RwmMainCardsDetail
-        v-for="(item, index) in rwmList"
-        :key="index"
-        :index="index"
-        :id="item.id"
-        :img="item.img"
-        :info="item.info"
-        :name="item.name"
-        :userCount="item.userCount"
+      v-for="(item, index) in rwmList"
+      :key="index"
+      :index="index"
+      :id="item.id"
+      :img="item.img"
+      :info="item.info"
+      :name="item.name"
+      :userCount="item.userCount"
     />
-
   </div>
 </template>
 
@@ -27,22 +26,18 @@ export default {
       type: Array,
     },
   },
-  computed: {
-  },
-  methods: {
-  },
-  created() {
-  },
+  computed: {},
+  methods: {},
+  created() {},
 };
 </script>
 
 <style scoped>
 .rwm-cards-wrapper {
-  width: auto;
+  width: 32rem;
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 2%;
-  margin: 0 9% 20rem;
+  grid-template-columns: repeat(2, auto);
+  gap: 1.8rem 0.9rem;
+  margin: 0 auto;
 }
-
 </style>
