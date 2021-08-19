@@ -5,6 +5,7 @@ import Swal from "sweetalert2";
 
 Vue.use(VueRouter);
 
+// 로그인 필요한 페이지 처리
 const requireAuth = () => (to, from, next) => {
   if (store.state.authToken && store.state.authToken !== "") {
     return next();
@@ -27,6 +28,18 @@ VueRouter.prototype.push = function push(location) {
 };
 
 const routes = [
+  // 존재하지 않는 페이지
+  {
+    path: "*",
+    redirect: "/404",
+  },
+  // Page Not Found 화면
+  {
+    path: "/404",
+    name: "notFound",
+    component: () => import("@/views/NotFound.vue"),
+  },
+  // 랜딩 페이지
   {
     path: "/",
     name: "Home",
@@ -285,6 +298,11 @@ const router = new VueRouter({
   mode: "history",
   base: process.env.BASE_URL,
   routes,
+  // 스크롤 위치 최상단으로 고정
+  // eslint-disable-next-line
+  scrollBehavior(to, from, savedPosition) {
+    return { x: 0, y: 0 };
+  },
 });
 
 export default router;
