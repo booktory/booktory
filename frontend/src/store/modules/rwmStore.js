@@ -891,6 +891,7 @@ const rwmStore = {
     },
   },
   actions: {
+    // 같이 읽기 방 정보 확인
     findRwmRoomInfo({ commit }, rwmId) {
       axios
         .get(SERVER.URL + SERVER.ROUTES.getRwmRoomInfo + rwmId)
@@ -901,6 +902,7 @@ const rwmStore = {
           console.log(err);
         });
     },
+    // 같이 읽기 목록 확인
     findRwmList({ commit }) {
       axios
         .get(SERVER.URL + SERVER.ROUTES.getRwmList)
@@ -911,6 +913,7 @@ const rwmStore = {
           console.log(err);
         });
     },
+    // 같이 읽기 방 참가자 목록 확인
     findRwmParticipant({ rootGetters, commit }, rwmId) {
       axios
         .get(SERVER.URL + SERVER.ROUTES.getRwmParticipant + rwmId + "/users")
@@ -965,6 +968,7 @@ const rwmStore = {
           console.log(err);
         });
     },
+    // 같이 읽기 방 입장
     enterRwmRoom({ rootGetters }, rwmEnterData) {
       let rwmBookTitle = {
         title: rwmEnterData.bookTitle,
@@ -982,6 +986,7 @@ const rwmStore = {
           console.log(err);
         });
     },
+    // 같이 읽기 방 퇴장
     exitRwmRoom({ rootGetters }, rwmId) {
       axios
         .delete(SERVER.URL + SERVER.ROUTES.exitRwmRoom + rwmId, rootGetters.config)

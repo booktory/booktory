@@ -86,6 +86,7 @@ const accountStore = {
           });
         });
     },
+
     saveFcmToken({ dispatch }, email) {
       dispatch("");
       const agt = navigator.userAgent.toLowerCase();
@@ -106,6 +107,7 @@ const accountStore = {
           });
       });
     },
+
     // 로그인 처리
     postAuthDataLogin({ commit, dispatch }, info) {
       axios
@@ -188,6 +190,7 @@ const accountStore = {
           });
         });
     },
+
     // 비밀번호 찾기
     findPassword({ dispatch }, email) {
       dispatch("");

@@ -39,7 +39,7 @@
                 >
                   <div class="meeting-button-head">
                     <div class="meeting-button-head-icon">
-                      <icon-base><icon-video /></icon-base>
+                      <icon-base :iconColor="'var(--white)'"><icon-video /></icon-base>
                     </div>
                     <div
                       v-html="convertTime(clubInfo.endDateTime)"
@@ -53,7 +53,7 @@
                 <button disabled type="button" class="meeting-button">
                   <div class="meeting-button-head">
                     <div class="meeting-button-head-icon">
-                      <icon-base><icon-video /></icon-base>
+                      <icon-base :iconColor="'var(--white)'"><icon-video /></icon-base>
                     </div>
                   </div>
                   <h5 class="meeting-button-body">예정된 모임 없음</h5>
@@ -67,7 +67,7 @@
                 >
                   <div class="meeting-button-head">
                     <div class="meeting-button-head-icon">
-                      <icon-base><icon-video /></icon-base>
+                      <icon-base :iconColor="'var(--white)'"><icon-video /></icon-base>
                     </div>
                     <div class="meeting-button-head-date"></div>
                   </div>
@@ -81,7 +81,7 @@
               >
                 <div class="meeting-button-head">
                   <div class="meeting-button-head-icon">
-                    <icon-base><icon-bookmark /></icon-base>
+                    <icon-base :iconColor="'var(--white)'"><icon-bookmark /></icon-base>
                   </div>
                 </div>
                 <h5 class="meeting-button-body">일정 확인하기</h5>
