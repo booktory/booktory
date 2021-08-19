@@ -78,9 +78,10 @@ const bookclubStore = {
           console.log(err);
         });
     },
+
     // 읽을 책 등록
     createBook({ dispatch }, bookclubData) {
-      dispatch("");
+      console.log(dispatch);
       axios
         .post(SERVER.URL + SERVER.ROUTES.createBook, bookclubData)
         .then(() => {
@@ -104,9 +105,35 @@ const bookclubStore = {
           });
         });
     },
+    // 읽을 책 삭제
+    deleteBook({ dispatch }, data) {
+      axios
+        .delete(SERVER.URL + SERVER.ROUTES.deleteBook + data.bookclubId)
+        .then(() => {
+          Swal.fire({
+            icon: "success",
+            title: "책 삭제 완료",
+            showConfirmButton: false,
+            timer: 1000,
+            timerProgressBar: true,
+          });
+          dispatch("getBookClubList", data.clubId);
+        })
+        .catch((err) => {
+          Swal.fire({
+            icon: "error",
+            title: "책 삭제 실패",
+            text: err.response.data.message,
+            showConfirmButton: false,
+            timer: 1500,
+            timerProgressBar: false,
+          });
+        });
+    },
+
     // 모임 등록
     createMeeting({ dispatch }, bookclubData) {
-      dispatch("");
+      console.log(dispatch);
       axios
         .put(SERVER.URL + SERVER.ROUTES.createMeeting, bookclubData)
         .then(() => {
@@ -156,30 +183,7 @@ const bookclubStore = {
           });
         });
     },
-    deleteBook({ dispatch }, data) {
-      axios
-        .delete(SERVER.URL + SERVER.ROUTES.deleteBook + data.bookclubId)
-        .then(() => {
-          Swal.fire({
-            icon: "success",
-            title: "책 삭제 완료",
-            showConfirmButton: false,
-            timer: 1000,
-            timerProgressBar: true,
-          });
-          dispatch("getBookClubList", data.clubId);
-        })
-        .catch((err) => {
-          Swal.fire({
-            icon: "error",
-            title: "책 삭제 실패",
-            text: err.response.data.message,
-            showConfirmButton: false,
-            timer: 1500,
-            timerProgressBar: false,
-          });
-        });
-    },
+    // 모임 입장
     attendMeeting({ rootGetters }, bookclubId) {
       axios
         .post(
@@ -208,6 +212,7 @@ const bookclubStore = {
           });
         });
     },
+    // 모임 퇴장
     leaveMeeting({ rootGetters }, bookclubId) {
       axios
         .put(

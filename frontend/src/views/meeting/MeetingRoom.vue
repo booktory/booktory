@@ -29,7 +29,6 @@
 import { mapState, mapActions } from "vuex";
 import axios from "axios";
 import Swal from "sweetalert2";
-// import router from "@/router";
 import { OpenVidu } from "openvidu-browser";
 import IconBook from "@/components/icons/IconBook.vue";
 import UserVideo from "@/views/meeting/UserVideo";
@@ -61,7 +60,6 @@ export default {
   },
   created() {
     this.mySessionId = `Session${this.meetingInfo.bookclubId}`;
-    // this.joinSession();
   },
   mounted() {
     this.joinSession();
@@ -218,7 +216,6 @@ export default {
           this.OV = undefined;
 
           this.leaveMeeting(this.meetingInfo.bookclubId);
-          // router.go(-1);
           window.removeEventListener("beforeunload", this.leaveSession);
         }
       });

@@ -110,7 +110,7 @@ const clubStore = {
     },
   },
   actions: {
-    // 내 클럽 정보 확인
+    // 내가 가입한 클럽 확인
     findClubList({ rootGetters, commit }) {
       axios
         .get(SERVER.URL + SERVER.ROUTES.findClubList, rootGetters.config)
@@ -128,8 +128,56 @@ const clubStore = {
     setClubIndex({ commit }, index) {
       commit("SET_CLUB_INDEX", index);
     },
-    // 해당 클럽 정보 확인
+
+    // 해당 클럽 정보 확인 - 회원
     findClubInfo({ rootGetters, commit, dispatch }, clubId) {
+      axios
+        .get(SERVER.URL + SERVER.ROUTES.getClubInfo + clubId, rootGetters.config)
+        .then((res) => {
+          // 클럽 멤버가 아니면 돌려보내기
+          if (!res.data.isMember) {
+            Swal.fire({
+              icon: "warning",
+              title: "클럽에 가입 후 이용 가능합니다",
+              showConfirmButton: false,
+              timer: 1500,
+              timerProgressBar: false,
+            });
+            router.push({ name: "ClubSearchBarPageListItem", query: { clubId: res.data.id } });
+          } else {
+            commit("SET_CLUBID", clubId);
+            commit("SET_CLUB_INFO", res.data);
+            commit("SET_IS_LEADER", res.data.isLeader);
+            commit("SET_CLUB_IMAGE", res.data.img);
+            // 다음 모임 정보 설정
+            let meetingInfo = null;
+            if (res.data.endDateTime) {
+              meetingInfo = {
+                bookclubId: res.data.bookClubId,
+                startTime: res.data.endDateTime,
+                remainTime: "",
+                isOpen: false,
+                isCalc: true,
+              };
+            }
+            commit("SET_MEETING_INFO", meetingInfo);
+            dispatch("calcRemainTime");
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+          Swal.fire({
+            icon: "warning",
+            title: "존재하지 않는 클럽입니다",
+            showConfirmButton: false,
+            timer: 1500,
+            timerProgressBar: false,
+          });
+          router.push({ name: "ClubHome" });
+        });
+    },
+    // 해당 클럽 정보 확인 - 비회원
+    findClubOpenInfo({ rootGetters, commit, dispatch }, clubId) {
       axios
         .get(SERVER.URL + SERVER.ROUTES.getClubInfo + clubId, rootGetters.config)
         .then((res) => {
@@ -163,6 +211,7 @@ const clubStore = {
           router.push({ name: "ClubHome" });
         });
     },
+
     // 클럽에 이미 등록된 책인지 확인
     async checkRegisterBook({ getters, commit }, bookId) {
       await axios
@@ -174,6 +223,7 @@ const clubStore = {
           console.log(err);
         });
     },
+
     // 다음 모임까지 남은 시간 계산
     calcRemainTime({ getters, commit }) {
       let meetingInfo = getters.meetingInfo;
@@ -213,6 +263,7 @@ const clubStore = {
     pollingEnd({ commit }) {
       commit("SET_IS_POLLING", false);
     },
+
     // 새 클럽 만들 정보 저장
     saveClubData({ commit }, clubData) {
       commit("SET_NEW_CLUBDATA", clubData);
@@ -253,7 +304,7 @@ const clubStore = {
             timerProgressBar: true,
           });
           commit("SET_CLUB_IMAGE", clubData.img);
-          router.push({ name: "ClubdetailManage" });
+          router.push({ name: "ClubdetailManage", query: { clubId: getters.clubId } });
         })
         .catch((err) => {
           Swal.fire({
@@ -266,6 +317,32 @@ const clubStore = {
           });
         });
     },
+    // 클럽 삭제
+    deleteClub({ rootGetters, dispatch }, clubId) {
+      axios
+        .delete(SERVER.URL + SERVER.ROUTES.deleteClub + clubId, rootGetters.config)
+        .then(() => {
+          Swal.fire({
+            icon: "success",
+            title: "클럽 삭제 완료",
+            showConfirmButton: false,
+            timer: 1000,
+            timerProgressBar: true,
+          });
+          dispatch("findClubInfo", clubId);
+        })
+        .catch((err) => {
+          Swal.fire({
+            icon: "error",
+            title: "클럽 삭제 실패",
+            text: err.response.data.message,
+            showConfirmButton: false,
+            timer: 1500,
+            timerProgressBar: false,
+          });
+        });
+    },
+
     // 클럽 가입신청
     applyToClub({ rootGetters, getters }) {
       axios
@@ -300,8 +377,8 @@ const clubStore = {
           rootGetters.config
         )
         .then(() => {
-          dispatch("findApplyList");
-          dispatch("findJoinedList");
+          dispatch("findApplyList", getters.clubId);
+          dispatch("findJoinedList", getters.clubId);
           Swal.fire({
             icon: "success",
             title: "가입신청 수락 완료",
@@ -326,7 +403,7 @@ const clubStore = {
       axios
         .delete(SERVER.URL + "/clubs/" + getters.clubId + "/join/" + userClubId, rootGetters.config)
         .then(() => {
-          dispatch("findApplyList");
+          dispatch("findApplyList", getters.clubId);
           Swal.fire({
             icon: "success",
             title: "가입신청 거절 완료",
@@ -347,10 +424,11 @@ const clubStore = {
         });
     },
     // 클럽 가입신청 회원 목록
-    findApplyList({ rootGetters, getters, commit }) {
+    findApplyList({ rootGetters, commit }, clubId) {
       axios
-        .get(SERVER.URL + "/clubs/" + getters.clubId + "/users/apply", rootGetters.config)
+        .get(SERVER.URL + "/clubs/" + clubId + "/users/apply", rootGetters.config)
         .then((res) => {
+          commit("SET_CLUBID", clubId);
           commit("SET_APPLY_LIST", res.data);
         })
         .catch((err) => {
@@ -358,10 +436,11 @@ const clubStore = {
         });
     },
     // 클럽 가입된 회원 목록
-    findJoinedList({ getters, commit }) {
+    findJoinedList({ commit }, clubId) {
       axios
-        .get(SERVER.URL + "/clubs/" + getters.clubId + "/users")
+        .get(SERVER.URL + "/clubs/" + clubId + "/users")
         .then((res) => {
+          commit("SET_CLUBID", clubId);
           commit("SET_JOINED_LIST", res.data);
         })
         .catch((err) => {
@@ -383,7 +462,7 @@ const clubStore = {
             timer: 1000,
             timerProgressBar: true,
           });
-          router.push({ name: "ClubHome" });
+          router.push({ name: "ClubSearchBarPageListItem", query: { clubId: getters.clubId } });
         })
         .catch((err) => {
           Swal.fire({
@@ -396,31 +475,7 @@ const clubStore = {
           });
         });
     },
-    // 클럽 삭제
-    deleteClub({ rootGetters, getters }) {
-      axios
-        .delete(SERVER.URL + SERVER.ROUTES.deleteClub + getters.clubId, rootGetters.config)
-        .then(() => {
-          Swal.fire({
-            icon: "success",
-            title: "클럽 삭제 완료",
-            showConfirmButton: false,
-            timer: 1000,
-            timerProgressBar: true,
-          });
-          router.push({ name: "ClubHome" });
-        })
-        .catch((err) => {
-          Swal.fire({
-            icon: "error",
-            title: "클럽 삭제 실패",
-            text: err.response.data.message,
-            showConfirmButton: false,
-            timer: 1500,
-            timerProgressBar: false,
-          });
-        });
-    },
+
     // 문의게시판 목록 확인
     findQuestionList({ commit }, clubId) {
       axios

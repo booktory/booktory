@@ -59,7 +59,7 @@
           </button>
         </div>
       </div>
-      <Navbar :selected="'meeting'" />
+      <Navbar :selected="'meeting'" :clubId="this.clubId" />
     </div>
   </div>
 </template>
@@ -77,6 +77,7 @@ export default {
   },
   data() {
     return {
+      clubId: this.$route.query.clubId,
       meetingData: {
         id: 0,
         endDateTime: null,
@@ -98,11 +99,12 @@ export default {
     },
   },
   computed: {
-    ...mapState("clubStore", ["clubInfo", "clubId", "clubImage"]),
+    ...mapState("clubStore", ["clubInfo", "clubImage"]),
     ...mapState("bookclubStore", ["nextbookclubList"]),
   },
   methods: {
-    ...mapActions("bookclubStore", ["createMeeting"]),
+    ...mapActions("bookclubStore", ["createMeeting", "getBookClubList"]),
+    ...mapActions("clubStore", ["findClubInfo"]),
     // 생성하기 버튼 클릭
     clickCreate() {
       if (this.isSubmit) {
@@ -145,8 +147,11 @@ export default {
         "var(--clubdetail-bg-" + this.clubImage + ")";
     },
   },
-  async mounted() {
-    await this.setBackgroundImage();
+  async created() {
+    this.findClubInfo(this.clubId);
+    this.getBookClubList(this.clubId);
+    await new Promise((resolve) => setTimeout(resolve, 100));
+    this.setBackgroundImage();
   },
 };
 </script>

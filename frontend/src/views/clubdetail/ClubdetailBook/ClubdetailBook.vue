@@ -1,22 +1,19 @@
 <template>
   <div class="container bg-img">
-    <div>
+    <div v-if="clubInfo">
       <TopHeader />
       <div class="card">
         <div class="main">
           <h4 class="title">클럽 서재</h4>
           <div class="main-head">
             <h5>읽는 중</h5>
-            <span
-              v-if="clubInfo.isLeader"
-              class="font-body-4"
-              @click="$router.push({ name: 'ClubdetailBookAdd' })"
+            <span v-if="clubInfo.isLeader" class="font-body-4" @click="clickAddBook"
               >책 추가하기</span
             >
           </div>
           <!-- 읽는 중 -->
           <div class="now-reading">
-            <div v-if="nowbookclub != null">
+            <div v-if="nowbookclub">
               <div class="reading-card m-top-1">
                 <div class="reading-card-left">
                   <img :src="nowbookclub.bookThumbnail" alt="" />
@@ -47,7 +44,7 @@
           <!-- 앞으로 읽을 책 -->
           <div class="reading">
             <h5>앞으로 읽을 책</h5>
-            <div v-if="nextbookclubList.length > 0">
+            <div v-if="nextbookclubList && nextbookclubList.length > 0">
               <div v-for="(book, idx) in nextbookclubList" :key="idx" class="reading-card m-top-1">
                 <div class="reading-card-left">
                   <img :src="book.bookThumbnail" alt="" />
@@ -86,7 +83,7 @@
           <!-- 읽었어요 -->
           <div class="reading">
             <h5>읽었어요</h5>
-            <div v-if="prebookclubList.length > 0">
+            <div v-if="prebookclubList && prebookclubList.length > 0">
               <div v-for="(book, idx) in prebookclubList" :key="idx" class="reading-card m-top-1">
                 <div class="reading-card-left">
                   <img :src="book.bookThumbnail" alt="" />
@@ -119,7 +116,7 @@
           </div>
         </div>
       </div>
-      <Navbar :selected="'home'" />
+      <Navbar :selected="'home'" :clubId="this.clubId" />
     </div>
   </div>
 </template>
@@ -129,6 +126,7 @@ import TopHeader from "@/views/clubdetail/TopHeader.vue";
 import Navbar from "@/views/clubdetail/Navbar.vue";
 import IconDelete from "@/components/icons/IconDelete.vue";
 import Swal from "sweetalert2";
+import router from "@/router";
 import { mapActions, mapState } from "vuex";
 
 export default {
@@ -139,7 +137,7 @@ export default {
     IconDelete,
   },
   computed: {
-    ...mapState("clubStore", ["clubInfo", "clubId", "clubImage"]),
+    ...mapState("clubStore", ["clubInfo", "clubImage"]),
     ...mapState("bookclubStore", [
       "bookclubList",
       "nowbookclub",
@@ -147,8 +145,19 @@ export default {
       "prebookclubList",
     ]),
   },
+  data() {
+    return {
+      clubId: this.$route.query.clubId,
+    };
+  },
   methods: {
     ...mapActions("bookclubStore", ["getBookClubList", "deleteBook"]),
+    ...mapActions("clubStore", ["findClubInfo"]),
+    // 읽을 책 추가
+    clickAddBook() {
+      router.push({ name: "ClubdetailBookAdd", query: { clubId: this.clubId } });
+    },
+    // 읽을 책 삭제
     clickDeleteBook(id) {
       Swal.fire({
         showCancelButton: true,
@@ -171,11 +180,11 @@ export default {
         "var(--clubdetail-bg-" + this.clubImage + ")";
     },
   },
-  created() {
+  async created() {
+    this.findClubInfo(this.clubId);
     this.getBookClubList(this.clubId);
-  },
-  async mounted() {
-    await this.setBackgroundImage();
+    await new Promise((resolve) => setTimeout(resolve, 100));
+    this.setBackgroundImage();
   },
 };
 </script>

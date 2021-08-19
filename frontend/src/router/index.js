@@ -39,6 +39,7 @@ const routes = [
     name: "notFound",
     component: () => import("@/views/NotFound.vue"),
   },
+
   // 랜딩 페이지
   {
     path: "/",
@@ -88,7 +89,7 @@ const routes = [
     component: () => import("@/views/accounts/FindPasswordUpdate.vue"),
   },
 
-  // 홈 화면(내 클럽 보기)
+  // 홈 화면 (내 클럽 보기)
   {
     path: "/club",
     name: "ClubHome",
@@ -180,7 +181,6 @@ const routes = [
     component: () => import("@/views/clubdetail/ClubdetailManage/ClubdetailManageUser.vue"),
     beforeEnter: requireAuth(),
   },
-
   // 클럽상세 책 확인
   {
     path: "/clubdetail/book",
@@ -188,7 +188,6 @@ const routes = [
     component: () => import("@/views/clubdetail/ClubdetailBook/ClubdetailBook.vue"),
     beforeEnter: requireAuth(),
   },
-
   // 클럽상세 읽을 책 추가
   {
     path: "/clubdetail/book/add",
@@ -196,12 +195,33 @@ const routes = [
     component: () => import("@/views/clubdetail/ClubdetailBook/ClubdetailBookAdd.vue"),
     beforeEnter: requireAuth(),
   },
-
   // 클럽상세 담벼락
   {
     path: "/clubdetail/board",
     name: "ClubdetailBoard",
     component: () => import("@/views/clubdetail/ClubdetailBoard/ClubdetailBoard.vue"),
+    beforeEnter: requireAuth(),
+  },
+
+  // 같이 읽기
+  {
+    path: "/rwm",
+    name: "RwmMain",
+    component: () => import("@/views/rwm/RwmMain.vue"),
+    beforeEnter: requireAuth(),
+  },
+  // 같이 읽기 입장
+  {
+    path: "/rwm/enterance",
+    name: "RwmEnterance",
+    component: () => import("@/views/rwm/RwmEnterance.vue"),
+    beforeEnter: requireAuth(),
+  },
+  // 같이 읽기 방
+  {
+    path: "/rwm/room",
+    name: "RwmRoom",
+    component: () => import("@/views/rwm/RwmRoom.vue"),
     beforeEnter: requireAuth(),
   },
 
@@ -268,28 +288,6 @@ const routes = [
     path: "/meeting",
     name: "Meeting",
     component: () => import("@/views/meeting/MeetingRoom.vue"),
-    beforeEnter: requireAuth(),
-  },
-
-  //같이 읽기
-  {
-    path: "/rwm",
-    name: "RwmMain",
-    component: () => import("@/views/rwm/RwmMain.vue"),
-    beforeEnter: requireAuth(),
-  },
-  //같이 읽기 입장
-  {
-    path: "/rwm/enterance",
-    name: "RwmEnterance",
-    component: () => import("@/views/rwm/RwmEnterance.vue"),
-    beforeEnter: requireAuth(),
-  },
-  //같이 읽기 방
-  {
-    path: "/rwm/room",
-    name: "RwmRoom",
-    component: () => import("@/views/rwm/RwmRoom.vue"),
     beforeEnter: requireAuth(),
   },
 ];

@@ -1,6 +1,6 @@
 <template>
   <div class="container bg-img">
-    <div>
+    <div v-if="clubInfo">
       <TopHeader />
       <div class="card">
         <div class="main">
@@ -10,7 +10,7 @@
             <span
               v-if="clubInfo.isLeader && nowbookclub == null"
               class="font-body-4"
-              @click="$router.push({ name: 'ClubdetailMeetingCreate' })"
+              @click="clickMeetingCreate"
               >모임 만들기</span
             >
           </div>
@@ -44,7 +44,7 @@
           </div>
           <div class="pre-meeting">
             <h5>지난 모임</h5>
-            <div v-if="prebookclubList.length > 0">
+            <div v-if="prebookclubList && prebookclubList.length > 0">
               <div
                 class="meeting-card m-top-1"
                 v-for="(preMeeting, idx) in prebookclubList"
@@ -65,7 +65,10 @@
                 <div class="meeting-card-body">
                   <h5>{{ preMeeting.bookTitle }}</h5>
                 </div>
-                <div v-if="preMeeting.userList.length > 0" class="meeting-card-footer font-body-4">
+                <div
+                  v-if="preMeeting && preMeeting.userList.length > 0"
+                  class="meeting-card-footer font-body-4"
+                >
                   <div>{{ preMeeting.userList.length }}명이 책을 함께 읽었어요</div>
                   <div class="meeting-card-footer-list">
                     <div
@@ -89,7 +92,7 @@
           </div>
         </div>
       </div>
-      <Navbar :selected="'meeting'" />
+      <Navbar :selected="'meeting'" :clubId="this.clubId" />
     </div>
   </div>
 </template>
@@ -99,6 +102,7 @@ import { mapActions, mapState } from "vuex";
 import TopHeader from "@/views/clubdetail/TopHeader.vue";
 import Navbar from "@/views/clubdetail/Navbar.vue";
 import Swal from "sweetalert2";
+import router from "@/router";
 var moment = require("moment");
 
 export default {
@@ -107,12 +111,23 @@ export default {
     TopHeader,
     Navbar,
   },
+  data() {
+    return {
+      clubId: this.$route.query.clubId,
+    };
+  },
   computed: {
-    ...mapState("clubStore", ["clubInfo", "clubId", "clubImage"]),
+    ...mapState("clubStore", ["clubInfo", "clubImage"]),
     ...mapState("bookclubStore", ["nowbookclub", "prebookclubList"]),
   },
   methods: {
     ...mapActions("bookclubStore", ["cancelMeeting", "getBookClubList"]),
+    ...mapActions("clubStore", ["findClubInfo"]),
+    // 모임 개설하기
+    clickMeetingCreate() {
+      router.push({ name: "ClubdetailMeetingCreate", query: { clubId: this.clubId } });
+    },
+    // 모임 취소하기
     clickCancel() {
       Swal.fire({
         showCancelButton: true,
@@ -145,11 +160,11 @@ export default {
         "var(--clubdetail-bg-" + this.clubImage + ")";
     },
   },
-  created() {
+  async created() {
+    this.findClubInfo(this.clubId);
     this.getBookClubList(this.clubId);
-  },
-  async mounted() {
-    await this.setBackgroundImage();
+    await new Promise((resolve) => setTimeout(resolve, 100));
+    this.setBackgroundImage();
   },
 };
 </script>
