@@ -7,7 +7,10 @@
         <div v-if="alarmList && alarmList.length > 0" class="alarm-list">
           <div v-for="(alarm, idx) in alarmList" :key="idx">
             <div class="alarm-contents" :class="{ unread: alarm.status == 0 }">
-              <div class="alarm-contents-message" v-html="alarm.message"></div>
+              <div
+                class="alarm-contents-message"
+                v-html="alarm.message.replaceAll('\n', '<br/>')"
+              ></div>
               <div class="alarm-contents-time">{{ convertTime(alarm.time) }}</div>
             </div>
           </div>

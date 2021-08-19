@@ -180,7 +180,7 @@ export default {
         this.error.passwordConfirm = "비밀번호와 일치하지 않아요! 다시 확인해주세요";
       } else this.error.passwordConfirm = false;
 
-      // 유효성 검사 통과 시 로그인 버튼 활성화
+      // 유효성 검사 통과 시 버튼 활성화
       if (
         this.registerData.nickname.length > 0 &&
         this.registerData.email.length > 0 &&
