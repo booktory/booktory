@@ -19,14 +19,13 @@
           <ClubdetailManageUserList class="user-list" :userList="joinedList" :state="'accept'" />
         </div>
       </div>
-      <Navbar :selected="'manage'" />
+      <Navbar :selected="'manage'" :clubId="this.clubId" />
     </div>
   </div>
 </template>
 
 <script>
 import { mapState, mapActions } from "vuex";
-
 import Navbar from "@/views/clubdetail/Navbar.vue";
 import TopHeader from "@/views/clubdetail/TopHeader.vue";
 import ClubdetailManageUserList from "@/views/clubdetail/ClubdetailManage/ClubdetailManageUserList.vue";
@@ -38,23 +37,28 @@ export default {
     TopHeader,
     ClubdetailManageUserList,
   },
+  data() {
+    return {
+      clubId: this.$route.query.clubId,
+    };
+  },
   computed: {
     ...mapState("clubStore", ["applyList", "joinedList", "clubImage"]),
   },
   methods: {
-    ...mapActions("clubStore", ["findApplyList", "findJoinedList"]),
+    ...mapActions("clubStore", ["findClubInfo", "findApplyList", "findJoinedList"]),
     // 배경 이미지 설정
     setBackgroundImage() {
       document.getElementsByClassName("bg-img")[0].style.backgroundImage =
         "var(--clubdetail-bg-" + this.clubImage + ")";
     },
   },
-  created() {
-    this.findApplyList();
-    this.findJoinedList();
-  },
-  async mounted() {
-    await this.setBackgroundImage();
+  async created() {
+    this.findClubInfo(this.clubId);
+    this.findApplyList(this.clubId);
+    this.findJoinedList(this.clubId);
+    await new Promise((resolve) => setTimeout(resolve, 100));
+    this.setBackgroundImage();
   },
 };
 </script>

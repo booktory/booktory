@@ -61,6 +61,7 @@ export default {
   },
   data() {
     return {
+      clubId: this.$route.query.clubId,
       isLock: false,
       questionData: {
         clubId: this.$route.query.clubId,
@@ -70,7 +71,7 @@ export default {
     };
   },
   methods: {
-    ...mapActions("clubStore", ["registerQuestion", "findQuestionList"]),
+    ...mapActions("clubStore", ["registerQuestion", "findQuestionList", "findClubOpenInfo"]),
     clickRegister() {
       this.questionData.isOpen = !this.isLock;
       this.questionData.contents = this.questionData.contents.replaceAll("\n", "<br/>");
@@ -86,11 +87,11 @@ export default {
         "var(--background-" + this.clubImage + ")";
     },
   },
-  created() {
-    this.findQuestionList(this.questionData.clubId);
-  },
-  async mounted() {
-    await this.setBackgroundImage();
+  async created() {
+    this.findClubOpenInfo(this.clubId);
+    this.findQuestionList(this.clubId);
+    await new Promise((resolve) => setTimeout(resolve, 100));
+    this.setBackgroundImage();
   },
 };
 </script>

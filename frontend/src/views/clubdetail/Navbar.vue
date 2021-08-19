@@ -1,16 +1,16 @@
 <template>
   <div class="footer">
     <div class="navbar-container">
-      <div class="item" @click="$router.push({ name: 'ClubdetailHome' })">
+      <div class="item" @click="clickHome">
         <p :class="{ orange: selected == 'home' }" class="sub-item font-body-4">클럽 홈</p>
       </div>
-      <div class="item" @click="$router.push({ name: 'ClubdetailMeeting' })">
+      <div class="item" @click="clickMeeting">
         <p :class="{ orange: selected == 'meeting' }" class="sub-item font-body-4">모임 일정</p>
       </div>
-      <div class="item" @click="$router.push({ name: 'ClubdetailBoard' })">
+      <div class="item" @click="clickBoard">
         <p :class="{ orange: selected == 'board' }" class="sub-item font-body-4">담벼락</p>
       </div>
-      <div class="item" @click="$router.push({ name: 'ClubdetailManage' })">
+      <div class="item" @click="clickManage">
         <p :class="{ orange: selected == 'manage' }" class="sub-item font-body-4">클럽 관리</p>
       </div>
     </div>
@@ -18,12 +18,15 @@
 </template>
 
 <script>
+import router from "@/router";
+
 export default {
   name: "Navbar",
   props: {
     selected: {
       type: String,
     },
+    clubId: {},
   },
   data: function () {
     return {
@@ -38,6 +41,22 @@ export default {
     window.removeEventListener("scroll", this.onScroll);
   },
   methods: {
+    // 클럽 홈
+    clickHome() {
+      router.push({ name: "ClubdetailHome", query: { clubId: this.clubId } });
+    },
+    // 모임 일정
+    clickMeeting() {
+      router.push({ name: "ClubdetailMeeting", query: { clubId: this.clubId } });
+    },
+    // 담벼락
+    clickBoard() {
+      router.push({ name: "ClubdetailBoard", query: { clubId: this.clubId } });
+    },
+    // 클럽 관리
+    clickManage() {
+      router.push({ name: "ClubdetailManage", query: { clubId: this.clubId } });
+    },
     onScroll() {
       let fixedNavbar = document.querySelector(".footer");
       // Get the current scroll position
