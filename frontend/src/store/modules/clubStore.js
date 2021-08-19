@@ -139,7 +139,6 @@ const clubStore = {
           commit("SET_CLUB_IMAGE", res.data.img);
           // 다음 모임 정보 설정
           let meetingInfo = null;
-          // console.log(res.data.endDateTime);
           if (res.data.endDateTime) {
             meetingInfo = {
               bookclubId: res.data.bookClubId,
@@ -154,6 +153,14 @@ const clubStore = {
         })
         .catch((err) => {
           console.log(err);
+          Swal.fire({
+            icon: "warning",
+            title: "존재하지 않는 클럽입니다",
+            showConfirmButton: false,
+            timer: 1500,
+            timerProgressBar: false,
+          });
+          router.push({ name: "ClubHome" });
         });
     },
     // 클럽에 이미 등록된 책인지 확인
@@ -164,7 +171,7 @@ const clubStore = {
           commit("SET_IS_REGISTER_BOOK", res.data);
         })
         .catch((err) => {
-          console.log(err.response.data);
+          console.log(err);
         });
     },
     // 다음 모임까지 남은 시간 계산
@@ -172,7 +179,6 @@ const clubStore = {
       let meetingInfo = getters.meetingInfo;
       // 다음 모임이 있으면 남은 시간 계산
       if (meetingInfo && meetingInfo.isCalc) {
-        // console.log(meetingInfo.isOpen);
         let diffSecond = Math.floor(
           moment(meetingInfo.startTime).add(9, "h").subtract(moment()) / 1000
         );
@@ -218,8 +224,7 @@ const clubStore = {
       clubData.books = books;
       axios
         .post(SERVER.URL + SERVER.ROUTES.createClub, clubData, rootGetters.config)
-        .then((res) => {
-          console.log(res.data);
+        .then(() => {
           Swal.fire({
             icon: "success",
             title: "클럽 생성 완료",
@@ -239,7 +244,7 @@ const clubStore = {
     updateClub({ rootGetters, getters, commit }, clubData) {
       axios
         .patch(SERVER.URL + SERVER.ROUTES.updateClub + getters.clubId, clubData, rootGetters.config)
-        .then((res) => {
+        .then(() => {
           Swal.fire({
             icon: "success",
             title: "클럽 정보 수정 완료",
@@ -247,7 +252,6 @@ const clubStore = {
             timer: 1000,
             timerProgressBar: true,
           });
-          console.log(res.data);
           commit("SET_CLUB_IMAGE", clubData.img);
           router.push({ name: "ClubdetailManage" });
         })
@@ -266,8 +270,7 @@ const clubStore = {
     applyToClub({ rootGetters, getters }) {
       axios
         .post(SERVER.URL + "/clubs/" + getters.clubId + "/join", null, rootGetters.config)
-        .then((res) => {
-          console.log(res);
+        .then(() => {
           Swal.fire({
             icon: "success",
             title: "클럽 가입 신청 완료",
@@ -296,8 +299,7 @@ const clubStore = {
           null,
           rootGetters.config
         )
-        .then((res) => {
-          console.log(res);
+        .then(() => {
           dispatch("findApplyList");
           dispatch("findJoinedList");
           Swal.fire({
@@ -323,8 +325,7 @@ const clubStore = {
     rejectJoin({ rootGetters, getters, dispatch }, userClubId) {
       axios
         .delete(SERVER.URL + "/clubs/" + getters.clubId + "/join/" + userClubId, rootGetters.config)
-        .then((res) => {
-          console.log(res);
+        .then(() => {
           dispatch("findApplyList");
           Swal.fire({
             icon: "success",
@@ -374,8 +375,7 @@ const clubStore = {
           SERVER.URL + SERVER.ROUTES.deleteClub + getters.clubId + "/user",
           rootGetters.config
         )
-        .then((res) => {
-          console.log(res);
+        .then(() => {
           Swal.fire({
             icon: "success",
             title: "클럽 탈퇴 완료",
@@ -400,8 +400,7 @@ const clubStore = {
     deleteClub({ rootGetters, getters }) {
       axios
         .delete(SERVER.URL + SERVER.ROUTES.deleteClub + getters.clubId, rootGetters.config)
-        .then((res) => {
-          console.log(res);
+        .then(() => {
           Swal.fire({
             icon: "success",
             title: "클럽 삭제 완료",
@@ -442,8 +441,7 @@ const clubStore = {
           questionData,
           rootGetters.config
         )
-        .then((res) => {
-          console.log(res);
+        .then(() => {
           Swal.fire({
             icon: "success",
             title: "질문 등록 완료",
@@ -472,8 +470,7 @@ const clubStore = {
           questionData,
           rootGetters.config
         )
-        .then((res) => {
-          console.log(res);
+        .then(() => {
           Swal.fire({
             icon: "success",
             title: "답글 등록 완료",

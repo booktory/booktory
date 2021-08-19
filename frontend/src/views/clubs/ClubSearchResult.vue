@@ -16,7 +16,7 @@
         </div>
         <div class="club-card-text">
           <h6>{{ clubName }}</h6>
-          <p><b>클럽장</b>{{ leaderName }}&nbsp;|&nbsp;<b>참가자</b> {{ nowMember }}명</p>
+          <p><b>클럽장</b> {{ leaderName }}&nbsp;|&nbsp;<b>참가자</b> {{ nowMember }}명</p>
           <div class="club-card-text-genres">
             <span
               :class="{ orange: genreList[genre - 1].isSelect }"
@@ -58,7 +58,7 @@ export default {
       return this.club.name;
     },
     leaderName: function () {
-      return this.club.leaderName;
+      return this.club.nickname;
     },
     nowMember: function () {
       return this.club.nowMember;

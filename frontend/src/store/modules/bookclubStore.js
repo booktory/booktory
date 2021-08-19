@@ -80,10 +80,10 @@ const bookclubStore = {
     },
     // 읽을 책 등록
     createBook({ dispatch }, bookclubData) {
-      console.log(dispatch);
+      dispatch("");
       axios
         .post(SERVER.URL + SERVER.ROUTES.createBook, bookclubData)
-        .then((res) => {
+        .then(() => {
           Swal.fire({
             icon: "success",
             title: "읽을 책 등록 완료",
@@ -91,7 +91,6 @@ const bookclubStore = {
             timer: 1000,
             timerProgressBar: true,
           });
-          console.log(res.data);
           router.go(-1);
         })
         .catch((err) => {
@@ -107,10 +106,10 @@ const bookclubStore = {
     },
     // 모임 등록
     createMeeting({ dispatch }, bookclubData) {
-      console.log(dispatch);
+      dispatch("");
       axios
         .put(SERVER.URL + SERVER.ROUTES.createMeeting, bookclubData)
-        .then((res) => {
+        .then(() => {
           Swal.fire({
             icon: "success",
             title: "모임 등록 완료",
@@ -118,7 +117,6 @@ const bookclubStore = {
             timer: 1000,
             timerProgressBar: true,
           });
-          console.log(res.data);
           router.go(-1);
         })
         .catch((err) => {
@@ -136,8 +134,7 @@ const bookclubStore = {
     cancelMeeting({ dispatch, getters, commit }, bookclubId) {
       axios
         .patch(SERVER.URL + SERVER.ROUTES.cancelMeeting + bookclubId)
-        .then((res) => {
-          console.log(res);
+        .then(() => {
           Swal.fire({
             icon: "success",
             title: "모임 취소 완료",
@@ -162,8 +159,7 @@ const bookclubStore = {
     deleteBook({ dispatch }, data) {
       axios
         .delete(SERVER.URL + SERVER.ROUTES.deleteBook + data.bookclubId)
-        .then((res) => {
-          console.log(res);
+        .then(() => {
           Swal.fire({
             icon: "success",
             title: "책 삭제 완료",
@@ -185,15 +181,13 @@ const bookclubStore = {
         });
     },
     attendMeeting({ rootGetters }, bookclubId) {
-      // console.log(dispatch);
       axios
         .post(
           SERVER.URL + SERVER.ROUTES.attendMeeting + bookclubId + "/user",
           null,
           rootGetters.config
         )
-        .then((res) => {
-          console.log(res);
+        .then(() => {
           Swal.fire({
             icon: "success",
             title: "모임 입장 완료",
@@ -221,8 +215,7 @@ const bookclubStore = {
           null,
           rootGetters.config
         )
-        .then((res) => {
-          console.log(res);
+        .then(() => {
           router.go(-1);
         })
         .catch((err) => {

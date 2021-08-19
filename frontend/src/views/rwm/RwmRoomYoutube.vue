@@ -61,9 +61,7 @@ export default {
     playVideo() {
       this.player.playVideo();
     },
-    playing() {
-      console.log("video start");
-    },
+    playing() {},
     youtube_parser(url) {
       var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
       var match = url.match(regExp);
