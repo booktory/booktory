@@ -12,7 +12,7 @@
           </button>
         </div>
       </div>
-      <Navbar :selected="'home'" />
+      <Navbar :selected="'home'" :clubId="this.clubId" />
     </div>
   </div>
 </template>
@@ -33,10 +33,11 @@ export default {
     ClubdetailBookAddList,
   },
   computed: {
-    ...mapState("clubStore", ["clubId", "clubImage"]),
+    ...mapState("clubStore", ["clubImage"]),
   },
   data: function () {
     return {
+      clubId: this.$route.query.clubId,
       selectedBooks: [],
       isSubmit: false,
     };
@@ -50,6 +51,7 @@ export default {
   },
   methods: {
     ...mapActions("bookclubStore", ["createBook"]),
+    ...mapActions("clubStore", ["findClubInfo"]),
     ...mapActions("searchStore", ["initBookList"]),
     // 추가하기 버튼 클릭
     clickAdd() {
@@ -75,11 +77,11 @@ export default {
         "var(--clubdetail-bg-" + this.clubImage + ")";
     },
   },
-  created() {
+  async created() {
+    this.findClubInfo(this.clubId);
     this.initBookList();
-  },
-  async mounted() {
-    await this.setBackgroundImage();
+    await new Promise((resolve) => setTimeout(resolve, 100));
+    this.setBackgroundImage();
   },
 };
 </script>

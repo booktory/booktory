@@ -42,7 +42,7 @@ const accountStore = {
             title: "이메일 발송 완료",
             html: "회원가입 인증 메일을 보내드렸어요.<br>이메일을 확인해주세요!",
           });
-          commit("");
+          console.log(commit);
           router.push({ name: "RegisterEmail", params: { email: info.data.email } });
         })
         .catch((err) => {
@@ -63,7 +63,7 @@ const accountStore = {
     },
     // 회원가입 - 추가정보 입력
     registerExtraInfo({ dispatch }, extraData) {
-      dispatch("");
+      console.log(dispatch);
       axios
         .patch(SERVER.URL + SERVER.ROUTES.registerExtraInfo, extraData)
         .then(() => {
@@ -88,7 +88,7 @@ const accountStore = {
     },
 
     saveFcmToken({ dispatch }, email) {
-      dispatch("");
+      console.log(dispatch);
       const agt = navigator.userAgent.toLowerCase();
       if (agt.indexOf("safari") != -1 || agt.indexOf("iphone") != -1) {
         return;
@@ -193,7 +193,7 @@ const accountStore = {
 
     // 비밀번호 찾기
     findPassword({ dispatch }, email) {
-      dispatch("");
+      console.log(dispatch);
       let timerInterval;
       Swal.fire({
         title: "이메일 발송 중",
@@ -235,7 +235,7 @@ const accountStore = {
     },
     // 비밀번호 찾기 - 새로운 비밀번호로 변경
     resetPassword({ dispatch }, passwordData) {
-      dispatch("");
+      console.log(dispatch);
       axios
         .patch(SERVER.URL + SERVER.ROUTES.resetPassword, passwordData)
         .then(() => {

@@ -81,7 +81,7 @@ const bookclubStore = {
 
     // 읽을 책 등록
     createBook({ dispatch }, bookclubData) {
-      dispatch("");
+      console.log(dispatch);
       axios
         .post(SERVER.URL + SERVER.ROUTES.createBook, bookclubData)
         .then(() => {
@@ -133,7 +133,7 @@ const bookclubStore = {
 
     // 모임 등록
     createMeeting({ dispatch }, bookclubData) {
-      dispatch("");
+      console.log(dispatch);
       axios
         .put(SERVER.URL + SERVER.ROUTES.createMeeting, bookclubData)
         .then(() => {

@@ -35,7 +35,7 @@
           </div>
         </div>
       </div>
-      <Navbar :selected="'board'" />
+      <Navbar :selected="'board'" :clubId="this.clubId" />
     </div>
   </div>
 </template>
@@ -60,10 +60,11 @@ export default {
   },
   computed: {
     ...mapState("boardStore", ["boardList"]),
-    ...mapState("clubStore", ["clubId", "clubImage"]),
+    ...mapState("clubStore", ["clubImage", "clubInfo"]),
   },
   data() {
     return {
+      clubId: this.$route.query.clubId,
       boardData: {
         contents: "",
         fileUrl: "",
@@ -73,12 +74,14 @@ export default {
   },
   methods: {
     ...mapActions("boardStore", ["findBoardList", "registerBoard"]),
+    ...mapActions("clubStore", ["findClubInfo"]),
     // 등록 버튼 클릭
     clickRegister() {
       this.boardData.contents = this.boardData.contents.replaceAll("\n", "<br/>");
       this.registerBoard(this.boardData).then(() => {
         this.boardData.contents = "";
         this.boardData.fileUrl = "";
+        this.fileName = "";
       });
     },
     // 파일 첨부 버튼 클릭
@@ -127,11 +130,11 @@ export default {
         "var(--clubdetail-bg-" + this.clubImage + ")";
     },
   },
-  created() {
+  async created() {
+    this.findClubInfo(this.clubId);
     this.findBoardList(this.clubId);
-  },
-  async mounted() {
-    await this.setBackgroundImage();
+    await new Promise((resolve) => setTimeout(resolve, 100));
+    this.setBackgroundImage();
   },
 };
 </script>

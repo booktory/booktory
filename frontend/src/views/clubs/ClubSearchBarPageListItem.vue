@@ -103,7 +103,7 @@ export default {
     };
   },
   methods: {
-    ...mapActions("clubStore", ["findClubInfo", "applyToClub"]),
+    ...mapActions("clubStore", ["findClubOpenInfo", "applyToClub"]),
     // 공유하기 버튼
     clickShare() {
       Swal.fire({
@@ -157,11 +157,10 @@ export default {
         "var(--background-" + this.clubImage + ")";
     },
   },
-  created() {
-    this.findClubInfo(this.clubId);
-  },
-  async updated() {
-    await this.setBackgroundImage();
+  async created() {
+    this.findClubOpenInfo(this.clubId);
+    await new Promise((resolve) => setTimeout(resolve, 100));
+    this.setBackgroundImage();
   },
 };
 </script>

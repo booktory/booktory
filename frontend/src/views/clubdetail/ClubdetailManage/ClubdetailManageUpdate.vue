@@ -204,7 +204,7 @@
           <button type="button" class="button-2 update-btn" @click="clickUpdate">수정하기</button>
         </div>
       </div>
-      <Navbar :selected="'manage'" />
+      <Navbar :selected="'manage'" :clubId="this.clubId" />
     </div>
   </div>
 </template>
@@ -223,10 +223,11 @@ export default {
   },
   computed: {
     ...mapState("searchStore", ["genreList"]),
-    ...mapState("clubStore", ["clubInfo", "clubImage", "clubId"]),
+    ...mapState("clubStore", ["clubInfo", "clubImage"]),
   },
   data() {
     return {
+      clubId: this.$route.query.clubId,
       error: {
         name: false,
         info: false,
@@ -320,11 +321,10 @@ export default {
         "var(--clubdetail-bg-" + this.clubImage + ")";
     },
   },
-  created() {
+  async created() {
     this.findClubInfo(this.clubId);
-  },
-  async mounted() {
-    await this.setBackgroundImage();
+    await new Promise((resolve) => setTimeout(resolve, 100));
+    this.setBackgroundImage();
   },
 };
 </script>

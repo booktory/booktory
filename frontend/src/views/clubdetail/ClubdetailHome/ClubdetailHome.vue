@@ -60,11 +60,7 @@
                 </button>
               </div>
               <div v-else>
-                <button
-                  @click="$router.push({ name: 'ClubdetailMeetingCreate' })"
-                  type="button"
-                  class="meeting-button create"
-                >
+                <button @click="clickMeetingCreate" type="button" class="meeting-button create">
                   <div class="meeting-button-head">
                     <div class="meeting-button-head-icon">
                       <icon-base :iconColor="'var(--white)'"><icon-video /></icon-base>
@@ -74,11 +70,7 @@
                   <h5 class="meeting-button-body">모임 개설하기</h5>
                 </button>
               </div>
-              <button
-                type="button"
-                class="meeting-button"
-                @click="$router.push({ name: 'ClubdetailMeeting' })"
-              >
+              <button type="button" class="meeting-button" @click="clickMeetingList">
                 <div class="meeting-button-head">
                   <div class="meeting-button-head-icon">
                     <icon-base :iconColor="'var(--white)'"><icon-bookmark /></icon-base>
@@ -100,9 +92,7 @@
             <div class="books m-top-2">
               <div class="books-head">
                 <h5>클럽 서재</h5>
-                <span @click="$router.push({ name: 'ClubdetailBook' })" class="font-body-4"
-                  >책 목록 더보기</span
-                >
+                <span @click="clickBookList" class="font-body-4">책 목록 더보기</span>
               </div>
               <div class="books-list m-top-1">
                 <span v-for="(book, idx) in bookclubList" :key="idx">
@@ -118,7 +108,7 @@
           </div>
         </div>
       </div>
-      <Navbar :selected="'home'" />
+      <Navbar :selected="'home'" :clubId="this.clubId" />
     </div>
   </div>
 </template>
@@ -188,7 +178,15 @@ export default {
         }
       });
     },
-    // 입장하기 버튼
+    // 모임 개설하기 버튼
+    clickMeetingCreate() {
+      router.push({ name: "ClubdetailMeetingCreate", query: { clubId: this.clubId } });
+    },
+    // 모임 일정보기 버튼
+    clickMeetingList() {
+      router.push({ name: "ClubdetailMeeting", query: { clubId: this.clubId } });
+    },
+    // 모임 입장하기 버튼
     clickMeeting() {
       Swal.fire({
         showCancelButton: true,
@@ -209,29 +207,21 @@ export default {
         .format("YY년 M월 D일<br>" + ampm + " h시 mm분");
       return dateStr;
     },
+    // 책 목록 더보기 버튼
+    clickBookList() {
+      router.push({ name: "ClubdetailBook", query: { clubId: this.clubId } });
+    },
     // 배경 이미지 설정
     setBackgroundImage() {
       document.getElementsByClassName("bg-img")[0].style.backgroundImage =
         "var(--clubdetail-bg-" + this.clubImage + ")";
     },
   },
-  created() {
+  async created() {
     this.findClubInfo(this.clubId);
     this.getBookClubList(this.clubId);
-  },
-  async updated() {
-    await this.setBackgroundImage();
-    // 클럽 멤버가 아니면 돌려보내기
-    if (!this.clubInfo.isMember) {
-      Swal.fire({
-        icon: "warning",
-        title: "클럽에 가입 후 이용 가능합니다",
-        showConfirmButton: false,
-        timer: 1500,
-        timerProgressBar: false,
-      });
-      router.push({ name: "ClubSearchBarPageListItem", query: { clubId: this.clubId } });
-    }
+    await new Promise((resolve) => setTimeout(resolve, 100));
+    this.setBackgroundImage();
   },
 };
 </script>

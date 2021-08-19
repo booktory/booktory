@@ -6,7 +6,7 @@
         <div class="main">
           <h4 class="title">클럽 관리</h4>
           <div v-if="isLeader" class="menu-wrapper">
-            <div class="menu-item" @click="$router.push({ name: 'ClubdetailManageUpdate' })">
+            <div class="menu-item" @click="clickUpdate">
               <div class="icon">
                 <icon-base><icon-edit /></icon-base>
               </div>
@@ -18,13 +18,13 @@
               </div>
               <span class="font-body-3">문의 게시판</span>
             </div>
-            <div class="menu-item" @click="$router.push({ name: 'ClubdetailBookAdd' })">
+            <div class="menu-item" @click="clickAddBook">
               <div class="icon">
                 <icon-base><icon-book /></icon-base>
               </div>
               <span class="font-body-3">읽을 책 추가</span>
             </div>
-            <div class="menu-item" @click="$router.push({ name: 'ClubdetailManageUser' })">
+            <div class="menu-item" @click="clickUserList">
               <div class="icon">
                 <icon-base><icon-users /></icon-base>
               </div>
@@ -47,7 +47,7 @@
           </div>
         </div>
       </div>
-      <Navbar :selected="'manage'" />
+      <Navbar :selected="'manage'" :clubId="this.clubId" />
     </div>
   </div>
 </template>
@@ -77,14 +77,31 @@ export default {
     IconTrash,
     IconLogout,
   },
+  data() {
+    return {
+      clubId: this.$route.query.clubId,
+    };
+  },
   computed: {
-    ...mapState("clubStore", ["clubId", "isLeader", "clubImage"]),
+    ...mapState("clubStore", ["isLeader", "clubImage", "clubInfo"]),
   },
   methods: {
-    ...mapActions("clubStore", ["deleteClub", "deleteClubUser"]),
+    ...mapActions("clubStore", ["findClubInfo", "deleteClub", "deleteClubUser"]),
+    // 클럽 정보 수정
+    clickUpdate() {
+      router.push({ name: "ClubdetailManageUpdate", query: { clubId: this.clubId } });
+    },
     // 문의 게시판 이동
     clickQuestion() {
       router.push({ name: "ClubQuestion", query: { clubId: this.clubId } });
+    },
+    // 읽을 책 추가
+    clickAddBook() {
+      router.push({ name: "ClubdetailBookAdd", query: { clubId: this.clubId } });
+    },
+    // 가입신청 관리
+    clickUserList() {
+      router.push({ name: "ClubdetailManageUser", query: { clubId: this.clubId } });
     },
     // 클럽 삭제
     clickDelete() {
@@ -96,7 +113,7 @@ export default {
         cancelButtonText: "취소",
       }).then((result) => {
         if (result.isConfirmed) {
-          this.deleteClub();
+          this.deleteClub(this.clubId);
         }
       });
     },
@@ -120,8 +137,10 @@ export default {
         "var(--clubdetail-bg-" + this.clubImage + ")";
     },
   },
-  async mounted() {
-    await this.setBackgroundImage();
+  async created() {
+    this.findClubInfo(this.clubId);
+    await new Promise((resolve) => setTimeout(resolve, 100));
+    this.setBackgroundImage();
   },
 };
 </script>

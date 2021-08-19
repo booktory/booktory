@@ -50,8 +50,9 @@ export default {
         "var(--background-" + this.clubImage + ")";
     },
   },
-  async mounted() {
-    await this.setBackgroundImage();
+  async created() {
+    await new Promise((resolve) => setTimeout(resolve, 100));
+    this.setBackgroundImage();
   },
 };
 </script>
