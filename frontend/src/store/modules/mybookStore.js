@@ -33,7 +33,7 @@ const mybookStore = {
     registerBookMemo({ dispatch, rootGetters }, memoData) {
       axios
         .put(SERVER.URL + SERVER.ROUTES.registerBookMemo, memoData, rootGetters.config)
-        .then((res) => {
+        .then(() => {
           Swal.fire({
             icon: "success",
             title: "메모 등록 완료",
@@ -41,7 +41,6 @@ const mybookStore = {
             timer: 1000,
             timerProgressBar: true,
           });
-          console.log(res.data);
           dispatch("findBookList");
         })
         .catch((err) => {
@@ -59,7 +58,7 @@ const mybookStore = {
     cancelBookMemo({ dispatch, rootGetters }, bookId) {
       axios
         .patch(SERVER.URL + SERVER.ROUTES.cancelBookMemo + bookId, null, rootGetters.config)
-        .then((res) => {
+        .then(() => {
           Swal.fire({
             icon: "success",
             title: "메모 삭제 완료",
@@ -67,7 +66,6 @@ const mybookStore = {
             timer: 1000,
             timerProgressBar: true,
           });
-          console.log(res.data);
           dispatch("findBookList");
         })
         .catch((err) => {

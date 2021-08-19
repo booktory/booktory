@@ -47,8 +47,7 @@ const firebaseModule = (function () {
               .then(function () {
                 return messaging.getToken();
               })
-              .then(async function (token) {
-                console.log(token);
+              .then(async function () {
                 messaging.onMessage((payload) => {
                   const title = payload.notification.title;
                   const options = {

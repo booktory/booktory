@@ -62,7 +62,7 @@ export default new Vuex.Store({
     logout({ getters, commit }) {
       axios
         .get(SERVER.URL + SERVER.ROUTES.logout, getters.config)
-        .then(console.log("redis 삭제"))
+        .then()
         .catch((err) => {
           console.log(err);
         });

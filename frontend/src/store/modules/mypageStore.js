@@ -135,7 +135,7 @@ const mypageStore = {
     updateUserInfo({ rootGetters, commit }, userData) {
       axios
         .patch(SERVER.URL + SERVER.ROUTES.updateUserInfo, userData, rootGetters.config)
-        .then((res) => {
+        .then(() => {
           commit("userNickname", userData.nickname, { root: true });
           localStorage.setItem("userNickname", userData.nickname);
           Swal.fire({
@@ -146,7 +146,6 @@ const mypageStore = {
             timer: 1000,
             timerProgressBar: true,
           });
-          console.log(res.data);
           router.push({ name: "MyPage" });
         })
         .catch((err) => {
@@ -164,8 +163,7 @@ const mypageStore = {
     changePassword({ dispatch, rootGetters }, passwordData) {
       axios
         .patch(SERVER.URL + SERVER.ROUTES.changePassword, passwordData, rootGetters.config)
-        .then((res) => {
-          console.log(res.data);
+        .then(() => {
           Swal.fire({
             icon: "success",
             title: "비밀번호 변경 완료",
@@ -191,30 +189,28 @@ const mypageStore = {
     deleteUser({ rootGetters, dispatch }, password) {
       axios
         .delete(SERVER.URL + SERVER.ROUTES.deleteUser, password, rootGetters.config)
-        .then((res) => {
+        .then(() => {
           Swal.fire({
             icon: "success",
             title: "회원 탈퇴 완료",
             html: "회원 탈퇴가 완료 되었습니다.",
           });
-          console.log(res.data);
           dispatch("logout", { root: true });
           router.push({ name: "Login" });
         })
-        .catch((error) => {
+        .catch((err) => {
           Swal.fire({
             icon: "error",
             title: "회원 탈퇴 실패",
-            text: "회원 탈퇴에 실패했습니다.",
+            text: err.response.data.message,
           });
-          console.log(error);
         });
     },
     // 대표배지 설정
     changeMainBadge({ getters, dispatch }, badgeId) {
       axios
         .patch(SERVER.URL + "/users/" + getters.userInfo.id + "/main-badge/" + badgeId)
-        .then((res) => {
+        .then(() => {
           Swal.fire({
             icon: "success",
             title: "대표배지 설정 완료",
@@ -222,7 +218,6 @@ const mypageStore = {
             timer: 1000,
             timerProgressBar: true,
           });
-          console.log(res.data);
           dispatch("findUserInfo");
         })
         .catch((err) => {
