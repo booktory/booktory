@@ -12,10 +12,15 @@
         />
       </div>
       <div class="board-info">
-        <div v-if="board.fileUrl" class="sub-info">
-          <div @click="clickFile" class="file">
+        <div class="sub-info">
+          <div v-if="board.fileUrl" @click="clickFile" class="file">
             <icon-base :width="'1.6rem'" :height="'1.6rem'" :iconColor="'var(--grey)'"
               ><icon-file
+            /></icon-base>
+          </div>
+          <div v-if="userId == board.userId" class="font-body-5 delete" @click="clickDelete">
+            <icon-base :width="'1.6rem'" :height="'1.6rem'" :iconColor="'var(--grey)'"
+              ><icon-x
             /></icon-base>
           </div>
         </div>
@@ -28,7 +33,9 @@
 </template>
 
 <script>
+import Swal from "sweetalert2";
 import IconFile from "@/components/icons/IconFile.vue";
+import { mapState, mapActions } from "vuex";
 var moment = require("moment");
 require("moment-timezone");
 moment.tz.setDefault("Asia/Seoul");
@@ -43,7 +50,25 @@ export default {
       type: Object,
     },
   },
+  computed: {
+    ...mapState(["userId"]),
+  },
   methods: {
+    ...mapActions("boardStore", ["deleteBoard"]),
+    // 삭제하기 버튼
+    clickDelete() {
+      Swal.fire({
+        showCancelButton: true,
+        title: "게시글을 삭제 하시겠습니까?",
+        confirmButtonText: "네, 삭제할래요",
+        cancelButtonText: "취소",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.deleteBoard(this.board.boardId);
+        }
+      });
+    },
+    // 첨부된 파일 확인
     clickFile() {
       window.open(this.board.fileUrl);
     },
@@ -89,12 +114,8 @@ export default {
   position: absolute;
   top: 0;
   right: 0;
-  margin: 0.5rem 0.2rem;
-}
-.file {
-  float: right;
-  margin: -0.2rem 0.5rem 0 0;
-  padding: 0;
+  display: flex;
+  gap: 0.7rem;
 }
 .nickname {
   font-weight: bold;
