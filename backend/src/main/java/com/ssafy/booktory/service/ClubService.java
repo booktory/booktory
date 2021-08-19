@@ -87,8 +87,10 @@ public class ClubService {
     public ClubFindResponseDto findClub(Long id, Long userId){
         Club club = clubRepository.findById(id)
                 .orElseThrow(()->new NoSuchElementException("존재하지 않는 클럽입니다."));
+        User user = userRepository.findById(userId)
+                .orElseThrow(()->new NoSuchElementException("존재하지 않는 회원입니다."));
         int nowMember = getClubMembersCount(club);
-
+        int isMember = userClubRepository.countByUserAndClub(user, club);
         Long bookClubId = null;
         Book book = null;
         LocalDateTime endDateTime = null;
@@ -109,8 +111,8 @@ public class ClubService {
             bookClubId = bookClub.getId();
         }
 
-        if (book == null) return new ClubFindResponseDto(club, nowMember, userId);
-        else return new ClubFindResponseDto(club, nowMember, userId, book, endDateTime, bookClubId);
+        if (book == null) return new ClubFindResponseDto(club, nowMember, userId, isMember == 1? true : false);
+        else return new ClubFindResponseDto(club, nowMember, userId, book, endDateTime, bookClubId, isMember == 1? true : false);
     }
 
     @Transactional
