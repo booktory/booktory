@@ -23,6 +23,8 @@
 
 <br>
 
+## 🛠 Porting Manual [▶️바로가기](./exec/README.md)
+
 ## 📑 Tech Blog & Log
 
 [책토리 Blog](https://booktori.tistory.com/)
@@ -65,4 +67,4 @@
 
 <br>
 
-## [✅ Git Convention](./Document/GitConvention.md)
+## ✅ Git Convention [▶️바로가기](./Document/GitConvention.md)
