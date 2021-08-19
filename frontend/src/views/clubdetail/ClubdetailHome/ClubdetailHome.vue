@@ -127,6 +127,7 @@
 import { mapActions, mapState } from "vuex";
 import TopHeader from "@/views/clubdetail/TopHeader.vue";
 import Swal from "sweetalert2";
+import router from "@/router";
 import Navbar from "@/views/clubdetail/Navbar.vue";
 import IconVideo from "@/components/icons/IconVideo.vue";
 import IconBookmark from "@/components/icons/IconBookmark.vue";
@@ -145,9 +146,14 @@ export default {
     IconShare,
   },
   computed: {
-    ...mapState("clubStore", ["clubInfo", "meetingInfo", "clubId", "isLeader", "clubImage"]),
+    ...mapState("clubStore", ["clubInfo", "meetingInfo", "isLeader", "clubImage"]),
     ...mapState("searchStore", ["genreList"]),
     ...mapState("bookclubStore", ["bookclubList"]),
+  },
+  data() {
+    return {
+      clubId: this.$route.query.clubId,
+    };
   },
   methods: {
     ...mapActions("bookclubStore", ["getBookClubList", "attendMeeting"]),
@@ -159,7 +165,7 @@ export default {
         title: "클럽 공유하기",
         text: "아래의 URL을 복사해서 클럽을 공유해주세요!",
         input: "text",
-        inputValue: "https://i5a607.p.ssafy.io/club/search/barpage/item?clubId=" + this.clubId,
+        inputValue: "https://i5a607.p.ssafy.io/clubdetail?clubId=" + this.clubId,
         confirmButtonText: "복사하기",
         cancelButtonText: "취소",
         preConfirm: (url) => {
@@ -209,15 +215,23 @@ export default {
         "var(--clubdetail-bg-" + this.clubImage + ")";
     },
   },
-  data() {
-    return {};
-  },
   created() {
     this.findClubInfo(this.clubId);
     this.getBookClubList(this.clubId);
   },
-  async mounted() {
+  async updated() {
     await this.setBackgroundImage();
+    // 클럽 멤버가 아니면 돌려보내기
+    if (!this.clubInfo.isMember) {
+      Swal.fire({
+        icon: "warning",
+        title: "클럽에 가입 후 이용 가능합니다",
+        showConfirmButton: false,
+        timer: 1500,
+        timerProgressBar: false,
+      });
+      router.push({ name: "ClubSearchBarPageListItem", query: { clubId: this.clubId } });
+    }
   },
 };
 </script>

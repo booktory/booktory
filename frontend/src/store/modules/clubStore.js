@@ -153,6 +153,14 @@ const clubStore = {
         })
         .catch((err) => {
           console.log(err);
+          Swal.fire({
+            icon: "warning",
+            title: "존재하지 않는 클럽입니다",
+            showConfirmButton: false,
+            timer: 1500,
+            timerProgressBar: false,
+          });
+          router.push({ name: "ClubHome" });
         });
     },
     // 클럽에 이미 등록된 책인지 확인

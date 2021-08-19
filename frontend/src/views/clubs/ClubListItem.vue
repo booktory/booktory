@@ -144,7 +144,7 @@ export default {
     },
     // 클럽 카드 클릭
     clickCard() {
-      router.push({ name: "ClubdetailHome" });
+      router.push({ name: "ClubdetailHome", query: { clubId: this.clubId } });
     },
     clickBookList(event) {
       event.stopPropagation();
