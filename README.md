@@ -6,7 +6,13 @@
 
 
 
-### [🐹  서비스 바로가기](https://i5a607.p.ssafy.io)
+### [🐹  **책토리** 서비스 바로가기](https://i5a607.p.ssafy.io)
+
+*안드로이드 모바일 환경에서 최적화 되었으며, 데스크탑 브라우저에서 실행 시 개발자 모드 + device tool을 이용하시면 좋습니다. *
+
+* 개발자 모드 + device tool 실행방법
+  * Window : `F12` ➡️ `ctrl` + `shift` + `m` 
+  * Mac : `alt`+`cmd`+`i`  ➡️ `cmd` + `shift` + `m`
 
 <br>
 
