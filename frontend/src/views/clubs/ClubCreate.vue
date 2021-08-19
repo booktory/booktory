@@ -127,36 +127,26 @@
         </div>
       </div>
 
-      <div class="two-input">
-        <!-- 클럽 인원 -->
-        <div class="max-member">
-          <div class="label">클럽 최대 인원수</div>
-          <span class="font-body-3">
-            <span id="v-model-select">
-              <select v-model="clubData.maxMember">
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
-                <option>6</option>
-                <option>7</option>
-                <option>8</option>
-              </select>
-            </span>
-            명
+      <!-- 클럽 인원 -->
+      <div class="max-member">
+        <div class="label">클럽 최대 인원수</div>
+        <span class="font-body-3">
+          <span id="v-model-select">
+            <select v-model="clubData.maxMember">
+              <option>1</option>
+              <option>2</option>
+              <option>3</option>
+              <option>4</option>
+              <option>5</option>
+              <option>6</option>
+              <option>7</option>
+              <option>8</option>
+            </select>
           </span>
-        </div>
-        <!-- 공개 여부 -->
-        <div class="is-open">
-          <div class="label">공개 여부</div>
-          <div class="wrap">
-            <input type="checkbox" id="checkbox" v-model="clubData.isOpen" />
-            <span class="font-body-3 is-open-text" v-if="clubData.isOpen">공개</span>
-            <span class="font-body-3 is-open-text" v-else>비공개</span>
-          </div>
-        </div>
+          명
+        </span>
       </div>
+
       <!-- 클럽 대표사진 설정 -->
       <div class="input-div">
         <label for="img">클럽 대표사진</label>
@@ -238,7 +228,6 @@ export default {
         img: "1",
         info: "",
         maxMember: 8,
-        isOpen: true,
         volumeRule: 1,
         weekRule: 2,
         freeRule: "",
@@ -434,62 +423,38 @@ select {
   box-shadow: 0 0.4em 0.8em 0 rgba(142, 141, 208, 0.16);
 }
 
-.two-input {
+.max-member {
   width: 30em;
   display: flex;
   margin: 2.5rem auto;
-}
-
-.two-input .max-member {
-  text-align: left;
-  width: 100%;
-}
-
-.two-input .max-member #v-model-select > select {
-  margin: 0 0 0 2rem;
-}
-
-.two-input .is-open {
-  text-align: left;
-  width: 100%;
-}
-
-.two-input .is-open > div {
-  text-align: left;
-  display: flex;
   align-items: center;
 }
-.two-input .is-open .wrap {
-  margin: 1.4rem 0 0 1.6rem;
+.max-member .label {
+  margin-bottom: 0rem;
 }
-
-#checkbox {
-  width: 1.8rem;
-  height: 1.8rem;
-  transition: all linear 0.3s;
-  display: inline-block;
-  margin-right: 0.7em;
+.max-member #v-model-select > select {
+  margin: 0 0 0 2rem;
 }
 
 .radio-wrapper {
   display: flex;
   justify-content: center;
   margin-top: 1rem;
-  gap: 0.8rem;
+  gap: 1rem;
 
   &-item {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.6rem;
 
     .img-div {
-      width: 5rem;
+      width: 4.5rem;
       height: 100%;
 
       img {
-        width: 5rem;
-        height: 7.5rem;
+        width: 4.5rem;
+        height: 6.7rem;
         border-radius: 1rem;
       }
     }

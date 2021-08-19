@@ -138,33 +138,19 @@
         display: inline-block;
         margin-right: 0.7em;
       }
-      // max-member & is-open
-      .two-input {
+      // max-member
+      .max-member {
         width: 30em;
         display: flex;
-        margin: 2rem auto 0;
+        margin: 2.5rem auto;
+        align-items: center;
 
-        .max-member {
-          text-align: left;
-          width: 100%;
-
-          #v-model-select > select {
-            margin: 0 0 0 2rem;
-          }
+        .label {
+          margin-bottom: 0rem;
         }
-        .is-open {
-          text-align: left;
-          width: 100%;
 
-          div {
-            text-align: left;
-            display: flex;
-            align-items: center;
-          }
-
-          .wrap {
-            margin: 1.4rem 0 0 1.6rem;
-          }
+        #v-model-select > select {
+          margin: 0 0 0 2rem;
         }
       }
       // radio-wrapper : club-image
