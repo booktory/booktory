@@ -195,7 +195,7 @@ public class ClubService {
         if(getClubMembersCount(userClub.getClub()) >= userClub.getClub().getMaxMember())
             throw new IllegalArgumentException("멤버를 더이상 수용할 수 없습니다.");
 
-        if (userClubRepository.findAllByUserAndState(userClub.getUser(), UserClubState.ACCEPT).size() >= 3) {
+        if (userClubRepository.findAllByUserAndState(userClub.getUser(), UserClubState.ACCEPT).size() >= 3)
             throw new IllegalArgumentException("클럽은 3개까지 가입 가능합니다.");
 
 
