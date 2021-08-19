@@ -27,6 +27,18 @@ VueRouter.prototype.push = function push(location) {
 };
 
 const routes = [
+  // 존재하지 않는 페이지
+  {
+    path: "*",
+    redirect: "/404",
+  },
+  // Page Not Found 화면
+  {
+    path: "/404",
+    name: "notFound",
+    component: () => import("@/views/NotFound.vue"),
+  },
+  // 랜딩 페이지
   {
     path: "/",
     name: "Home",
