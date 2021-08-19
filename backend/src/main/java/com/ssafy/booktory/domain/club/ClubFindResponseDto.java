@@ -26,7 +26,7 @@ public class ClubFindResponseDto {
     private String name;
 
     @JsonSerialize(using = LocalDateTimeSerializer.class)
-    @JsonFormat(pattern = "yyyy-MM-dd kk:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime date;
     private String img;
     private String info;
@@ -44,7 +44,7 @@ public class ClubFindResponseDto {
     private Long bookClubId;
 
     @JsonSerialize(using = LocalDateTimeSerializer.class)
-    @JsonFormat(pattern = "yyyy-MM-dd kk:mm", timezone = "Asia/Seoul")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")
     private LocalDateTime endDateTime;
 
     public ClubFindResponseDto(Club club, int nowMember, Long userId, Boolean isMember){
