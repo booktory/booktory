@@ -161,7 +161,7 @@ public class ClubService {
         if(userClubRepository.countByUserAndClub(user, club) != 0){
             throw new IllegalStateException("이미 가입 신청한 클럽입니다.");
         }
-        if (userClubRepository.findAllByUserAndState(user, UserClubState.ACCEPT).size() == 3) {
+        if (userClubRepository.findAllByUserAndState(user, UserClubState.ACCEPT).size() >= 3) {
             throw new IllegalArgumentException("클럽은 3개까지 가입 가능합니다.");
         }
 
@@ -186,7 +186,7 @@ public class ClubService {
         if(!leaderId.equals(userClub.getClub().getUser().getId()))
             throw new IllegalStateException("클럽장만 가입을 승인할 수 있습니다.");
         if(userClub.getState() == UserClubState.ACCEPT)
-            throw new IllegalStateException("이미 가입 수락된 클럽입니다.");
+            throw new IllegalStateException("이미 가입 수락된 요청입니다.");
         if(!isAccept) {
             userClubRepository.delete(userClub);
             notificationService.makeNotification("reject", userClub.getClub(), userClub.getUser());
@@ -194,6 +194,11 @@ public class ClubService {
         }
         if(getClubMembersCount(userClub.getClub()) >= userClub.getClub().getMaxMember())
             throw new IllegalArgumentException("멤버를 더이상 수용할 수 없습니다.");
+
+        if (userClubRepository.findAllByUserAndState(userClub.getUser(), UserClubState.ACCEPT).size() >= 3)
+            throw new IllegalArgumentException("클럽은 3개까지 가입 가능합니다.");
+
+
         userClub.acceptJoin();
         notificationService.makeNotification("accept", userClub.getClub(), userClub.getUser());
         notificationService.makeBadgeNotification(0, userClub.getUser());
