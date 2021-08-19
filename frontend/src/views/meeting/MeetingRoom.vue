@@ -165,13 +165,23 @@ export default {
           .connect(token, { clientData: this.userNickname })
           .then(() => {
             // --- Get your own camera stream with the desired properties ---
+            let pc_device = "win16|win32|win64|mac|macintel";
+            let this_device = navigator.platform;
+            let video_size = "";
+            if (this_device) {
+              if (pc_device.indexOf(navigator.platform.toLowerCase()) < 0) {
+                video_size = "640x480";
+              } else {
+                video_size = "480x640";
+              }
+            }
 
             let publisher = this.OV.initPublisher(undefined, {
               audioSource: undefined, // The source of audio. If undefined default microphone
               videoSource: undefined, // The source of video. If undefined default webcam
               publishAudio: true, // Whether you want to start publishing with your audio unmuted or not
               publishVideo: true, // Whether you want to start publishing with your video enabled or not
-              resolution: "640x480", // The resolution of your video
+              resolution: video_size, // The resolution of your video
               frameRate: 30, // The frame rate of your video
               insertMode: "APPEND", // How the video is inserted in the target element 'video-container'
               mirror: true, // Whether to mirror your local video or not
