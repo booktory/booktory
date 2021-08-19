@@ -22,6 +22,7 @@ import java.util.List;
 public class ClubFindResponseDto {
     private Long id;
     private Boolean isLeader = false;
+    private Boolean isMember = false;
     private String name;
 
     @JsonSerialize(using = LocalDateTimeSerializer.class)
@@ -46,9 +47,10 @@ public class ClubFindResponseDto {
     @JsonFormat(pattern = "yyyy-MM-dd kk:mm", timezone = "Asia/Seoul")
     private LocalDateTime endDateTime;
 
-    public ClubFindResponseDto(Club club, int nowMember, Long userId){
+    public ClubFindResponseDto(Club club, int nowMember, Long userId, Boolean isMember){
         this.id = club.getId();
         this.isLeader = (userId.equals(club.getUser().getId()));
+        this.isMember = isMember;
         this.name = club.getName();
         this.date = club.getCreatedDate();
         this.img = club.getImg();
@@ -63,9 +65,10 @@ public class ClubFindResponseDto {
             this.genres.add(clubGenre.getGenre().getId());
     }
 
-    public ClubFindResponseDto(Club club, int nowMember, Long userId, Book book, LocalDateTime endDateTime, Long bookClubId){
+    public ClubFindResponseDto(Club club, int nowMember, Long userId, Book book, LocalDateTime endDateTime, Long bookClubId, Boolean isMember){
         this.id = club.getId();
         this.isLeader = (userId.equals(club.getUser().getId()));
+        this.isMember = isMember;
         this.name = club.getName();
         this.date = club.getCreatedDate();
         this.img = club.getImg();

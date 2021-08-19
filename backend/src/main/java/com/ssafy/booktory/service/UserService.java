@@ -1,5 +1,6 @@
 package com.ssafy.booktory.service;
 
+import com.amazonaws.services.kms.model.AlreadyExistsException;
 import com.ssafy.booktory.domain.book.Book;
 import com.ssafy.booktory.domain.book.BookRepository;
 import com.ssafy.booktory.domain.user.*;
@@ -157,7 +158,9 @@ public class UserService {
 
     public void updateUser(Long userId, UserUpdateRequestDto userUpdateRequestDto) {
         User user = userRepository.findById(userId).orElseThrow(() -> new NoSuchElementException("존재하지 않는 회원입니다."));
-
+        if(!user.getNickname().equals(userUpdateRequestDto.getNickname()) && userRepository.existsByNickname(userUpdateRequestDto.getNickname())){
+            throw new AlreadyExistsException("이미 존재하는 닉네임 입니다.");
+        }
         String originFileURL = user.getProfileImg();
         if(originFileURL != null && !originFileURL.equals("") && !originFileURL.equals(userUpdateRequestDto.getProfileImg())){
             uploader.deleteS3Instance(originFileURL);
