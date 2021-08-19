@@ -42,7 +42,7 @@ const accountStore = {
             title: "이메일 발송 완료",
             html: "회원가입 인증 메일을 보내드렸어요.<br>이메일을 확인해주세요!",
           });
-          console.log(commit);
+          commit("");
           router.push({ name: "RegisterEmail", params: { email: info.data.email } });
         })
         .catch((err) => {
@@ -63,20 +63,17 @@ const accountStore = {
     },
     // 회원가입 - 추가정보 입력
     registerExtraInfo({ dispatch }, extraData) {
-      console.log(dispatch);
+      dispatch("");
       axios
         .patch(SERVER.URL + SERVER.ROUTES.registerExtraInfo, extraData)
-        .then((res) => {
+        .then(() => {
           Swal.fire({
             icon: "success",
             title: "회원가입 완료",
             html: "회원가입이 완료 되었습니다.<br>지금부터 책토리를 이용하실 수 있어요!",
           });
-          console.log(res.data);
-          // console.log(extraData.isSocialUser);
           if (extraData.isSocialUser === "true") {
             router.push({ name: "ClubHome" });
-            // localStorage.removeItem("isSocialUser");
           } else {
             router.push({ name: "Login" });
           }
@@ -90,7 +87,7 @@ const accountStore = {
         });
     },
     saveFcmToken({ dispatch }, email) {
-      console.log(dispatch);
+      dispatch("");
       const agt = navigator.userAgent.toLowerCase();
       if (agt.indexOf("safari") != -1 || agt.indexOf("iphone") != -1) {
         return;
@@ -98,13 +95,12 @@ const accountStore = {
 
       let message = fire.messaging();
       message.getToken().then((fcmtoken) => {
-        // console.log(fcmtoken);
         axios
           .post(SERVER.URL + SERVER.ROUTES.registerFCMToken, {
             token: fcmtoken,
             email: email,
           })
-          .then(console.log("redis 저장"))
+          .then()
           .catch((err) => {
             console.log(err);
           });
@@ -194,7 +190,7 @@ const accountStore = {
     },
     // 비밀번호 찾기
     findPassword({ dispatch }, email) {
-      console.log(dispatch);
+      dispatch("");
       let timerInterval;
       Swal.fire({
         title: "이메일 발송 중",
@@ -219,8 +215,7 @@ const accountStore = {
       });
       axios
         .post(SERVER.URL + SERVER.ROUTES.findPassword + email)
-        .then((res) => {
-          console.log(res.data);
+        .then(() => {
           Swal.fire({
             icon: "success",
             title: "이메일 발송 완료",
@@ -237,11 +232,10 @@ const accountStore = {
     },
     // 비밀번호 찾기 - 새로운 비밀번호로 변경
     resetPassword({ dispatch }, passwordData) {
-      console.log(dispatch);
+      dispatch("");
       axios
         .patch(SERVER.URL + SERVER.ROUTES.resetPassword, passwordData)
-        .then((res) => {
-          console.log(res.data);
+        .then(() => {
           Swal.fire({
             icon: "success",
             title: "비밀번호 변경 완료",

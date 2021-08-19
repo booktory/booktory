@@ -45,8 +45,7 @@ const boardStore = {
           boardData,
           rootGetters.config
         )
-        .then((res) => {
-          console.log(res);
+        .then(() => {
           Swal.fire({
             icon: "success",
             title: "게시글 등록 완료",

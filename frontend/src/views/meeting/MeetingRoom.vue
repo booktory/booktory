@@ -138,7 +138,6 @@ export default {
       // On every new Stream received...
       this.session.on("streamCreated", ({ stream }) => {
         const subscriber = this.session.subscribe(stream);
-        console.log("subscriber : " + subscriber);
         this.subscribers.push(subscriber);
       });
 
@@ -160,7 +159,6 @@ export default {
       // 'getToken' method is simulating what your server-side should do.
       // 'token' parameter should be retrieved and returned by your own backend
       this.getToken(this.mySessionId).then((token) => {
-        // console.log("token : " + token);
         this.session
           .connect(token, { clientData: this.userNickname })
           .then(() => {

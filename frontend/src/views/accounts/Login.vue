@@ -145,7 +145,6 @@ export default {
         email: profile.getEmail(),
         socialType: "GOOGLE",
       };
-      // console.log(profile.getEmail());
       this.socialLogin(socialLoginData);
     },
     kakaoLogin() {

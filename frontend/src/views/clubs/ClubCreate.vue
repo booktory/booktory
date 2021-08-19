@@ -285,7 +285,6 @@ export default {
     },
     // 추가된 도서 분야 제거
     removeGenre(event) {
-      console.log(event.target);
       for (var i = 0; i < this.clubData.genres.length; i++) {
         if (event.target.id == this.clubData.genres[i]) {
           this.clubData.genres.splice(i, 1);
