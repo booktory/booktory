@@ -60,7 +60,7 @@
           placeholder="생년월일을 선택해주세요"
           :default-value="defaultDate"
           :disabled-date="disabledAfterTodayAndBefore100Year"
-          :clearable="false"
+          :editable="false"
           required
         ></date-picker>
         <p v-if="error.birth" class="message">{{ error.birth }}</p>
