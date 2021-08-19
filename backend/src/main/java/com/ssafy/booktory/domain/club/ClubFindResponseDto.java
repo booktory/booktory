@@ -32,7 +32,6 @@ public class ClubFindResponseDto {
     private String leaderName;
     private int nowMember;
     private int maxMember;
-    private Boolean isOpen;
     private int volumeRule;
     private int weekRule;
     private String freeRule;
@@ -57,7 +56,6 @@ public class ClubFindResponseDto {
         this.leaderName = club.getUser().getNickname();
         this.nowMember = nowMember;
         this.maxMember = club.getMaxMember();
-        this.isOpen = club.getIsOpen();
         this.volumeRule = club.getVolumeRule();
         this.weekRule = club.getWeekRule();
         this.freeRule = club.getFreeRule();
@@ -75,7 +73,6 @@ public class ClubFindResponseDto {
         this.leaderName = club.getUser().getNickname();
         this.nowMember = nowMember;
         this.maxMember = club.getMaxMember();
-        this.isOpen = club.getIsOpen();
         this.volumeRule = club.getVolumeRule();
         this.weekRule = club.getWeekRule();
         this.freeRule = club.getFreeRule();

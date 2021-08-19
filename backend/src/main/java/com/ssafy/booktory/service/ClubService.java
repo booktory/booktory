@@ -138,8 +138,7 @@ public class ClubService {
             throw new IllegalArgumentException("최대 수용멤버를 현재 멤버 수 보다 적게 설정할 수 없습니다.");
 
         club.updateClub(clubUpdateRequestDto.getName(), clubUpdateRequestDto.getImg(), clubUpdateRequestDto.getInfo(),
-                clubUpdateRequestDto.getMaxMember(), clubUpdateRequestDto.getIsOpen(),
-                clubUpdateRequestDto.getVolumeRule(), clubUpdateRequestDto.getWeekRule(), clubUpdateRequestDto.getFreeRule());
+                clubUpdateRequestDto.getMaxMember(), clubUpdateRequestDto.getVolumeRule(), clubUpdateRequestDto.getWeekRule(), clubUpdateRequestDto.getFreeRule());
 
         List<ClubGenre> deleteClubGenres = clubGenreRepository.findByClubId(club.getId());
         clubGenreRepository.deleteAll(deleteClubGenres);

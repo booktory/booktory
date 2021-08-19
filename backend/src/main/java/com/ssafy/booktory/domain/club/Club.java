@@ -45,10 +45,6 @@ public class Club extends BaseTimeEntity {
     @ColumnDefault("8")
     private int maxMember;
 
-    @NotNull
-    @ColumnDefault("true")
-    private Boolean isOpen;
-
     private int volumeRule;
     private int weekRule;
 
@@ -74,12 +70,11 @@ public class Club extends BaseTimeEntity {
     private List<ClubGenre> genres = new ArrayList<>();
 
     public void updateClub(String name, String img, String info, int maxMember,
-                           Boolean isOpen, int volumRule, int weekRule, String freeRule) {
+                           int volumRule, int weekRule, String freeRule) {
         this.name = name;
         this.img = img;
         this.info = info;
         this.maxMember = maxMember;
-        this.isOpen = isOpen;
         this.volumeRule = volumRule;
         this.weekRule = weekRule;
         this.freeRule = freeRule;
@@ -98,14 +93,13 @@ public class Club extends BaseTimeEntity {
 
     @Builder
     public Club(Long id, String name, User user, String img, String info, int maxMember
-            , Boolean isOpen, int volumeRule, int weekRule, String freeRule) {
+            ,int volumeRule, int weekRule, String freeRule) {
         this.id = id;
         this.name = name;
         this.user = user;
         this.img = img;
         this.info = info;
         this.maxMember = maxMember;
-        this.isOpen = isOpen;
         this.volumeRule = volumeRule;
         this.weekRule = weekRule;
         this.freeRule = freeRule;
