@@ -149,7 +149,6 @@ const clubStore = {
               isCalc: true,
             };
           }
-
           commit("SET_MEETING_INFO", meetingInfo);
           dispatch("calcRemainTime");
         })
@@ -301,9 +300,23 @@ const clubStore = {
           console.log(res);
           dispatch("findApplyList");
           dispatch("findJoinedList");
+          Swal.fire({
+            icon: "success",
+            title: "가입신청 수락 완료",
+            showConfirmButton: false,
+            timer: 1000,
+            timerProgressBar: true,
+          });
         })
         .catch((err) => {
-          console.log(err);
+          Swal.fire({
+            icon: "error",
+            title: "가입신청 수락 실패",
+            text: err.response.data.message,
+            showConfirmButton: false,
+            timer: 1500,
+            timerProgressBar: false,
+          });
         });
     },
     // 클럽 가입신청 거절
@@ -313,9 +326,23 @@ const clubStore = {
         .then((res) => {
           console.log(res);
           dispatch("findApplyList");
+          Swal.fire({
+            icon: "success",
+            title: "가입신청 거절 완료",
+            showConfirmButton: false,
+            timer: 1000,
+            timerProgressBar: true,
+          });
         })
         .catch((err) => {
-          console.log(err);
+          Swal.fire({
+            icon: "error",
+            title: "가입신청 거절 실패",
+            text: err.response.data.message,
+            showConfirmButton: false,
+            timer: 1500,
+            timerProgressBar: false,
+          });
         });
     },
     // 클럽 가입신청 회원 목록
