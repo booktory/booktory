@@ -4,30 +4,41 @@
 
 > 온라인 독서 모임 플랫폼 책토리 (Booktori)
 
+
+
+### [🐹  서비스 바로가기](https://i5a607.p.ssafy.io)
+
 <br>
 
-## 👨‍👩‍👦 팀원
+## 👨‍👩‍👦 팀원 및 역할
 
-- 원지연
-- 유원선
-- 이예은
-- 홍원기
+- 원지연 : `UI/UX` , `Front-end` , `Quality Assurance`
+- 유원선 : `Project Manager` , `Back-end` , `Front-end`
+- 이예은 : `Back-end` , `CI/CD` , `Front-end`
+- 홍원기 : `UI/UX` , `Front-end` , `Quality Assurance`
 
 <br>
 
 ## 📆 프로젝트 개요
 
 - **진행 기간:** 2021.07.12 ~ 2021.08.20🏃
-- **웹사이트 이름:** Booktori (책토리)
-  - 온라인으로 독서 모임을 하고 싶은 사람들을 위한 커뮤니티 & 화상회의 서비스
+- 온라인으로 독서 모임을 하고 싶은 사람들을 위한 커뮤니티 & 화상회의 서비스
+- **주요기능**
+  - 클럽 모집/가입
+  - 클럽 내 화상모임 관리 및 진행
+  - 내 서재 확인
+  - 알림 기능
+  - 배지 획득 및 대표 배지 설정 기능
+  - Read With Me
 
 <br>
 
-## 🛠 Porting Manual [▶️바로가기](./exec/README.md)
+## 🛠 Porting Manual [▶️ 바로가기](./exec/README.md)
+## ✅ Git Convention [▶️ 바로가기](./Document/GitConvention.md)
 
-## 📑 Tech Blog & Log
+## 📑 Tech Blog & Log  [▶️ 책토리 Blog 바로가기](https://booktori.tistory.com/)
 
-[책토리 Blog](https://booktori.tistory.com/)
+
 
 <details open>
   <summary>7/11 ~ 8/20 책토리 회의록</summary>
@@ -64,7 +75,5 @@
       <li><a href="./Document/Dev_log/20210820_회의록.md">8/20 회의록 : 최종발표</a></li>
   </ul>
 </details>
-
 <br>
 
-## ✅ Git Convention [▶️바로가기](./Document/GitConvention.md)
