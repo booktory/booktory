@@ -39,7 +39,7 @@
 
 <br>
 
-## 🛠 Porting Manual [▶️ 바로가기](./exec/README.md)
+## 🛠 Porting Manual [▶️ 바로가기](./exec/PortingManual.md)
 ## ✅ Git Convention [▶️ 바로가기](./Document/GitConvention.md)
 
 ## 📑 Tech Blog & Log  [▶️ 책토리 Blog 바로가기](https://booktori.tistory.com/)

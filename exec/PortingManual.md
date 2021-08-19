@@ -62,6 +62,13 @@
 * AWS S3 - file server
 * nginx , docker, jenkins
 * gitlab, mattermost
+  
+
+#### ♾ DevOps
+
+> 배포플로우
+
+![devops](devops.png)
 
 
 
@@ -125,4 +132,3 @@ $ docker run -d --name backend -p 8080:8080 \
 
 * Frontend, Backend 소스코드
 * 데이터베이스 , 파일서버 등 각 서비스의 접속정보를 포함한 프로퍼티 파일
-* 데이터베이스 덤프파일
