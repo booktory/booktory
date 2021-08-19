@@ -5,10 +5,14 @@
       <h5 class="rwm-title">{{ this.rwmRoomInfo.name }}</h5>
       <p class="rwm-title-sub">{{ this.rwmRoomInfo.info }}</p>
       <div class="rwm-api-wrapper">
-        <RwmRoomYoutube v-if="this.rwmRoomInfo" :rwmPlayList="this.rwmPlayList[(this.$route.query.id)*1]" :imgUrl="this.rwmRoomInfo.img" />
+        <RwmRoomYoutube
+          v-if="this.rwmRoomInfo"
+          :rwmPlayList="this.rwmPlayList[this.$route.query.id * 1]"
+          :rwmRoomInfo="this.rwmRoomInfo"
+        />
       </div>
-      <div></div>
-      <button class="button-2 m-top-5" @click="clickExitRwmRoom">나가기</button>
+      <p class="sub-info">책토리는 bugs::essential; 채널과 함께합니다</p>
+      <button class="button-2" @click="clickExitRwmRoom">나가기</button>
       <Navbar :selected="'rwm'" />
     </div>
   </div>
@@ -59,7 +63,7 @@ export default {
 .rwm-title-sub {
   margin: 0;
   padding: 0 3rem;
-  font-size: 1.1rem;
+  font-size: 1rem;
 }
 .rwm-api-wrapper {
   width: 32rem;
@@ -74,5 +78,9 @@ export default {
   justify-content: flex-start;
   align-items: center;
 }
-
+.sub-info {
+  font-size: 0.8rem;
+  color: var(--grey);
+  margin: -0.2rem 0 4rem;
+}
 </style>

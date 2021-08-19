@@ -6,7 +6,6 @@
     <h5 class="rwm-title">{{ name }}</h5>
     <p class="rwm-user">{{ userCount }}명이 참여하고 있어요</p>
     <p class="rwm-info">{{ info }}</p>
-
     <div v-if="index % 2 == 0" class=""></div>
   </div>
 </template>

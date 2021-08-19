@@ -130,36 +130,26 @@
             </div>
           </div>
 
-          <div class="two-input">
-            <!-- 클럽 인원 -->
-            <div class="max-member m-top-1">
-              <div class="label">클럽 최대 인원수</div>
-              <span class="font-body-3">
-                <span id="v-model-select">
-                  <select v-model="clubInfo.maxMember">
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
-                    <option>6</option>
-                    <option>7</option>
-                    <option>8</option>
-                  </select>
-                </span>
-                명
+          <!-- 클럽 인원 -->
+          <div class="max-member m-top-1">
+            <div class="label">클럽 최대 인원수</div>
+            <span class="font-body-3">
+              <span id="v-model-select">
+                <select v-model="clubInfo.maxMember">
+                  <option>1</option>
+                  <option>2</option>
+                  <option>3</option>
+                  <option>4</option>
+                  <option>5</option>
+                  <option>6</option>
+                  <option>7</option>
+                  <option>8</option>
+                </select>
               </span>
-            </div>
-            <!-- 공개 여부 -->
-            <div class="is-open">
-              <div class="label">공개 여부</div>
-              <div class="wrap">
-                <input type="checkbox" id="checkbox" v-model="clubInfo.isOpen" />
-                <span class="font-body-3 is-open-text" v-if="clubInfo.isOpen">공개</span>
-                <span class="font-body-3 is-open-text" v-else>비공개</span>
-              </div>
-            </div>
+              명
+            </span>
           </div>
+
           <!-- 클럽 대표사진 설정 -->
           <div class="input-div">
             <label for="img">클럽 대표사진</label>
