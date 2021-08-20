@@ -5,6 +5,7 @@ import com.ssafy.booktory.domain.rwm.Rwm;
 import com.ssafy.booktory.domain.user.User;
 import com.sun.istack.NotNull;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -30,4 +31,10 @@ public class RwmLog extends BaseTimeEntity {
     @NotNull @Column(nullable = false)
     private String bookName;
 
+    @Builder
+    public RwmLog(User user, Rwm rwm, String bookName) {
+        this.user = user;
+        this.rwm = rwm;
+        this.bookName = bookName;
+    }
 }

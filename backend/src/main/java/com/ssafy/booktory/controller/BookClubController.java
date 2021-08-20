@@ -2,6 +2,7 @@ package com.ssafy.booktory.controller;
 
 
 import com.ssafy.booktory.domain.bookclub.*;
+import com.ssafy.booktory.domain.bookclubuser.BookClubParticipantDto;
 import com.ssafy.booktory.domain.club.Club;
 import com.ssafy.booktory.domain.club.ClubSaveRequestDto;
 import com.ssafy.booktory.domain.user.User;
@@ -17,6 +18,7 @@ import springfox.documentation.annotations.ApiIgnore;
 import java.util.List;
 
 @Api(value = "BookClub API")
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/bookclubs")
 @RequiredArgsConstructor
@@ -33,7 +35,7 @@ public class BookClubController {
             @ApiResponse(code = 500, message = "서버 오류")
     })
     public ResponseEntity<String> createBookToRead(@RequestBody BookClubCreateRequestDto bookclubCreateRequestDto) {
-        BookClub bookClub = bookClubService.createBookToRead(bookclubCreateRequestDto);
+        bookClubService.createBookToRead(bookclubCreateRequestDto);
         return ResponseEntity.status(HttpStatus.CREATED).body("success");
     }
 
@@ -80,6 +82,25 @@ public class BookClubController {
 
         bookClubService.attendToMeeting(id, userId);
         return ResponseEntity.status(HttpStatus.CREATED).body("success");
+    }
+
+    @PutMapping("/{id}/user")
+    @ApiOperation(value = "모임 퇴장", notes = "현재 사용자가 모임에서 퇴장한다.")
+    @ApiImplicitParams({@ApiImplicitParam(name = "jwt", value = "JWT Token", required = true, dataType = "string", paramType = "header")})
+    public ResponseEntity<String> leaveFromMeeting(@ApiIgnore final Authentication authentication, @PathVariable Long id) {
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+        Long userId = ((User) authentication.getPrincipal()).getId();
+
+        bookClubService.leaveMeeting(id, userId);
+        return ResponseEntity.status(HttpStatus.OK).body("success");
+    }
+
+    @GetMapping("/{id}/participants")
+    @ApiOperation(value = "현재 모임 실시간 참여 인원 리스트", notes = "현재 모임에 참여 중인 인원 정보를 받는다.")
+    public ResponseEntity<List<BookClubParticipantDto>> Meeting(@PathVariable Long id) {
+        return ResponseEntity.status(HttpStatus.OK).body(bookClubService.getMeetingJoinList(id));
     }
 
     @GetMapping("/{id}")

@@ -8,23 +8,17 @@ import lombok.NoArgsConstructor;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserClubListResponseDto {
-    List<UserClubListArg> userClubs = new ArrayList<>();
-
-    public void toDto(List<UserClub> userClubs){
-        for(UserClub userClub : userClubs){
-            UserClubListArg userClubListArg =
-                    new UserClubListArg(userClub.getId(), userClub.getUser().getId(), userClub.getState());
-            this.userClubs.add(userClubListArg);
-        }
-    }
-}
-
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-class UserClubListArg{
+public class UserClubListResponseDto {
     Long id;
-    Long userId;
-    UserClubState staate;
+    String userNickname;
+    String userProfileImg;
+
+    public UserClubListResponseDto(UserClub userClub){
+        this.id = userClub.getId();
+        this.userNickname = userClub.getUser().getNickname();
+        this.userProfileImg = userClub.getUser().getProfileImg();
+    }
 }

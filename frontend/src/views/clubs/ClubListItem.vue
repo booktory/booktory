@@ -1,10 +1,10 @@
 <template>
-  <div class="container">
+  <div v-if="clubInfo">
     <!-- 헤드 => 좌우 넘기기 있음 -->
     <div class="header">
       <span v-if="index !== 0">
         <div class="icon" @click="clickLeft">
-          <icon-base><chevron-left /></icon-base>
+          <icon-base><icon-chevron-left /></icon-base>
         </div>
       </span>
       <span v-else>
@@ -12,12 +12,10 @@
           <icon-base :iconColor="'none'"><chevron-left /></icon-base>
         </div>
       </span>
-      <h5>
-        {{ club.name }}
-      </h5>
+      <h5>{{ clubInfo.name }}</h5>
       <span v-if="index !== maxLength - 1">
         <div class="icon" @click="clickRight">
-          <icon-base><chevron-right /></icon-base>
+          <icon-base><icon-chevron-right /></icon-base>
         </div>
       </span>
       <span v-else>
@@ -28,51 +26,87 @@
     </div>
 
     <!-- 바디1 => 클럽 정보 -->
-    <div class="card-background">
-      <h4>{{ club.name }}</h4>
-      <div class="font-body-4">클럽장 {{ club.leader_id }} | 참가자 {{ club.max_member }}</div>
+    <div class="card-background club-info" @click="clickCard">
+      <h4 class="club-info-title">{{ clubInfo.name }}</h4>
+      <div class="font-body-4 club-info-user">
+        <b>클럽장</b> {{ clubInfo.leaderName }}&nbsp;|&nbsp;<b>참가자</b> {{ clubInfo.nowMember }}명
+      </div>
       <div>
-        <div class="font-body-2">
-          {{ club.info }}
+        <div class="font-body-3 club-info-text">
+          {{ clubInfo.info }}
         </div>
-        <span v-for="(clubGenre, idx) in club.genres" :key="idx" class="font-body-4">
-          {{ clubGenre.genreName }}
+        <span
+          v-for="(genre, idx) in clubInfo.genres"
+          :key="idx"
+          :id="genre"
+          class="font-body-4 club-info-genre"
+        >
+          {{ genreList[genre - 1].name }}
         </span>
       </div>
 
-      <!-- 바디2 => 책 정보 -->
-      <div class="bookcard-background">
-        <div class="bookcard-box">
-          <img :src="book.thumbnail" alt="bookThumbnail" class="bookcard-image" />
-          <div class="bookcard-info">
-            <p style="text-align: right" class="sub-title">책 목록 더보기</p>
-            <span class="font-body-4">읽고 있는 책</span>
-            <h5 style="text-align: left; margin: 0px">{{ book.title }}</h5>
-            <div class="sub-title">{{ book.author }} | {{ book.publisher }}</div>
+      <div v-if="clubInfo.endDateTime">
+        <!-- 바디2 => 책 정보 -->
+        <div class="bookcard-background">
+          <div class="bookcard-box">
+            <img :src="clubInfo.thumbnail" alt="bookThumbnail" class="bookcard-image" />
+            <div class="bookcard-info">
+              <div class="bookcard-info-more">
+                <span class="font-body-4" @click="clickBookList">책 목록 더보기</span>
+              </div>
+              <span class="bookcard-info-now font-body-4">읽고 있는 책</span>
+              <h5 class="bookcard-info-title">
+                {{
+                  clubInfo.title.length > 30
+                    ? clubInfo.title.substr(0, 30) + "・・・"
+                    : clubInfo.title
+                }}
+              </h5>
+              <div class="bookcard-info-subtitle font-body-5">
+                {{
+                  clubInfo.author.length > 8
+                    ? clubInfo.author.substr(0, 8) + "・・・"
+                    : clubInfo.author
+                }}&nbsp;|&nbsp;{{
+                  clubInfo.publisher.length > 8
+                    ? clubInfo.publisher.substr(0, 8) + "・・・"
+                    : clubInfo.publisher
+                }}
+              </div>
+            </div>
           </div>
         </div>
         <!-- 모임 정보 -->
         <div class="meeting">
-          <h5>2021.08.17 오후 9:00</h5>
-          <span class="font-body-4">모임까지 00일 00시 00분 남았습니다.</span>
+          <h5>{{ convertTime(clubInfo.endDateTime) }}</h5>
+          <span class="font-body-4">{{ meetingInfo.remainTime }}</span>
         </div>
+        <button
+          :disabled="!meetingInfo.isOpen"
+          class="button-2 m-top-5 meetingBtn"
+          @click="clickMeeting"
+        >
+          모임 입장하기
+        </button>
       </div>
-      <button>모임 입장하기</button>
+      <div v-else>
+        <span class="empty-meeting">예정된 모임이 없습니다</span>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import IconBase from "../../components/icons/IconBase.vue";
-import ChevronLeft from "../../components/icons/ChevronLeft.vue";
-import ChevronRight from "../../components/icons/ChevronRight.vue";
+import { mapActions, mapState } from "vuex";
+import router from "@/router";
+import Swal from "sweetalert2";
+var moment = require("moment");
 
 export default {
-  components: { IconBase, ChevronLeft, ChevronRight },
   name: "ClubListItem",
   props: {
-    bookclub: {
-      type: Object,
+    clubId: {
+      type: Number,
     },
     maxLength: {
       type: Number,
@@ -81,21 +115,72 @@ export default {
       type: Number,
     },
   },
+  computed: {
+    ...mapState("clubStore", ["clubInfo", "meetingInfo"]),
+    ...mapState("searchStore", ["genreList"]),
+  },
+  data() {
+    return {
+      isOpen: false,
+      isStart: false,
+      remainTimeStr: "",
+    };
+  },
+  watch: {
+    clubId: {
+      handler() {
+        this.findClubInfo(this.clubId);
+      },
+    },
+  },
   methods: {
+    ...mapActions("clubStore", ["findClubInfo", "pollingStart", "pollingEnd"]),
+    ...mapActions("bookclubStore", ["getBookClubList", "attendMeeting"]),
     clickLeft: function () {
       this.$emit("click-left");
     },
     clickRight: function () {
       this.$emit("click-right");
     },
+    // 클럽 카드 클릭
+    clickCard() {
+      router.push({ name: "ClubdetailHome", query: { clubId: this.clubId } });
+    },
+    clickBookList(event) {
+      event.stopPropagation();
+      router.push({ name: "ClubdetailBook" });
+    },
+    // 모임 입장하기 버튼 클릭
+    clickMeeting(event) {
+      event.stopPropagation();
+      Swal.fire({
+        showCancelButton: true,
+        title: "모임에 입장하시겠습니까?",
+        confirmButtonText: "입장하기",
+        cancelButtonText: "취소",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.attendMeeting(this.meetingInfo.bookclubId);
+        }
+      });
+      // router.push({ name: "Meeting" });
+    },
+    // 모임 시간 년월일 변환
+    convertTime(data) {
+      let ampm = moment(data).add(9, "h").format("A") == "AM" ? "오전" : "오후";
+      let dateStr = moment(data)
+        .add(9, "h")
+        .format("YYYY년 M월 D일 " + ampm + " h시 mm분");
+      return dateStr;
+    },
   },
-  computed: {
-    club: function () {
-      return this.bookclub.clubList[0];
-    },
-    book: function () {
-      return this.bookclub.bookList[0];
-    },
+  created() {
+    this.findClubInfo(this.clubId);
+    this.getBookClubList(this.clubId);
+    this.pollingStart();
+  },
+  destroyed() {
+    this.pollingEnd();
   },
 };
 </script>
@@ -112,46 +197,80 @@ export default {
 }
 
 .card-background {
-  width: 80%;
-  height: 60%;
-  margin: 5% auto 15%;
-  padding: 8% 2%;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px 4px rgba(161, 160, 228, 0.16);
-  background-color: #ffffff;
+  width: 30rem;
+  min-height: 50%;
+  margin: 1.8rem auto;
+  padding: 4rem 1rem 5rem;
+  border-radius: 1rem;
+  box-shadow: 0 0.4rem 0.8rem 0.4rem rgba(161, 160, 228, 0.16);
+  background-color: var(--white);
 }
 
 .bookcard-background {
   width: 100%;
-  margin: 5% auto;
-  padding-bottom: 20px;
-  background-color: #f3f3f3;
-  border-radius: 10px;
+  margin: 2.5rem auto 1.5rem;
+  padding: 1.5rem 0 1.5rem;
+  background-color: var(--very-light-grey);
+  border-radius: 1em;
+}
+
+.club-info-title {
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+.club-info-user {
+  margin-bottom: 1rem;
+}
+.club-info-text {
+  margin: 0 2rem 1rem;
+}
+.club-info-genre {
+  display: inline-block;
+  padding: 0.3rem 0.7rem;
+  margin: 0 0.2rem;
+  border: 0;
+  border-radius: 1em;
+  color: var(--white);
+  background-color: var(--light-brown);
 }
 
 .bookcard-box {
+  position: relative;
   display: flex;
   flex-direction: row;
-  justify-content: flex-start;
-  align-items: flex-start;
-  gap: 10px;
-  padding: 8% 5% 5%;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1.6rem;
+  padding: 0 1.5rem;
 }
-
 .bookcard-image {
-  width: 36%;
-  height: 50%;
-  border-radius: 10px;
+  width: 7rem;
+  border-radius: 1rem;
+  box-shadow: 0 3px 3px 0 var(--bg-black), inset 0 0 3px 0 var(--bg-black);
 }
-
 .bookcard-info {
+  width: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
   align-items: flex-start;
+}
+.bookcard-info-more {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin-right: 1.5rem;
+  color: var(--grey);
+}
+.bookcard-info-title {
+  text-align: left;
+  margin: 0.5rem 0;
+}
+.bookcard-info-subtitle {
+  text-align: left;
 }
 
 .meeting {
+  margin-top: 2rem;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -159,6 +278,13 @@ export default {
 }
 .meeting h4,
 h5 {
-  margin: 5px;
+  margin: 0.7rem;
+}
+.empty-meeting {
+  display: inline-block;
+  margin-top: 4rem;
+  font-size: 1.3rem;
+  color: var(--grey);
+  white-space: nowrap;
 }
 </style>

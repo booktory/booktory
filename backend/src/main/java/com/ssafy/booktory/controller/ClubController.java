@@ -6,6 +6,7 @@ import com.ssafy.booktory.domain.userclub.UserClubListResponseDto;
 import com.ssafy.booktory.service.ClubService;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +16,9 @@ import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.List;
 
+@Slf4j
 @Api(value = "Club API")
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/clubs")
 @RequiredArgsConstructor
@@ -37,14 +40,20 @@ public class ClubController {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
         Long userId = ((User)authentication.getPrincipal()).getId();
-        Club club = clubService.createClub(userId, clubSaveRequestDto);
+        clubService.createClub(userId, clubSaveRequestDto);
         return ResponseEntity.status(HttpStatus.CREATED).body("success");
     }
 
     @GetMapping("/{id}")
     @ApiOperation(value = "클럽정보 확인", notes = "해당 클럽의 정보를 모두 반환한다.")
-    public ResponseEntity<ClubFindResponseDto> findClub(@PathVariable Long id){
-        return ResponseEntity.status(HttpStatus.OK).body(clubService.findClub(id));
+    @ApiImplicitParams({@ApiImplicitParam(name = "jwt", value = "JWT Token", required = true, dataType = "string", paramType = "header")})
+    public ResponseEntity<ClubFindResponseDto> findClub(@ApiIgnore final Authentication authentication, @PathVariable Long id){
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+        Long userId = ((User)authentication.getPrincipal()).getId();
+
+        return ResponseEntity.status(HttpStatus.OK).body(clubService.findClub(id, userId));
     }
 
     @GetMapping("/list")
@@ -69,48 +78,52 @@ public class ClubController {
         }
         Long leaderId = ((User)authentication.getPrincipal()).getId();
 
-        try {
-            clubService.updateClub(id, clubUpdateRequestDto, leaderId);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Fail : " + e.getMessage());
-        }
+        clubService.updateClub(id, clubUpdateRequestDto, leaderId);
         return ResponseEntity.ok().body("success");
     }
 
     @PostMapping("/{id}/join")
     @ApiOperation(value = "클럽 가입신청", notes = "UserClub 테이블의 상태를 APPLY로 등록한다.")
     @ApiImplicitParams({@ApiImplicitParam(name = "jwt", value = "JWT Token", required = true, dataType = "string", paramType = "header")})
-    public ResponseEntity<Long>  applyToClub(@ApiIgnore final Authentication authentication, @PathVariable Long id){
+    public ResponseEntity<Long>  applyToClub(@ApiIgnore final Authentication authentication, @PathVariable Long id) throws IllegalAccessException {
         if (authentication == null || !authentication.isAuthenticated()) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
         Long userId = ((User)authentication.getPrincipal()).getId();
+
         return ResponseEntity.status(HttpStatus.CREATED).body(clubService.applyToClub(userId, id).getId());
+
     }
 
-    @GetMapping("{id}/users")
-    @ApiOperation(value = "클럽 가입/신청자 목록", notes = "UserClub 테이블에서 해당 클럽에 연관된 데이터를 모두 조회한다.")
-    public ResponseEntity<UserClubListResponseDto> joinedUserList(@PathVariable Long id){
-        return ResponseEntity.status(HttpStatus.OK).body(clubService.joinedUserList(id));
-    }
-
-
-    @PutMapping("/{id}/join")
-    @ApiOperation(value = "클럽 가입승인", notes = "UserClub 테이블의 상태를 ACCEPT로 변경한다.")
+    @GetMapping("{id}/users/apply")
+    @ApiOperation(value = "클럽 신청자 목록", notes = "UserClub 테이블에서 해당 클럽에 가입 신청한 유저를 조회한다.")
     @ApiImplicitParams({@ApiImplicitParam(name = "jwt", value = "JWT Token", required = true, dataType = "string", paramType = "header")})
-    public ResponseEntity<String>  acceptToClub(@ApiIgnore final Authentication authentication, @PathVariable Long id, @RequestBody Long userClubId){
+    public ResponseEntity<List<UserClubListResponseDto>> joinedUserList(@ApiIgnore final Authentication authentication, @PathVariable Long id){
         if (authentication == null || !authentication.isAuthenticated()) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
         Long leaderId = ((User)authentication.getPrincipal()).getId();
 
-        try {
-            clubService.acceptToClub(leaderId, id, userClubId, true);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Fail : " + e.getMessage());
+        return ResponseEntity.status(HttpStatus.OK).body(clubService.appliedUserList(id, leaderId));
+    }
+
+    @GetMapping("{id}/users")
+    @ApiOperation(value = "클럽 가입자 목록", notes = "UserClub 테이블에서 해당 클럽에 가입완료된 유저를 조회한다..")
+    public ResponseEntity<List<UserClubListResponseDto>> joinedUserList( @PathVariable Long id){
+        return ResponseEntity.status(HttpStatus.OK).body(clubService.acceptedUserList(id));
+    }
+
+
+    @PutMapping("/{id}/join/{userClubId}")
+    @ApiOperation(value = "클럽 가입승인", notes = "UserClub 테이블의 상태를 ACCEPT로 변경한다.")
+    @ApiImplicitParams({@ApiImplicitParam(name = "jwt", value = "JWT Token", required = true, dataType = "string", paramType = "header")})
+    public ResponseEntity<String>  acceptToClub(@ApiIgnore final Authentication authentication, @PathVariable Long id, @PathVariable Long userClubId){
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
+        Long leaderId = ((User)authentication.getPrincipal()).getId();
+
+        clubService.acceptToClub(leaderId, id, userClubId, true);
         return ResponseEntity.status(HttpStatus.OK).body("success");
     }
 
@@ -123,12 +136,7 @@ public class ClubController {
         }
         Long leaderId = ((User)authentication.getPrincipal()).getId();
 
-        try {
-            clubService.acceptToClub(leaderId, id, userClubId, false);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Fail : " + e.getMessage());
-        }
+        clubService.acceptToClub(leaderId, id, userClubId, false);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body("success");
     }
 
@@ -141,15 +149,9 @@ public class ClubController {
         }
         Long userId = ((User)authentication.getPrincipal()).getId();
 
-        try {
-            clubService.deleteJoin(userId, id);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Fail : " + e.getMessage());
-        }
+        clubService.deleteJoin(userId, id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body("success");
     }
-
     @DeleteMapping("/{id}")
     @ApiOperation(value = "클럽 삭제", notes = "클럽장이 클럽을 삭제한다.")
     @ApiImplicitParams({@ApiImplicitParam(name = "jwt", value = "JWT Token", required = true, dataType = "string", paramType = "header")})
@@ -158,14 +160,14 @@ public class ClubController {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
         Long leaderId = ((User)authentication.getPrincipal()).getId();
-
-        try {
-            clubService.deleteClub(leaderId, id);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Fail : " + e.getMessage());
-        }
+        clubService.deleteClub(leaderId, id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body("success");
+    }
+
+    @GetMapping("/{id}/books/{bookId}")
+    @ApiOperation(value = "책 등록 여부 판단", notes = "클럽 내 책을 추가할 때 이미 등록된 책인지 판단한다.")
+    public ResponseEntity<Boolean> isSelectedBook(@PathVariable Long id, @PathVariable Long bookId) {
+        return ResponseEntity.status(HttpStatus.OK).body(clubService.isSelectedBook(id, bookId));
     }
 
 }

@@ -51,8 +51,8 @@ class BooktoryApplicationTests {
 //				.orElseThrow(()-> new IllegalArgumentException("존재하지않는 클럽"));
 //
 //		assertEquals(club.getId(), resClub.getId());
+////	}
+//	@Test
+//	void contextLoads() {
 //	}
-	@Test
-	void contextLoads() {
-	}
 }

@@ -10,10 +10,17 @@
   "dependencies": {
     "axios": "^0.21.1",
     "core-js": "^3.6.5",
+    "firebase": "^8.9.0",
+    "moment-timezone": "^0.5.33",
+    "openvidu-browser": "^2.19.0",
+    "sass-loader": "^10.2.0",
     "sweetalert2": "^11.1.1",
     "vue": "^2.6.11",
     "vue-cookies": "^1.7.4",
+    "vue-google-oauth2": "^1.5.8",
+    "vue-moment": "^4.1.0",
     "vue-router": "^3.2.0",
+    "vue-youtube": "^1.4.0",
     "vue2-datepicker": "^3.9.1",
     "vuex": "^3.6.2"
   },
@@ -26,6 +33,7 @@
     "babel-eslint": "^10.1.0",
     "eslint": "^6.7.2",
     "eslint-plugin-vue": "^6.2.2",
+    "node-sass": "^6.0.1",
     "vue-template-compiler": "^2.6.11"
   },
   "eslintConfig": {

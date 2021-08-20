@@ -4,11 +4,17 @@
   </div>
 </template>
 
+<script>
+export default {
+  name: "App",
+  methods: {},
+};
+</script>
 <style scoped>
 #app {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  color: var(--dark-grey);
 }
 </style>

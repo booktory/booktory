@@ -10,10 +10,14 @@ public interface ClubGenreRepository extends JpaRepository<ClubGenre, Long> {
 
     @Query("SELECT cg FROM ClubGenre cg JOIN cg.club c JOIN cg.genre g " +
             "WHERE c.name LIKE %:keyword% " +
-            "AND g.name IN (:searchGenres)")
-    List<ClubGenre> findClubsByKeywordAndGenres(@Param("keyword") String keyword, @Param("searchGenres") List<String> searchGenres);
+            "AND g.name IN (:searchGenres) " +
+            "ORDER BY cg.club.id")
+    List<ClubGenre> findClubsByKeywordAndGenresOrderByClubAsc(@Param("keyword") String keyword, @Param("searchGenres") List<String> searchGenres);
 
     @Query("SELECT cg FROM ClubGenre cg JOIN cg.club c JOIN cg.genre g " +
-            "WHERE g.name IN (:searchGenres)")
-    List<ClubGenre> findClubsByGenres(List<String> searchGenres);
+            "WHERE g.name IN (:searchGenres) " +
+            "ORDER BY cg.club.id ASC")
+    List<ClubGenre> findClubsByGenresOrderByClubAsc(List<String> searchGenres);
+
+    List<ClubGenre> findByClubId(Long clubId);
 }
