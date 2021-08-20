@@ -18,6 +18,6 @@ public class ClubBySearchResponseDto {
     private String img;
     private int nowMember;
     private int maxMember;
-    private List<String> genres;
+    private List<Long> genres;
 
 }

@@ -3,66 +3,113 @@
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1, minimum-scale=1"
+    />
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <meta
+      content="minimum-scale=1.0, width=device-width, maximum-scale=1, user-scalable=no"
+      name="viewport"
+    />
     <link rel="icon" href="<%= BASE_URL %>favicon.ico" />
-    <title><%= htmlWebpackPlugin.options.title %></title>
+    <title>책토리</title>
     <style>
       /* Common */
       * {
-        font-family: "Nanum Gothic", sans-serif;
+        font-family: "NanumSquareRound", sans-serif;
         font-size: 2.7vw;
         text-align: center;
       }
 
       body {
-        color: var(--black);
+        color: var(--dark-grey);
         background-color: var(--beige);
         display: flex;
         justify-content: center;
         padding: 0;
         margin: 0;
+        height: 100vh;
+        max-width: 100%;
+        overflow-x: hidden;
       }
 
       a {
         text-decoration: none;
       }
 
+      input {
+        color: var(--dark-grey);
+      }
+
       input:focus {
         outline: none;
+      }
+      /* 네이티브 외형 감추기 */
+      select {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        background: url("./down.svg") no-repeat 95% 50%; /* 네이티브 화살표를 커스텀 화살표로 대체 */
+      }
+      select::-ms-expand {
+        display: none;
       }
 
       /* View */
       /* Mobile */
       .container {
         width: 100vw;
-        margin-top: 8vh;
-        margin-bottom: 10vh;
+        padding-bottom: 7rem;
       }
       /* Tablet */
       @media (min-width: 768px) {
         * {
-          font-size: 2.2vw;
+          font-size: 1.8vw;
         }
-        .container {
-          width: 70vw;
+        .container > div {
+          width: 45rem;
+          margin: 0 auto;
         }
       }
       /* Desktop */
       @media (min-width: 1024px) {
         * {
-          font-size: 18px;
+          font-size: 1.2vw;
         }
-        .container {
-          width: 60vw;
-          max-width: 768px;
+        .container > div {
+          width: 40rem;
         }
       }
 
       /* Fonts */
-      @import url("https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap");
+      @font-face {
+        font-family: "NanumSquareRound";
+        src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_two@1.0/NanumSquareRound.woff")
+          format("woff");
+        font-weight: normal;
+        font-style: normal;
+      }
+      @font-face {
+        font-family: "CookieRun-Regular";
+        src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/CookieRun-Regular.woff")
+          format("woff");
+        font-weight: normal;
+        font-style: normal;
+      }
 
       /* Text Styles */
       /* Header */
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6,
+      h6 * {
+        font-weight: normal;
+        font-family: "CookieRun-Regular";
+      }
       h1 {
         font-size: 5.6rem;
       }
@@ -70,15 +117,16 @@
         font-size: 4.8rem;
       }
       h3 {
-        font-size: 3.2rem;
+        font-size: 2.8rem;
       }
       h4 {
-        font-size: 2.4rem;
+        font-size: 2rem;
       }
       h5 {
         font-size: 1.6rem;
       }
-      h6 {
+      h6,
+      h6 * {
         font-size: 1.2rem;
       }
 
@@ -93,6 +141,9 @@
         font-size: 1.4rem;
       }
       .font-body-4 {
+        font-size: 1.2rem;
+      }
+      .font-body-4 * {
         font-size: 1.2rem;
       }
       .font-body-5 {
@@ -119,20 +170,25 @@
       :root {
         /* Color Styles */
         /* Main */
-        --light-orange: #fdcc97;
+        --very-light-orange: #fde5cc;
+        --light-orange: #ffba70;
+        --medium-orange: #ffcf9d;
         --orange: #ff7f00;
+        --very-light-brown: #c39a76;
         --light-brown: #bf5f0e;
         --brown: #904402;
 
         /* Text */
+        --bg-black: rgba(0, 0, 0, 0.16);
         --black: #000000;
+        --dark-grey: #555;
         --grey: #8a8894;
+        --medium-grey: #a9a7af;
         --light-grey: #d6d6d9;
         --very-light-grey: #eeeeee;
         --white: #ffffff;
 
         /* Background */
-        --transparent-black: rgba(0, 0, 0, 0.2);
         --beige: #fffbf5;
 
         /* Button */
@@ -141,21 +197,37 @@
         --light-blue: #a4c0f3;
         --very-light-blue: #f2f5fa;
         --lilac: #c5c0db;
+
+        /* Background */
+        --background-1: url("https://booktory.s3.ap-northeast-2.amazonaws.com/static/default/background-1.jpg");
+        --background-2: url("https://booktory.s3.ap-northeast-2.amazonaws.com/static/default/background-2.jpg");
+        --background-3: url("https://booktory.s3.ap-northeast-2.amazonaws.com/static/default/background-3.jpg");
+        --background-4: url("https://booktory.s3.ap-northeast-2.amazonaws.com/static/default/background-4.jpg");
+        --background-5: url("https://booktory.s3.ap-northeast-2.amazonaws.com/static/default/background-5.jpg");
+        --clubdetail-bg-1: url("https://booktory.s3.ap-northeast-2.amazonaws.com/static/default/clubdetail-bg-1.jpg");
+        --clubdetail-bg-2: url("https://booktory.s3.ap-northeast-2.amazonaws.com/static/default/clubdetail-bg-2.jpg");
+        --clubdetail-bg-3: url("https://booktory.s3.ap-northeast-2.amazonaws.com/static/default/clubdetail-bg-3.jpg");
+        --clubdetail-bg-4: url("https://booktory.s3.ap-northeast-2.amazonaws.com/static/default/clubdetail-bg-4.jpg");
+        --clubdetail-bg-5: url("https://booktory.s3.ap-northeast-2.amazonaws.com/static/default/clubdetail-bg-5.jpg");
       }
 
       /* Class */
       .navbar {
-        position: fixed;
-        top: 2em;
-        left: 2em;
+        /* width: 100vw; */
+        display: grid;
+        grid-template-columns: 1fr 7fr 1fr;
+        height: 5.5rem;
+        align-items: center;
+        justify-items: right;
       }
 
       .title {
-        margin-bottom: 2.5%;
+        margin-top: 0;
+        margin-bottom: 1rem;
       }
 
       .sub-title {
-        font-size: 1.4rem;
+        font-size: 1.2rem;
         margin: 0;
       }
 
@@ -171,13 +243,45 @@
         background-color: var(--light-orange);
         border-radius: 10em;
         padding: 0.7em;
+        z-index: 5;
       }
 
       .profile-img {
         display: inline-block;
         width: 12em;
         height: 12em;
-        border-radius: 10em;
+        border-radius: 50%;
+        overflow: hidden;
+        position: relative;
+        background-color: var(--very-light-orange);
+      }
+      .profile-img img {
+        min-width: 100%;
+        height: 12em;
+        margin: auto;
+        position: absolute;
+        left: -100%;
+        right: -100%;
+        top: -100%;
+        bottom: -100%;
+      }
+      .profileImg {
+        width: 4.5rem;
+        height: 4.5rem;
+        border-radius: 50%;
+        overflow: hidden;
+        position: relative;
+        background-color: var(--very-light-orange);
+      }
+      .profileImg img {
+        min-width: 100%;
+        height: 4.5rem;
+        margin: auto;
+        position: absolute;
+        left: -100%;
+        right: -100%;
+        top: -100%;
+        bottom: -100%;
       }
 
       .profile-img-div {
@@ -185,24 +289,77 @@
         display: inline-block;
       }
 
-      .hidden-input {
+      .hidden-item {
         display: none;
+      }
+
+      .button-1 {
+        font-size: 1.4rem;
+        letter-spacing: 0.5rem;
+        width: 75%;
+        margin: 3% auto 0;
+        padding: 1.2%;
+        border-radius: 1em;
+        border: 1px solid var(--dark-grey);
+        background-color: var(--white);
       }
 
       .button-2 {
         font-size: 1.6rem;
         letter-spacing: 0.6rem;
-        width: 60%;
-        height: 5.9%;
+        width: 20rem;
         display: flex;
         justify-content: center;
         align-items: center;
-        margin: 3% auto 0;
-        padding: 2.5% 4%;
+        margin: 1.5rem auto 0;
+        padding: 1rem 3rem;
         border-radius: 5em;
         border: 0;
-        background-color: var(--light-blue);
+        background-color: var(--orange);
         color: var(--white);
+      }
+
+      .button-2:disabled,
+      .button-3:disabled {
+        background-color: var(--light-grey);
+      }
+
+      .button-3 {
+        float: right;
+        font-size: 1.2rem;
+        letter-spacing: 0.5rem;
+        margin: 2.2rem 1rem 0 0;
+        padding: 0.3rem 1.1rem 0.3rem 1.5rem;
+        border-radius: 1em;
+        border: 0;
+        color: var(--white);
+        background-color: var(--orange);
+      }
+
+      body button.swal2-styled.swal2-confirm {
+        background-color: var(--orange);
+      }
+
+      .white-bg {
+        background-color: var(--white);
+        color: var(--dark-grey);
+        border: 1px solid var(--dark-grey);
+      }
+
+      .white-bg-orange {
+        background-color: var(--white);
+        color: var(--orange);
+        border: 1px solid var(--orange);
+      }
+
+      .light-orange-bg {
+        background-color: var(--light-orange);
+        color: var(--white);
+        border: 1px solid var(--light-orange);
+      }
+      .input-div {
+        width: 30rem;
+        margin: 2rem auto 2rem;
       }
 
       .input-div * {
@@ -211,51 +368,128 @@
 
       .input-div label {
         display: block;
-        margin: 5.5% 0 1.5% 14%;
+        margin: 0 0 0.6rem 1.6rem;
         font-size: 1.2rem;
         font-weight: 500;
         color: var(--grey);
       }
 
       .input-div > div {
+        position: relative;
         display: inline-block;
-        width: 80%;
-        height: 24%;
-        border-radius: 2em;
+        width: 100%;
+        height: 100%;
+        border-radius: 2rem;
         box-shadow: 0 0.4em 0.8em 0 rgba(142, 141, 208, 0.16);
         background-color: var(--white);
       }
 
       .input-div input {
-        width: 88%;
-        height: 100%;
-        padding: 3.6% 6%;
+        width: 90%;
+        padding: 0.9rem 1.8rem;
         border: 0;
         background: transparent;
+        box-shadow: none;
         font-size: 1.4rem;
       }
 
       .input-div input::placeholder,
-      .input-div input::before {
+      .input-div input::before,
+      textarea::placeholder {
         color: var(--light-grey);
       }
 
       .input-div .message {
         height: 12px;
-        margin-left: 13.3%;
+        margin: 1rem 0 0 1.6rem;
         font-size: 1rem;
-        color: var(--grey);
+        color: var(--orange);
+      }
+
+      label.swal2-input-label {
+        font-size: 1.6rem;
+        font-family: "CookieRun-Regular";
+      }
+      textarea {
+        text-align: left;
+      }
+
+      #birth input,
+      #endDate input {
+        height: 100%;
+        line-height: 1.6rem;
+      }
+
+      #birth svg,
+      #endDate svg {
+        width: 1.6em;
+        height: 1.6em;
+      }
+
+      #birth i,
+      #endDate i {
+        right: 1.4rem;
+        top: 1.7rem;
       }
 
       .text-link {
+        display: inline-block;
         font-size: 1.5rem;
         color: var(--grey);
       }
 
+      .isFalse * {
+        opacity: 0.3;
+      }
+
       .m-top-10 {
-        margin-top: 10%;
+        margin-top: 4rem;
+      }
+      .m-top-5 {
+        margin-top: 3rem;
+      }
+      .m-top {
+        margin-top: 6em;
+      }
+      .m-bottom {
+        margin-top: 6em;
+      }
+
+      /* video */
+      #video-container video {
+        position: relative;
+        float: left;
+        width: 50%;
+        cursor: pointer;
+      }
+
+      #video-container video + div {
+        float: left;
+        width: 50%;
+        position: relative;
+        margin-left: -50%;
+      }
+
+      #video-container h6 {
+        background-color: var(--very-light-orange);
+        color: var(--dark-grey);
+        letter-spacing: 0.1rem;
+        padding: 0.3rem;
+        position: absolute;
+        top: 0;
+      }
+
+      video {
+        width: 100%;
+        height: auto;
+      }
+
+      .empty-div {
+        height: 10rem;
       }
     </style>
+    <!-- 카카오 로그인 SDK -->
+    <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
   </head>
   <body>
     <noscript>

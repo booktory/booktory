@@ -17,6 +17,7 @@ import springfox.documentation.annotations.ApiIgnore;
 import java.util.List;
 
 @Api(value = "Board API")
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/boards")
 @RequiredArgsConstructor
@@ -34,7 +35,7 @@ public class BoardController {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
         User user = ((User)authentication.getPrincipal());
-        Board board = boardService.registerBoard(user, clubId, boardRequestDto);
+        boardService.registerBoard(user, clubId, boardRequestDto);
         return ResponseEntity.status(HttpStatus.CREATED).body("success");
     }
 

@@ -1,12 +1,17 @@
 package com.ssafy.booktory.service;
 
+import com.amazonaws.services.kms.model.AlreadyExistsException;
+import com.ssafy.booktory.domain.book.Book;
+import com.ssafy.booktory.domain.book.BookRepository;
 import com.ssafy.booktory.domain.user.*;
 import com.ssafy.booktory.domain.userbook.UserBook;
+import com.ssafy.booktory.domain.userbook.UserBookMemoRequestDto;
 import com.ssafy.booktory.domain.userbook.UserBookRepository;
 import com.ssafy.booktory.domain.book.BookByUserResponseDto;
 import com.ssafy.booktory.util.JwtTokenProvider;
 import com.ssafy.booktory.util.Uploader;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -20,12 +25,14 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class UserService {
 
     private final UserRepository userRepository;
     private final UserBookRepository userBookRepository;
+    private final BookRepository bookRepository;
     private final PasswordEncoder passwordEncoder;
     private final JavaMailSender mailSender;
     private final JwtTokenProvider jwtTokenProvider;
@@ -55,11 +62,12 @@ public class UserService {
         return userRepository.findByEmail(email).orElseThrow(() -> new NoSuchElementException("존재하지 않는 이메일입니다."));
     }
 
-    public void updateAcceptState(String token) {
+    public String updateAcceptState(String token) {
         Long id = Long.valueOf(jwtTokenProvider.getUserId(token));
         User user = userRepository.findById(id).orElseThrow(() -> new NoSuchElementException("존재하지 않는 아이디입니다."));
         user.updateAcceptState(true);
         userRepository.save(user);
+        return user.getEmail();
     }
 
     public User registerExtraInfo(UserPatchExtraRequestDto userPatchExtraRequestDto) {
@@ -71,6 +79,35 @@ public class UserService {
                 userPatchExtraRequestDto.getPhone()
         );
         return userRepository.save(user);
+    }
+
+    public UserLoginResponseDto doLogin(User user) {
+        String jwt = jwtTokenProvider.createToken(user.getId(), user.getRoles());
+        return new UserLoginResponseDto(jwt, user.getId(), user.getNickname(), user.getEmail());
+    }
+
+    public UserSocialLoginResponseDto socialLogin(UserSocialLoginRequestDto userSocialLoginRequestDto) {
+        String email = userSocialLoginRequestDto.getEmail();
+        String socialType = userSocialLoginRequestDto.getSocialType();
+
+        User joinUser = userSocialLoginRequestDto.toEntity(socialType);
+        Boolean isJoin = false;
+        if (!userRepository.findByEmail(email).isPresent()) {
+            userRepository.save(joinUser);
+            isJoin = true;
+        }
+
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new NoSuchElementException("존재하지 않은 회원입니다."));
+        if (user.getSocialType().toString().equals("NONE")) {
+            throw new IllegalArgumentException("소셜 로그인 회원이 아닙니다.");
+        }
+        if (isJoin) {
+            user.updateNickname(user.getSocialType() + String.valueOf(user.getId()));
+            userRepository.save(user);
+        }
+        String jwt = jwtTokenProvider.createToken(user.getId(), user.getRoles());
+
+        return new UserSocialLoginResponseDto(jwt, user.getId(), user.getNickname(), user.getEmail(), isJoin);
     }
 
     public void findPassword(String email) {
@@ -97,7 +134,7 @@ public class UserService {
             message.setSubject("책토리 회원가입 인증 이메일입니다.");
             URL url = null;
             try {
-                url = new URL("http://localhost:8080/users/authentication/" + token);
+                url = new URL("https://i5a607.p.ssafy.io/api/users/authentication/" + token);
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }
@@ -107,7 +144,7 @@ public class UserService {
             message.setSubject("책토리 비밀번호 변경 이메일입니다.");
             URL url = null;
             try {
-                url = new URL("http://localhost:8080/users/password/reset/" + token);
+                url = new URL("https://i5a607.p.ssafy.io/api/users/password/reset/" + token);
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }
@@ -121,10 +158,15 @@ public class UserService {
 
     public void updateUser(Long userId, UserUpdateRequestDto userUpdateRequestDto) {
         User user = userRepository.findById(userId).orElseThrow(() -> new NoSuchElementException("존재하지 않는 회원입니다."));
-
+        if(!user.getNickname().equals(userUpdateRequestDto.getNickname()) && userRepository.existsByNickname(userUpdateRequestDto.getNickname())){
+            throw new AlreadyExistsException("이미 존재하는 닉네임 입니다.");
+        }
         String originFileURL = user.getProfileImg();
+        if(originFileURL != null && !originFileURL.equals("") && !originFileURL.equals(userUpdateRequestDto.getProfileImg())){
+            uploader.deleteS3Instance(originFileURL);
+        }
+
         user.update(userUpdateRequestDto.getNickname(), userUpdateRequestDto.getName(), userUpdateRequestDto.getBirth(), userUpdateRequestDto.getProfileImg(), userUpdateRequestDto.getPhone());
-        uploader.deleteS3Instance(originFileURL);
         userRepository.save(user);
     }
 
@@ -161,7 +203,29 @@ public class UserService {
     public List<BookByUserResponseDto> getReadBooks(Long userId) {
         List<UserBook> books = userBookRepository.findByUserId(userId);
         return books.stream()
-                .map(book -> new BookByUserResponseDto(book.getBook().getId(), book.getBook().getTitle(), book.getBook().getThumbnail()))
+                .map(book -> new BookByUserResponseDto(
+                        book.getBook().getId(),
+                        book.getBook().getTitle(),
+                        book.getBook().getAuthor(),
+                        book.getBook().getPublisher(),
+                        book.getBook().getDate(),
+                        book.getBook().getThumbnail(),
+                        book.getCreatedDate().toLocalDate(),
+                        book.getMemo()))
                 .collect(Collectors.toList());
+    }
+
+    public void registerMemo(Long userId, UserBookMemoRequestDto userBookMemoRequestDto) {
+        Book book = bookRepository.findById(userBookMemoRequestDto.getBookId()).orElseThrow(() -> new NoSuchElementException("존재하지 않는 책입니다."));
+        UserBook userBook = userBookRepository.findByUserIdAndBookId(userId, userBookMemoRequestDto.getBookId());
+        userBook.setMemo(userBookMemoRequestDto.getMemo());
+        userBookRepository.save(userBook);
+    }
+
+    public void cancelMemo(Long userId, Long bookId) {
+        Book book = bookRepository.findById(bookId).orElseThrow(() -> new NoSuchElementException("존재하지 않는 책입니다."));
+        UserBook userBook = userBookRepository.findByUserIdAndBookId(userId, book.getId());
+        userBook.setMemo(null);
+        userBookRepository.save(userBook);
     }
 }

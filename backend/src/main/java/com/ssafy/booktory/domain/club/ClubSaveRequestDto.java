@@ -16,7 +16,6 @@ public class ClubSaveRequestDto {
     private String img;
     private String info;
     private int maxMember;
-    private Boolean isOpen;
 
     private int volumeRule;
     private int weekRule;
@@ -27,12 +26,11 @@ public class ClubSaveRequestDto {
 
 
     @Builder
-    public ClubSaveRequestDto(String name, String img, String info, int maxMember, boolean isOpen, int volumeRule, int weekRule, String freeRule) {
+    public ClubSaveRequestDto(String name, String img, String info, int maxMember, int volumeRule, int weekRule, String freeRule) {
         this.name = name;
         this.img = img;
         this.info = info;
         this.maxMember = maxMember;
-        this.isOpen = isOpen;
         this.volumeRule = volumeRule;
         this.weekRule = weekRule;
         this.freeRule = freeRule;
@@ -45,7 +43,6 @@ public class ClubSaveRequestDto {
                 .img(img)
                 .info(info)
                 .maxMember(maxMember)
-                .isOpen(isOpen)
                 .volumeRule(volumeRule)
                 .weekRule(weekRule)
                 .freeRule(freeRule)

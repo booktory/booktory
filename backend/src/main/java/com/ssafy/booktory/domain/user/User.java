@@ -1,9 +1,13 @@
 package com.ssafy.booktory.domain.user;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import com.ssafy.booktory.domain.answer.Answer;
 import com.ssafy.booktory.domain.board.Board;
 import com.ssafy.booktory.domain.bookclubuser.BookClubUser;
 import com.ssafy.booktory.domain.club.Club;
+import com.ssafy.booktory.domain.common.UserClubState;
 import com.ssafy.booktory.domain.notification.Notification;
 import com.ssafy.booktory.domain.question.Question;
 import com.ssafy.booktory.domain.rwmlog.RwmLog;
@@ -49,6 +53,8 @@ public class User implements UserDetails {
     @Column(length = 20)
     private String name;
 
+    @JsonSerialize(using = LocalDateSerializer.class)
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate birth;
 
     private String profileImg;
@@ -65,6 +71,9 @@ public class User implements UserDetails {
     @NotNull
     @ColumnDefault("false")
     private Boolean isAccept;
+
+    @Enumerated(EnumType.STRING)
+    private SocialType socialType;
 
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> roles = new ArrayList<>();
@@ -101,7 +110,7 @@ public class User implements UserDetails {
 
     @Builder
     public User(String email, String nickname, String password, String name, LocalDate birth,
-                String profileImg, String phone, int badge, int mainBadge, Boolean isAccept){
+                String profileImg, String phone, int badge, int mainBadge, Boolean isAccept, SocialType socialType){
         this.email = email;
         this.nickname = nickname;
         this.password = password;
@@ -112,6 +121,7 @@ public class User implements UserDetails {
         this.badge = badge;
         this.mainBadge = mainBadge;
         this.isAccept = isAccept;
+        this.socialType = socialType;
     }
 
     public void addExtraInfo(String name, LocalDate birth, String profileImg, String phone) {
@@ -171,14 +181,31 @@ public class User implements UserDetails {
         this.isAccept = state;
     }
 
+    public void updateNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
     public List<Integer> getBadgeList(int badge) {
         List<Integer> badges = new ArrayList<>();
-        String badgeStatus = String.format("%015d", Integer.parseInt(Integer.toBinaryString(badge)));
+        String badgeStatus = String.format("%015d", Long.parseLong(Long.toBinaryString(badge)));
         for (int i = 0; i < 15; i++) {
             if (badgeStatus.charAt(i) == '1') {
                 badges.add(i);
             }
         }
         return badges;
+    }
+
+    public boolean isExistBadge(int badgeId) {
+        String badgeStatus = String.format("%015d", Long.parseLong(Long.toBinaryString(badge)));
+        return badgeStatus.charAt(badgeId) == '1';
+    }
+
+    public void updateBadgeStatus(int badgeId) {
+        String badgeStatus = String.format("%015d", Long.parseLong(Long.toBinaryString(badge)));
+        char[] tmpBadge = badgeStatus.toCharArray();
+        tmpBadge[badgeId] = '1';
+        String newBadgeStatus = String.valueOf(tmpBadge);
+        this.badge = Integer.parseInt(newBadgeStatus, 2);
     }
 }

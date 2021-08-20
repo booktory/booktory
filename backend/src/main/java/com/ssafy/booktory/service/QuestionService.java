@@ -27,6 +27,7 @@ public class QuestionService {
     private final QuestionRepository questionRepository;
     private final AnswerRepository answerRepository;
     private final ClubRepository clubRepository;
+    private final NotificationService notificationService;
 
     @Transactional
     public List<QuestionResponseDto> getQuestionAnswers(Long clubId) {
@@ -39,6 +40,7 @@ public class QuestionService {
                             answer.getUser().getNickname(),
                             answer.getUser().getProfileImg(),
                             answer.getContents(),
+                            answer.getCreatedDate().plusHours(9L),
                             question.getIsOpen()))
                     .collect(Collectors.toList());
 
@@ -48,6 +50,7 @@ public class QuestionService {
                     question.getUser().getNickname(),
                     question.getUser().getProfileImg(),
                     question.getContents(),
+                    question.getCreatedDate().plusHours(9L),
                     question.getIsOpen(),
                     answerResponseDtos));
         });
@@ -55,6 +58,7 @@ public class QuestionService {
         return questionResponseDtos;
     }
 
+    @Transactional
     public Question registerQuestion(User user, Long clubId, QuestionRequestDto questionRequestDto) {
         Club club = clubRepository.findById(clubId).orElseThrow(() -> new NoSuchElementException("존재하지 않는 클럽입니다."));
         Question question = Question.builder()
@@ -63,9 +67,12 @@ public class QuestionService {
                 .contents(questionRequestDto.getContents())
                 .isOpen(questionRequestDto.getIsOpen())
                 .build();
+
+        notificationService.makeNotification("question", club, user);
         return questionRepository.save(question);
     }
 
+    @Transactional
     public Answer registerAnswer(User user, Long questionId, AnswerRequestDto answerRequestDto) {
         Question question = questionRepository.findById(questionId).orElseThrow(() -> new NoSuchElementException("존재하지 않는 질문입니다."));
         Answer answer = Answer.builder()
@@ -74,6 +81,10 @@ public class QuestionService {
                 .contents(answerRequestDto.getContents())
                 .isOpen(answerRequestDto.getIsOpen())
                 .build();
+
+        if (!user.getId().equals(question.getUser().getId())) {
+            notificationService.makeNotification("answer", question.getClub(), question.getUser());
+        }
         return answerRepository.save(answer);
     }
 }

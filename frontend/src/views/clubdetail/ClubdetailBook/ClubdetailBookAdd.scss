@@ -1,0 +1,37 @@
+.bg-img {
+  width: 100vw;
+  height: 100%;
+  min-height: 100vh;
+  background-size: contain;
+  z-index: -1;
+  padding: 0;
+
+  .icon {
+    right: 4vw;
+    top: 2vh;
+    position: absolute;
+  }
+
+  .card {
+    width: inherit;
+    height: inherit;
+    min-height: 90vh;
+    border-radius: 5rem 5rem 0 0;
+    padding-bottom: 5rem;
+    background-color: var(--beige);
+
+    .main * {
+      text-align: left;
+    }
+
+    // 여기서부터 메인 시작!
+    .main {
+      height: 100%;
+      padding: 3rem 3rem 0;
+
+      .title {
+        text-align: center;
+      }
+    }
+  }
+}

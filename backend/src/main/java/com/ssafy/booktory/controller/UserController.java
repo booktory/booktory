@@ -2,6 +2,8 @@ package com.ssafy.booktory.controller;
 
 import com.ssafy.booktory.domain.user.*;
 import com.ssafy.booktory.domain.book.BookByUserResponseDto;
+import com.ssafy.booktory.domain.userbook.UserBookMemoRequestDto;
+import com.ssafy.booktory.service.NotificationService;
 import com.ssafy.booktory.service.UserService;
 import com.ssafy.booktory.util.JwtTokenProvider;
 import io.swagger.annotations.*;
@@ -11,22 +13,24 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.view.RedirectView;
 import springfox.documentation.annotations.ApiIgnore;
 
-import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Api(value = "User API")
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping(value = "/api/users", produces = "application/json;charset=UTF-8")
 @RequiredArgsConstructor
 public class UserController {
 
     private final UserService userService;
-    private final JwtTokenProvider jwtTokenProvider;
+    private final NotificationService notificationService;
     private final PasswordEncoder passwordEncoder;
+    private final JwtTokenProvider jwtTokenProvider;
 
     @ApiOperation(value = "회원 가입", notes = "필요한 정보를 받아 회원가입한다.")
     @PostMapping()
@@ -44,20 +48,34 @@ public class UserController {
 
     @ApiOperation(value = "일반 로그인", notes = "아이디와 비밀번호를 받아 로그인한다.")
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody @ApiParam(value = "로그인 정보(아이디, 비밀번호)") UserLoginRequestDto userLoginRequestDto) {
+    public ResponseEntity<UserLoginResponseDto> login(@RequestBody @ApiParam(value = "로그인 정보(아이디, 비밀번호)") UserLoginRequestDto userLoginRequestDto) {
         User user = userService.findByEmail(userLoginRequestDto.getEmail());
-        if (passwordEncoder.matches(userLoginRequestDto.getPassword(), user.getPassword())) {
-            return ResponseEntity.status(HttpStatus.CREATED).body(jwtTokenProvider.createToken(user.getId(), user.getRoles()));
+        if (!user.getIsAccept()) {
+            throw new IllegalArgumentException("인증되지 않은 회원입니다.");
         }
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("잘못된 비밀번호입니다.");
+        if (passwordEncoder.matches(userLoginRequestDto.getPassword(), user.getPassword())) {
+            return ResponseEntity.status(HttpStatus.CREATED).body(userService.doLogin(user));
+        }
+        throw new IllegalArgumentException("잘못된 비밀번호입니다.");
     }
+
+    @ApiOperation(value = "소셜 로그인", notes = "구글 및 카카오 아이디를 통해 로그인한다.")
+    @PostMapping("/social")
+    public ResponseEntity<UserSocialLoginResponseDto> login(@RequestBody @ApiParam(value = "소셜 로그인 정보(이메일, socialType") UserSocialLoginRequestDto userSocialLoginRequestDto) {
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(userService.socialLogin(userSocialLoginRequestDto));
+    }
+
 
     @ApiOperation(value = "회원가입을 위한 이메일 인증을 진행한다.")
     @GetMapping("/authentication/{token}")
     public RedirectView authenticateEmail(@PathVariable @ApiParam(value = "사용자 인증 토큰") String token) {
-        userService.updateAcceptState(token);
         RedirectView redirectView = new RedirectView();
-        redirectView.setUrl("http://localhost:8080/success");
+        String userEmail = userService.updateAcceptState(token);
+        Map<String, String> attributes = new HashMap<>();
+        attributes.put("email", userEmail);
+        attributes.put("isSocialUser", "false");
+        redirectView.setAttributesMap(attributes);
+        redirectView.setUrl("https://i5a607.p.ssafy.io/register/extrainfo");
         return redirectView;
     }
 
@@ -71,8 +89,13 @@ public class UserController {
     @ApiOperation(value = "비밀번호 변경 페이지 이동", notes = "링크를 통해 비밀번호 변경 페이지로 이동시킨다.")
     @GetMapping("/password/reset/{token}")
     public RedirectView goResetPassword(@PathVariable @ApiParam(value = "사용자 인증 토큰") String token) {
+        Long id = Long.valueOf(jwtTokenProvider.getUserId(token));
+        User user = userService.findUserById(id);
         RedirectView redirectView = new RedirectView();
-        redirectView.setUrl("http://localhost:8080/resetPassword");
+        Map<String, String> attributes = new HashMap<>();
+        attributes.put("email", user.getEmail());
+        redirectView.setAttributesMap(attributes);
+        redirectView.setUrl("https://i5a607.p.ssafy.io/password/update");
         return redirectView;
     }
 
@@ -159,4 +182,41 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(userService.getReadBooks(user.getId()));
     }
 
+    @ApiOperation(value = "로그아웃", notes = "로그아웃할 때 redis에 저장된 fcm token을 지워준다.")
+    @ApiImplicitParams({@ApiImplicitParam(name = "jwt", value = "JWT Token", required = true, dataType = "string", paramType = "header")})
+    @GetMapping("/logout")
+    public ResponseEntity<String> logout(@ApiIgnore final Authentication authentication) {
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+        User user = ((User)authentication.getPrincipal());
+        notificationService.deleteToken(user.getId());
+        return ResponseEntity.status(HttpStatus.OK).body("success");
+    }
+
+    @ApiOperation(value = "내가 읽은 책에 대해 코멘트 달기", notes = "내 서재에 있는 책을 눌렀을 때 코멘트를 달게 한다.")
+    @ApiImplicitParams({@ApiImplicitParam(name = "jwt", value = "JWT Token", required = true, dataType = "string", paramType = "header")})
+    @PutMapping("/books")
+    public ResponseEntity<String> registerBookMemo(@ApiIgnore final Authentication authentication,
+                                                      @RequestBody UserBookMemoRequestDto userBookMemoRequestDto) {
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+        User user = ((User)authentication.getPrincipal());
+        userService.registerMemo(user.getId(), userBookMemoRequestDto);
+        return ResponseEntity.status(HttpStatus.OK).body("success");
+    }
+
+    @ApiOperation(value = "내가 읽은 책에 대한 코멘트 취소", notes = "내 서재에 있는 책을 눌렀을 때 등록된 코멘트를 취소한다.")
+    @ApiImplicitParams({@ApiImplicitParam(name = "jwt", value = "JWT Token", required = true, dataType = "string", paramType = "header")})
+    @PatchMapping("/books/{id}")
+    public ResponseEntity<String> cancelBookMemo(@ApiIgnore final Authentication authentication,
+                                                      @PathVariable Long id) {
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+        User user = ((User)authentication.getPrincipal());
+        userService.cancelMemo(user.getId(), id);
+        return ResponseEntity.status(HttpStatus.OK).body("success");
+    }
 }
