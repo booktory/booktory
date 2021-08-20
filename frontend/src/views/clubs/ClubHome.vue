@@ -34,7 +34,7 @@ export default {
   watch: {
     clubImage: {
       handler() {
-        this.setBackgroundImage();
+        if (this.clubImage) this.setBackgroundImage();
       },
     },
   },

@@ -136,8 +136,7 @@ const mypageStore = {
       axios
         .patch(SERVER.URL + SERVER.ROUTES.updateUserInfo, userData, rootGetters.config)
         .then(() => {
-          commit("userNickname", userData.nickname, { root: true });
-          localStorage.setItem("userNickname", userData.nickname);
+          commit("SET_USER_NICKNAME", userData.nickname, { root: true });
           Swal.fire({
             icon: "success",
             title: "프로필 수정 완료",
