@@ -4,6 +4,8 @@
 
 > 온라인 독서 모임 플랫폼 책토리 (Booktori)
 
+### UCC
+https://user-images.githubusercontent.com/38254621/131341963-857fccb1-8064-438e-8f0c-b027d9c42b3e.mov
 
 
 ### [🐹  **책토리** 서비스 바로가기](https://i5a607.p.ssafy.io)
