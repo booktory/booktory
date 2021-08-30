@@ -148,7 +148,7 @@ export default {
     },
     clickBookList(event) {
       event.stopPropagation();
-      router.push({ name: "ClubdetailBook" });
+      router.push({ name: "ClubdetailBook", query: { clubId: this.clubId } });
     },
     // 모임 입장하기 버튼 클릭
     clickMeeting(event) {
