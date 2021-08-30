@@ -1,8 +1,8 @@
-# 📚 Booktori
+# 📚 Booktory
 
 ![booktory](images/booktory_slide.gif)
 
-> 온라인 독서 모임 플랫폼 책토리 (Booktori)
+> 온라인 화상 독서모임 플랫폼 책토리 (Booktory)
 
 ### UCC
 https://user-images.githubusercontent.com/38254621/131341963-857fccb1-8064-438e-8f0c-b027d9c42b3e.mov
@@ -84,4 +84,7 @@ https://user-images.githubusercontent.com/38254621/131341963-857fccb1-8064-438e-
   </ul>
 </details>
 <br>
+
+## Awards
+- 🥉삼성청년SW아카데미 2학기 공통PJT 3등 수상
 
