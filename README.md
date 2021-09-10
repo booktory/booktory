@@ -1,14 +1,16 @@
-# 📚 Booktory
+# 📚 책토리 (Booktory)
 
 ![booktory](images/booktory_slide_edit.gif)
 
 > 온라인 화상 독서모임 플랫폼 책토리 (Booktory)
 
-### UCC
+<br>
+
+## 🎞 프로젝트 UCC
+
 https://user-images.githubusercontent.com/38254621/131341963-857fccb1-8064-438e-8f0c-b027d9c42b3e.mov
 
-
-### [🐹  **책토리** 서비스 바로가기](https://i5a607.p.ssafy.io)
+### [🐿 **책토리** 서비스 바로가기](https://i5a607.p.ssafy.io)
 
 *안드로이드 모바일 환경에서 최적화 되었으며, 데스크탑 브라우저에서 실행 시 개발자 모드 + device tool을 이용하시면 좋습니다.*
 
@@ -29,7 +31,7 @@ https://user-images.githubusercontent.com/38254621/131341963-857fccb1-8064-438e-
 
 ## 📆 프로젝트 개요
 
-- **진행 기간:** 2021.07.12 ~ 2021.08.20🏃
+- **진행 기간:** 2021.07.12 ~ 2021.08.20
 - 온라인으로 독서 모임을 하고 싶은 사람들을 위한 커뮤니티 & 화상회의 서비스
 - **주요기능**
   - 클럽 모집/가입
@@ -43,13 +45,14 @@ https://user-images.githubusercontent.com/38254621/131341963-857fccb1-8064-438e-
 
 ## 🛠 Porting Manual [▶️ 바로가기](./exec/PortingManual.md)
 ## ✅ Git Convention [▶️ 바로가기](./Document/GitConvention.md)
-
 ## 📑 Tech Blog & Log  [▶️ 책토리 Blog 바로가기](https://booktori.tistory.com/)
 
+<br>
 
+## 📝 회의 기록
 
 <details open>
-  <summary>7/11 ~ 8/20 책토리 회의록</summary>
+  <summary>2021년 7월 11일 ~ 8월 20일 회의록</summary>
   <ul>
       <li><a href="./Document/Dev_log/20210712_회의록.md">7/12 회의록 : 아이디어 회의</a></li>
       <li><a href="./Document/Dev_log/20210713_회의록.md">7/13 회의록 : 온라인 독서 모임 플랫폼</a></li>
@@ -85,6 +88,5 @@ https://user-images.githubusercontent.com/38254621/131341963-857fccb1-8064-438e-
 </details>
 <br>
 
-## Awards
-- 🥉삼성청년SW아카데미 2학기 공통PJT 3등 수상
-
+## 🏆 Awards
+- 🥉 삼성 청년 소프트웨어 아카데미(SSAFY) 5기 공통 프로젝트, 3등 수상
