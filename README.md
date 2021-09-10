@@ -1,6 +1,6 @@
 # 📚 Booktory
 
-![booktory](images/booktory_slide.gif)
+![booktory](images/booktory_slide_edit.gif)
 
 > 온라인 화상 독서모임 플랫폼 책토리 (Booktory)
 
@@ -20,10 +20,10 @@ https://user-images.githubusercontent.com/38254621/131341963-857fccb1-8064-438e-
 
 ## 👨‍👩‍👦 팀원 및 역할
 
-- 원지연 : `UI/UX` , `Front-end` , `Quality Assurance`
-- 유원선 : `Project Manager` , `Back-end` , `Front-end`
-- 이예은 : `Back-end` , `CI/CD` , `Front-end`
-- 홍원기 : `UI/UX` , `Front-end` , `Quality Assurance`
+| <h3>유원선</h3> | <h3>원지연</h3> | <h3>이예은</h3> | <h3>홍원기</h3> |
+| :-----------: | :-----------: | :-----------: | :-----------: |
+| `Back-end`<br />`Project Manager`<br />`Front-end` | `Front-end`<br />`UI/UX`<br />`Quality Assurance` | `Back-end`<br />`CI/CD`<br />`Front-end` | `Front-end`<br />`UI/UX`<br />`Quality Assurance` |
+| <img src="https://avatars.githubusercontent.com/u/47625368?v=4" width="150px;"><br><a href="https://github.com/wonsunn">@wonsunn</a> | <img src="https://avatars.githubusercontent.com/u/69590041?v=4" width="150px;"><br><a href="https://github.com/wonjwi">@wonjwi</a> | <img src="https://avatars.githubusercontent.com/u/38254621?v=4" width="150px;"><br><a href="https://github.com/whiteun">@whiteun</a> | <img src="https://avatars.githubusercontent.com/u/77471641?v=4" width="150px;"><br><a href="https://github.com/hksoftcorn">@hksoftcorn</a> |
 
 <br>
 
