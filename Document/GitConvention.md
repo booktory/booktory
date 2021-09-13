@@ -42,10 +42,6 @@ develop
 
 feature (각 기능 단위)
 
-- develop은 develop-be, develop-fe로 나뉨
-
-  - back-end 관련 작업과 front-end 관련 작업을 각각 처리
-
 - feature의 기능 단위는 Jira Sub-Task 기준
 
   - 필요에 따라 통합해서 사용해도 괜찮음
