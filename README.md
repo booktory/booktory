@@ -86,7 +86,14 @@ https://user-images.githubusercontent.com/38254621/131341963-857fccb1-8064-438e-
       <li><a href="./Document/Dev_log/20210820_회의록.md">8/20 회의록 : 최종발표</a></li>
   </ul>
 </details>
+
 <br>
 
 ## 🏆 Awards
 - 🥉 삼성 청년 소프트웨어 아카데미(SSAFY) 5기 공통 프로젝트, 3등 수상
+
+<br>
+
+<div align="center">
+<a href="https://hits.seeyoufarm.com"><img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Fbooktory%2Fbooktory&count_bg=%23FF8F00&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false"/></a>
+</div>
